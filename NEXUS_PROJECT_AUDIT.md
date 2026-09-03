@@ -24668,3 +24668,118 @@ later venues.
 Target:
 
 `TRADING_CORE_V2_RECONCILIATION_OBSERVATION_CONTRACTS_OK`
+
+## NEXUS V2 Phase 0 — Architecture / Roadmap Transition — 2026-09-03
+
+### FACT
+
+NEXUS V2 development has started as a new canonical architecture/repository.
+
+The legacy `nexus-engine` remains:
+- temporary production/runtime host;
+- source of verified legacy behavior;
+- migration/parity reference.
+
+Legacy is not being converted in-place into V2.
+
+New local V2 repository:
+
+`C:\Projects\nexus-v2`
+
+GitHub remote:
+
+`git@github.com:gon4arenkoe-eng/nexus-v2.git`
+
+Initial governance baseline commit:
+
+`afe4449 chore: bootstrap NEXUS V2 governance baseline`
+
+The baseline commit contains only:
+
+- `NEXUS_V2_MASTER_PLAN.md`
+- `NEXUS_V2_FUNCTIONAL_INVENTORY.md`
+- `NEXUS_PROJECT_AUDIT.md`
+
+### CHECK
+
+Verified locally:
+
+- Git installation available;
+- GitHub SSH authentication successful;
+- new `nexus-v2` repository initialized/cloned;
+- `origin` points to `git@github.com:gon4arenkoe-eng/nexus-v2.git`;
+- branch is `main`;
+- canonical governance documents are present;
+- only the three canonical documents were included in the root commit;
+- public-repository secret pattern check returned no matches;
+- production host was not modified;
+- no legacy source tree was copied into V2.
+
+### EVIDENCE
+
+- `LOCAL_GIT_OK`
+- `GITHUB_SSH_AUTH_OK`
+- `NEXUS_V2_LOCAL_REPO_OK`
+- `NEXUS_V2_REMOTE_OK`
+- `CANONICAL_DOCS_PRESENT_OK`
+- `CANONICAL_FILES_ONLY_OK`
+- `PUBLIC_REPO_SECRET_CHECK_OK`
+- `NEXUS_V2_GOVERNANCE_BASELINE_COMMIT_OK`
+- Git commit: `afe4449`
+
+### PLAN DEVIATION
+
+Original `NEXUS_V2_MASTER_PLAN.md` Phase 0 specifies a private GitHub monorepo.
+
+Private repository creation was unavailable in the selected GitHub setup.
+
+User explicitly approved:
+
+`Public GitHub repository for NEXUS V2`
+
+Therefore:
+
+`PLAN DEVIATION APPROVED — PUBLIC REPOSITORY`
+
+Public repository safety requirement:
+
+- `.env` prohibited;
+- credentials prohibited;
+- API/exchange secrets prohibited;
+- private keys prohibited;
+- production DB dumps prohibited;
+- sensitive logs/backups prohibited;
+- secret-bearing history prohibited.
+
+This approved deviation does not grant permission to change any other Master Plan requirement.
+
+### STATUS
+
+`ARCHITECTURE/ROADMAP APPROVED`
+
+Phase 0 is **IN PROGRESS**.
+
+This status does not mean Phase 0 implementation is DONE.
+
+Gate:
+
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
+
+### GAP
+
+Still required for Phase 0:
+
+- register this Audit transition in Git history;
+- publish verified governance baseline to GitHub;
+- establish repository/directory/contracts policy;
+- establish CI skeleton;
+- establish local development baseline;
+- keep production unchanged.
+
+### NEXT STEP
+
+Publish the audited governance baseline to the approved GitHub repository after committing this Audit update.
+
+Production remains unchanged.
+
+Live authority remains disabled according to NEXUS V2 production safety policy.
