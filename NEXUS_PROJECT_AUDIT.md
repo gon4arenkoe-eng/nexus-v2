@@ -24971,3 +24971,67 @@ Remaining Phase 0 work includes:
 Establish the NEXUS V2 CI skeleton without introducing production deployment authority.
 
 Production remains unchanged.
+
+## NEXUS V2 Phase 0 — CI Baseline — 2026-09-03
+
+### FACT
+
+The Phase 0 CI and repository configuration baseline has been established.
+
+Created:
+
+- `.github/workflows/ci.yml`
+- `.gitattributes`
+- `.editorconfig`
+- `.gitignore`
+- `infra/github/repo_baseline_check.py`
+
+Implementation commit:
+
+`140ca6e ci: establish NEXUS V2 Phase 0 CI baseline`
+
+### CHECK
+
+Verified locally:
+
+- repository baseline check passed;
+- 8 required files were present;
+- 19 required directories were present;
+- no forbidden deployment-authority markers were present in Phase 0 CI;
+- no forbidden secret-sensitive paths were detected;
+- staged scope contained exactly 5 CI/repository baseline files;
+- `git diff --cached --check` returned clean;
+- no production deploy workflow was introduced;
+- no production host modification occurred.
+
+### EVIDENCE
+
+- `NEXUS_V2_CI_SKELETON_PRESENT`
+- `NEXUS_V2_PHASE0_REPO_BASELINE_CHECK_OK`
+- `NEXUS_V2_REPO_CONFIG_BASELINE_OK`
+- `NEXUS_V2_CI_NO_DEPLOY_AUTHORITY_OK`
+- `NEXUS_V2_SECRET_SENSITIVE_PATH_CHECK_OK`
+- `NEXUS_V2_CI_SCOPE_OK`
+- `NEXUS_V2_CI_DIFF_CHECK_OK`
+- `NEXUS_V2_CI_BASELINE_COMMIT_OK`
+- Git commit: `140ca6e`
+
+### STATUS
+
+Phase 0 CI skeleton is locally verified.
+
+Gate remains:
+
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
+
+Remaining Phase 0 work:
+
+- local development baseline;
+- final Phase 0 verification;
+- final Audit closure.
+
+### NEXT STEP
+
+Publish the CI baseline and verify the GitHub Actions run.
+
+Production remains unchanged.
