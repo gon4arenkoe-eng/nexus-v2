@@ -25109,3 +25109,100 @@ Gate:
 Publish the local development baseline and run final Phase 0 verification against the Master Plan, Audit, Inventory, repository state, and hosted CI.
 
 Production remains unchanged.
+
+## NEXUS V2 Phase 0 — FOUNDATION GATE CLOSURE — 2026-09-03
+
+### FACT
+
+NEXUS V2 Phase 0 — Architecture/repository foundation has completed its required implementation and verification scope.
+
+Canonical Phase 0 foundation now includes:
+
+- approved NEXUS V2 roadmap/governance baseline;
+- frozen functional inventory baseline;
+- public GitHub monorepo;
+- canonical directory baseline;
+- dependency-boundary policy;
+- Phase 0 CI skeleton;
+- repository configuration baseline;
+- Python 3.13 local development contract;
+- reproducible devcontainer baseline;
+- local development runbook;
+- repository and local-development verification scripts.
+
+### FULL AUDIT CHECK
+
+Verified against the Phase 0 Master Plan requirements:
+
+- repository bootstrap — VERIFIED;
+- canonical V2 directory baseline — VERIFIED;
+- dependency/contracts boundary policy — VERIFIED;
+- CI skeleton — TEST VERIFIED;
+- local/devcontainer environment — TEST VERIFIED;
+- repository baseline verification — TEST VERIFIED;
+- no production build/deploy authority introduced — VERIFIED;
+- production runtime unchanged — VERIFIED.
+
+Functional Inventory remains the mandatory parity source for future legacy → V2 migration.
+
+No legacy implementation was copied wholesale into V2.
+
+### FINAL TEST EVIDENCE
+
+Current repository state:
+
+`HEAD = origin/main = 8bce024f4d1e4b0eebdd75f92c3d24b9cca16903`
+
+Final local verification:
+
+- `NEXUS_V2_PHASE0_REPO_BASELINE_CHECK_OK`;
+- `NEXUS_V2_PHASE0_LOCAL_DEV_BASELINE_OK`;
+- Python `3.13.14`;
+- required files = `13`;
+- required directories = `19`;
+- no Phase 0 deployment authority;
+- no forbidden secret-sensitive paths;
+- live authority disabled;
+- production build/deploy authority false;
+- `git diff --check` clean;
+- working tree clean;
+- local HEAD equals `origin/main`.
+
+Final hosted GitHub Actions run for current main:
+
+- repository checkout — PASS;
+- Python setup — PASS;
+- repository baseline check — PASS;
+- local development baseline check — PASS;
+- Git whitespace check — PASS.
+
+Evidence:
+
+- `FINAL_PHASE0_LOCAL_RECHECK_OK`
+- `CURRENT_MAIN_HOSTED_CI_OK`
+- `NEXUS_V2_PHASE0_REPO_BASELINE_CHECK_OK`
+- `NEXUS_V2_PHASE0_LOCAL_DEV_BASELINE_OK`
+- `NEXUS_V2_PYTHON_313_CONTRACT_OK`
+- `NEXUS_V2_DEVCONTAINER_BASELINE_OK`
+- `NEXUS_V2_CI_BASELINE_TEST_VERIFIED`
+- `NEXUS_V2_NO_PRODUCTION_CHANGE_OK`
+- `NEXUS_V2_FOUNDATION_PLAN_OK`
+
+### STATUS
+
+`Phase 0 — DONE / TEST VERIFIED`
+
+Gate:
+
+`NEXUS_V2_FOUNDATION_PLAN_OK — CLOSED`
+
+The project may proceed to:
+
+`Phase 1 — Shared contracts/testkit`
+
+Production safety remains unchanged.
+
+### NEXT STEP
+
+Begin Phase 1 with a FACT/CHECK of the canonical shared contracts and testkit requirements before implementing the first Phase 1 contract baseline.
+
