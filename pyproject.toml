@@ -1,0 +1,10 @@
+[project]
+name = "nexus-v2"
+version = "0.0.0"
+description = "NEXUS V2 monorepo foundation"
+requires-python = ">=3.13,<3.14"
+
+[tool.nexus]
+phase = 0
+production_build_allowed = false
+production_deploy_allowed = false

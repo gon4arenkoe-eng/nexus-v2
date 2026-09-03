@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -14,6 +13,11 @@ REQUIRED_FILES = [
     ".editorconfig",
     ".gitignore",
     ".github/workflows/ci.yml",
+    "pyproject.toml",
+    ".python-version",
+    ".devcontainer/devcontainer.json",
+    "scripts/dev_check.py",
+    "docs/runbooks/LOCAL_DEVELOPMENT.md",
 ]
 
 REQUIRED_DIRS = [
@@ -76,9 +80,9 @@ for path in ROOT.rglob("*"):
 if violations:
     fail("forbidden secret-sensitive paths present: " + ", ".join(sorted(violations)))
 
-workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8").lower()
 for forbidden in ("deploy", "ghcr.io", "docker push", "kubectl", "ssh "):
-    if forbidden in workflow.lower():
+    if forbidden in workflow:
         fail(f"Phase 0 CI contains forbidden deployment authority marker: {forbidden}")
 
 policy = (ROOT / "docs/architecture/DEPENDENCY_BOUNDARIES.md").read_text(encoding="utf-8")
