@@ -24919,3 +24919,55 @@ Still open in Phase 0:
 Publish the dependency-boundary policy commit and its Audit evidence, then proceed to the CI skeleton.
 
 Production remains unchanged.
+
+## NEXUS V2 Phase 0 — Dependency Policy GitHub Publication — 2026-09-03
+
+### FACT
+
+The NEXUS V2 dependency-boundary policy and its Audit evidence have been published to the approved GitHub repository.
+
+Published commits:
+
+- `5ba54fc docs: establish NEXUS V2 dependency boundaries`
+- `20cbec1 docs: register NEXUS V2 dependency policy evidence`
+
+### CHECK
+
+Verified after push:
+
+- `main` successfully pushed to `origin`;
+- local `main` tracks `origin/main`;
+- local HEAD and `origin/main` both resolve to `20cbec1`;
+- working tree is clean;
+- no production host changes were made.
+
+### EVIDENCE
+
+- `DEPENDENCY_POLICY_PUSH_OK`
+- `GITHUB_SYNC_OK_AFTER_DEPENDENCY_POLICY`
+- `CLEAN_WORKTREE_OK`
+- HEAD: `20cbec1`
+- origin/main: `20cbec1`
+
+### STATUS
+
+Dependency-boundary policy cycle is complete.
+
+Phase 0 remains **IN PROGRESS**.
+
+Gate:
+
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
+
+Remaining Phase 0 work includes:
+
+- CI skeleton;
+- local development baseline;
+- repository/line-ending configuration baseline;
+- final Phase 0 verification and Audit closure.
+
+### NEXT STEP
+
+Establish the NEXUS V2 CI skeleton without introducing production deployment authority.
+
+Production remains unchanged.
