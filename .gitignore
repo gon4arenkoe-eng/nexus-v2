@@ -1,0 +1,46 @@
+# Secrets / local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+credentials*
+secrets*
+*_secret*
+*_credentials*
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Runtime / local data
+logs/
+*.log
+data/
+backups/
+*.sqlite
+*.sqlite3
+*.db
+
+# Research artifacts / large local outputs
+artifacts/
+datasets/
+models/
+reports/
+dist/
+build/
