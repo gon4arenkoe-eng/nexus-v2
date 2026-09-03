@@ -24852,3 +24852,70 @@ Contracts/dependency policy, CI skeleton, and local development baseline remain 
 Establish the NEXUS V2 contracts and dependency-boundary policy before implementation code is introduced.
 
 Production remains unchanged.
+
+## NEXUS V2 Phase 0 — Dependency Boundaries Policy — 2026-09-03
+
+### FACT
+
+The NEXUS V2 dependency-boundary architecture policy has been established before implementation code is introduced.
+
+Canonical policy file:
+
+`docs/architecture/DEPENDENCY_BOUNDARIES.md`
+
+The policy defines:
+
+- repository ownership boundaries;
+- canonical dependency direction;
+- forbidden dependencies;
+- canonical execution ownership;
+- VenueAdapter boundary;
+- multi-user ownership boundary;
+- Grid ownership boundary;
+- reconciliation boundary;
+- shared contract-change rules;
+- future enforcement requirements for Phase 1.
+
+### CHECK
+
+Verified locally:
+
+- only `docs/architecture/DEPENDENCY_BOUNDARIES.md` was staged;
+- staged read-back contained the approved architecture policy;
+- the file contains 307 lines;
+- `git diff --cached --check` returned clean;
+- no implementation code was introduced;
+- no legacy source was copied;
+- production was not modified.
+
+### EVIDENCE
+
+- `NEXUS_V2_DEPENDENCY_POLICY_PRESENT`
+- `NEXUS_V2_DEPENDENCY_POLICY_SCOPE_OK`
+- `NEXUS_V2_DEPENDENCY_POLICY_READBACK_OK`
+- `NEXUS_V2_DEPENDENCY_POLICY_DIFF_OK`
+- `NEXUS_V2_DEPENDENCY_POLICY_COMMIT_OK`
+- Git commit: `5ba54fc`
+
+### STATUS
+
+Dependency-boundary policy is established.
+
+Phase 0 remains **IN PROGRESS**.
+
+Gate:
+
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
+
+Still open in Phase 0:
+
+- CI skeleton;
+- local development baseline;
+- explicit repository line-ending/config policy;
+- final Phase 0 verification and Audit closure.
+
+### NEXT STEP
+
+Publish the dependency-boundary policy commit and its Audit evidence, then proceed to the CI skeleton.
+
+Production remains unchanged.
