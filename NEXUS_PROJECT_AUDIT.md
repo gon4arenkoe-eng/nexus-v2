@@ -24783,3 +24783,72 @@ Publish the audited governance baseline to the approved GitHub repository after 
 Production remains unchanged.
 
 Live authority remains disabled according to NEXUS V2 production safety policy.
+
+## NEXUS V2 Phase 0 — Directory Baseline — 2026-09-03
+
+### FACT
+
+The approved NEXUS V2 monorepo directory baseline has been materialized locally.
+
+Created canonical areas:
+
+- `apps/core`
+- `apps/intelligence`
+- `apps/aiea`
+- `apps/web`
+- `workers/aiea_research`
+- `packages/contracts`
+- `packages/testkit`
+- `packages/observability`
+- `adapters/bingx`
+- `adapters/binance`
+- `adapters/bybit`
+- `adapters/okx`
+- `infra/compose`
+- `infra/migrations`
+- `infra/github`
+- `infra/deploy`
+- `docs/architecture`
+- `docs/runbooks`
+- `docs/adr`
+
+Only `.gitkeep` placeholder files were introduced.
+
+No implementation code, legacy source, runtime configuration, CI configuration, Docker configuration, credentials, or production files were added.
+
+### CHECK
+
+Verified locally:
+
+- all 19 approved directories are present;
+- all 19 tracked files are `.gitkeep`;
+- staged scope contained only the approved directory baseline;
+- `git diff --cached --check` returned clean;
+- no legacy source tree was copied;
+- production was not modified.
+
+### EVIDENCE
+
+- `NEXUS_V2_DIRECTORY_BASELINE_PRESENT`
+- `NEXUS_V2_DIRECTORY_SCOPE_OK`
+- `NEXUS_V2_DIRECTORY_DIFF_CHECK_OK`
+- `NEXUS_V2_DIRECTORY_BASELINE_COMMIT_OK`
+- Git commit: `d5c9a33`
+
+### STATUS
+
+Phase 0 remains **IN PROGRESS**.
+
+Gate:
+
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
+
+Directory baseline is complete.
+
+Contracts/dependency policy, CI skeleton, and local development baseline remain open.
+
+### NEXT STEP
+
+Establish the NEXUS V2 contracts and dependency-boundary policy before implementation code is introduced.
+
+Production remains unchanged.
