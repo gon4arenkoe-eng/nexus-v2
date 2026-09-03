@@ -25035,3 +25035,77 @@ Remaining Phase 0 work:
 Publish the CI baseline and verify the GitHub Actions run.
 
 Production remains unchanged.
+
+## NEXUS V2 Phase 0 — Local Development Baseline — 2026-09-03
+
+### FACT
+
+The Phase 0 local development/devcontainer baseline has been established and locally verified.
+
+Created or updated:
+
+- `.devcontainer/devcontainer.json`
+- `.python-version`
+- `pyproject.toml`
+- `scripts/dev_check.py`
+- `docs/runbooks/LOCAL_DEVELOPMENT.md`
+- `.github/workflows/ci.yml`
+- `infra/github/repo_baseline_check.py`
+
+### CHECK
+
+Verified locally with Python 3.13.14:
+
+- `NEXUS_V2_PHASE0_LOCAL_DEV_BASELINE_OK`;
+- Python contract is 3.13;
+- devcontainer environment is `development`;
+- live authority is disabled;
+- production build authority is disabled;
+- production deploy authority is disabled;
+- repository baseline check passed;
+- 13 required files are present;
+- 19 required directories are present;
+- no deployment authority is present in Phase 0 CI;
+- no forbidden secret-sensitive paths were detected;
+- `git diff --cached --check` returned clean.
+
+### EVIDENCE
+
+- `NEXUS_V2_LOCAL_DEV_FILES_PRESENT`
+- `NEXUS_V2_PYTHON_313_CONTRACT_OK`
+- `NEXUS_V2_DEVCONTAINER_BASELINE_OK`
+- `NEXUS_V2_LOCAL_DEV_NO_LIVE_AUTHORITY_OK`
+- `NEXUS_V2_LOCAL_DEV_NO_PROD_BUILD_OK`
+- `NEXUS_V2_PHASE0_LOCAL_DEV_BASELINE_OK`
+- `NEXUS_V2_PHASE0_REPO_BASELINE_CHECK_OK`
+- `NEXUS_V2_LOCAL_DEV_DIFF_CHECK_OK`
+
+### CI EVIDENCE
+
+The corrected Phase 0 GitHub Actions workflow for commit `f3449fc` passed on the hosted GitHub runner.
+
+Verified hosted steps:
+
+- `actions/checkout@v7` — PASS;
+- `actions/setup-python@v7` — PASS;
+- `python infra/github/repo_baseline_check.py` — PASS;
+- `git diff --check HEAD^ HEAD` — PASS.
+
+Evidence:
+
+- `GITHUB_ACTIONS_CI_RUN_OK`
+- `NEXUS_V2_CI_BASELINE — TEST VERIFIED`
+
+### STATUS
+
+Phase 0 remains **IN PROGRESS** pending final gate verification.
+
+Gate:
+
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
+
+### NEXT STEP
+
+Publish the local development baseline and run final Phase 0 verification against the Master Plan, Audit, Inventory, repository state, and hosted CI.
+
+Production remains unchanged.
