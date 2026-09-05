@@ -63,6 +63,7 @@ def _order(
     return ExecutionOrder(
         order_id="order-1",
         plan_id="plan-1",
+        group_id="group-1",
         leg_id="leg-1",
         account_id=account_id,
         instrument_id=instrument_id,
@@ -92,6 +93,45 @@ def test_pending_order_is_valid_zero_projection() -> None:
     assert order.status is ExecutionOrderStatus.PENDING
     assert order.filled_quantity == Decimal("0")
     assert order.average_fill_price is None
+
+
+def test_order_preserves_position_group_ownership() -> None:
+    order = _order()
+
+    assert order.plan_id == "plan-1"
+    assert order.group_id == "group-1"
+    assert order.leg_id == "leg-1"
+
+
+def test_order_requires_non_empty_group_id() -> None:
+    account_id, instrument_id = _identity()
+
+    with pytest.raises(ValueError):
+        ExecutionOrder(
+            order_id="order-1",
+            plan_id="plan-1",
+            group_id=" ",
+            leg_id="leg-1",
+            account_id=account_id,
+            instrument_id=instrument_id,
+            client_order_id="client-1",
+            venue_order_id=None,
+            side=OrderSide.BUY,
+            order_type=OrderType.MARKET,
+            requested_quantity=Decimal("1"),
+            filled_quantity=Decimal("0"),
+            average_fill_price=None,
+            limit_price=None,
+            reduce_only=False,
+            status=ExecutionOrderStatus.PENDING,
+            rejection_reason=None,
+            submitted_at=None,
+            accepted_at=None,
+            filled_at=None,
+            cancelled_at=None,
+            created_at=CREATED,
+            updated_at=CREATED,
+        )
 
 
 def test_market_order_rejects_limit_price() -> None:
@@ -204,6 +244,7 @@ def test_order_rejects_account_instrument_venue_mismatch() -> None:
         ExecutionOrder(
             order_id="order-1",
             plan_id="plan-1",
+            group_id="group-1",
             leg_id="leg-1",
             account_id=account_id,
             instrument_id=instrument_id,
@@ -234,6 +275,7 @@ def test_order_timestamps_normalize_to_utc() -> None:
     order = ExecutionOrder(
         order_id="order-1",
         plan_id="plan-1",
+        group_id="group-1",
         leg_id="leg-1",
         account_id=account_id,
         instrument_id=instrument_id,

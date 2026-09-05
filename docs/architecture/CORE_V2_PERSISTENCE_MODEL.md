@@ -176,6 +176,7 @@ Required columns:
 - id BIGINT primary key;
 - order_id VARCHAR unique not null;
 - plan_id VARCHAR not null;
+- group_id VARCHAR not null;
 - leg_id VARCHAR not null;
 - user_id BIGINT not null;
 - venue_id VARCHAR not null;
@@ -204,6 +205,15 @@ Required columns:
 - cancelled_at TIMESTAMPTZ nullable;
 - created_at TIMESTAMPTZ not null;
 - updated_at TIMESTAMPTZ not null.
+
+Required ownership constraints:
+
+- FOREIGN KEY (plan_id) REFERENCES execution_plans(plan_id) ON DELETE RESTRICT;
+- FOREIGN KEY (group_id, leg_id) REFERENCES position_legs(group_id, leg_id) ON DELETE RESTRICT.
+
+`group_id` is first-class PositionGroup / PositionLeg ownership lineage.
+It does not become part of canonical ExecutionOrder identity; `order_id` remains
+the canonical order identity.
 
 Local state and last-known venue observation are explicitly distinct.
 

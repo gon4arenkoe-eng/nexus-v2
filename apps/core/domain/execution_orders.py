@@ -89,6 +89,7 @@ def _normalize_optional_price(
 class ExecutionOrder:
     order_id: str
     plan_id: str
+    group_id: str
     leg_id: str
     account_id: AccountId
     instrument_id: InstrumentId
@@ -114,6 +115,7 @@ class ExecutionOrder:
         for field_name in (
             "order_id",
             "plan_id",
+            "group_id",
             "leg_id",
             "client_order_id",
         ):

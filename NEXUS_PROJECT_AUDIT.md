@@ -26754,3 +26754,61 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 ExecutionOrder → PositionLeg canonical ownership correction
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Fact:
+- canonical PositionLeg identity is `(group_id, leg_id)`;
+- ExecutionOrder previously carried `plan_id + leg_id` but not `group_id`;
+- PositionGroup.plan_id is not unique;
+- no one-PositionGroup-per-ExecutionPlan invariant exists;
+- therefore `plan_id + leg_id` alone could not prove canonical PositionLeg ownership.
+
+Historical verified behavior:
+- legacy/current historical Core maintained explicit ExecutionOrder → PositionLeg ownership through persistence `position_leg_id`;
+- fill-ingestion lineage checks required owning PositionLeg existence;
+- cross-plan / cross-leg ownership conflicts failed closed.
+
+Correction:
+- ExecutionOrder now carries required `group_id`;
+- `group_id` is validated as non-empty first-class ownership lineage;
+- canonical ExecutionOrder identity remains `order_id`;
+- canonical PositionLeg identity remains `(group_id, leg_id)`;
+- persistence design now requires:
+  - FK `plan_id → execution_plans(plan_id)`;
+  - composite FK `(group_id, leg_id) → position_legs(group_id, leg_id)`;
+- no PositionGroup.plan_id uniqueness was invented;
+- no PositionLeg identity redesign was introduced.
+
+Verification:
+- focused ExecutionOrder/ExecutionFill tests: 22 passed;
+- adjacent Core tests: 120 passed;
+- full regression: 289 passed;
+- flake8: passed;
+- mypy: passed;
+- compileall: passed;
+- Core Domain persistence boundary: clean;
+- no ExecutionOrder/ExecutionFill ORM introduced in this correction;
+- no migration introduced;
+- git diff --check: clean.
+
+Scope:
+- domain ownership lineage correction;
+- persistence design correction;
+- focused tests only;
+- no reconciliation;
+- no ExecutionCoordinator;
+- no venue write access;
+- no production authority change.
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_ORDER_POSITION_LEG_OWNERSHIP_CORRECTION_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
