@@ -26052,3 +26052,53 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 PositionGroup / PositionLeg V2 migration and hardening
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Legacy behavior preserved:
+- PositionGroup remains canonical owner of logical SINGLE_LEG / PAIR / BASKET position lifecycle;
+- PositionGroup preserves plan, user, strategy, strategy_version and trade-source lineage;
+- PositionLeg remains canonical per-leg position projection inside PositionGroup;
+- PositionLeg preserves account/instrument identity, side, target quantity, filled quantity, average entry/exit price and lifecycle state;
+- initial legacy semantics remain PENDING with filled_quantity = 0;
+- PositionLeg derived state remains based on validated execution evidence rather than independently invented execution semantics.
+
+Approved V2 hardening:
+- PositionGroupStatus: PENDING, OPENING, OPEN, CLOSING, CLOSED;
+- PositionLegStatus: PENDING, OPEN, CLOSED;
+- PositionLeg adds current_quantity as canonical current-exposure projection;
+- canonical AccountId and InstrumentId replace duplicated raw venue identity fields in Core Domain;
+- created/opened/closed/updated timestamps are timezone-aware and normalized to UTC;
+- quantities and prices use finite Decimal contracts;
+- lifecycle consistency is fail-closed;
+- no fill interpretation, average-price calculation or lifecycle-transition engine is embedded in the immutable domain contracts.
+
+Architecture:
+- Core Domain does not import ports;
+- no VenueAdapter dependency;
+- no SQLAlchemy/FastAPI dependency;
+- no ExecutionCoordinator dependency;
+- no Reconciliation implementation;
+- no ExecutionOrder/ExecutionFill implementation added in this slice;
+- production authority unchanged.
+
+Verification:
+- focused position tests: 17 passed;
+- adjacent TradeIntent + ExecutionPlan + Position tests: 61 passed;
+- full suite: 221 passed;
+- flake8: exit 0;
+- mypy apps/core --explicit-package-bases --ignore-missing-imports: exit 0;
+- compileall: exit 0;
+- git diff --check: clean.
+
+Evidence tag:
+
+`NEXUS_V2_POSITION_GROUP_LEG_MIGRATION_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
