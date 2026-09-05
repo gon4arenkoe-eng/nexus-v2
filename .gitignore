@@ -44,3 +44,5 @@ models/
 reports/
 dist/
 build/
+
+*.egg-info/

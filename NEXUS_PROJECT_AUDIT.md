@@ -26255,3 +26255,75 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 V2 Persistence Foundation
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Purpose:
+- establish the infrastructure substrate required to migrate the historically verified durable Core V2 Ledger persistence without introducing persistence dependencies into Core Domain.
+
+Implemented:
+- explicit Python packaging/build configuration for the NEXUS V2 monorepo;
+- declared SQLAlchemy 2.x dependency;
+- declared Alembic dependency;
+- declared asyncpg PostgreSQL driver dependency;
+- declared aiosqlite test dependency;
+- explicit setuptools package discovery for apps/packages/infra/adapters/workers;
+- canonical infra.persistence.PersistenceBase;
+- async SQLAlchemy engine factory;
+- async_sessionmaker factory;
+- async session scope helper;
+- Alembic scaffold under infra/persistence/migrations;
+- Alembic target_metadata = PersistenceBase.metadata;
+- Alembic versions directory preserved in Git;
+- generated *.egg-info artifacts ignored.
+
+Database safety:
+- alembic.ini contains no default database target;
+- online Alembic requires explicit NEXUS_DATABASE_URL;
+- missing NEXUS_DATABASE_URL fails closed with non-zero exit;
+- no database credentials are stored in repository configuration;
+- no migration revision exists yet;
+- no database schema was applied;
+- no production database was contacted.
+
+Architecture:
+- Core Domain remains free of SQLAlchemy/Alembic/persistence imports;
+- persistence implementation is owned by infra/persistence;
+- no Ledger ORM model added yet;
+- no ExecutionRepository added yet;
+- no Reconciliation implementation;
+- no ExecutionCoordinator implementation;
+- no venue calls;
+- no runtime execution behavior changed;
+- production authority unchanged.
+
+Verification:
+- persistence focused tests: 4 passed;
+- adjacent persistence/ledger/order/venue suite: 53 passed;
+- full suite before final structural .gitkeep: 258 passed;
+- final full suite rerun performed before closure;
+- compileall: exit 0;
+- flake8: exit 0;
+- mypy: exit 0;
+- alembic heads: exit 0 with no revisions;
+- online migration without NEXUS_DATABASE_URL: fail-closed verified;
+- hard-coded credential/default target guards: clean;
+- Core Domain persistence dependency guard: clean;
+- git diff --check: clean.
+
+Known metadata discrepancy:
+- pyproject.toml still contains [tool.nexus] phase = 1 while current project work is Phase 2;
+- this value was preserved intentionally and was not silently changed;
+- its ownership/automation meaning requires a separate FACT check before modification.
+
+Evidence tag:
+
+`NEXUS_V2_PERSISTENCE_FOUNDATION_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
