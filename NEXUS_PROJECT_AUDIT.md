@@ -25522,3 +25522,85 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+---
+
+## 2026-09-05 — Phase 1 Deterministic Clock / ID Providers
+
+**Status:** TEST VERIFIED
+
+Implemented shared provider contracts:
+
+- `packages/contracts/providers.py`
+  - `Clock`
+  - `IdProvider`
+
+Implemented deterministic testkit providers:
+
+- `packages/testkit/deterministic.py`
+  - `DeterministicClock`
+  - `SequenceIdProvider`
+- `packages/testkit/__init__.py`
+- `tests/test_deterministic_providers.py`
+
+Clock contract and deterministic semantics verified:
+
+- `Clock.now()` is dependency-supplied;
+- deterministic clock requires timezone-aware datetime;
+- time normalizes to UTC;
+- deterministic time can be explicitly set;
+- deterministic time can be advanced by an exact timedelta;
+- zero advance is valid;
+- negative advance fails closed;
+- non-timedelta advance fails closed.
+
+ID provider semantics verified:
+
+- `IdProvider.next_id()` is dependency-supplied;
+- deterministic sequence preserves explicit ID order;
+- repeated identical sequences produce identical IDs;
+- IDs are normalized by trimming;
+- empty/non-string IDs fail closed;
+- exhausted deterministic sequence fails explicitly;
+- no random/UUID generation occurs inside the deterministic provider.
+
+Architecture boundary:
+
+- provider interfaces live in shared contracts;
+- deterministic mutable implementations live in testkit;
+- no production clock implementation introduced;
+- no production ID-generation strategy introduced;
+- no generic provider defines Ledger event-ID derivation;
+- domain-specific deterministic Ledger identity rules remain separate;
+- no wall-clock ownership introduced into contracts/testkit;
+- no SQLAlchemy/FastAPI/exchange SDK dependency introduced.
+
+Explicitly absent from this changeset:
+
+- `datetime.now()`;
+- `datetime.utcnow()`;
+- `time.time()`;
+- `uuid4()`;
+- random ID generation.
+
+Verification evidence:
+
+- focused deterministic-provider tests: `18 passed`;
+- full current pytest suite: `92 passed`;
+- compile: PASS;
+- `scripts/dev_check.py`: PASS;
+- forbidden dependency scan: PASS;
+- nondeterministic source scan: PASS;
+- staged diff check: PASS.
+
+Evidence tag:
+
+- `NEXUS_V2_DETERMINISTIC_CLOCK_ID_PROVIDERS_OK`
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
