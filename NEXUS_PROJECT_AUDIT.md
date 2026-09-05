@@ -25745,3 +25745,103 @@ Hosted CI evidence:
 Publish the Phase 1 closure changes, verify the hosted CI run, then begin
 Phase 2 with a FACT/CHECK of the verified existing Core V2 foundation before
 migrating any TradeIntent, Venue, Ledger or execution contract.
+---
+
+## 2026-09-05 — Phase 2 TradeIntent Migration
+
+**Phase:** 2 — Import and harden existing Core V2 foundation
+
+**Status:** TEST VERIFIED
+
+Migrated the previously verified canonical TradeIntent semantics into the
+new NEXUS V2 monorepo Core domain without recreating the contract design.
+
+Implemented:
+
+- `apps/core/__init__.py`
+- `apps/core/domain/__init__.py`
+- `apps/core/domain/intents.py`
+- `tests/test_core_trade_intents.py`
+
+Canonical contracts:
+
+- `TradeIntentKind`
+- `TradeIntentShape`
+- `TradeSide`
+- `TradeLegIntent`
+- `TradeIntent`
+
+Preserved verified semantics:
+
+- OPEN / CLOSE / REDUCE / REBALANCE intent kinds;
+- SINGLE_LEG / PAIR / BASKET shapes;
+- BUY / SELL sides;
+- SINGLE_LEG requires exactly one leg;
+- PAIR requires exactly two legs;
+- BASKET requires at least two legs;
+- leg IDs must be unique;
+- optional quantity remains supported;
+- provided quantity must be positive;
+- account venue must match instrument venue;
+- cross-venue PAIR remains supported through per-leg ownership;
+- TradeIntent remains immutable;
+- empty intent identity fails closed;
+- metadata is copied into an immutable mapping;
+- created_at uses canonical UTC normalization.
+
+Shared Phase 1 contracts are reused:
+
+- `VenueId`
+- `AccountId`
+- `InstrumentId`
+- `AssetClass`
+- `InstrumentType`
+- numeric/time primitives
+
+No duplicate identity contracts were introduced.
+
+Architectural boundary verified:
+
+- Core domain does not import SQLAlchemy;
+- Core domain does not import FastAPI;
+- Core domain does not import exchange SDK/client implementations;
+- TradeIntent does not call VenueAdapter;
+- TradeIntent does not own reconciliation;
+- TradeIntent does not own ExecutionCoordinator behavior;
+- no Phase 3/4 execution capability was pulled forward.
+
+Verification:
+
+- focused TradeIntent tests: `13 passed`;
+- full repository test suite: `157 passed`;
+- Python compileall: PASS;
+- forbidden Core import check: PASS;
+- premature Phase 3/4 ownership guard: PASS;
+- `git diff --check`: PASS.
+
+Migration principle:
+
+Verified legacy/Core V2 behavior was preserved while the implementation
+was placed cleanly inside the new canonical V2 architecture.
+
+No production execution authority was introduced.
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
+
+Historical source evidence remains:
+
+`TRADING_CORE_V2_TRADE_INTENT_CONTRACTS_OK`
+
+New V2 migration evidence:
+
+`NEXUS_V2_TRADE_INTENT_MIGRATION_OK`
+
+The Phase 2 aggregate gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
