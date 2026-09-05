@@ -25205,3 +25205,50 @@ Production safety remains unchanged.
 ### NEXT STEP
 
 Begin Phase 1 with a FACT/CHECK of the canonical shared contracts and testkit requirements before implementing the first Phase 1 contract baseline.
+
+---
+
+## 2026-09-05 — NEXUS V2 Product Architecture Additions
+
+**Status:** DESIGN APPROVED / GIT VERIFIED
+
+Approved architecture additions:
+
+- AIEA Product Moat Spec;
+- Product Entitlements / Subscriptions / Quotas;
+- NEXUS Trading Workspace Composer.
+
+Canonical documents updated:
+
+- `NEXUS_V2_MASTER_PLAN.md` → v1.2-draft;
+- `NEXUS_V2_FUNCTIONAL_INVENTORY.md` → v1.1-draft.
+
+Git evidence:
+
+- commit: `79329d6`
+- message: `docs: add AIEA moat entitlements and workspace composer`
+- branch: `main`
+- remote: `origin/main`
+- local/remote synchronization: VERIFIED
+
+Evidence tags:
+
+- `NEXUS_V2_AIEA_MOAT_SPEC_DESIGN_APPROVED`
+- `NEXUS_V2_ENTITLEMENT_ARCHITECTURE_DESIGN_APPROVED`
+- `NEXUS_V2_WORKSPACE_COMPOSER_DESIGN_APPROVED`
+- `NEXUS_V2_PRODUCT_ARCHITECTURE_GIT_VERIFIED_OK`
+
+Important status boundary:
+
+- architecture/design = APPROVED;
+- implementation = NOT DONE;
+- no Phase 9/10/11 implementation status is promoted by this documentation change;
+- production authority is unchanged.
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
