@@ -13,6 +13,11 @@ REQUIRED_FILES = (
     ".devcontainer/devcontainer.json",
     "scripts/dev_check.py",
     "docs/runbooks/LOCAL_DEVELOPMENT.md",
+    "packages/contracts/product_access.py",
+    "packages/contracts/workspace.py",
+    "tests/test_shared_contract_compatibility.py",
+    "tests/test_contract_product_access.py",
+    "tests/test_contract_workspace.py",
 )
 
 FORBIDDEN_DEVCONTAINER_MARKERS = (
@@ -49,8 +54,8 @@ if requires_python != ">=3.13,<3.14":
     fail(f"unexpected requires-python: {requires_python!r}")
 
 nexus_cfg = pyproject.get("tool", {}).get("nexus", {})
-if nexus_cfg.get("phase") != 0:
-    fail("tool.nexus.phase must be 0")
+if nexus_cfg.get("phase") != 1:
+    fail("tool.nexus.phase must be 1")
 if nexus_cfg.get("production_build_allowed") is not False:
     fail("production_build_allowed must be false")
 if nexus_cfg.get("production_deploy_allowed") is not False:
@@ -72,7 +77,7 @@ ci_text = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
 if "python scripts/dev_check.py" not in ci_text:
     fail("CI must execute scripts/dev_check.py")
 
-print("[OK] NEXUS_V2_PHASE0_LOCAL_DEV_BASELINE_OK")
+print("[OK] NEXUS_V2_PHASE1_LOCAL_DEV_BASELINE_OK")
 print(f"[OK] python={sys.version.split()[0]}")
 print("[OK] Python contract=3.13")
 print("[OK] devcontainer environment=development")

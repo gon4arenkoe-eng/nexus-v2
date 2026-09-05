@@ -25672,3 +25672,68 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+---
+
+## 2026-09-05 — Phase 1 Shared Contracts Gate Closure
+
+**Status:** LOCAL TEST VERIFIED / GIT PUBLICATION PENDING
+
+### FACT
+
+Phase 1 shared-contract and testkit scope is complete locally.
+
+The canonical shared baseline includes:
+
+- identity, numeric/time, event-envelope and error/result contracts;
+- deterministic clock/ID providers and generic FakeVenue testkit;
+- stable product-access contracts: `FeatureKey`, `EntitlementDecision`,
+  `QuotaResult`;
+- typed, presentation-only workspace contracts: `WidgetManifest`,
+  `WidgetSize`, `WidgetPlacement`, `WorkspaceLayout`, `WidgetContext` and
+  `ContextKey`;
+- public-contract compatibility tests for all Phase 1 contract surfaces.
+
+The product-access contracts are tenant-scoped decisions only. They do not
+model commercial plan names, payment providers, RBAC, billing, usage-counter
+mutation, Risk permissions or live-trading authority. Workspace contracts are
+layout/context metadata only; they do not execute trades or mutate Core state.
+
+### CHECK
+
+- full shared-contract suite: `144 passed` on Python `3.13.14`;
+- Phase 1 local development verification: PASS;
+- repository foundation verification: PASS;
+- whitespace verification: PASS;
+- precise external dependency import scan across `packages/contracts` and
+  `packages/testkit`: PASS;
+- CI now installs `pytest` and executes the full shared-contract suite;
+- `tool.nexus.phase` is `1`;
+- production build/deploy authority remains `false`;
+- devcontainer live authority remains `disabled`.
+
+### EVIDENCE
+
+- `NEXUS_V2_SHARED_CONTRACTS_OK`
+- `NEXUS_V2_PHASE1_LOCAL_DEV_BASELINE_OK`
+- `NEXUS_V2_PHASE1_COMPATIBILITY_TESTS_OK`
+- `NEXUS_V2_PRODUCT_ACCESS_CONTRACTS_OK`
+- `NEXUS_V2_WORKSPACE_COMPOSER_CONTRACTS_OK`
+- `NEXUS_V2_PHASE1_NO_PRODUCTION_AUTHORITY_OK`
+
+### STATUS
+
+`Phase 1 — DONE / LOCAL TEST VERIFIED`
+
+Gate:
+
+`NEXUS_V2_SHARED_CONTRACTS_OK — LOCALLY CLOSED`
+
+Git publication and hosted CI verification remain required before this gate is
+recorded as repository-published/hosted-CI verified.
+
+### NEXT STEP
+
+Publish the Phase 1 closure changes, verify the hosted CI run, then begin
+Phase 2 with a FACT/CHECK of the verified existing Core V2 foundation before
+migrating any TradeIntent, Venue, Ledger or execution contract.

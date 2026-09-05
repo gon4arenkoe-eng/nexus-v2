@@ -36,5 +36,11 @@ jobs:
       - name: Verify local development baseline
         run: python scripts/dev_check.py
 
+      - name: Install test runner
+        run: python -m pip install --disable-pip-version-check pytest
+
+      - name: Verify shared contract suite
+        run: python -m pytest -q
+
       - name: Verify Git whitespace
         run: git diff --check HEAD^ HEAD
