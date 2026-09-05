@@ -26959,3 +26959,70 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 Core V2 root persistence migration file
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Implemented:
+- first Alembic revision in the new NEXUS V2 repository;
+- revision: `4d6f7a8b9c01`;
+- parent/down_revision: `None`;
+- additive canonical Core V2 persistence root schema.
+
+Created tables:
+- `execution_plans`;
+- `execution_plan_legs`;
+- `position_groups`;
+- `position_legs`;
+- `execution_orders`;
+- `execution_fills`.
+
+Ownership and integrity:
+- ExecutionPlan canonical plan identity persisted;
+- ExecutionPlanLeg preserves original plan-leg contract;
+- PositionGroup preserves plan ownership;
+- PositionLeg identity remains `(group_id, leg_id)`;
+- `UNIQUE(group_id, plan_id)` preserves group/plan referential target without making plan_id unique;
+- ExecutionOrder direct plan FK retained;
+- ExecutionOrder `(group_id, plan_id)` fail-closed ownership FK retained;
+- ExecutionOrder `(group_id, leg_id)` exact PositionLeg FK retained;
+- ExecutionFill belongs to canonical ExecutionOrder;
+- venue fill dedup remains scoped by venue/account/fill identity.
+
+Schema:
+- financial values use `NUMERIC(38,18)`;
+- timestamps use PostgreSQL timezone-aware timestamps;
+- execution plan structured metadata uses JSONB;
+- local ExecutionOrder state remains separate from last-known venue observation;
+- required CHECK, UNIQUE, FK and index definitions verified.
+
+Compatibility:
+- migration is additive only;
+- no legacy table is modified, repurposed or deleted;
+- no runtime writer is redirected;
+- no repository, reconciliation or ExecutionCoordinator behavior is introduced.
+
+Verification:
+- py_compile: passed;
+- flake8: passed;
+- Alembic heads: exactly `4d6f7a8b9c01 (head)`;
+- Alembic parent: `<base>`;
+- offline PostgreSQL SQL generation: passed;
+- exactly six canonical CREATE TABLE statements verified;
+- required ownership/unique/check/index contracts verified;
+- JSONB / NUMERIC(38,18) / TIMESTAMPTZ verified;
+- focused persistence regression: 46 passed;
+- full regression: 307 passed;
+- no online Alembic upgrade was executed;
+- migration was NOT applied to any database.
+
+Evidence tag:
+
+`NEXUS_V2_CORE_PERSISTENCE_ROOT_MIGRATION_FILE_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
