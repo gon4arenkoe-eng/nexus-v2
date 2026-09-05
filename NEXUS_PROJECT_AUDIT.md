@@ -26327,3 +26327,104 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 Core V2 Persistence Model
+
+Status: DESIGN APPROVED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Decision:
+- V2 persistence does not copy historical storage shape blindly;
+- verified historical behavior is a minimum parity baseline, not a design ceiling;
+- new persistence may contain richer first-class ownership, lineage, provenance, lifecycle and evidence fields when those improve correctness, replay, recovery, reconciliation readiness, auditability or analytics.
+
+Canonical identity rule:
+- Core business identities remain canonical;
+- ExecutionPlan → plan_id;
+- PositionGroup → group_id;
+- PositionLeg → (group_id, leg_id);
+- ExecutionOrder → order_id;
+- ExecutionFill → fill_id;
+- venue request idempotency → client_order_id;
+- AccountId → (venue_id, account_value);
+- persistence MAY use internal BIGINT surrogate keys only as infrastructure details;
+- surrogate keys do not cross the Core boundary and do not define idempotency.
+
+Historical schema correction:
+- historical account_id → exchanges.id semantics are explicitly NOT adopted as canonical V2 account identity;
+- legacy Integer PK/FK structure may be retained internally only where technically justified and must never replace canonical identifiers.
+
+Approved durable model:
+- execution_plans;
+- execution_plan_legs;
+- position_groups;
+- position_legs;
+- execution_orders;
+- execution_fills;
+- execution_ledger_events.
+
+Rich-data rule:
+- integrity-critical ownership, lineage, replay and query dimensions are typed first-class columns;
+- event-specific/evolving evidence belongs in JSONB;
+- critical identity/ownership must not exist only in JSONB.
+
+Execution evidence:
+- execution_plan_legs preserves original planned execution;
+- execution_orders separates canonical local state from last-known venue observation;
+- execution_fills are immutable evidence;
+- execution_ledger_events are immutable evidence;
+- Ledger corrections are new events, never update/delete.
+
+Transaction boundary:
+- append Ledger event + mutate materialized projection + flush occur in one caller-owned transaction;
+- repositories do not commit;
+- repositories do not rollback;
+- repositories do not infer lifecycle;
+- repositories do not access venues;
+- repositories do not perform reconciliation.
+
+Phase boundary:
+- Phase 2 may persist canonical state, immutable events and last-known venue observations;
+- Phase 2 does not implement discrepancy detection/correction, startup reconciliation or continuous reconciliation;
+- those remain Phase 3 responsibilities;
+- ExecutionCoordinator remains Phase 4.
+
+Multi-user:
+- user ownership must be preserved through durable execution lineage;
+- cross-user lineage must fail closed;
+- Workspace/Tenant persistence is not invented before its canonical roadmap contract exists.
+
+Verification:
+- document UTF-8 byte validation: passed;
+- UTF-8 em dash/arrow semantic verification: passed;
+- required contract guards: passed;
+- out-of-phase implementation guard: passed;
+- git diff --check: passed;
+- document diff: 371 insertions / 0 deletions.
+
+Implementation order:
+1. harden Ledger AccountId/VenueId domain identity;
+2. canonical ORM models;
+3. additive initial migration;
+4. PostgreSQL schema/SQL verification;
+5. append/read repositories;
+6. atomic Ledger application service;
+7. deterministic replay verification;
+8. remaining Phase 2 gate evidence.
+
+Production authority:
+- unchanged;
+- AI promotion remains SHADOW-ONLY;
+- Advisory remains OBSERVE_ONLY;
+- Restricted Live remains DISABLED;
+- Full Live remains DISABLED;
+- AI direct exchange access remains BLOCKED.
+
+Evidence tag:
+
+`NEXUS_V2_CORE_PERSISTENCE_MODEL_DESIGN_APPROVED`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
