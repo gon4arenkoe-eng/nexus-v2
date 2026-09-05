@@ -2,7 +2,7 @@ from sqlalchemy import (
     BigInteger,
     DateTime,
     Numeric,
-)
+    UniqueConstraint,)
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.schema import CreateTable
 
@@ -174,6 +174,18 @@ def test_position_leg_timestamps_are_timezone_aware() -> None:
 
         assert isinstance(column_type, DateTime)
         assert column_type.timezone is True
+
+
+def test_position_group_exposes_group_plan_composite_key() -> None:
+    table = PositionGroupModel.__table__
+
+    unique_sets = {
+        tuple(constraint.columns.keys())
+        for constraint in table.constraints
+        if isinstance(constraint, UniqueConstraint)
+    }
+
+    assert ("group_id", "plan_id") in unique_sets
 
 
 def test_position_models_compile_for_postgresql() -> None:

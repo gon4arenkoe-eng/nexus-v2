@@ -87,14 +87,55 @@ def test_execution_order_has_canonical_ownership_columns() -> None:
 
 
 def test_execution_order_preserves_plan_foreign_key() -> None:
-    foreign_keys = ExecutionOrderModel.__table__.c.plan_id.foreign_keys
+    table = ExecutionOrderModel.__table__
 
-    assert len(foreign_keys) == 1
+    direct_plan_constraints = [
+        constraint
+        for constraint in table.constraints
+        if isinstance(constraint, ForeignKeyConstraint)
+        and tuple(constraint.columns.keys()) == ("plan_id",)
+    ]
 
-    fk = next(iter(foreign_keys))
+    assert len(direct_plan_constraints) == 1
 
-    assert fk.target_fullname == "execution_plans.plan_id"
-    assert fk.ondelete == "RESTRICT"
+    constraint = direct_plan_constraints[0]
+
+    assert tuple(
+        element.target_fullname
+        for element in constraint.elements
+    ) == ("execution_plans.plan_id",)
+
+    assert constraint.ondelete == "RESTRICT"
+
+
+def test_execution_order_preserves_position_group_plan_fk() -> None:
+    table = ExecutionOrderModel.__table__
+
+    constraints = [
+        constraint
+        for constraint in table.constraints
+        if isinstance(constraint, ForeignKeyConstraint)
+        and constraint.name == "fk_execution_orders_position_group_plan"
+    ]
+
+    assert len(constraints) == 1
+
+    constraint = constraints[0]
+
+    assert tuple(constraint.columns.keys()) == (
+        "group_id",
+        "plan_id",
+    )
+
+    assert tuple(
+        element.target_fullname
+        for element in constraint.elements
+    ) == (
+        "position_groups.group_id",
+        "position_groups.plan_id",
+    )
+
+    assert constraint.ondelete == "RESTRICT"
 
 
 def test_execution_order_preserves_position_leg_composite_fk() -> None:

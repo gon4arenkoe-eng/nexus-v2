@@ -24,6 +24,11 @@ class PositionGroupModel(PersistenceBase):
 
     __tablename__ = "position_groups"
     __table_args__ = (
+        UniqueConstraint(
+            "group_id",
+            "plan_id",
+            name="uq_position_groups_group_plan",
+        ),
         CheckConstraint(
             "user_id > 0",
             name="ck_position_groups_user_id_positive",

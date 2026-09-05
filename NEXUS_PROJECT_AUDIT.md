@@ -26898,3 +26898,64 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 ExecutionOrder group/plan referential-integrity correction
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Problem:
+- ExecutionOrder previously carried both `plan_id` and exact PositionLeg ownership
+  through `(group_id, leg_id)`;
+- the database could verify that the plan existed and that the PositionLeg existed,
+  but could not prove that the referenced PositionGroup belonged to the same plan;
+- a cross-plan ownership mismatch was therefore structurally possible.
+
+Correction:
+- `position_groups` now exposes:
+  `UNIQUE(group_id, plan_id)`;
+- this does not make `plan_id` unique and does not restrict multiple PositionGroups
+  per ExecutionPlan;
+- `execution_orders` now includes:
+  `FOREIGN KEY (group_id, plan_id)
+   REFERENCES position_groups(group_id, plan_id)
+   ON DELETE RESTRICT`;
+- existing direct:
+  `plan_id -> execution_plans.plan_id`
+  remains;
+- existing exact PositionLeg ownership:
+  `(group_id, leg_id) -> position_legs(group_id, leg_id)`
+  remains.
+
+Resulting fail-closed ownership:
+- ExecutionOrder.plan_id must exist;
+- ExecutionOrder.group_id must belong to that same plan;
+- ExecutionOrder.leg_id must belong to that exact group.
+
+Architecture:
+- canonical PositionGroup identity remains `group_id`;
+- canonical PositionLeg identity remains `(group_id, leg_id)`;
+- no one-group-per-plan invariant introduced;
+- no migration created yet;
+- no repository/reconciliation/coordinator/venue behavior introduced;
+- production authority unchanged.
+
+Verification:
+- structural ownership topology: passed;
+- focused persistence tests: 32 passed;
+- adjacent Core + persistence tests: 112 passed;
+- full regression: 307 passed;
+- flake8: passed;
+- mypy: passed;
+- PostgreSQL DDL ownership proof: passed;
+- no Alembic revision exists yet;
+- git diff --check: clean.
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_ORDER_GROUP_PLAN_INTEGRITY_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`

@@ -36,6 +36,12 @@ class ExecutionOrderModel(PersistenceBase):
             name="uq_execution_orders_client_order_id",
         ),
         ForeignKeyConstraint(
+            ["group_id", "plan_id"],
+            ["position_groups.group_id", "position_groups.plan_id"],
+            name="fk_execution_orders_position_group_plan",
+            ondelete="RESTRICT",
+        ),
+        ForeignKeyConstraint(
             ["group_id", "leg_id"],
             ["position_legs.group_id", "position_legs.leg_id"],
             name="fk_execution_orders_position_leg",

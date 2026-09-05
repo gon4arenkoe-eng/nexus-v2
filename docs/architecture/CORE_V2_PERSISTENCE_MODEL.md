@@ -209,7 +209,16 @@ Required columns:
 Required ownership constraints:
 
 - FOREIGN KEY (plan_id) REFERENCES execution_plans(plan_id) ON DELETE RESTRICT;
+- FOREIGN KEY (group_id, plan_id) REFERENCES position_groups(group_id, plan_id) ON DELETE RESTRICT;
 - FOREIGN KEY (group_id, leg_id) REFERENCES position_legs(group_id, leg_id) ON DELETE RESTRICT.
+
+`position_groups` therefore exposes `UNIQUE(group_id, plan_id)` as a
+referential-integrity target. This does not make `plan_id` unique and does not
+restrict multiple PositionGroups per ExecutionPlan; `group_id` remains the
+canonical PositionGroup identity.
+
+The composite group/plan FK prevents an ExecutionOrder from carrying a
+`plan_id` that disagrees with its owning PositionGroup.
 
 `group_id` is first-class PositionGroup / PositionLeg ownership lineage.
 It does not become part of canonical ExecutionOrder identity; `order_id` remains
