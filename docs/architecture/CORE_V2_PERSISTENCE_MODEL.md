@@ -136,8 +136,7 @@ Required columns:
 - opened_at TIMESTAMPTZ nullable;
 - closed_at TIMESTAMPTZ nullable;
 - created_at TIMESTAMPTZ not null;
-- updated_at TIMESTAMPTZ not null;
-- state_version BIGINT not null.
+- updated_at TIMESTAMPTZ not null.
 
 group_id is the canonical pair/basket ownership identity.
 
@@ -164,8 +163,7 @@ Required columns:
 - opened_at TIMESTAMPTZ nullable;
 - closed_at TIMESTAMPTZ nullable;
 - created_at TIMESTAMPTZ not null;
-- updated_at TIMESTAMPTZ not null;
-- state_version BIGINT not null.
+- updated_at TIMESTAMPTZ not null.
 
 Required uniqueness:
 
@@ -205,8 +203,7 @@ Required columns:
 - filled_at TIMESTAMPTZ nullable;
 - cancelled_at TIMESTAMPTZ nullable;
 - created_at TIMESTAMPTZ not null;
-- updated_at TIMESTAMPTZ not null;
-- state_version BIGINT not null.
+- updated_at TIMESTAMPTZ not null.
 
 Local state and last-known venue observation are explicitly distinct.
 

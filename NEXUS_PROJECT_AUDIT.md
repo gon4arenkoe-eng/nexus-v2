@@ -26554,3 +26554,49 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 Persistence state_version design correction
+
+Status: DESIGN CORRECTED / FACT VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Fact:
+- state_version existed only in CORE_V2_PERSISTENCE_MODEL.md;
+- no current Core Domain contract owns state_version;
+- no repository/application runtime increments or compares state_version;
+- no optimistic-concurrency contract currently exists;
+- no replay implementation uses state_version;
+- no historical implementation evidence establishes required semantics.
+
+Decision:
+- remove mandatory state_version from position_groups;
+- remove mandatory state_version from position_legs;
+- remove mandatory state_version from execution_orders;
+- do not add a persistence field with undefined ownership merely to match an earlier design document.
+
+Canonical model:
+- immutable Ledger/fill evidence remains historical truth;
+- PositionGroup / PositionLeg / ExecutionOrder remain materialized current-state projections;
+- repository remains persistence-only / flush-only;
+- application-owned transactions remain responsible for validated projection mutation plus immutable Ledger evidence.
+
+Future concurrency:
+- an explicit projection revision / optimistic concurrency mechanism may be introduced only when a real concurrency contract defines:
+  - owner;
+  - compare/increment semantics;
+  - transaction boundary;
+  - replay behavior;
+  - failure handling;
+  - tests.
+
+Reason:
+- unused version columns create false concurrency guarantees and schema complexity without providing correctness.
+
+Evidence tag:
+
+`NEXUS_V2_PERSISTENCE_STATE_VERSION_DESIGN_CORRECTION_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
