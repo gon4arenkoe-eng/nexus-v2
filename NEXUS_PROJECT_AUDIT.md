@@ -25845,3 +25845,97 @@ New V2 migration evidence:
 The Phase 2 aggregate gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+---
+
+## 2026-09-05 — Phase 2 Venue Order Contracts Migration
+
+**Phase:** 2 — Import and harden existing Core V2 foundation
+
+**Status:** TEST VERIFIED
+
+Migrated and hardened the previously verified canonical Venue order
+contracts into the new NEXUS V2 Core port layer.
+
+Implemented:
+
+- `apps/core/ports/__init__.py`
+- `apps/core/ports/venue.py`
+- `tests/test_core_venue_contracts.py`
+
+Canonical contracts:
+
+- `VenueCapability`
+- `VenueCapabilities`
+- `VenueOrderState`
+- `VenueOrderSide`
+- `VenueOrderType`
+- `VenueOrderRequest`
+- `VenueOrderResult`
+- abstract `VenueAdapter`
+
+Preserved verified behavior:
+
+- supported capabilities pass;
+- unsupported capabilities fail closed;
+- unknown capabilities fail closed;
+- MARKET orders reject limit_price;
+- LIMIT orders require positive limit_price;
+- account venue must match instrument venue;
+- order request remains immutable;
+- partial fills remain explicitly supported;
+- FILLED requires full requested quantity;
+- REJECTED requires a rejection reason;
+- UNKNOWN remains an explicit order state.
+
+Approved V2 hardening:
+
+- canonical order quantities use `Decimal`;
+- canonical limit prices use `Decimal`;
+- requested and filled quantities use `Decimal`;
+- average fill price uses `Decimal`;
+- float quantity input fails closed;
+- venue-native numeric conversion is deferred to adapter implementations.
+
+Architectural boundary verified:
+
+- no SQLAlchemy in Core port;
+- no FastAPI in Core port;
+- no exchange SDK/client dependency in Core port;
+- no raw venue payload ownership in canonical contract;
+- no reconciliation ownership introduced;
+- no VenuePosition / VenueAccountState / VenueFill observation contract
+  pulled forward from Phase 3;
+- no ExecutionCoordinator implementation introduced.
+
+Verification:
+
+- focused Venue contract tests: `16 passed`;
+- adjacent TradeIntent + Venue tests: `29 passed`;
+- full repository suite: `173 passed`;
+- Python compileall: PASS;
+- Decimal ownership check: PASS;
+- forbidden Core dependency check: PASS;
+- Phase 3 leakage check: PASS;
+- `git diff --check`: PASS.
+
+Historical source evidence:
+
+`TRADING_CORE_V2_VENUE_ADAPTER_CONTRACTS_OK`
+
+New migration evidence:
+
+`NEXUS_V2_VENUE_ORDER_CONTRACTS_MIGRATION_OK`
+
+Phase 2 aggregate gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+
+No production execution authority was introduced.
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
