@@ -25677,7 +25677,7 @@ Production safety remains:
 
 ## 2026-09-05 — Phase 1 Shared Contracts Gate Closure
 
-**Status:** GIT PUBLISHED / HOSTED CI VERIFICATION PENDING
+**Status:** GIT PUBLISHED / HOSTED CI VERIFIED
 
 ### FACT
 
@@ -25723,15 +25723,22 @@ layout/context metadata only; they do not execute trades or mutate Core state.
 
 ### STATUS
 
-`Phase 1 — DONE / LOCAL TEST VERIFIED / GIT PUBLISHED`
+`Phase 1 — DONE / TEST VERIFIED`
 
 Gate:
 
-`NEXUS_V2_SHARED_CONTRACTS_OK — LOCALLY CLOSED / GIT PUBLISHED`
+`NEXUS_V2_SHARED_CONTRACTS_OK — CLOSED`
 
 Implementation commit `1473bf5` was pushed to `origin/main`; local `HEAD` and
-`origin/main` resolve to the same commit. Hosted CI verification remains
-required before this gate is recorded as hosted-CI verified.
+`origin/main` resolve to the same commit. The user confirmed the GitHub Actions
+workflow for the published Phase 1 changes completed green.
+
+Hosted CI evidence:
+
+- repository baseline — PASS;
+- Phase 1 local development baseline — PASS;
+- shared contract suite — PASS;
+- Git whitespace check — PASS.
 
 ### NEXT STEP
 
