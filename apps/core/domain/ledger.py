@@ -9,6 +9,8 @@ from enum import StrEnum
 from types import MappingProxyType
 from typing import Any, Mapping, Sequence
 
+from packages.contracts.identities import AccountId, VenueId
+
 from packages.contracts.primitives import normalize_utc_datetime
 
 
@@ -116,8 +118,8 @@ class ExecutionLedgerEvent:
     position_leg_id: str | None
     execution_order_id: str | None
     execution_fill_id: str | None
-    account_id: int | None
-    venue_id: str | None
+    account_id: AccountId | None
+    venue_id: VenueId | None
     occurred_at: datetime
     recorded_at: datetime
     source: str
@@ -158,6 +160,26 @@ class ExecutionLedgerEvent:
             or self.user_id <= 0
         ):
             raise ValueError("user_id must be a positive integer")
+        if self.account_id is not None:
+            if not isinstance(self.account_id, AccountId):
+                raise ValueError(
+                    "account_id must be an AccountId"
+                )
+
+        if self.venue_id is not None:
+            if not isinstance(self.venue_id, VenueId):
+                raise ValueError(
+                    "venue_id must be a VenueId"
+                )
+
+        if (
+            self.account_id is not None
+            and self.venue_id is not None
+            and self.account_id.venue_id != self.venue_id
+        ):
+            raise ValueError(
+                "venue_id must match account_id venue"
+            )
 
         object.__setattr__(
             self,
@@ -173,7 +195,6 @@ class ExecutionLedgerEvent:
             "position_leg_id",
             "execution_order_id",
             "execution_fill_id",
-            "venue_id",
             "correlation_id",
             "causation_id",
         ):
@@ -185,15 +206,6 @@ class ExecutionLedgerEvent:
                     field_name=field_name,
                 ),
             )
-
-        object.__setattr__(
-            self,
-            "account_id",
-            _optional_positive_int(
-                self.account_id,
-                field_name="account_id",
-            ),
-        )
 
         occurred_at = normalize_utc_datetime(
             self.occurred_at,

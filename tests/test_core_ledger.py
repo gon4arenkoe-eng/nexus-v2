@@ -1,3 +1,4 @@
+from packages.contracts.identities import AccountId, VenueId
 from dataclasses import FrozenInstanceError
 from datetime import datetime, timedelta, timezone
 
@@ -25,6 +26,11 @@ def _event(
     occurred_at: datetime = T1,
     recorded_at: datetime = T2,
     payload: dict[str, object] | None = None,
+    account_id: AccountId | None = AccountId(
+        venue_id=VenueId("BINGX"),
+        value=1,
+    ),
+    venue_id: VenueId | None = VenueId("BINGX"),
 ) -> ExecutionLedgerEvent:
     return ExecutionLedgerEvent(
         event_id=event_id,
@@ -36,8 +42,8 @@ def _event(
         position_leg_id="leg-1",
         execution_order_id="order-1",
         execution_fill_id=None,
-        account_id=1,
-        venue_id="BINGX",
+        account_id=account_id,
+        venue_id=venue_id,
         occurred_at=occurred_at,
         recorded_at=recorded_at,
         source="execution",
@@ -224,3 +230,64 @@ def test_all_initial_event_types_are_canonical() -> None:
         "RECONCILIATION_DISCREPANCY",
         "RECONCILIATION_RESOLVED",
     }
+
+
+def test_ledger_event_accepts_canonical_account_and_venue_identity() -> None:
+    event = _event(
+        account_id=AccountId(
+            venue_id=VenueId("binance"),
+            value=17,
+        ),
+        venue_id=VenueId("BINANCE"),
+    )
+
+    assert event.account_id == AccountId(
+        venue_id=VenueId("BINANCE"),
+        value=17,
+    )
+    assert event.venue_id == VenueId("BINANCE")
+
+
+def test_ledger_event_rejects_noncanonical_account_identity() -> None:
+    with pytest.raises(
+        ValueError,
+        match="account_id must be an AccountId",
+    ):
+        _event(account_id=17)  # type: ignore[arg-type]
+
+
+def test_ledger_event_rejects_noncanonical_venue_identity() -> None:
+    with pytest.raises(
+        ValueError,
+        match="venue_id must be a VenueId",
+    ):
+        _event(venue_id="BINANCE")  # type: ignore[arg-type]
+
+
+def test_ledger_event_rejects_account_venue_mismatch() -> None:
+    with pytest.raises(
+        ValueError,
+        match="venue_id must match account_id venue",
+    ):
+        _event(
+            account_id=AccountId(
+                venue_id=VenueId("BINANCE"),
+                value=17,
+            ),
+            venue_id=VenueId("KRAKEN"),
+        )
+
+
+def test_ledger_event_allows_account_without_redundant_venue() -> None:
+    account_id = AccountId(
+        venue_id=VenueId("BINANCE"),
+        value=17,
+    )
+
+    event = _event(
+        account_id=account_id,
+        venue_id=None,
+    )
+
+    assert event.account_id == account_id
+    assert event.venue_id is None

@@ -26428,3 +26428,62 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 Ledger Canonical Identity Hardening
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Scope:
+- harden ExecutionLedgerEvent account/venue identity to canonical shared contracts;
+- no ORM;
+- no migration;
+- no repository;
+- no reconciliation;
+- no ExecutionCoordinator;
+- no venue access.
+
+Implemented:
+- ExecutionLedgerEvent.account_id changed from int | None to AccountId | None;
+- ExecutionLedgerEvent.venue_id changed from str | None to VenueId | None;
+- raw int account identity rejected;
+- raw string venue identity rejected;
+- when both account_id and venue_id are present, venues must match;
+- account_id may exist without redundant venue_id evidence;
+- removed legacy account_id positive-int coercion;
+- removed legacy venue_id generic text normalization;
+- tests use canonical AccountId/VenueId fixtures.
+
+Canonical semantics:
+- AccountId remains (VenueId, positive account value);
+- VenueId remains canonical typed venue identity;
+- historical account_id integer semantics are not retained;
+- Core Domain remains infrastructure-free.
+
+Verification:
+- focused Ledger tests: 18 passed;
+- adjacent Ledger/Order/ExecutionPlan/Position tests: 86 passed;
+- full suite: 263 passed;
+- flake8: passed;
+- mypy: passed;
+- compileall: passed;
+- legacy identity semantics guard: clean;
+- Core Domain persistence dependency guard: clean;
+- git diff --check: clean.
+
+Production authority:
+- unchanged;
+- AI promotion remains SHADOW-ONLY;
+- Advisory remains OBSERVE_ONLY;
+- Restricted Live remains DISABLED;
+- Full Live remains DISABLED;
+- AI direct exchange access remains BLOCKED.
+
+Evidence tag:
+
+`NEXUS_V2_LEDGER_CANONICAL_IDENTITY_HARDENING_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
