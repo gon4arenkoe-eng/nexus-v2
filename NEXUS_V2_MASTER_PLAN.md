@@ -1,8 +1,8 @@
 # NEXUS V2 MASTER PLAN
 
-**Version:** 1.1-draft  
-**Date:** 2026-09-03  
-**Status:** PROPOSED FOR APPROVAL — not yet canonical until committed to the project and registered in `NEXUS_PROJECT_AUDIT.md`  
+**Version:** 1.2-draft
+**Date:** 2026-09-05
+**Status:** ARCHITECTURE/ROADMAP APPROVED IN THIS CHANGESET — implementation remains NOT DONE; project/GitHub commit still required for canonical repository adoption
 **Companion:** `NEXUS_V2_FUNCTIONAL_INVENTORY.md`
 
 ---
@@ -17,6 +17,17 @@ Two documents have different responsibilities:
 - `NEXUS_PROJECT_AUDIT.md` — sole source of truth for actual current state, evidence and DONE/VERIFIED status.
 
 The Master Plan never makes an item DONE. Only Audit evidence can do that.
+
+
+### 0.1.1. Approved 2026-09-05 architecture additions
+
+The following product-architecture additions are approved for inclusion in the V2 roadmap without changing phase order:
+
+- **AIEA Product Moat Spec** — persistent research memory, hypothesis/evolution loop, falsification-first candidate evaluation, challenger/drift adaptation, evidence-bound promotion/rollback and isolated autonomous R&D.
+- **Product Entitlements / Subscriptions / Quotas** — commercial access is modeled through feature entitlements and quotas, not plan-name conditionals in business logic.
+- **NEXUS Trading Workspace Composer** — a user-configurable trading cockpit built from typed widgets, layouts, templates and linked context while preserving non-hideable safety state.
+
+These additions are **DESIGN APPROVED**, not implementation-DONE. Their implementation evidence belongs to the relevant Phase 9, Phase 10 and Phase 11 gates.
 
 ### 0.2. Working rule
 
@@ -240,7 +251,7 @@ Every PR should run, as applicable:
 
 Release images are tagged with both semantic version and immutable commit identity, for example:
 
-`ghcr.io/<owner>/nexus-core:2.1.0`  
+`ghcr.io/<owner>/nexus-core:2.1.0`
 `ghcr.io/<owner>/nexus-core:sha-<commit>`
 
 Production deploys an immutable digest and records that digest in the Audit/deployment record.
@@ -320,8 +331,8 @@ Unsupported required capabilities fail closed.
 
 ### 6.4. Venue certification priority
 
-**P0:** BingX, Binance USD-M, Bybit, OKX.  
-**P1:** Bitget, Gate.io, KuCoin Futures, Hyperliquid.  
+**P0:** BingX, Binance USD-M, Bybit, OKX.
+**P1:** Bitget, Gate.io, KuCoin Futures, Hyperliquid.
 **P2:** BitMEX, Deribit, Kraken Futures, MEXC, HTX, Coinbase International, Backpack and others after capability review.
 
 CCXT is the breadth reference; Hummingbot/Nautilus/official venue APIs validate execution semantics for critical venues.
@@ -687,6 +698,39 @@ Heavy research is off-production.
 
 Production receives only compact, versioned runtime artifacts necessary for approved inference/strategy behavior.
 
+
+### 8.8. AIEA Product Moat Spec
+
+AIEA must be product-differentiated by a complete evidence-driven evolution lifecycle, not by the marketing label "AI" alone. The following capabilities are mandatory targets for the Phase 9 gate:
+
+1. **Persistent Research Memory with provenance** — observations, hypotheses, experiments, failed candidates, lessons, dataset/code identities and evidence remain traceable and tenant-isolated.
+2. **Hypothesis Research Loop** — market/trade evidence becomes an explicit falsifiable hypothesis linked to a reproducible experiment and candidate identity.
+3. **Strategy Evolution** — new or modified strategy versions are immutable children of prior versions with machine-readable before/after specification, reason, expected effect and actual evidence. Production versions are never rewritten in place.
+4. **Falsification Engine** — candidates may be rejected by lookahead/leakage checks, realistic costs, OOS, walk-forward, regime/symbol/side instability, parameter sensitivity, capacity/liquidity, minimum-sample, tail-risk or data-quality failures.
+5. **Market Adaptation / Champion-Challenger** — drift/degradation may trigger research and challenger creation/selection, but never blind live mutation of the active production version.
+6. **Evidence-bound Promotion and Rollback** — exact dataset/code/environment/evidence identities bind promotion; independent risk/permission approval remains required; rollback targets remain deterministic and auditable.
+7. **Isolated Autonomous R&D** — automated research workers have bounded compute/time/dependency/network policy and no production credentials, VenueAdapter write access or ExecutionCoordinator authority.
+
+The canonical loop is:
+
+```text
+Evidence
+→ Memory / Knowledge Snapshot
+→ Hypothesis
+→ Candidate / New Version
+→ Falsification + Validation
+→ Comparison
+→ Lesson
+→ Challenger / Next Research Cycle
+→ Promotion Readiness
+→ Independent Risk / Permission Approval
+→ Controlled Activation
+→ Drift Monitoring
+→ Rollback / Retirement
+```
+
+AIEA success is measured by reproducibility, rejection of weak candidates, OOS/stability quality, controlled adaptation and safe handoff to Core — not by the number of generated strategies.
+
 ---
 
 ## 9. Multi-user architecture
@@ -778,6 +822,66 @@ Every safety-critical setting change emits an audit event with old/new value, ac
 
 Dangerous changes require confirmation and may require re-authentication/approval.
 
+
+### 10.1. Product Entitlements / Subscriptions / Quotas
+
+Commercial packaging is a separate product-access layer. It must never become a trading-safety authority.
+
+Canonical separation:
+
+```text
+Identity / Workspace Ownership
+→ Role Permission
+→ Feature Entitlement
+→ Quota / Resource Policy
+→ Safety / Risk / Promotion Authority
+→ Action
+```
+
+`Payment != trading authority`. A paid plan may grant access to capabilities, compute, retention, users, accounts, strategy/grid instances or AIEA workflows, but it cannot bypass Risk, Reconciliation, Promotion, tenant isolation, credential policy or live-safety gates.
+
+Target product-access entities:
+
+- `ProductPlan` — commercial bundle name/positioning only;
+- `PlanVersion` — immutable plan composition for grandfathering and safe pricing/package changes;
+- `FeatureKey` — stable capability identifier consumed by application/API/UI;
+- `PlanEntitlement` — feature access granted by a plan version;
+- `QuotaDefinition` / `QuotaSnapshot` — resource limits such as seats, accounts, instances, experiment runs, compute, retention or storage;
+- `Subscription` / `SubscriptionState` — workspace commercial state;
+- `UsageCounter` — race-safe measured usage for quota enforcement;
+- `EntitlementOverride` — audited controlled grant/revoke for beta/support/migration without changing trading safety;
+- `BillingEvent` — immutable/idempotent commercial event evidence;
+- `BillingProviderPort` — infrastructure abstraction for external billing providers; no provider SDK in Core domain.
+
+Business/application code checks stable capability keys such as:
+
+```text
+aiea.hypothesis.create
+aiea.experiment.run
+aiea.autonomous_cycle.run
+aiea.strategy_evolution.propose
+grid.instance.create
+exchange_account.connect
+strategy_instance.activate
+workspace.layout.save
+workspace.template.share
+```
+
+Plan names such as `TRADER`, `PRO` or `DESK` must not appear as branching conditions inside trading/AIEA domain logic. Plans are mutable commercial bundles over stable `FeatureKey` contracts.
+
+Mandatory invariants:
+
+- subscription downgrade/expiry may prevent new premium actions but must not disable Risk, Reconciliation, protection management, cancel/close/recovery or other risk-reducing operations;
+- billing-provider outages do not enter the deterministic Core execution path;
+- entitlement decisions are tenant-scoped and backend-authoritative;
+- UI hiding never substitutes for backend entitlement/permission checks;
+- quota enforcement is idempotent/race-safe where concurrent requests are possible;
+- every plan composition uses versioning so existing customers can be grandfathered without code forks;
+- entitlement overrides are auditable and cannot directly grant safety-critical live authority;
+- subscription, role/RBAC and strategy promotion/risk permissions remain separate state machines.
+
+Initial product packaging may use Sandbox/Trader/Pro/Desk/Enterprise or other names, but pricing and bundle composition are commercial configuration, not architectural constants.
+
 ---
 
 ## 11. NEXUS Control Plane / UI
@@ -845,6 +949,113 @@ Top-level operational cards:
 ### 11.5. Frontend technology
 
 Preferred direction: TypeScript SPA (React/Vite or equivalent) with generated API types from OpenAPI. Final framework choice is an implementation decision after UI benchmark, not a Core dependency.
+
+
+### 11.6. NEXUS Trading Workspace Composer
+
+The Control Plane is not one fixed dashboard. It provides a **personal trading cockpit** that each user can compose from approved typed widgets while the backend remains the source of truth.
+
+Canonical ownership:
+
+```text
+Workspace/Tenant
+  └── User
+      └── UserWorkspace
+          └── WorkspaceLayoutVersion
+              └── WidgetInstance(s)
+```
+
+Separate shared registry:
+
+```text
+WidgetRegistry
+  └── WidgetDefinition
+      ├── typed data contract
+      ├── supported context keys
+      ├── feature entitlement requirement
+      ├── role/action permission requirement
+      ├── minimum/default size
+      └── safety/presentation policy
+```
+
+Users may:
+
+- create multiple workspaces/tabs;
+- start from curated templates or a blank workspace;
+- add/remove/move/resize widgets;
+- choose widget metrics, table columns, sorting, filters, timeframes and data scope;
+- reorder fields/columns without altering canonical backend state;
+- save and version personal layouts;
+- reset/restore a prior layout version;
+- link widgets through typed context groups.
+
+Suggested initial templates:
+
+- `Command Center`;
+- `Active Trader`;
+- `Grid Desk`;
+- `AIEA Researcher`;
+- `Risk / Operations`;
+- `Multi-Account Desk`;
+- `Blank Workspace`.
+
+### 11.7. Widget Registry and capability-aware presentation
+
+Widgets are product capabilities, not arbitrary frontend fragments. Each widget definition is registered, versioned and tied to canonical API/event contracts.
+
+Example families include:
+
+- NAV/equity/PnL/drawdown;
+- Positions;
+- Orders/Fills;
+- Strategy/Strategy Version;
+- Grid levels/inventory/GridPnL;
+- Portfolio Risk/exposure;
+- Reconciliation/discrepancies;
+- Venue/account health;
+- Market Regime/volatility/liquidity/funding/OI;
+- News/Event context;
+- AIEA hypotheses/experiments/candidates/champion-challenger/drift;
+- Backtest/OOS/WF/comparison;
+- Audit/alerts/system health.
+
+Widget availability may depend on `FeatureKey`, role permission and owned resource scope. The frontend may display unavailable premium widgets as discoverable product capabilities, but backend authorization remains authoritative.
+
+### 11.8. Typed Context Bus
+
+Workspaces support optional linked widget groups through a typed Context Bus. Selecting a context in one widget may update all compatible widgets in the same group.
+
+Initial context keys include:
+
+- `instrument_id` / symbol;
+- `venue_id`;
+- `exchange_account_id`;
+- `strategy_id` / `strategy_version_id`;
+- `grid_instance_id`;
+- `position_group_id`;
+- `aiea_experiment_id`.
+
+Context propagation changes presentation/query scope only. It does not itself execute trades or mutate production state.
+
+### 11.9. Mandatory safety presentation layer
+
+Personalization controls presentation but must not suppress mandatory safety state. The following classes require a non-hideable global safety surface when applicable:
+
+- reconciliation `STALE / DEGRADED / UNKNOWN`;
+- market/account data stale/unavailable;
+- trading disabled / kill switch active;
+- risk-limit breach;
+- unknown order/execution outcome;
+- protection failure;
+- venue/account connectivity failure relevant to live state.
+
+Users may customize detail widgets, but cannot hide the existence/severity of active safety-critical state.
+
+### 11.10. Workspace persistence and isolation
+
+Workspace layouts and widget preferences are user-owned presentation resources. They must be tenant-scoped, versioned, independently recoverable and must never become a second source of trading truth.
+
+Shared/team templates, if enabled by entitlement, remain separate from private user layouts. Cross-user layout/data leakage is prohibited.
 
 ---
 
@@ -993,6 +1204,7 @@ Legacy strategies are not automatically considered production-worthy merely beca
 Deliverables:
 
 - approve this Master Plan;
+- approve AIEA Product Moat, Product Entitlements and Trading Workspace Composer architecture additions;
 - freeze functional inventory v1;
 - create private GitHub monorepo;
 - establish directories/contracts policy;
@@ -1012,7 +1224,9 @@ Deliver:
 - error/result contracts;
 - deterministic clock/ID providers;
 - fake venue/testkit;
-- compatibility tests.
+- compatibility tests;
+- stable product capability contracts (`FeatureKey`, entitlement decision/quota result) kept out of Core domain ownership;
+- typed Widget Manifest/Layout/Context contracts for Control Plane composition.
 
 Gate: `NEXUS_V2_SHARED_CONTRACTS_OK`
 
@@ -1120,7 +1334,11 @@ Migrate and harden existing AIEA functions into a coherent research platform:
 - model/strategy registry;
 - promotion/rollback;
 - drift/freshness;
-- isolated automated R&D worker.
+- isolated automated R&D worker;
+- persistent research-memory provenance;
+- immutable strategy before/after evolution lineage;
+- closed evidence→hypothesis→candidate→falsification→lesson loop;
+- champion/challenger drift adaptation without blind live mutation.
 
 Gate: `NEXUS_V2_AIEA_OK`
 
@@ -1128,11 +1346,34 @@ Gate: `NEXUS_V2_AIEA_OK`
 
 Deliver workspace/roles, tenant isolation, secrets layer, hierarchical settings, user-scoped background jobs/events and generic audit trail.
 
+Also deliver the product-access foundation:
+
+- `ProductPlan` / immutable `PlanVersion`;
+- stable `FeatureKey` registry;
+- workspace subscription state;
+- entitlement decision service;
+- quota definitions/usage enforcement;
+- audited overrides;
+- billing-provider port/webhook idempotency;
+- proof that billing state cannot bypass trading safety or disable risk-reducing operations.
+
 Gate: `NEXUS_V2_MULTI_USER_SECURITY_OK`
 
 ### Phase 11 — Control Plane V2
 
 Deliver modern UI with operational trading, risk, reconciliation, venue, AIEA and admin surfaces.
+
+Also deliver the Trading Workspace Composer:
+
+- Widget Registry;
+- user-owned multi-workspace layouts;
+- layout versioning/recovery;
+- curated templates + blank workspace;
+- per-widget metrics/columns/filter/timeframe configuration;
+- typed Context Bus;
+- entitlement/role-aware widget availability;
+- non-hideable mandatory safety presentation;
+- tenant-isolation tests for layouts, templates and realtime widget data.
 
 Gate: `NEXUS_V2_CONTROL_PLANE_OK`
 

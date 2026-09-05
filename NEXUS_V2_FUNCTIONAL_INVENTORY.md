@@ -1,7 +1,7 @@
 # NEXUS V2 — Functional Capability Inventory
 
-**Version:** 1.0-draft  
-**Date:** 2026-09-03  
+**Version:** 1.1-draft
+**Date:** 2026-09-05
 **Purpose:** Prevent functional loss during the migration from legacy NEXUS V10 to NEXUS V2.
 
 ## 0. Evidence basis and status semantics
@@ -46,6 +46,25 @@ Migration actions:
 | User preferences | basic settings exist | PARTIAL | REBUILD | Settings service/domain | versioned per-user settings |
 | User-scoped realtime events | current WS not proven user-scoped | PARTIAL | REBUILD | Control Plane Event Gateway | auth + tenant isolation WS tests |
 | Audit trail for user actions | AI audit exists; generic product audit incomplete | PARTIAL | EXTEND | Audit/Event layer | actor/action/resource immutable audit |
+
+## 1A. Product access / subscriptions / entitlements / quotas
+
+| Capability | Current evidence | Current status | V2 action | Canonical V2 owner | Parity / acceptance gate |
+|---|---|---:|---|---|---|
+| Workspace subscription model | no subscription/billing model found in snapshot | MISSING | NEW | Product Access / Control Plane | tenant-scoped subscription tests |
+| Immutable plan versions | not established | MISSING | NEW | Product Access | grandfathering/version-change tests |
+| Stable feature entitlement keys | not established | MISSING | NEW | Product Access contracts | plan-independent feature checks |
+| Entitlement decision service | not established | MISSING | NEW | Product Access application service | backend authorization tests |
+| Quota definitions and usage counters | not established | MISSING | NEW | Product Access | race-safe quota tests |
+| Audited entitlement override | not established | MISSING | NEW | Product Access + Audit | actor/old/new/reason audit tests |
+| Billing-provider abstraction | not established | MISSING | NEW | Billing adapter/port | provider-independence tests |
+| Billing webhook idempotency | not established | MISSING | NEW | Billing adapter | duplicate/out-of-order event tests |
+| Plan name absent from trading logic | no canonical model yet | PLANNED | NEW invariant | Architecture | static/dependency checks |
+| Payment != trading authority | existing safety is separate but commercial layer absent | PLANNED | KEEP/NEW invariant | Product Access + Core safety boundary | entitlement cannot bypass Risk/Promotion tests |
+| Subscription expiry safe behavior | not established | MISSING | NEW | Product Access + Core application boundary | close/cancel/reconcile/protection remain available |
+| Billing outage isolation from Core | no billing subsystem exists | MISSING | NEW | Architecture | fault test: provider unavailable while Core remains safe |
+
+Commercial plan names/prices are configuration. V2 business logic consumes stable `FeatureKey`/quota decisions rather than `if plan == ...` branches.
 
 ## 2. Exchange / venue capabilities
 
@@ -205,6 +224,13 @@ Migration actions:
 | Rollback | service | OBSERVED | KEEP/EXTEND | deterministic rollback |
 | Production safety | service | AUDIT-IMPORTANT | KEEP invariant | AI direct exchange blocked |
 | Automated R&D loop | partial | PARTIAL | EXTEND using RD-Agent/Qlib patterns | sandbox + bounded loop |
+| Persistent research-memory provenance | memory/lessons exist; full closed-loop provenance partial | PARTIAL | EXTEND | exact observation/hypothesis/experiment/dataset/version lineage |
+| Autonomous strategy evolution | versioning exists; autonomous modify/retest lifecycle not proven | MISSING/PARTIAL | NEW/EXTEND | immutable parent→child before/after spec + validation |
+| Falsification-first unified gate | OOS/WF/lookahead components exist; unified candidate-kill policy incomplete | PARTIAL | EXTEND | predeclared fail criteria + deterministic rejection evidence |
+| Closed evidence→lesson→next-cycle loop | components exist separately | PARTIAL | EXTEND | reproducible cycle identity + no duplicate blind retest |
+| Champion/challenger market adaptation | comparison/drift pieces partial | PARTIAL | EXTEND | drift evidence → challenger → controlled promotion |
+| Evidence-bound promotion/rollback | promotion/rollback evidence exists | AUDIT VERIFIED | KEEP/EXTEND | exact artifact/data/evidence binding + rollback lineage |
+| Autonomous R&D execution isolation | concept required; production-grade sandbox not proven | PARTIAL | NEW/EXTEND | no credentials/exchange write + bounded compute/network/dependency policy |
 | Model registry/artifact store | partial strategy versions only | MISSING/PARTIAL | NEW | model hash + dataset lineage |
 | Model drift/freshness | partial shadow stability | PARTIAL | EXTEND | drift policy |
 | False discovery / multiple hypothesis control | StatArb research only | PARTIAL | EXTEND platform-wide | research gate |
@@ -235,6 +261,16 @@ Migration actions:
 | AIEA Research Center | not present in legacy UI | MISSING | NEW | experiments/candidates/evidence |
 | Model/strategy promotion UI | not present | MISSING | NEW | permissioned approval workflow |
 | Multi-user admin console | limited admin endpoints | PARTIAL | EXTEND | tenants/users/roles/audit |
+| Trading Workspace Composer | fixed legacy dashboard; no saved composer found | MISSING | NEW | user-owned layout E2E |
+| Widget Registry | no typed widget registry found | MISSING | NEW | manifest/version/contract tests |
+| Multiple personal workspaces/tabs | not established | MISSING | NEW | per-user create/save/switch/restore tests |
+| Layout drag/resize/reorder | not established | MISSING | NEW | deterministic layout persistence tests |
+| Per-widget metrics/columns/filter/timeframe config | fixed dashboard presentation | MISSING | NEW | preference schema + restore tests |
+| Workspace templates + blank workspace | not established | MISSING | NEW | curated/private/shared template tests |
+| Typed Context Bus / linked widgets | not established | MISSING | NEW | symbol/account/strategy/grid/experiment context tests |
+| Entitlement-aware widgets | no entitlement layer exists | MISSING | NEW | backend feature decision + UI discovery tests |
+| Non-hideable safety state | dashboard safety surfaces partial, no composer policy | MISSING/PARTIAL | NEW invariant | STALE/DEGRADED/UNKNOWN/risk/kill-switch visibility tests |
+| Layout tenant/user isolation | underlying user isolation only | MISSING | NEW | cross-user/cross-tenant negative tests |
 | Accessibility | not established | MISSING | NEW | keyboard/contrast/ARIA QA |
 
 ## 10. API / realtime / integration
@@ -296,8 +332,8 @@ No historical code/data is automatically deleted.
 3. Portfolio-level risk ownership.
 4. Canonical typed event model and authenticated event delivery.
 5. Startup recovery before strategy activation.
-6. Full multi-user tenancy/RBAC/settings architecture.
-7. V2 Control Plane including reconciliation and AIEA views.
+6. Full multi-user tenancy/RBAC/settings architecture plus Product Entitlements / Subscriptions / Quotas.
+7. V2 Control Plane including Trading Workspace Composer, reconciliation and AIEA views.
 8. Off-production research/model/data infrastructure for AIEA.
 9. Production-grade multi-venue adapter certification.
 10. CI/CD supply-chain hardening and immutable image deployment.
