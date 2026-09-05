@@ -46,3 +46,7 @@ dist/
 build/
 
 *.egg-info/
+# Source-code persistence models must remain tracked.
+!infra/persistence/models/
+infra/persistence/models/*
+!infra/persistence/models/*.py

@@ -26487,3 +26487,70 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 Execution Plan ORM Slice
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Scope:
+- canonical persistence ORM for execution_plans;
+- canonical persistence ORM for execution_plan_legs;
+- no Alembic revision yet;
+- no repository;
+- no reconciliation;
+- no ExecutionCoordinator;
+- no venue access.
+
+Implemented:
+- execution_plans registered on PersistenceBase metadata;
+- execution_plan_legs registered on PersistenceBase metadata;
+- persistence-internal BIGINT surrogate primary keys;
+- canonical plan_id retained as unique business identity;
+- execution_plan_legs FK targets execution_plans.plan_id;
+- UNIQUE(plan_id, leg_id);
+- UNIQUE(order_id);
+- UNIQUE(client_order_id);
+- canonical AccountId flattened to venue_id + account_value;
+- InstrumentId flattened to venue/native_symbol/instrument_type/asset_class;
+- Decimal quantity and limit_price use NUMERIC(38,18);
+- created_at/recorded_at use timezone-aware SQLAlchemy DateTime;
+- PostgreSQL metadata column compiles as JSONB;
+- rich plan fields include recorded_at/schema_version/metadata;
+- persistence source models are tracked despite generic models/ ignore;
+- generated __pycache__/pyc artifacts remain ignored.
+
+Architecture:
+- Core Domain has no SQLAlchemy/Alembic/infra.persistence dependency;
+- canonical business identities remain authoritative;
+- database surrogate IDs remain persistence-only;
+- no migration/schema applied yet.
+
+Verification:
+- focused ORM tests: 10 passed;
+- adjacent persistence/execution/identity tests: 77 passed;
+- full suite: 273 passed;
+- flake8: passed;
+- mypy: passed;
+- compileall: passed;
+- domain dependency guard: clean;
+- migration guard: clean;
+- generated-artifact Git visibility guard: clean;
+- git diff --check: clean.
+
+Production authority:
+- unchanged;
+- AI promotion remains SHADOW-ONLY;
+- Advisory remains OBSERVE_ONLY;
+- Restricted Live remains DISABLED;
+- Full Live remains DISABLED;
+- AI direct exchange access remains BLOCKED.
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_PLAN_ORM_SLICE_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
