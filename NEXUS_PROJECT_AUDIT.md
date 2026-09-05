@@ -25677,7 +25677,7 @@ Production safety remains:
 
 ## 2026-09-05 — Phase 1 Shared Contracts Gate Closure
 
-**Status:** LOCAL TEST VERIFIED / GIT PUBLICATION PENDING
+**Status:** GIT PUBLISHED / HOSTED CI VERIFICATION PENDING
 
 ### FACT
 
@@ -25723,14 +25723,15 @@ layout/context metadata only; they do not execute trades or mutate Core state.
 
 ### STATUS
 
-`Phase 1 — DONE / LOCAL TEST VERIFIED`
+`Phase 1 — DONE / LOCAL TEST VERIFIED / GIT PUBLISHED`
 
 Gate:
 
-`NEXUS_V2_SHARED_CONTRACTS_OK — LOCALLY CLOSED`
+`NEXUS_V2_SHARED_CONTRACTS_OK — LOCALLY CLOSED / GIT PUBLISHED`
 
-Git publication and hosted CI verification remain required before this gate is
-recorded as repository-published/hosted-CI verified.
+Implementation commit `1473bf5` was pushed to `origin/main`; local `HEAD` and
+`origin/main` resolve to the same commit. Hosted CI verification remains
+required before this gate is recorded as hosted-CI verified.
 
 ### NEXT STEP
 
