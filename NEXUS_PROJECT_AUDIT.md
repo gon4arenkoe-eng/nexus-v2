@@ -25252,3 +25252,66 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+---
+
+## 2026-09-05 — Phase 1 Canonical Identity Contracts
+
+**Status:** TEST VERIFIED
+
+Implemented canonical shared identity contracts in the V2 monorepo:
+
+- `packages/contracts/identities.py`
+- `packages/contracts/__init__.py`
+- `tests/test_contract_identities.py`
+- `tests/__init__.py`
+
+Implemented contracts:
+
+- `AssetClass`
+- `InstrumentType`
+- `VenueId`
+- `AccountId`
+- `InstrumentId`
+
+Verified invariants:
+
+- identities are immutable;
+- `VenueId` is non-empty and normalized;
+- `AccountId` is venue-aware and requires a positive integer identity;
+- `InstrumentId` is venue-aware;
+- native symbol is non-empty and normalized;
+- instrument type is part of identity;
+- asset class is part of identity;
+- the same native ticker on different venues produces different `InstrumentId` values;
+- no exchange SDK / SQLAlchemy / FastAPI / HTTP client dependency exists in `packages/contracts`.
+
+Verification evidence:
+
+- Python: `3.13.14`
+- focused pytest: `16 passed`
+- compile: PASS
+- `scripts/dev_check.py`: PASS
+- staged diff check: PASS
+- EOF newline check: PASS
+- forbidden-import check: PASS
+
+Evidence tag:
+
+- `TRADING_CORE_V2_IDENTITY_CONTRACTS_OK`
+
+Important scope boundary:
+
+- TradeIntent was NOT implemented in this step;
+- no SQLAlchemy models or migrations changed;
+- no exchange adapters changed;
+- no production permissions changed;
+- no live authority expanded.
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
