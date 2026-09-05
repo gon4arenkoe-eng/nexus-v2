@@ -25604,3 +25604,71 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+---
+
+## 2026-09-05 — Phase 1 Fake Venue Testkit
+
+**Status:** TEST VERIFIED
+
+Implemented deterministic generic fake venue test infrastructure:
+
+- `packages/testkit/fake_venue.py`
+- `tests/test_fake_venue.py`
+
+Implemented behavior:
+
+- scripted FIFO submit outcomes;
+- scripted FIFO cancel outcomes;
+- deterministic submit call recording;
+- deterministic cancel call recording;
+- immutable recorded-call views;
+- explicit failure when scripted result sequence is exhausted;
+- attempted submit/cancel is recorded before missing-result failure;
+- cancel `client_order_id` is normalized by trimming;
+- invalid cancel identity fails closed;
+- fake venue preserves arbitrary scripted outcomes without interpreting venue lifecycle semantics.
+
+Architecture boundary:
+
+- FakeVenue lives in `packages/testkit`;
+- no exchange SDK dependency;
+- no SQLAlchemy/FastAPI dependency;
+- no canonical VenueAdapter DTO was redefined;
+- no `VenueOrderState`;
+- no `VenueOrderRequest`;
+- no `VenueOrderResult`;
+- no `VenuePosition`;
+- no `VenueFill`;
+- no Reconciliation ownership;
+- no ExecutionCoordinator ownership;
+- no production exchange access.
+
+Scope intent:
+
+- FakeVenue is a deterministic programmable test boundary only;
+- verified legacy VenueAdapter semantics remain migration input for Phase 2;
+- Phase 3 position/fill observation contracts are not pulled forward;
+- unknown-outcome/recovery policy remains owned by later execution/reconciliation phases.
+
+Verification evidence:
+
+- focused FakeVenue tests: `17 passed`;
+- full current pytest suite: `109 passed`;
+- compile: PASS;
+- `scripts/dev_check.py`: PASS;
+- precise forbidden-import check: PASS;
+- premature canonical-contract check: PASS;
+- staged diff check: PASS.
+
+Evidence tag:
+
+- `NEXUS_V2_FAKE_VENUE_TESTKIT_OK`
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
