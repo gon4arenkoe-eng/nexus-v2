@@ -26102,3 +26102,66 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 ExecutionOrder / ExecutionFill V2 migration and hardening
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Legacy behavior preserved:
+- ExecutionOrder remains the canonical order lifecycle projection;
+- ExecutionOrder preserves canonical order identity, execution-plan ownership, position-leg ownership, account/instrument identity, client/venue order identities, side/type, requested/filled quantities, average fill price, optional limit price, reduce_only, rejection reason and lifecycle timestamps;
+- client_order_id remains the canonical order idempotency boundary;
+- ExecutionFill remains immutable fill-level execution evidence;
+- ExecutionFill preserves canonical fill_id, execution-order ownership, optional venue_fill_id, quantity, price, fee, fee currency, executed_at and created_at;
+- ExecutionOrder filled quantities and average fill prices remain projections derived from persisted fill evidence;
+- nullable venue_fill_id does not itself provide deduplication;
+- deterministic canonical fill_id generation for fills without venue_fill_id remains owned by application/reconciliation logic and must be stable across retries/restarts.
+
+Approved V2 hardening:
+- ExecutionOrderStatus: PENDING, SUBMITTED, ACCEPTED, PARTIALLY_FILLED, FILLED, CANCELLED, REJECTED, UNKNOWN;
+- ExecutionOrderStatus remains distinct from venue-adapter observation state;
+- canonical AccountId and InstrumentId are used in Core Domain;
+- requested_quantity uses finite positive Decimal;
+- filled_quantity uses finite non-negative Decimal and cannot exceed requested_quantity;
+- positive filled_quantity requires average_fill_price;
+- MARKET forbids limit_price and LIMIT requires positive limit_price;
+- PARTIALLY_FILLED requires strict partial quantity;
+- FILLED requires filled_quantity == requested_quantity;
+- CANCELLED may preserve partial fill projection;
+- UNKNOWN supports fail-closed restart/reconciliation recovery state;
+- rejection_reason is reserved for REJECTED state;
+- timestamps are timezone-aware, UTC-normalized and checked for chronological consistency;
+- ExecutionFill quantity/price are positive finite Decimal;
+- ExecutionFill fee is non-negative finite Decimal;
+- positive fee requires fee_currency;
+- ExecutionFill remains immutable;
+- domain objects do not generate random or unstable idempotency identities.
+
+Architecture:
+- Core Domain does not import ports;
+- no VenueAdapter dependency;
+- no SQLAlchemy/FastAPI dependency;
+- no repository implementation;
+- no Reconciliation implementation;
+- no ExecutionCoordinator implementation;
+- no transaction ownership added;
+- production authority unchanged.
+
+Verification:
+- focused ExecutionOrder/ExecutionFill tests: 20 passed;
+- adjacent execution-plan/position/order/fill/venue tests: 84 passed;
+- full suite: 241 passed;
+- flake8: exit 0;
+- mypy apps/core --explicit-package-bases --ignore-missing-imports: exit 0;
+- compileall: exit 0;
+- git diff --check: clean.
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_ORDER_FILL_MIGRATION_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
