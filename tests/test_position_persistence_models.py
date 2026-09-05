@@ -21,6 +21,8 @@ def test_position_tables_registered_with_existing_execution_tables() -> None:
         "execution_plan_legs",
         "position_groups",
         "position_legs",
+        "execution_orders",
+        "execution_fills",
     }
 
     assert ExecutionPlanModel.__tablename__ == "execution_plans"

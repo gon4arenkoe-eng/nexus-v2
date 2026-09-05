@@ -26812,3 +26812,89 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 ExecutionOrder / ExecutionFill ORM persistence slice
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Implemented:
+- ExecutionOrderModel;
+- ExecutionFillModel;
+- persistence registry updated to expose/register all canonical execution/position models.
+
+ExecutionOrder persistence:
+- canonical `order_id` retained;
+- `plan_id → execution_plans.plan_id`;
+- canonical PositionLeg ownership through composite `(group_id, leg_id)`;
+- unique `order_id`;
+- unique `client_order_id`;
+- canonical AccountId flattened to `venue_id + account_value`;
+- InstrumentId flattened to venue/native-symbol/type/asset-class fields;
+- local state stored as `local_status`;
+- last-known venue observation stored separately as:
+  - `last_venue_status`;
+  - `last_venue_observed_at`;
+  - `venue_observation_source`;
+- requested/fill quantities and prices use `NUMERIC(38,18)`;
+- no `state_version`.
+
+ExecutionFill persistence:
+- canonical `fill_id` independently unique;
+- `order_id → execution_orders.order_id`;
+- canonical user/venue/account ownership persisted;
+- venue fill dedup scoped by `(venue_id, account_value, venue_fill_id)`;
+- nullable `venue_fill_id` is not globally unique;
+- quantity/price/fee use `NUMERIC(38,18)`;
+- rich evidence fields include:
+  - `executed_at`;
+  - `received_at`;
+  - `created_at`;
+  - `source`;
+  - `raw_evidence_hash`.
+
+Database guards:
+- positive user/account ownership;
+- matching account/instrument venue;
+- positive requested quantity;
+- non-negative fill quantity;
+- filled quantity cannot exceed requested;
+- positive prices where present;
+- positive fill quantity and price;
+- non-negative fee;
+- positive fee requires fee currency.
+
+Architecture:
+- Core Domain remains independent of SQLAlchemy/Alembic/persistence;
+- no migration created;
+- no repository created;
+- no reconciliation logic;
+- no ExecutionCoordinator logic;
+- no venue access;
+- no production authority change.
+
+Verification:
+- focused persistence: 44 passed;
+- adjacent Core + persistence: 132 passed;
+- full regression: 305 passed;
+- flake8: passed;
+- mypy: passed;
+- compileall: passed;
+- PostgreSQL DDL compilation tests: passed;
+- persistence metadata contains exactly:
+  - execution_plans;
+  - execution_plan_legs;
+  - position_groups;
+  - position_legs;
+  - execution_orders;
+  - execution_fills;
+- git diff --check: clean.
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_ORDER_FILL_ORM_SLICE_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
