@@ -8,6 +8,8 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import FrozenSet
 
+from apps.core.domain.orders import OrderSide, OrderType
+
 from packages.contracts.identities import (
     AccountId,
     InstrumentId,
@@ -55,16 +57,6 @@ class VenueOrderState(StrEnum):
     UNKNOWN = "UNKNOWN"
 
 
-class VenueOrderSide(StrEnum):
-    BUY = "BUY"
-    SELL = "SELL"
-
-
-class VenueOrderType(StrEnum):
-    MARKET = "MARKET"
-    LIMIT = "LIMIT"
-
-
 def _require_non_empty_text(
     value: str,
     *,
@@ -86,9 +78,9 @@ class VenueOrderRequest:
     client_order_id: str
     account_id: AccountId
     instrument_id: InstrumentId
-    side: VenueOrderSide
+    side: OrderSide
     quantity: Decimal
-    order_type: VenueOrderType
+    order_type: OrderType
     limit_price: Decimal | None = None
     reduce_only: bool = False
 
@@ -115,12 +107,12 @@ class VenueOrderRequest:
                 "account venue must match instrument venue"
             )
 
-        if not isinstance(self.side, VenueOrderSide):
-            raise ValueError("side must be a VenueOrderSide")
+        if not isinstance(self.side, OrderSide):
+            raise ValueError("side must be an OrderSide")
 
-        if not isinstance(self.order_type, VenueOrderType):
+        if not isinstance(self.order_type, OrderType):
             raise ValueError(
-                "order_type must be a VenueOrderType"
+                "order_type must be an OrderType"
             )
 
         object.__setattr__(
@@ -132,13 +124,13 @@ class VenueOrderRequest:
             ),
         )
 
-        if self.order_type is VenueOrderType.MARKET:
+        if self.order_type is OrderType.MARKET:
             if self.limit_price is not None:
                 raise ValueError(
                     "MARKET order must not define limit_price"
                 )
 
-        elif self.order_type is VenueOrderType.LIMIT:
+        elif self.order_type is OrderType.LIMIT:
             if self.limit_price is None:
                 raise ValueError(
                     "LIMIT order requires limit_price"

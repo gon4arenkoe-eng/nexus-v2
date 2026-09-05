@@ -5,14 +5,13 @@ from decimal import Decimal
 
 import pytest
 
+from apps.core.domain.orders import OrderSide, OrderType
 from apps.core.ports.venue import (
     VenueCapabilities,
     VenueCapability,
     VenueOrderRequest,
     VenueOrderResult,
-    VenueOrderSide,
     VenueOrderState,
-    VenueOrderType,
 )
 from packages.contracts.identities import (
     AccountId,
@@ -45,7 +44,7 @@ def _identities(
 
 def _request(
     *,
-    order_type: VenueOrderType = VenueOrderType.MARKET,
+    order_type: OrderType = OrderType.MARKET,
     quantity: Decimal = Decimal("1"),
     limit_price: Decimal | None = None,
 ) -> VenueOrderRequest:
@@ -55,7 +54,7 @@ def _request(
         client_order_id="client-1",
         account_id=account_id,
         instrument_id=instrument_id,
-        side=VenueOrderSide.BUY,
+        side=OrderSide.BUY,
         quantity=quantity,
         order_type=order_type,
         limit_price=limit_price,
@@ -98,14 +97,14 @@ def test_market_order_is_valid_without_limit_price() -> None:
 def test_market_order_rejects_limit_price() -> None:
     with pytest.raises(ValueError):
         _request(
-            order_type=VenueOrderType.MARKET,
+            order_type=OrderType.MARKET,
             limit_price=Decimal("100"),
         )
 
 
 def test_limit_order_requires_positive_limit_price() -> None:
     request = _request(
-        order_type=VenueOrderType.LIMIT,
+        order_type=OrderType.LIMIT,
         limit_price=Decimal("100"),
     )
 
@@ -113,13 +112,13 @@ def test_limit_order_requires_positive_limit_price() -> None:
 
     with pytest.raises(ValueError):
         _request(
-            order_type=VenueOrderType.LIMIT,
+            order_type=OrderType.LIMIT,
             limit_price=None,
         )
 
     with pytest.raises(ValueError):
         _request(
-            order_type=VenueOrderType.LIMIT,
+            order_type=OrderType.LIMIT,
             limit_price=Decimal("0"),
         )
 
@@ -150,9 +149,9 @@ def test_account_venue_must_match_instrument_venue() -> None:
             client_order_id="client-1",
             account_id=account_id,
             instrument_id=instrument_id,
-            side=VenueOrderSide.BUY,
+            side=OrderSide.BUY,
             quantity=Decimal("1"),
-            order_type=VenueOrderType.MARKET,
+            order_type=OrderType.MARKET,
         )
 
 

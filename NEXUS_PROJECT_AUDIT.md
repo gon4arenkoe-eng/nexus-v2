@@ -25939,3 +25939,53 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+## 2026-09-05 — Phase 2 Canonical Order Types Domain Ownership
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Scope:
+- corrected canonical ownership of generic order side/type semantics;
+- removed VenueOrderSide;
+- removed VenueOrderType;
+- introduced apps/core/domain/orders.py;
+- canonical OrderSide values: BUY, SELL;
+- canonical OrderType values: MARKET, LIMIT;
+- updated VenueOrderRequest to consume canonical Core Domain types directly;
+- updated venue contract tests to consume canonical Core Domain types directly.
+
+Architecture:
+- OrderSide and OrderType are generic Core trading semantics, not venue-owned semantics;
+- Core Domain does not import apps.core.ports;
+- Venue port imports canonical domain order types;
+- no compatibility aliases or temporary duplicate order enums remain;
+- venue-specific adapters remain responsible for future canonical-to-native mapping;
+- no Phase 3 reconciliation logic added;
+- no Phase 4 ExecutionCoordinator logic added;
+- production authority unchanged.
+
+Verification:
+- old VenueOrderSide/VenueOrderType references: 0;
+- domain -> ports dependency scan: clean;
+- focused venue contracts: 16 passed;
+- adjacent TradeIntent + Venue contracts: 29 passed;
+- full suite: 173 passed;
+- Python compileall: exit 0;
+- flake8 changed files: exit 0;
+- mypy apps/core --explicit-package-bases --ignore-missing-imports:
+  Success: no issues found in 6 source files;
+- canonical Python import verified as apps.core.domain.orders;
+- git diff --check: clean.
+
+Evidence tag:
+
+`NEXUS_V2_CANONICAL_ORDER_TYPES_OWNERSHIP_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+
+Primary next requirement:
+- migrate the verified immutable ExecutionPlan / ExecutionLegPlan domain contract using canonical Core Domain OrderType without domain -> port dependency.
