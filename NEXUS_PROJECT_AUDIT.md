@@ -25375,3 +25375,76 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+---
+
+## 2026-09-05 — Phase 1 Typed Event Envelope
+
+**Status:** TEST VERIFIED
+
+Implemented reusable shared typed event envelope:
+
+- `packages/contracts/events.py`
+- `tests/test_contract_events.py`
+
+Canonical shared event semantics verified:
+
+- immutable/frozen `EventEnvelope`;
+- generic typed payload;
+- required `event_id`;
+- required `event_type`;
+- positive integer `event_version`;
+- required `source`;
+- required timezone-aware `occurred_at`;
+- required timezone-aware `recorded_at`;
+- event timestamps normalize to UTC;
+- `occurred_at` and `recorded_at` remain semantically distinct;
+- optional `correlation_id`;
+- optional `causation_id`;
+- empty required/optional lineage text fails closed.
+
+Scope boundary:
+
+- no execution-specific lineage added to shared contracts;
+- no `user_id`, `execution_plan_id`, group/leg/order/fill/account/venue ownership added here;
+- no EventType enum introduced;
+- no automatic event ID generation introduced;
+- no automatic clock / `recorded_at` generation introduced;
+- no event sequence/reconnect delivery semantics introduced;
+- no WebSocket/Event Gateway implementation introduced;
+- no SQLAlchemy/FastAPI/exchange SDK dependency introduced.
+
+Compatibility with verified Ledger semantics:
+
+- preserves `event_id`;
+- preserves `event_type`;
+- preserves `event_version`;
+- preserves `source`;
+- preserves `occurred_at`;
+- preserves `recorded_at`;
+- preserves `correlation_id`;
+- preserves `causation_id`;
+- preserves generic payload boundary.
+
+Verification evidence:
+
+- Python: `3.13.14`
+- focused event tests: `18 passed`
+- all contract tests: `52 passed`
+- full current pytest suite: `52 passed`
+- compile: PASS
+- `scripts/dev_check.py`: PASS
+- staged diff check: PASS
+- forbidden-import check: PASS
+
+Evidence tag:
+
+- `NEXUS_V2_TYPED_EVENT_ENVELOPE_OK`
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
