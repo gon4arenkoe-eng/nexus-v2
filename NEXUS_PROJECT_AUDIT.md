@@ -25448,3 +25448,77 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+---
+
+## 2026-09-05 — Phase 1 Error / Result Contracts
+
+**Status:** TEST VERIFIED
+
+Implemented canonical shared operational result contracts:
+
+- `packages/contracts/results.py`
+- `tests/test_contract_results.py`
+
+Implemented shared contracts:
+
+- immutable `ErrorInfo`;
+- immutable generic `Success[T]`;
+- immutable `Failure`;
+- typed `Result[T] = Success[T] | Failure`.
+
+Verified `ErrorInfo` semantics:
+
+- required stable machine-readable `code`;
+- required human-readable `message`;
+- explicit boolean `retryable`;
+- required text is normalized by trimming;
+- empty required text fails closed;
+- invalid `retryable` types fail closed.
+
+Verified result semantics:
+
+- `Success[T]` preserves typed values;
+- `Success(None)` is valid;
+- `Failure` requires canonical `ErrorInfo`;
+- result objects are immutable.
+
+Scope boundary:
+
+- no FastAPI dependency;
+- no `HTTPException`;
+- no HTTP status ownership;
+- no headers/transport semantics;
+- no Core execution ownership;
+- no exception serialization;
+- no automatic logging behavior;
+- invariant validation continues to use fail-fast exceptions where appropriate.
+
+Canonical separation:
+
+- invariant/programming violation → exception;
+- expected operational failure → `Failure(ErrorInfo)`;
+- expected success → `Success[T]`;
+- HTTP/API representation remains adapter/API-layer responsibility.
+
+Verification evidence:
+
+- focused result tests: `22 passed`;
+- all contract tests: `74 passed`;
+- full current pytest suite: `74 passed`;
+- compile: PASS;
+- `scripts/dev_check.py`: PASS;
+- forbidden-import check: PASS;
+- staged diff check: PASS.
+
+Evidence tag:
+
+- `NEXUS_V2_ERROR_RESULT_CONTRACTS_OK`
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
