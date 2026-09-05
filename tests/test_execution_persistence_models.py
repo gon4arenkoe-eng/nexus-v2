@@ -14,10 +14,12 @@ from infra.persistence.models.execution import (
 
 
 def test_execution_plan_tables_registered() -> None:
-    assert set(PersistenceBase.metadata.tables) == {
+    tables = set(PersistenceBase.metadata.tables)
+
+    assert {
         "execution_plans",
         "execution_plan_legs",
-    }
+    }.issubset(tables)
 
 
 def test_execution_plan_model_uses_canonical_plan_id() -> None:

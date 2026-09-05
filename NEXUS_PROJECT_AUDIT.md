@@ -26600,3 +26600,99 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 PositionGroup / PositionLeg Persistence ORM Slice
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Scope:
+- canonical persistence ORM for position_groups;
+- canonical persistence ORM for position_legs;
+- persistence model registry update;
+- execution metadata regression test corrected for extensible shared metadata;
+- no Alembic revision;
+- no repository;
+- no application writer;
+- no reconciliation;
+- no ExecutionCoordinator;
+- no venue access.
+
+PositionGroup persistence:
+- persistence-internal BIGINT surrogate primary key;
+- canonical group_id unique business identity;
+- canonical plan_id FK to execution_plans.plan_id;
+- user ownership;
+- shape / strategy / strategy_version / trade_source lineage;
+- materialized lifecycle status;
+- opened_at / closed_at / created_at / updated_at timezone-aware timestamps.
+
+PositionLeg persistence:
+- persistence-internal BIGINT surrogate primary key;
+- canonical identity UNIQUE(group_id, leg_id);
+- canonical group_id FK to position_groups.group_id;
+- AccountId flattened to venue_id + account_value;
+- InstrumentId flattened to instrument_venue_id + native_symbol + instrument_type + asset_class;
+- side;
+- target_quantity;
+- filled_quantity;
+- current_quantity;
+- average_entry_price;
+- average_exit_price;
+- materialized lifecycle status;
+- opened_at / closed_at / created_at / updated_at timezone-aware timestamps.
+
+Database guards:
+- account_value > 0;
+- account venue equals instrument venue;
+- target_quantity > 0;
+- filled_quantity >= 0;
+- current_quantity >= 0;
+- average entry/exit prices nullable or positive;
+- quantities/prices use NUMERIC(38,18).
+
+Architecture:
+- PositionGroup / PositionLeg remain materialized current-state projections;
+- immutable Ledger / Fill evidence remains historical truth;
+- no unowned state_version field;
+- Core Domain remains persistence-free;
+- canonical business IDs remain authoritative;
+- surrogate database IDs remain infrastructure-only.
+
+Test correction:
+- previous execution persistence test incorrectly required PersistenceBase metadata to contain exactly two tables;
+- it now verifies execution tables are present as a subset of shared extensible metadata;
+- position persistence tests verify the full currently expected metadata set;
+- no production semantics were weakened.
+
+Verification:
+- execution persistence focused: 10 passed;
+- position persistence focused: 14 passed;
+- adjacent persistence/domain/identity suite: 108 passed;
+- full suite: 287 passed;
+- flake8: passed;
+- mypy: passed;
+- compileall: passed;
+- metadata proof: passed;
+- Core dependency guard: clean;
+- state_version guard: clean;
+- migration guard: clean;
+- generated artifact guard: clean;
+- git diff --check: clean.
+
+Production authority:
+- unchanged;
+- AI promotion remains SHADOW-ONLY;
+- Advisory remains OBSERVE_ONLY;
+- Restricted Live remains DISABLED;
+- Full Live remains DISABLED;
+- AI direct exchange access remains BLOCKED.
+
+Evidence tag:
+
+`NEXUS_V2_POSITION_PERSISTENCE_ORM_SLICE_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
