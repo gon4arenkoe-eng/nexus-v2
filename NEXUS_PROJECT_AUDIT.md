@@ -26696,3 +26696,61 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 Hosted CI project dependency bootstrap repair
+
+Status: FIX VERIFIED LOCALLY / HOSTED CI PENDING
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Fact:
+- hosted CI workflow created a clean Python 3.13 environment;
+- repository baseline and dev baseline passed;
+- workflow installed only pytest before running the full test suite;
+- project dependencies from pyproject.toml were not installed;
+- clean CI reproduction showed sqlalchemy, alembic and asyncpg unavailable;
+- pytest collection failed with ModuleNotFoundError for sqlalchemy.
+
+Root cause:
+- .github/workflows/ci.yml did not install the project or its declared dependencies before running tests.
+
+Fix:
+- replace pytest-only bootstrap with:
+  python -m pip install --disable-pip-version-check ".[test]" pytest
+
+Dependency ownership:
+- pyproject.toml remains the canonical project dependency source;
+- CI does not duplicate SQLAlchemy/Alembic/asyncpg version constraints;
+- test extra supplies aiosqlite;
+- pytest remains explicitly installed by CI in this repair scope.
+
+Clean-environment verification:
+- Python 3.13.14;
+- repository baseline: passed;
+- local dev baseline: passed;
+- SQLAlchemy 2.0.52 installed;
+- alembic 1.19.2 installed;
+- asyncpg 0.31.0 installed;
+- aiosqlite 0.22.1 installed;
+- pytest 9.1.1 installed;
+- full suite: 287 passed;
+- git diff --check: clean.
+
+Scope:
+- CI dependency bootstrap only;
+- no domain behavior change;
+- no persistence schema change;
+- no migration;
+- no runtime execution authority change.
+
+Hosted CI:
+- not yet declared verified;
+- GitHub Actions result must be checked after push.
+
+Evidence tag:
+
+`NEXUS_V2_CI_PROJECT_DEPENDENCY_BOOTSTRAP_FIX_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
