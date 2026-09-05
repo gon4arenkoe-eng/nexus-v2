@@ -26165,3 +26165,93 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-05 — Phase 2 Execution Ledger Domain migration and hardening
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Historical Ledger contract preserved:
+- ExecutionLedgerEvent is the canonical immutable execution/position lifecycle evidence contract;
+- ledger events are append-only historical evidence and remain separate from mutable materialized current state;
+- canonical event_id is the deterministic immutable idempotency identity;
+- duplicate ingestion of the same canonical immutable event may resolve to the same event;
+- conflicting data under the same event_id fails closed;
+- event_version is explicit and supports future payload evolution;
+- every event has user ownership and execution-plan lineage;
+- group, leg, order, fill, account and venue lineage may be attached where applicable;
+- occurred_at represents fact occurrence time;
+- recorded_at represents NEXUS persistence/recording time;
+- correlation_id and causation_id remain explicit workflow/evidence lineage;
+- payload contains structured event-specific immutable evidence;
+- core identifiers are not hidden only inside payload;
+- no venue-specific event types are canonical.
+
+Canonical event families implemented:
+- PLAN_CREATED;
+- GROUP_CREATED;
+- GROUP_STATE_CHANGED;
+- LEG_CREATED;
+- LEG_STATE_CHANGED;
+- ORDER_CREATED;
+- ORDER_SUBMITTED;
+- ORDER_ACCEPTED;
+- ORDER_PARTIALLY_FILLED;
+- ORDER_FILLED;
+- ORDER_REJECTED;
+- ORDER_CANCELLED;
+- FILL_RECORDED;
+- RECOVERY_STARTED;
+- RECOVERY_COMPLETED;
+- RECONCILIATION_DISCREPANCY;
+- RECONCILIATION_RESOLVED.
+
+Approved V2 hardening:
+- ExecutionLedgerEvent is frozen/immutable;
+- event_id/source/required lineage text is non-empty and fail-closed;
+- event_version and user ownership are positive integers;
+- occurred_at and recorded_at are timezone-aware and normalized to UTC;
+- recorded_at cannot precede occurred_at;
+- payload must be a JSON-serializable object;
+- NaN/Infinity and Python-specific unserializable payload values fail closed;
+- payload is defensively copied and exposed as immutable Mapping;
+- deterministic replay normalization collapses exact duplicate events;
+- same event_id with conflicting immutable evidence fails closed;
+- replay normalization uses deterministic occurred_at, recorded_at, event_id ordering;
+- this replay helper is not a lifecycle/state reducer and does not infer execution transitions.
+
+Local / venue / evidence separation:
+- ExecutionOrder and Position state remain mutable materialized local projections;
+- VenueOrderState remains venue observation contract;
+- ExecutionLedgerEvent remains immutable historical evidence;
+- Ledger Domain does not query venues;
+- actual venue truth and discrepancy interpretation remain Phase 3 Reconciliation responsibilities.
+
+Architecture:
+- Core Domain does not import ports;
+- no VenueAdapter dependency;
+- no ExecutionCoordinator implementation;
+- no Reconciliation engine implementation;
+- no SQLAlchemy/FastAPI/AsyncSession dependency;
+- no repository implementation;
+- no commit/rollback ownership;
+- production authority unchanged.
+
+Verification:
+- focused ledger tests: 13 passed;
+- adjacent order/fill/position/ledger/venue tests: 66 passed;
+- full suite: 254 passed;
+- flake8: exit 0;
+- mypy apps/core --explicit-package-bases --ignore-missing-imports: exit 0;
+- compileall: exit 0;
+- corrected architecture guards: clean;
+- git diff --check: clean.
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_LEDGER_DOMAIN_MIGRATION_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
