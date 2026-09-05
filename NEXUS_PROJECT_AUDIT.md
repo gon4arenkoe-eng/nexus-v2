@@ -25315,3 +25315,63 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+---
+
+## 2026-09-05 — Phase 1 Numeric / Time Conventions
+
+**Status:** TEST VERIFIED
+
+Implemented canonical shared numeric and time conventions:
+
+- `packages/contracts/primitives.py`
+- `tests/test_contract_primitives.py`
+
+Numeric conventions verified:
+
+- canonical financial validation accepts `Decimal` only;
+- binary float is not accepted as canonical financial input;
+- non-finite Decimal values fail closed;
+- positive Decimal validation rejects zero and negative values;
+- non-negative Decimal validation permits zero and rejects negative values;
+- no venue tick-size / lot-size rounding is performed;
+- no venue-native numeric conversion is performed.
+
+Time conventions verified:
+
+- canonical datetime input must be timezone-aware;
+- naive datetime fails closed;
+- timezone-aware datetime is normalized to UTC;
+- already-UTC datetime remains UTC.
+
+Verification evidence:
+
+- Python: `3.13.14`
+- focused primitives pytest: `18 passed`
+- identity regression pytest: `16 passed`
+- full current pytest suite: `34 passed`
+- compile: PASS
+- `scripts/dev_check.py`: PASS
+- staged diff check: PASS
+- forbidden-import check: PASS
+
+Scope boundary:
+
+- no `Money`, `Price`, or `Quantity` wrapper classes introduced;
+- no Clock implementation introduced;
+- no EventEnvelope introduced;
+- no TradeIntent or Core Phase 2 contracts changed;
+- no adapter or exchange rounding introduced;
+- no production authority changed.
+
+Evidence tag:
+
+- `NEXUS_V2_NUMERIC_TIME_CONVENTIONS_OK`
+
+Production safety remains:
+
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
