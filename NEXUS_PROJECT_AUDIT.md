@@ -27026,3 +27026,50 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-06 — Phase 2 async Alembic online runner correction
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Problem:
+- persistence dependencies use SQLAlchemy async + `asyncpg`;
+- Alembic online runner used synchronous `engine_from_config()` and synchronous
+  `connect()`;
+- `alembic current` therefore failed with SQLAlchemy `MissingGreenlet`.
+
+Correction:
+- Alembic online mode now uses `async_engine_from_config()`;
+- online connection is opened with `async with`;
+- Alembic migration context runs through `connection.run_sync(...)`;
+- async runner is entered through `asyncio.run(...)`;
+- `NullPool`, `target_metadata`, `compare_type` and fail-closed
+  `NEXUS_DATABASE_URL` behavior are preserved;
+- offline mode remains connection-free and unchanged in semantics.
+
+Dependencies:
+- no synchronous PostgreSQL driver was added;
+- canonical PostgreSQL DBAPI remains `asyncpg`;
+- no production/runtime trading authority changed.
+
+Verification:
+- py_compile: passed;
+- flake8: passed;
+- mypy: passed;
+- offline Alembic SQL generation: passed;
+- offline migration still creates exactly six canonical Core V2 tables;
+- `alembic current --verbose` against local `nexus_v2_dev` via asyncpg: passed;
+- canonical Core V2 tables remained absent before migration apply;
+- Alembic head remains exactly `4d6f7a8b9c01`;
+- focused persistence regression: 46 passed;
+- full regression: 307 passed;
+- root migration was NOT applied.
+
+Evidence tag:
+
+`NEXUS_V2_ASYNC_ALEMBIC_ONLINE_RUNNER_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
