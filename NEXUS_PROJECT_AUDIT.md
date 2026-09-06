@@ -27073,3 +27073,65 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+## 2026-09-06 — Phase 2 Core V2 root persistence migration applied to local development PostgreSQL
+
+Status: DONE / TEST VERIFIED
+
+Phase:
+- Phase 2 — Import and harden existing Core V2 foundation.
+
+Target:
+- PostgreSQL 17.11;
+- local development database `nexus_v2_dev`;
+- application DB identity `nexus_v2_dev`;
+- no production database or production runtime involved.
+
+Migration:
+- revision: `4d6f7a8b9c01`;
+- parent: `<base>`;
+- Alembic version after apply: `4d6f7a8b9c01`.
+
+Pre-apply state:
+- canonical Core V2 target tables absent;
+- public schema contained zero tables;
+- pre-apply schema-only recovery point existed.
+
+Applied schema:
+- `execution_plans`;
+- `execution_plan_legs`;
+- `position_groups`;
+- `position_legs`;
+- `execution_orders`;
+- `execution_fills`.
+
+Post-apply verification:
+- all six canonical tables present;
+- Alembic current revision equals `4d6f7a8b9c01`;
+- exact ExecutionOrder ownership verified:
+  - `plan_id → execution_plans(plan_id)`;
+  - `(group_id, plan_id) → position_groups(group_id, plan_id)`;
+  - `(group_id, leg_id) → position_legs(group_id, leg_id)`;
+- ExecutionFill ownership:
+  - `order_id → execution_orders(order_id)`;
+- canonical UNIQUE/CHECK constraints verified;
+- canonical indexes verified;
+- post-apply schema-only backup exists.
+
+Recovery:
+- pre-apply schema backup preserved;
+- post-apply schema backup preserved;
+- migration is reversible through the root Alembic downgrade path;
+- no legacy tables were modified or deleted.
+
+Production safety:
+- no production database was targeted;
+- no production runtime permission changed;
+- no AI live authority changed.
+
+Evidence tag:
+
+`NEXUS_V2_CORE_PERSISTENCE_ROOT_MIGRATION_APPLIED_OK`
+
+Aggregate Phase 2 gate remains OPEN:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
