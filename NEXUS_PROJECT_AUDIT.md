@@ -27236,3 +27236,66 @@ Production safety remains unchanged:
 
 Publish this verified correction/hardening changeset and verify hosted CI
 before continuing Phase 2 gap analysis.
+---
+
+## 2026-09-10 — Phase 2 Typed Identity Changeset Hosted CI Verification
+
+**Phase:** 2 — Core V2 foundation
+
+**Status:** DONE / TEST VERIFIED / AUDIT VERIFIED / GIT VERIFIED
+
+### FACT
+
+The previously committed Phase 1 EventEnvelope typing correction and
+Phase 2 typed execution identity hardening changeset was published as:
+
+`4455f5ecb4c8624ef9bb669c6482efe78add2b0c`
+
+Commit:
+
+`core: harden typed execution identities`
+
+Local `HEAD` and `origin/main` were verified equal after push.
+
+The user confirmed that the GitHub Actions CI run for this published changeset
+completed green / Success.
+
+### EVIDENCE
+
+- `NEXUS_V2_EVENT_ENVELOPE_DATETIME_TYPING_CORRECTION_OK`
+- `NEXUS_V2_ORDER_FILL_TYPED_IDENTITIES_OK`
+- `NEXUS_V2_PHASE1_REVALIDATION_LOCAL_OK`
+- `NEXUS_V2_PHASE2_TYPED_IDENTITY_LOCAL_TESTS_OK`
+- `NEXUS_V2_TYPED_IDENTITIES_HOSTED_CI_VERIFIED_OK`
+
+### STATUS
+
+The EventEnvelope typing correction and Phase 2 typed execution identity slice
+are now:
+
+`DONE / TEST VERIFIED / AUDIT VERIFIED / GIT VERIFIED`
+
+Phase 1 historical gate remains closed:
+
+`NEXUS_V2_SHARED_CONTRACTS_OK — CLOSED`
+
+Phase 2 overall remains in progress:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK — OPEN`
+
+This evidence closes only the typed identity / EventEnvelope correction
+changeset. It does not close the overall Phase 2 gate.
+
+Production safety remains unchanged:
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- legacy production runtime is not modified.
+
+### NEXT STEP
+
+Resume Phase 2 FACT/Audit/Inventory/code inspection and identify the first
+remaining mandatory capability gap before implementing additional Core code.
