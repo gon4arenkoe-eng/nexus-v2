@@ -1,4 +1,4 @@
-from packages.contracts.identities import AccountId, VenueId
+from packages.contracts.identities import AccountId, OrderId, VenueId
 from dataclasses import FrozenInstanceError
 from datetime import datetime, timedelta, timezone
 
@@ -40,7 +40,7 @@ def _event(
         execution_plan_id="plan-1",
         position_group_id="group-1",
         position_leg_id="leg-1",
-        execution_order_id="order-1",
+        execution_order_id=OrderId("order-1"),
         execution_fill_id=None,
         account_id=account_id,
         venue_id=venue_id,

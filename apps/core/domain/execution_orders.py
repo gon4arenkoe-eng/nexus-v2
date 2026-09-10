@@ -8,7 +8,15 @@ from decimal import Decimal
 from enum import StrEnum
 
 from apps.core.domain.orders import OrderSide, OrderType
-from packages.contracts.identities import AccountId, InstrumentId
+from packages.contracts.identities import (
+    AccountId,
+    ClientOrderId,
+    FillId,
+    InstrumentId,
+    OrderId,
+    VenueFillId,
+    VenueOrderId,
+)
 from packages.contracts.primitives import (
     normalize_utc_datetime,
     require_non_negative_decimal,
@@ -87,14 +95,14 @@ def _normalize_optional_price(
 
 @dataclass(frozen=True, slots=True)
 class ExecutionOrder:
-    order_id: str
+    order_id: OrderId
     plan_id: str
     group_id: str
     leg_id: str
     account_id: AccountId
     instrument_id: InstrumentId
-    client_order_id: str
-    venue_order_id: str | None
+    client_order_id: ClientOrderId
+    venue_order_id: VenueOrderId | None
     side: OrderSide
     order_type: OrderType
     requested_quantity: Decimal
@@ -113,11 +121,9 @@ class ExecutionOrder:
 
     def __post_init__(self) -> None:
         for field_name in (
-            "order_id",
             "plan_id",
             "group_id",
             "leg_id",
-            "client_order_id",
         ):
             object.__setattr__(
                 self,
@@ -128,14 +134,24 @@ class ExecutionOrder:
                 ),
             )
 
-        object.__setattr__(
-            self,
-            "venue_order_id",
-            _normalize_optional_text(
-                self.venue_order_id,
-                field_name="venue_order_id",
-            ),
-        )
+        if not isinstance(self.order_id, OrderId):
+            raise ValueError("order_id must be an OrderId")
+
+        if not isinstance(
+            self.client_order_id,
+            ClientOrderId,
+        ):
+            raise ValueError(
+                "client_order_id must be a ClientOrderId"
+            )
+
+        if self.venue_order_id is not None and not isinstance(
+            self.venue_order_id,
+            VenueOrderId,
+        ):
+            raise ValueError(
+                "venue_order_id must be a VenueOrderId"
+            )
 
         if not isinstance(self.account_id, AccountId):
             raise ValueError("account_id must be an AccountId")
@@ -422,9 +438,9 @@ class ExecutionOrder:
 
 @dataclass(frozen=True, slots=True)
 class ExecutionFill:
-    fill_id: str
-    order_id: str
-    venue_fill_id: str | None
+    fill_id: FillId
+    order_id: OrderId
+    venue_fill_id: VenueFillId | None
     quantity: Decimal
     price: Decimal
     fee: Decimal
@@ -433,30 +449,19 @@ class ExecutionFill:
     created_at: datetime
 
     def __post_init__(self) -> None:
-        object.__setattr__(
-            self,
-            "fill_id",
-            _require_non_empty_text(
-                self.fill_id,
-                field_name="fill_id",
-            ),
-        )
-        object.__setattr__(
-            self,
-            "order_id",
-            _require_non_empty_text(
-                self.order_id,
-                field_name="order_id",
-            ),
-        )
-        object.__setattr__(
-            self,
-            "venue_fill_id",
-            _normalize_optional_text(
-                self.venue_fill_id,
-                field_name="venue_fill_id",
-            ),
-        )
+        if not isinstance(self.fill_id, FillId):
+            raise ValueError("fill_id must be a FillId")
+
+        if not isinstance(self.order_id, OrderId):
+            raise ValueError("order_id must be an OrderId")
+
+        if self.venue_fill_id is not None and not isinstance(
+            self.venue_fill_id,
+            VenueFillId,
+        ):
+            raise ValueError(
+                "venue_fill_id must be a VenueFillId"
+            )
 
         quantity = require_positive_decimal(
             self.quantity,

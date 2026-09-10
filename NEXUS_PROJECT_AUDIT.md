@@ -27135,3 +27135,104 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+---
+
+## 2026-09-10 — Phase 1 EventEnvelope Typing Correction / Phase 2 Typed Execution Identities
+
+**Phase:** Phase 1 revalidation + Phase 2 Core V2 foundation hardening
+
+**Status:** TEST VERIFIED / AUDIT VERIFIED / GIT NOT YET VERIFIED
+
+### FACT
+
+A stricter shared-contract type check found that `EventEnvelope.occurred_at`
+and `EventEnvelope.recorded_at` were annotated as `object`, while their
+canonical runtime semantics already required timezone-aware `datetime` values
+through `normalize_utc_datetime()`.
+
+This was a pre-existing static typing defect in the already-closed Phase 1
+shared contract. It was not caused by the Phase 2 typed execution identity
+changes.
+
+The correction changes only the timestamp annotations:
+
+- `occurred_at: datetime`;
+- `recorded_at: datetime`.
+
+A fail-closed test now verifies rejection of non-datetime timestamp values.
+
+Phase 2 canonical execution identities were also hardened and propagated
+through the existing Core boundary:
+
+- `OrderId`;
+- `ClientOrderId`;
+- `VenueOrderId`;
+- `FillId`;
+- `VenueFillId`.
+
+They are used through ExecutionPlan legs, ExecutionOrder/ExecutionFill,
+ExecutionLedgerEvent references and VenueAdapter order contracts instead of
+raw `str` annotations.
+
+No persistence schema or migration was changed by this identity slice.
+No SQLAlchemy, FastAPI or exchange-client dependency was introduced into
+Core domain.
+
+### CHECK
+
+Local verification:
+
+- changed Python files flake8: PASS;
+- mypy across `packages/contracts`, `packages/testkit`,
+  `apps/core/domain`, `apps/core/ports`: PASS — 20 source files;
+- compileall across contracts/testkit/Core: PASS;
+- Phase 1 focused suite: PASS — 153 tests;
+- full regression suite: PASS — 316 tests;
+- `git diff --check`: PASS;
+- canonical execution identity raw-string Core guard: PASS;
+- persistence/schema paths untouched by the identity slice: PASS.
+
+Repository-wide historical E501 findings in unchanged Phase 1 files are not
+part of this changeset. The published CI workflow does not currently execute
+flake8 or mypy; historical Phase 1 closure evidence used pytest, repository
+foundation/whitespace/dependency checks and hosted CI. No lint policy or
+Master Plan requirement was silently changed.
+
+### EVIDENCE
+
+- `NEXUS_V2_EVENT_ENVELOPE_DATETIME_TYPING_CORRECTION_OK`
+- `NEXUS_V2_ORDER_FILL_TYPED_IDENTITIES_OK`
+- `NEXUS_V2_PHASE1_REVALIDATION_LOCAL_OK`
+- `NEXUS_V2_PHASE2_TYPED_IDENTITY_LOCAL_TESTS_OK`
+
+### STATUS
+
+Phase 1 historical gate remains:
+
+`NEXUS_V2_SHARED_CONTRACTS_OK — CLOSED`
+
+The newly discovered EventEnvelope typing defect is corrected and locally
+TEST VERIFIED.
+
+Phase 2 remains:
+
+`Phase 2 — IN PROGRESS`
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK — OPEN`
+
+The current changeset is not yet GIT VERIFIED because it has not yet been
+committed, pushed and verified by hosted CI.
+
+Production safety remains unchanged:
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- legacy production runtime is not modified.
+
+### NEXT STEP
+
+Publish this verified correction/hardening changeset and verify hosted CI
+before continuing Phase 2 gap analysis.

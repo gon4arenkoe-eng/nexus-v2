@@ -151,6 +151,20 @@ def test_naive_event_time_fails_closed(
         )
 
 
+@pytest.mark.parametrize(
+    "field_name",
+    [
+        "occurred_at",
+        "recorded_at",
+    ],
+)
+def test_non_datetime_event_time_fails_closed(
+    field_name: str,
+) -> None:
+    with pytest.raises(ValueError):
+        make_event(**{field_name: "2026-09-05T12:00:00Z"})
+
+
 def test_occurred_at_and_recorded_at_remain_distinct() -> None:
     occurred_at = datetime(
         2026,

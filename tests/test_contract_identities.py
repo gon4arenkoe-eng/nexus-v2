@@ -7,7 +7,12 @@ import pytest
 from packages.contracts.identities import (
     AccountId,
     AssetClass,
+    ClientOrderId,
+    FillId,
     InstrumentId,
+    OrderId,
+    VenueFillId,
+    VenueOrderId,
     InstrumentType,
     VenueId,
 )
@@ -129,3 +134,35 @@ def test_identity_enums_match_approved_contract() -> None:
         "FX_PAIR",
         "CFD",
     }
+
+
+def test_opaque_identity_ids_preserve_case_and_strip_only() -> None:
+    assert str(OrderId(" order-A ")) == "order-A"
+    assert str(ClientOrderId(" Client-A ")) == "Client-A"
+    assert str(VenueOrderId(" VENUE-A ")) == "VENUE-A"
+    assert str(FillId(" Fill-A ")) == "Fill-A"
+    assert str(VenueFillId(" VenueFill-A ")) == "VenueFill-A"
+
+
+def test_opaque_identity_ids_are_distinct_types() -> None:
+    assert OrderId("same") != FillId("same")
+    assert ClientOrderId("same") != VenueOrderId("same")
+    assert VenueOrderId("same") != VenueFillId("same")
+
+
+@pytest.mark.parametrize(
+    ("identity_type", "field_name"),
+    (
+        (OrderId, "order_id"),
+        (ClientOrderId, "client_order_id"),
+        (VenueOrderId, "venue_order_id"),
+        (FillId, "fill_id"),
+        (VenueFillId, "venue_fill_id"),
+    ),
+)
+def test_opaque_identity_ids_reject_blank(
+    identity_type: type[object],
+    field_name: str,
+) -> None:
+    with pytest.raises(ValueError, match=field_name):
+        identity_type("   ")

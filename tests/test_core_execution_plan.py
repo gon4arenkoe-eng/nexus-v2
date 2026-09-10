@@ -10,7 +10,9 @@ from apps.core.domain.orders import OrderType
 from packages.contracts.identities import (
     AccountId,
     AssetClass,
+    ClientOrderId,
     InstrumentId,
+    OrderId,
     InstrumentType,
     VenueId,
 )
@@ -39,8 +41,8 @@ def _identities(
 def _leg(
     *,
     leg_id: str = "leg-1",
-    order_id: str = "order-1",
-    client_order_id: str = "client-1",
+    order_id: OrderId = OrderId("order-1"),
+    client_order_id: ClientOrderId = ClientOrderId("client-1"),
     venue_name: str = "BINGX",
     side: TradeSide = TradeSide.BUY,
     quantity: Decimal = Decimal("1"),
@@ -190,8 +192,8 @@ def test_execution_leg_requires_account_instrument_same_venue() -> None:
     with pytest.raises(ValueError):
         ExecutionLegPlan(
             leg_id="leg-1",
-            order_id="order-1",
-            client_order_id="client-1",
+            order_id=OrderId("order-1"),
+            client_order_id=ClientOrderId("client-1"),
             account_id=account_id,
             instrument_id=instrument_id,
             side=TradeSide.BUY,
@@ -215,8 +217,8 @@ def test_single_leg_plan_requires_exactly_one_leg() -> None:
                 _leg(),
                 _leg(
                     leg_id="leg-2",
-                    order_id="order-2",
-                    client_order_id="client-2",
+                    order_id=OrderId("order-2"),
+                    client_order_id=ClientOrderId("client-2"),
                 ),
             ),
         )
@@ -227,8 +229,8 @@ def test_pair_plan_requires_exactly_two_legs() -> None:
         _leg(),
         _leg(
             leg_id="leg-2",
-            order_id="order-2",
-            client_order_id="client-2",
+            order_id=OrderId("order-2"),
+            client_order_id=ClientOrderId("client-2"),
             side=TradeSide.SELL,
         ),
     )
@@ -256,8 +258,8 @@ def test_cross_venue_pair_is_valid() -> None:
             ),
             _leg(
                 leg_id="leg-2",
-                order_id="order-2",
-                client_order_id="client-2",
+                order_id=OrderId("order-2"),
+                client_order_id=ClientOrderId("client-2"),
                 venue_name="BINANCE",
                 side=TradeSide.SELL,
             ),
@@ -294,8 +296,8 @@ def test_execution_plan_rejects_duplicate_execution_ids(
 
     values = {
         "leg_id": "leg-2",
-        "order_id": "order-2",
-        "client_order_id": "client-2",
+        "order_id": OrderId("order-2"),
+        "client_order_id": ClientOrderId("client-2"),
     }
 
     values[second] = getattr(leg1, first)

@@ -8,7 +8,12 @@ from decimal import Decimal
 
 from apps.core.domain.intents import TradeIntentShape, TradeSide
 from apps.core.domain.orders import OrderType
-from packages.contracts.identities import AccountId, InstrumentId
+from packages.contracts.identities import (
+    AccountId,
+    ClientOrderId,
+    InstrumentId,
+    OrderId,
+)
 from packages.contracts.primitives import (
     normalize_utc_datetime,
     require_positive_decimal,
@@ -34,8 +39,8 @@ def _require_non_empty_text(
 @dataclass(frozen=True, slots=True)
 class ExecutionLegPlan:
     leg_id: str
-    order_id: str
-    client_order_id: str
+    order_id: OrderId
+    client_order_id: ClientOrderId
     account_id: AccountId
     instrument_id: InstrumentId
     side: TradeSide
@@ -54,23 +59,13 @@ class ExecutionLegPlan:
             ),
         )
 
-        object.__setattr__(
-            self,
-            "order_id",
-            _require_non_empty_text(
-                self.order_id,
-                field_name="order_id",
-            ),
-        )
+        if not isinstance(self.order_id, OrderId):
+            raise ValueError("order_id must be an OrderId")
 
-        object.__setattr__(
-            self,
-            "client_order_id",
-            _require_non_empty_text(
-                self.client_order_id,
-                field_name="client_order_id",
-            ),
-        )
+        if not isinstance(self.client_order_id, ClientOrderId):
+            raise ValueError(
+                "client_order_id must be a ClientOrderId"
+            )
 
         if not isinstance(self.account_id, AccountId):
             raise ValueError("account_id must be an AccountId")

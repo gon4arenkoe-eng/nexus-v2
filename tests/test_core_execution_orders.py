@@ -13,7 +13,11 @@ from apps.core.domain.orders import OrderSide, OrderType
 from packages.contracts.identities import (
     AccountId,
     AssetClass,
+    ClientOrderId,
+    FillId,
     InstrumentId,
+    OrderId,
+    VenueFillId,
     InstrumentType,
     VenueId,
 )
@@ -61,13 +65,13 @@ def _order(
     account_id, instrument_id = _identity()
 
     return ExecutionOrder(
-        order_id="order-1",
+        order_id=OrderId("order-1"),
         plan_id="plan-1",
         group_id="group-1",
         leg_id="leg-1",
         account_id=account_id,
         instrument_id=instrument_id,
-        client_order_id="client-1",
+        client_order_id=ClientOrderId("client-1"),
         venue_order_id=None,
         side=OrderSide.BUY,
         order_type=order_type,
@@ -108,13 +112,13 @@ def test_order_requires_non_empty_group_id() -> None:
 
     with pytest.raises(ValueError):
         ExecutionOrder(
-            order_id="order-1",
+            order_id=OrderId("order-1"),
             plan_id="plan-1",
             group_id=" ",
             leg_id="leg-1",
             account_id=account_id,
             instrument_id=instrument_id,
-            client_order_id="client-1",
+            client_order_id=ClientOrderId("client-1"),
             venue_order_id=None,
             side=OrderSide.BUY,
             order_type=OrderType.MARKET,
@@ -242,13 +246,13 @@ def test_order_rejects_account_instrument_venue_mismatch() -> None:
 
     with pytest.raises(ValueError):
         ExecutionOrder(
-            order_id="order-1",
+            order_id=OrderId("order-1"),
             plan_id="plan-1",
             group_id="group-1",
             leg_id="leg-1",
             account_id=account_id,
             instrument_id=instrument_id,
-            client_order_id="client-1",
+            client_order_id=ClientOrderId("client-1"),
             venue_order_id=None,
             side=OrderSide.BUY,
             order_type=OrderType.MARKET,
@@ -273,13 +277,13 @@ def test_order_timestamps_normalize_to_utc() -> None:
     account_id, instrument_id = _identity()
 
     order = ExecutionOrder(
-        order_id="order-1",
+        order_id=OrderId("order-1"),
         plan_id="plan-1",
         group_id="group-1",
         leg_id="leg-1",
         account_id=account_id,
         instrument_id=instrument_id,
-        client_order_id="client-1",
+        client_order_id=ClientOrderId("client-1"),
         venue_order_id=None,
         side=OrderSide.BUY,
         order_type=OrderType.MARKET,
@@ -317,9 +321,9 @@ def test_order_timestamps_normalize_to_utc() -> None:
 
 def test_execution_fill_is_valid_immutable_evidence() -> None:
     fill = ExecutionFill(
-        fill_id="fill-1",
-        order_id="order-1",
-        venue_fill_id="venue-fill-1",
+        fill_id=FillId("fill-1"),
+        order_id=OrderId("order-1"),
+        venue_fill_id=VenueFillId("venue-fill-1"),
         quantity=Decimal("0.4"),
         price=Decimal("100"),
         fee=Decimal("0.01"),
@@ -336,8 +340,8 @@ def test_execution_fill_is_valid_immutable_evidence() -> None:
 
 def test_execution_fill_allows_missing_venue_fill_id() -> None:
     fill = ExecutionFill(
-        fill_id="deterministic-fill-1",
-        order_id="order-1",
+        fill_id=FillId("deterministic-fill-1"),
+        order_id=OrderId("order-1"),
         venue_fill_id=None,
         quantity=Decimal("0.4"),
         price=Decimal("100"),
@@ -364,8 +368,8 @@ def test_fill_quantity_must_be_positive_finite(
 ) -> None:
     with pytest.raises(ValueError):
         ExecutionFill(
-            fill_id="fill-1",
-            order_id="order-1",
+            fill_id=FillId("fill-1"),
+            order_id=OrderId("order-1"),
             venue_fill_id=None,
             quantity=quantity,
             price=Decimal("100"),
@@ -379,8 +383,8 @@ def test_fill_quantity_must_be_positive_finite(
 def test_positive_fee_requires_currency() -> None:
     with pytest.raises(ValueError):
         ExecutionFill(
-            fill_id="fill-1",
-            order_id="order-1",
+            fill_id=FillId("fill-1"),
+            order_id=OrderId("order-1"),
             venue_fill_id=None,
             quantity=Decimal("1"),
             price=Decimal("100"),
@@ -394,8 +398,8 @@ def test_positive_fee_requires_currency() -> None:
 def test_fill_created_at_cannot_precede_execution() -> None:
     with pytest.raises(ValueError):
         ExecutionFill(
-            fill_id="fill-1",
-            order_id="order-1",
+            fill_id=FillId("fill-1"),
+            order_id=OrderId("order-1"),
             venue_fill_id=None,
             quantity=Decimal("1"),
             price=Decimal("100"),

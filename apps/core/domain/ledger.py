@@ -9,7 +9,12 @@ from enum import StrEnum
 from types import MappingProxyType
 from typing import Any, Mapping, Sequence
 
-from packages.contracts.identities import AccountId, VenueId
+from packages.contracts.identities import (
+    AccountId,
+    FillId,
+    OrderId,
+    VenueId,
+)
 
 from packages.contracts.primitives import normalize_utc_datetime
 
@@ -116,8 +121,8 @@ class ExecutionLedgerEvent:
     execution_plan_id: str
     position_group_id: str | None
     position_leg_id: str | None
-    execution_order_id: str | None
-    execution_fill_id: str | None
+    execution_order_id: OrderId | None
+    execution_fill_id: FillId | None
     account_id: AccountId | None
     venue_id: VenueId | None
     occurred_at: datetime
@@ -193,8 +198,6 @@ class ExecutionLedgerEvent:
         for field_name in (
             "position_group_id",
             "position_leg_id",
-            "execution_order_id",
-            "execution_fill_id",
             "correlation_id",
             "causation_id",
         ):
@@ -205,6 +208,28 @@ class ExecutionLedgerEvent:
                     getattr(self, field_name),
                     field_name=field_name,
                 ),
+            )
+
+        if (
+            self.execution_order_id is not None
+            and not isinstance(
+                self.execution_order_id,
+                OrderId,
+            )
+        ):
+            raise ValueError(
+                "execution_order_id must be an OrderId"
+            )
+
+        if (
+            self.execution_fill_id is not None
+            and not isinstance(
+                self.execution_fill_id,
+                FillId,
+            )
+        ):
+            raise ValueError(
+                "execution_fill_id must be a FillId"
             )
 
         occurred_at = normalize_utc_datetime(

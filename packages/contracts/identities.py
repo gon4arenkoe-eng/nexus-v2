@@ -72,6 +72,112 @@ class AccountId:
             raise ValueError("account_id value must be positive")
 
 
+def _require_opaque_id_text(
+    value: str,
+    *,
+    field_name: str,
+) -> str:
+    if not isinstance(value, str):
+        raise ValueError(f"{field_name} must be a string")
+
+    normalized = value.strip()
+
+    if not normalized:
+        raise ValueError(f"{field_name} must be non-empty")
+
+    return normalized
+
+
+@dataclass(frozen=True, slots=True)
+class OrderId:
+    value: str
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "value",
+            _require_opaque_id_text(
+                self.value,
+                field_name="order_id",
+            ),
+        )
+
+    def __str__(self) -> str:
+        return self.value
+
+
+@dataclass(frozen=True, slots=True)
+class ClientOrderId:
+    value: str
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "value",
+            _require_opaque_id_text(
+                self.value,
+                field_name="client_order_id",
+            ),
+        )
+
+    def __str__(self) -> str:
+        return self.value
+
+
+@dataclass(frozen=True, slots=True)
+class VenueOrderId:
+    value: str
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "value",
+            _require_opaque_id_text(
+                self.value,
+                field_name="venue_order_id",
+            ),
+        )
+
+    def __str__(self) -> str:
+        return self.value
+
+
+@dataclass(frozen=True, slots=True)
+class FillId:
+    value: str
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "value",
+            _require_opaque_id_text(
+                self.value,
+                field_name="fill_id",
+            ),
+        )
+
+    def __str__(self) -> str:
+        return self.value
+
+
+@dataclass(frozen=True, slots=True)
+class VenueFillId:
+    value: str
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "value",
+            _require_opaque_id_text(
+                self.value,
+                field_name="venue_fill_id",
+            ),
+        )
+
+    def __str__(self) -> str:
+        return self.value
+
+
 @dataclass(frozen=True, slots=True)
 class InstrumentId:
     venue_id: VenueId

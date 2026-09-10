@@ -15,10 +15,12 @@ from apps.core.ports.venue import (
 )
 from packages.contracts.identities import (
     AccountId,
+    ClientOrderId,
     AssetClass,
     InstrumentId,
     InstrumentType,
     VenueId,
+    VenueOrderId,
 )
 
 
@@ -51,7 +53,7 @@ def _request(
     account_id, instrument_id = _identities()
 
     return VenueOrderRequest(
-        client_order_id="client-1",
+        client_order_id=ClientOrderId("client-1"),
         account_id=account_id,
         instrument_id=instrument_id,
         side=OrderSide.BUY,
@@ -146,7 +148,7 @@ def test_account_venue_must_match_instrument_venue() -> None:
 
     with pytest.raises(ValueError):
         VenueOrderRequest(
-            client_order_id="client-1",
+            client_order_id=ClientOrderId("client-1"),
             account_id=account_id,
             instrument_id=instrument_id,
             side=OrderSide.BUY,
@@ -164,8 +166,8 @@ def test_order_request_is_immutable() -> None:
 
 def test_partial_fill_result_is_supported() -> None:
     result = VenueOrderResult(
-        client_order_id="client-1",
-        venue_order_id="venue-1",
+        client_order_id=ClientOrderId("client-1"),
+        venue_order_id=VenueOrderId("venue-1"),
         state=VenueOrderState.PARTIALLY_FILLED,
         requested_quantity=Decimal("2"),
         filled_quantity=Decimal("1"),
@@ -178,8 +180,8 @@ def test_partial_fill_result_is_supported() -> None:
 def test_filled_requires_full_requested_quantity() -> None:
     with pytest.raises(ValueError):
         VenueOrderResult(
-            client_order_id="client-1",
-            venue_order_id="venue-1",
+            client_order_id=ClientOrderId("client-1"),
+            venue_order_id=VenueOrderId("venue-1"),
             state=VenueOrderState.FILLED,
             requested_quantity=Decimal("2"),
             filled_quantity=Decimal("1"),
@@ -190,7 +192,7 @@ def test_filled_requires_full_requested_quantity() -> None:
 def test_rejected_requires_reason() -> None:
     with pytest.raises(ValueError):
         VenueOrderResult(
-            client_order_id="client-1",
+            client_order_id=ClientOrderId("client-1"),
             venue_order_id=None,
             state=VenueOrderState.REJECTED,
             requested_quantity=Decimal("1"),
@@ -200,7 +202,7 @@ def test_rejected_requires_reason() -> None:
 
 def test_unknown_state_is_explicit() -> None:
     result = VenueOrderResult(
-        client_order_id="client-1",
+        client_order_id=ClientOrderId("client-1"),
         venue_order_id=None,
         state=VenueOrderState.UNKNOWN,
         requested_quantity=Decimal("1"),
@@ -213,8 +215,8 @@ def test_unknown_state_is_explicit() -> None:
 def test_filled_quantity_cannot_exceed_requested() -> None:
     with pytest.raises(ValueError):
         VenueOrderResult(
-            client_order_id="client-1",
-            venue_order_id="venue-1",
+            client_order_id=ClientOrderId("client-1"),
+            venue_order_id=VenueOrderId("venue-1"),
             state=VenueOrderState.PARTIALLY_FILLED,
             requested_quantity=Decimal("1"),
             filled_quantity=Decimal("2"),
@@ -225,8 +227,8 @@ def test_filled_quantity_cannot_exceed_requested() -> None:
 def test_nonzero_fill_requires_average_price() -> None:
     with pytest.raises(ValueError):
         VenueOrderResult(
-            client_order_id="client-1",
-            venue_order_id="venue-1",
+            client_order_id=ClientOrderId("client-1"),
+            venue_order_id=VenueOrderId("venue-1"),
             state=VenueOrderState.PARTIALLY_FILLED,
             requested_quantity=Decimal("2"),
             filled_quantity=Decimal("1"),

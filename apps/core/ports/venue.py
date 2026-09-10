@@ -12,7 +12,9 @@ from apps.core.domain.orders import OrderSide, OrderType
 
 from packages.contracts.identities import (
     AccountId,
+    ClientOrderId,
     InstrumentId,
+    VenueOrderId,
 )
 from packages.contracts.primitives import require_positive_decimal
 
@@ -75,7 +77,7 @@ def _require_non_empty_text(
 
 @dataclass(frozen=True, slots=True)
 class VenueOrderRequest:
-    client_order_id: str
+    client_order_id: ClientOrderId
     account_id: AccountId
     instrument_id: InstrumentId
     side: OrderSide
@@ -85,14 +87,13 @@ class VenueOrderRequest:
     reduce_only: bool = False
 
     def __post_init__(self) -> None:
-        object.__setattr__(
-            self,
-            "client_order_id",
-            _require_non_empty_text(
-                self.client_order_id,
-                field_name="client_order_id",
-            ),
-        )
+        if not isinstance(
+            self.client_order_id,
+            ClientOrderId,
+        ):
+            raise ValueError(
+                "client_order_id must be a ClientOrderId"
+            )
 
         if not isinstance(self.account_id, AccountId):
             raise ValueError("account_id must be an AccountId")
@@ -151,8 +152,8 @@ class VenueOrderRequest:
 
 @dataclass(frozen=True, slots=True)
 class VenueOrderResult:
-    client_order_id: str
-    venue_order_id: str | None
+    client_order_id: ClientOrderId
+    venue_order_id: VenueOrderId | None
     state: VenueOrderState
     requested_quantity: Decimal
     filled_quantity: Decimal
@@ -160,23 +161,20 @@ class VenueOrderResult:
     rejection_reason: str | None = None
 
     def __post_init__(self) -> None:
-        object.__setattr__(
-            self,
-            "client_order_id",
-            _require_non_empty_text(
-                self.client_order_id,
-                field_name="client_order_id",
-            ),
-        )
+        if not isinstance(
+            self.client_order_id,
+            ClientOrderId,
+        ):
+            raise ValueError(
+                "client_order_id must be a ClientOrderId"
+            )
 
-        if self.venue_order_id is not None:
-            object.__setattr__(
-                self,
-                "venue_order_id",
-                _require_non_empty_text(
-                    self.venue_order_id,
-                    field_name="venue_order_id",
-                ),
+        if self.venue_order_id is not None and not isinstance(
+            self.venue_order_id,
+            VenueOrderId,
+        ):
+            raise ValueError(
+                "venue_order_id must be a VenueOrderId"
             )
 
         if not isinstance(self.state, VenueOrderState):
@@ -282,7 +280,7 @@ class VenueAdapter(ABC):
         *,
         account_id: AccountId,
         instrument_id: InstrumentId,
-        venue_order_id: str,
+        venue_order_id: VenueOrderId,
     ) -> VenueOrderResult:
         """Cancel one normalized venue order."""
 
@@ -292,6 +290,6 @@ class VenueAdapter(ABC):
         *,
         account_id: AccountId,
         instrument_id: InstrumentId,
-        venue_order_id: str,
+        venue_order_id: VenueOrderId,
     ) -> VenueOrderResult:
         """Query one normalized venue order."""

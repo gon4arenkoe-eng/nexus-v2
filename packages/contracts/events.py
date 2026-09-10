@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Generic, TypeVar
 
 from packages.contracts.primitives import normalize_utc_datetime
@@ -44,8 +45,8 @@ class EventEnvelope(Generic[PayloadT]):
     event_type: str
     event_version: int
     source: str
-    occurred_at: object
-    recorded_at: object
+    occurred_at: datetime
+    recorded_at: datetime
     payload: PayloadT
     correlation_id: str | None = None
     causation_id: str | None = None
