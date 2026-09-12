@@ -29113,3 +29113,38 @@ NEXT STEP: close the single verified startup runtime composition gap.
 
 AUDIT_TAG: TRADING_CORE_V2_RECONCILIATION_GATE_STATUS_CORRECTED
 
+
+## 2026-09-12 — Phase 3 Live Venue Verification Deferred
+
+### FACT
+
+The V2 repository does not currently have connected production venue adapters/accounts capable of returning live exchange truth.
+
+Therefore live end-to-end verification of venue response > startup acquisition > reconciliation cannot be performed yet.
+
+### VERIFIED
+
+Core reconciliation contracts, states, discrepancy detection, immutable Ledger evidence, persistence, orchestration, startup gate, continuous reconciliation behavior, account reconciliation, and lifecycle/resolution behavior are verified by the existing test/evidence chain.
+
+### DEFERRED
+
+The live venue-response verification item must be revisited after V2 is deployed to the server/runtime host and concrete exchange adapters/accounts are connected.
+
+Required future verification: obtain real venue orders, fills, positions, and account state; feed them through the canonical V2 reconciliation path; verify startup behavior and discrepancy/evidence handling against real venue truth.
+
+This deferred item is not treated as a current code defect while concrete venue connectivity is unavailable.
+
+### STATUS
+
+PHASE_3 = PARTIALLY_VERIFIED
+GATE = OPEN
+LIVE_VENUE_VERIFICATION = DEFERRED
+
+### AUDIT_TAG
+
+TRADING_CORE_V2_RECONCILIATION_LIVE_VENUE_VERIFICATION_DEFERRED
+
+### NEXT
+
+Revisit this verification after server deployment and concrete venue/account connectivity.
+
