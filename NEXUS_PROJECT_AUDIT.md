@@ -29217,3 +29217,39 @@ TRADING_CORE_V2_PAIR_EXECUTION_OK
 
 Phase 6 — Portfolio Risk V2.
 
+
+## 2026-09-12 — Phase 6 Portfolio Risk V2 Final Verification
+
+### VERIFIED
+
+Portfolio Risk V2 implemented before ExecutionPlan generation.
+
+Verified scope: gross/net portfolio exposure; account and venue exposure; strategy and instrument exposure; currency concentration; correlation-cluster risk; leverage and margin utilization; daily and rolling drawdown; liquidity/capacity; expected slippage; pair/basket hedge integrity; stale/degraded/unknown fail-closed handling; kill-switch semantics; reduce-only safety path.
+
+SingleLegRiskPolicy remains an explicit port boundary. Portfolio Risk has no direct venue or execution authority.
+
+### TEST EVIDENCE
+
+Focused Phase 6 suite: 34 passed.
+Full regression: 526 passed.
+flake8: PASS.
+mypy: PASS.
+Alembic: PASS; no Phase 6 migration required.
+git diff --check: PASS.
+
+### SAFETY
+
+No AI execution authority. No direct exchange access. Restricted Live remains DISABLED. Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+TRADING_CORE_V2_PORTFOLIO_RISK_OK
+
+### NEXT
+
+Phase 7 — Strategy Portfolio + backtest/live parity.
+
