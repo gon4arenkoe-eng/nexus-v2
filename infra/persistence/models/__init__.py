@@ -4,6 +4,9 @@ from infra.persistence.models.execution import (
     ExecutionPlanLegModel,
     ExecutionPlanModel,
 )
+from infra.persistence.models.execution_coordinator import (
+    ExecutionCoordinatorStateModel,
+)
 from infra.persistence.models.execution_orders import (
     ExecutionFillModel,
     ExecutionOrderModel,
@@ -15,6 +18,7 @@ from infra.persistence.models.positions import (
 )
 
 __all__ = (
+    "ExecutionCoordinatorStateModel",
     "ExecutionFillModel",
     "ExecutionLedgerEventModel",
     "ExecutionOrderModel",
