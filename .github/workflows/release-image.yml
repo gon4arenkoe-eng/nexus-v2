@@ -110,6 +110,8 @@ jobs:
           context: .
           file: infra/containers/Dockerfile.release
           push: true
+          sbom: true
+          provenance: mode=max
           pull: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

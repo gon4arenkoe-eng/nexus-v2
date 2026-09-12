@@ -29602,3 +29602,61 @@ NEXUS_V2_PHASE12_RELEASE_FOUNDATION_VERIFIED
 
 SBOM, provenance/attestation, digest-pinned production deployment manifest, backup/restore verification and rollback-by-digest evidence remain required.
 
+
+## 2026-09-12 — Phase 12 Supply-Chain Evidence
+
+### VERIFIED
+
+Release image supply-chain evidence implemented and verified.
+
+SBOM attestation is defined for the release image.
+Build provenance attestation is configured with mode=max.
+Attestations are attached to the OCI image index and remain bound to the release image identity.
+
+Existing CI-only build, GHCR publication and immutable digest invariants remain preserved.
+
+No production deploy, SSH, SCP or production-side build authority is introduced.
+
+### TEST EVIDENCE
+
+Focused supply-chain/release suite: 12 passed.
+Full regression: 717 passed.
+Supply-chain policy: PASS.
+Release foundation policy: PASS.
+flake8: PASS.
+mypy: PASS.
+Alembic head unchanged: d8a0e6f5b125.
+git diff --check: PASS.
+
+### SUPPLY CHAIN INVARIANTS
+
+SBOM_ATTESTATION=DEFINED
+PROVENANCE_ATTESTATION=MODE_MAX
+ATTESTATION_SUBJECT=RELEASE_IMAGE
+ATTESTATION_STORAGE=OCI_IMAGE_INDEX
+PRODUCTION_DEPLOY_AUTHORITY=NO
+NO_BUILD_ON_PRODUCTION=PRESERVED
+
+### SAFETY
+
+AI promotion remains SHADOW-ONLY.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED — Phase 12 Supply-Chain Evidence slice only.
+
+### PHASE 12 GATE
+
+NEXUS_V2_RELEASE_PIPELINE_OK = OPEN
+
+### AUDIT_TAG
+
+NEXUS_V2_PHASE12_SUPPLY_CHAIN_EVIDENCE_VERIFIED
+
+### REMAINING PHASE 12
+
+Digest-pinned production deploy manifests, backup/restore runbook verification and rollback-by-digest evidence remain required.
+
