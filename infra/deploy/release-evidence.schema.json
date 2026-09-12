@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexus.local/schemas/release-evidence.schema.json",
+  "title": "NEXUS V2 Release Deployment Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_commit",
+    "image_ref",
+    "image_digest",
+    "alembic_head",
+    "sbom_attested",
+    "provenance_attested",
+    "backup_reference",
+    "backup_sha256",
+    "recorded_at",
+    "authorization_state"
+  ],
+  "properties": {
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "image_ref": {
+      "type": "string",
+      "pattern": "^ghcr\\.io/[a-z0-9_.-]+/[a-z0-9_.-]+@sha256:[0-9a-f]{64}$"
+    },
+    "image_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "previous_verified_digest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "alembic_head": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sbom_attested": {
+      "const": true
+    },
+    "provenance_attested": {
+      "const": true
+    },
+    "backup_reference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "backup_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "authorization_state": {
+      "enum": ["PREPARED_NOT_AUTHORIZED", "AUTHORIZED_FOR_CONTROLLED_CUTOVER"]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+name: nexus-v2-production-release
+
+services:
+  nexus-release-verify:
+    image: "${NEXUS_IMAGE_REF:?NEXUS_IMAGE_REF must be a verified GHCR image pinned by sha256 digest}"
+    pull_policy: always
+    profiles:
+      - release-validation
+    restart: "no"
+    read_only: true
+    init: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    environment:
+      NEXUS_RUNTIME_MODE: production-release-validation

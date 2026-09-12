@@ -29660,3 +29660,61 @@ NEXUS_V2_PHASE12_SUPPLY_CHAIN_EVIDENCE_VERIFIED
 
 Digest-pinned production deploy manifests, backup/restore runbook verification and rollback-by-digest evidence remain required.
 
+
+## 2026-09-12 — Phase 12 Digest-Pinned Deployment & Rollback Foundation
+
+### VERIFIED
+
+Digest-pinned production deployment and rollback foundation implemented and verified.
+
+Production manifest accepts only immutable GHCR image references pinned as image@sha256:<digest>.
+Mutable tag deployment is not accepted by the release contract.
+
+Rollback reference is the previous verified image digest.
+Backup-before-cutover is required by the release evidence contract.
+
+No production-side build, SSH, SCP or remote deploy authority is introduced.
+
+### TEST EVIDENCE
+
+Focused release/deploy/rollback suite: 23 passed.
+Full regression: 728 passed.
+Digest deploy/rollback policy: PASS.
+Release foundation policy: PASS.
+Supply-chain evidence policy: PASS.
+flake8: PASS.
+mypy: PASS.
+Alembic head unchanged: d8a0e6f5b125.
+git diff --check: PASS.
+
+### DEPLOYMENT INVARIANTS
+
+DEPLOY_REFERENCE=DIGEST_ONLY
+ROLLBACK_REFERENCE=PREVIOUS_VERIFIED_DIGEST
+BACKUP_BEFORE_CUTOVER=REQUIRED
+PRODUCTION_DEPLOY_AUTHORITY=NO
+NO_BUILD_ON_PRODUCTION=PRESERVED
+
+### SAFETY
+
+AI promotion remains SHADOW-ONLY.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED — Phase 12 Digest Deploy & Rollback slice only.
+
+### PHASE 12 GATE
+
+NEXUS_V2_RELEASE_PIPELINE_OK = OPEN
+
+### AUDIT_TAG
+
+NEXUS_V2_PHASE12_DIGEST_DEPLOY_ROLLBACK_VERIFIED
+
+### REMAINING PHASE 12
+
+Final Phase 12 gate review remains required before closing NEXUS_V2_RELEASE_PIPELINE_OK.
+
