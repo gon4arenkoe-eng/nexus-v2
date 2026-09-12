@@ -146,3 +146,24 @@ async def persist_reconciliation_result(
         )
 
     return tuple(persisted)
+
+
+class LedgerReconciliationEvidenceAdapter:
+    """Connect Core reconciliation orchestration to canonical Ledger."""
+
+    def __init__(
+        self,
+        service: ExecutionLedgerPersistenceService,
+    ) -> None:
+        self._service = service
+
+    async def persist_result(
+        self,
+        result: ReconciliationResult,
+    ) -> None:
+        """Persist all immutable evidence before pass completion."""
+
+        await persist_reconciliation_result(
+            self._service,
+            result,
+        )

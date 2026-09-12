@@ -28414,3 +28414,123 @@ No production authority changed.
 Implement the Phase 3 reconciliation orchestration boundary that
 executes one canonical reconciliation pass and persists immutable
 evidence before strategy activation.
+## 2026-09-12 — Phase 3 Reconciliation Pass Orchestration
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
+
+### FACT
+
+One canonical account/instrument reconciliation pass is now
+orchestrated through the existing deterministic detector and immutable
+evidence persistence boundary.
+
+Sequence:
+
+`input snapshots`
+→ `detect_reconciliation`
+→ `ReconciliationResult`
+→ `ReconciliationEvidencePort.persist_result`
+→ completed reconciliation result.
+
+The orchestrator does not expose a successfully completed pass when
+evidence persistence fails.
+
+### DEPENDENCY BOUNDARY
+
+Core application owns orchestration through
+`ReconciliationEvidencePort`.
+
+Core does not depend on SQLAlchemy or persistence infrastructure.
+
+`LedgerReconciliationEvidenceAdapter` connects that Core port to the
+existing canonical Execution Ledger persistence path.
+
+No direct exchange write, ExecutionCoordinator, UI or database
+dependency was introduced into Core orchestration.
+
+### FAIL-CLOSED SEMANTICS
+
+Detection happens before evidence persistence.
+
+Evidence persistence must complete before `run` returns.
+
+Persistence failure propagates to the caller.
+
+Therefore a reconciliation pass cannot be treated as completed when its
+immutable evidence could not be persisted.
+
+This slice does not yet grant strategy activation.
+
+### STATES
+
+CURRENT/MATCHED passes cross the evidence boundary and may contain zero
+discrepancy events.
+
+STALE, DEGRADED, UNAVAILABLE and UNKNOWN remain explicit and are not
+silently converted into MATCHED.
+
+### ARCHITECTURE
+
+- detector remains pure/read-only;
+- Core has no SQLAlchemy dependency;
+- no second Ledger exists;
+- no destructive reconciliation correction exists;
+- no execution authority was added;
+- no venue write authority was added.
+
+### EVIDENCE
+
+Focused:
+
+`68 passed in 0.64s`
+
+Full:
+
+`420 passed in 0.79s`
+
+Additional verification:
+
+- EOF normalization: PASS;
+- `git diff --check`: PASS;
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- evidence-before-return ordering: PASS;
+- matched pass crosses evidence boundary: PASS;
+- persistence failure fail-closed: PASS;
+- forbidden Core infra/execution dependencies: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_PASS_ORCHESTRATION_OK`
+
+This closes one-pass reconciliation orchestration only.
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production database change was executed.
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Implement the startup reconciliation activation gate so strategy
+execution cannot be enabled until required startup reconciliation
+passes have completed with persisted evidence and an explicitly
+acceptable reconciliation state.
