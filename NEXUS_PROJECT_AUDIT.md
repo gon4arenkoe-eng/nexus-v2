@@ -27880,3 +27880,124 @@ Phase 3 overall gate remains OPEN.
 
 Implement explicit Reconciliation source/result states and canonical
 discrepancy contracts before startup or continuous reconciliation runtime.
+## 2026-09-12 — Phase 3 Reconciliation State and Discrepancy Model
+
+### FACT
+
+Implemented canonical pure-domain Phase 3 reconciliation states and
+discrepancy evidence contracts.
+
+Added:
+
+- `ReconciliationSourceState`;
+- `ReconciliationResultState`;
+- `ReconciliationSubject`;
+- `ReconciliationDiscrepancyKind`;
+- immutable `ReconciliationDiscrepancy`;
+- deterministic `ReconciliationResult`;
+- `build_reconciliation_result`.
+
+### SOURCE / RESULT STATES
+
+Source states:
+
+- `CURRENT`;
+- `STALE`;
+- `DEGRADED`;
+- `UNAVAILABLE`;
+- `UNKNOWN`.
+
+Result states:
+
+- `MATCHED`;
+- `DISCREPANCY`;
+- `STALE`;
+- `DEGRADED`;
+- `UNAVAILABLE`;
+- `UNKNOWN`.
+
+Non-current source state can never become `MATCHED`.
+
+### DISCREPANCY COVERAGE
+
+Canonical model covers:
+
+- local order missing on venue;
+- unknown venue order;
+- order-state drift;
+- missing local fill;
+- duplicate/replayed fill;
+- local position missing on venue;
+- venue position missing locally;
+- quantity drift;
+- side drift;
+- entry-price drift;
+- stale/unavailable account evidence;
+- stale/degraded/unavailable/unknown source evidence.
+
+### DETERMINISM / OWNERSHIP
+
+Discrepancies are immutable.
+
+Ordering is canonical and independent of input order.
+
+Duplicate identical discrepancy evidence fails closed.
+
+User/account ownership and venue lineage fail closed on mismatch.
+
+### SCOPE
+
+This slice does not:
+
+- query VenueAdapter;
+- write persistence;
+- mutate orders or positions;
+- perform startup reconciliation;
+- perform continuous reconciliation;
+- perform destructive correction;
+- call ExecutionCoordinator.
+
+### EVIDENCE
+
+Focused reconciliation tests:
+
+`38 passed in 0.11s`
+
+Full regression:
+
+`385 passed in 0.90s`
+
+Static verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- deterministic ordering: PASS;
+- multi-user/account isolation: PASS;
+- fail-visible non-current states: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_STATE_DISCREPANCY_MODEL_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Implement pure deterministic discrepancy detection over canonical local
+and venue order/fill/position state without persistence or correction.
