@@ -28534,3 +28534,131 @@ Implement the startup reconciliation activation gate so strategy
 execution cannot be enabled until required startup reconciliation
 passes have completed with persisted evidence and an explicitly
 acceptable reconciliation state.
+## 2026-09-12 — Phase 3 Startup Reconciliation Activation Gate
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
+
+### FACT
+
+Startup strategy-execution readiness is now fail-closed on canonical
+reconciliation completion.
+
+Every required startup account/instrument scope is processed through
+the already verified `ReconciliationPassOrchestrator`.
+
+That orchestrator returns only after immutable reconciliation evidence
+has crossed the persistence boundary.
+
+### ACTIVATION POLICY
+
+This Phase 3 gate does not activate a strategy itself.
+
+It returns:
+
+`strategy_execution_allowed`
+
+The result is TRUE only when every required startup reconciliation
+scope completed with:
+
+`MATCHED`
+
+The following states block startup strategy execution:
+
+- `DISCREPANCY`;
+- `STALE`;
+- `DEGRADED`;
+- `UNAVAILABLE`;
+- `UNKNOWN`.
+
+No policy exists in this slice for silently accepting unresolved
+reconciliation states.
+
+### FAIL-CLOSED CONDITIONS
+
+Startup readiness also fails closed when:
+
+- no required scopes are supplied;
+- a required scope is duplicated;
+- reconciliation detection fails;
+- immutable evidence persistence fails;
+- result user ownership does not match the requested scope;
+- result account ownership does not match the requested scope.
+
+A persistence exception produces no successful activation decision.
+
+### DETERMINISM
+
+Required startup scopes are processed in deterministic canonical scope
+order.
+
+A gate decision contains receipts for every completed persisted pass.
+
+### ARCHITECTURE
+
+- no strategy activation side effect exists in this gate;
+- no SQLAlchemy dependency exists in Core;
+- no direct venue write exists;
+- no ExecutionCoordinator dependency exists;
+- no destructive reconciliation correction exists;
+- existing pass orchestration/evidence ownership is reused.
+
+### EVIDENCE
+
+Focused:
+
+`60 passed in 0.49s`
+
+Full:
+
+`427 passed in 0.82s`
+
+Additional verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- all-MATCHED startup readiness: PASS;
+- STALE blocking: PASS;
+- DISCREPANCY blocking: PASS;
+- persistence-failure fail-closed: PASS;
+- duplicate-scope fail-closed: PASS;
+- empty-scope fail-closed: PASS;
+- deterministic startup scope order: PASS;
+- forbidden Core infra/execution dependencies: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_STARTUP_RECONCILIATION_ACTIVATION_GATE_OK`
+
+This closes startup reconciliation readiness gating only.
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production strategy activation was performed.
+
+No production database change was executed.
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Implement deterministic continuous reconciliation after startup so
+repeated live reconciliation passes continue to detect and persist
+drift without destructive auto-correction.
