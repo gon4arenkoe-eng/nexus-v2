@@ -805,6 +805,7 @@ def detect_reconciliation(
             source_state=source_state,
             observed_at=observed_at,
             discrepancies=(discrepancy,),
+            instrument_id=instrument_id,
         )
 
     discrepancies: list[ReconciliationDiscrepancy] = []
@@ -857,4 +858,5 @@ def detect_reconciliation(
         source_state=source_state,
         observed_at=observed_at,
         discrepancies=tuple(discrepancies),
+        instrument_id=instrument_id,
     )

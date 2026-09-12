@@ -118,6 +118,34 @@ class ExecutionLedgerRepository:
             criterion=ExecutionLedgerEventModel.fill_id == fill_id,
         )
 
+    async def list_for_account(
+        self,
+        *,
+        user_id: int,
+        venue_id: str,
+        account_value: int,
+    ) -> tuple[ExecutionLedgerEventModel, ...]:
+        """Read account Ledger evidence in deterministic order."""
+
+        statement = (
+            select(ExecutionLedgerEventModel)
+            .where(
+                ExecutionLedgerEventModel.user_id == user_id,
+                ExecutionLedgerEventModel.venue_id == venue_id,
+                (
+                    ExecutionLedgerEventModel.account_value
+                    == account_value
+                ),
+            )
+            .order_by(
+                ExecutionLedgerEventModel.occurred_at.asc(),
+                ExecutionLedgerEventModel.id.asc(),
+            )
+        )
+
+        result = await self._session.execute(statement)
+        return tuple(result.scalars().all())
+
     async def _list(
         self,
         *,

@@ -66,17 +66,18 @@ def _planless_event(
 
 
 def test_only_reconciliation_event_families_may_be_planless() -> None:
-    allowed = {
+    planless = {
+        ExecutionLedgerEventType.RECONCILIATION_STARTED,
         ExecutionLedgerEventType.RECONCILIATION_DISCREPANCY,
         ExecutionLedgerEventType.RECONCILIATION_RESOLVED,
+        ExecutionLedgerEventType.RECONCILIATION_COMPLETED,
+        ExecutionLedgerEventType.RECONCILIATION_DEGRADED,
     }
 
     for event_type in ExecutionLedgerEventType:
         assert (
-            ledger_event_requires_execution_plan(
-                event_type
-            )
-            is (event_type not in allowed)
+            ledger_event_requires_execution_plan(event_type)
+            is (event_type not in planless)
         )
 
 

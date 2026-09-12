@@ -28941,3 +28941,129 @@ No production authority changed.
 Perform the full Phase 3 gate review against Master Plan, current Audit,
 Functional Inventory and actual Core code before declaring
 `TRADING_CORE_V2_RECONCILIATION_OK`.
+## 2026-09-12 — Phase 3 Reconciliation Lifecycle and Resolution Evidence
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
+
+### FACT
+
+Canonical reconciliation lifecycle and immutable resolution evidence
+are implemented on the existing Execution Ledger.
+
+Canonical identities:
+
+- `ReconciliationRunId`;
+- `DiscrepancyId`.
+
+`ReconciliationResult` carries explicit instrument scope.
+
+### LIFECYCLE
+
+Canonical reconciliation Ledger event family:
+
+- `RECONCILIATION_STARTED`;
+- `RECONCILIATION_DISCREPANCY`;
+- `RECONCILIATION_RESOLVED`;
+- `RECONCILIATION_COMPLETED`;
+- `RECONCILIATION_DEGRADED`.
+
+All reconciliation lifecycle events are planless.
+
+All non-reconciliation Ledger events continue to require real
+ExecutionPlan lineage.
+
+### RESOLUTION
+
+`DiscrepancyId` is stable across repeated observations of the same
+logical discrepancy.
+
+Account-scoped immutable Ledger history reconstructs active
+discrepancies.
+
+When a previously active discrepancy disappears from a later result,
+`RECONCILIATION_RESOLVED` evidence is emitted.
+
+Resolution retry is idempotent.
+
+### COMPATIBILITY
+
+Historical v1 discrepancy evidence remains immutable.
+
+Lifecycle-aware evidence uses deterministic versioned event identity.
+
+No second reconciliation store was introduced.
+
+### ARCHITECTURE
+
+- Core remains independent of SQLAlchemy;
+- Core remains independent of exchange clients;
+- no ExecutionCoordinator dependency;
+- no venue write authority;
+- no destructive reconciliation correction;
+- account history remains user-scoped.
+
+### EVIDENCE
+
+Targeted lineage test:
+
+10 passed.
+
+Focused reconciliation suite:
+
+107 passed.
+
+Full regression:
+
+452 passed.
+
+Additional:
+
+- ReconciliationResult instrument scope: PASS;
+- deterministic ReconciliationRunId: PASS;
+- stable DiscrepancyId: PASS;
+- STARTED evidence: PASS;
+- COMPLETED evidence: PASS;
+- DEGRADED evidence: PASS;
+- DISCREPANCY evidence: PASS;
+- RESOLVED evidence: PASS;
+- resolution retry idempotency: PASS;
+- all reconciliation lifecycle events planless: PASS;
+- non-reconciliation plan lineage mandatory: PASS;
+- flake8: PASS;
+- mypy: PASS;
+- git diff --check: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_LIFECYCLE_RESOLUTION_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production migration was executed.
+
+No production venue state was changed.
+
+No reconciliation auto-correction was enabled.
+
+No production strategy activation was performed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Review the startup observation acquisition boundary before any Phase 3
+gate closure decision.

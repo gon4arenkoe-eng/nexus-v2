@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from enum import StrEnum
+from hashlib import sha256
 
 from packages.contracts.identities import (
     AccountId,
@@ -192,6 +193,123 @@ def _optional_text(
         raise ValueError(f"{field_name} must be non-empty")
 
     return normalized
+
+
+@dataclass(frozen=True, slots=True)
+class ReconciliationRunId:
+    """Stable identity of one reconciliation snapshot/pass."""
+
+    value: str
+
+    def __post_init__(self) -> None:
+        normalized = _optional_text(
+            self.value,
+            field_name="reconciliation_run_id",
+        )
+
+        if normalized is None:
+            raise ValueError(
+                "reconciliation_run_id must be non-empty"
+            )
+
+        object.__setattr__(
+            self,
+            "value",
+            normalized,
+        )
+
+    def __str__(self) -> str:
+        return self.value
+
+
+@dataclass(frozen=True, slots=True)
+class DiscrepancyId:
+    """Stable identity of one logical discrepancy across runs."""
+
+    value: str
+
+    def __post_init__(self) -> None:
+        normalized = _optional_text(
+            self.value,
+            field_name="discrepancy_id",
+        )
+
+        if normalized is None:
+            raise ValueError(
+                "discrepancy_id must be non-empty"
+            )
+
+        object.__setattr__(
+            self,
+            "value",
+            normalized,
+        )
+
+    def __str__(self) -> str:
+        return self.value
+
+
+def _instrument_identity_text(
+    instrument_id: InstrumentId,
+) -> str:
+    return "|".join(
+        (
+            str(instrument_id.venue_id),
+            instrument_id.native_symbol,
+            instrument_id.instrument_type.value,
+            instrument_id.asset_class.value,
+        )
+    )
+
+
+def reconciliation_run_id(
+    *,
+    user_id: int,
+    account_id: AccountId,
+    instrument_id: InstrumentId,
+    observed_at: datetime,
+) -> ReconciliationRunId:
+    """Derive deterministic identity for one reconciliation pass."""
+
+    user_id = _require_user_id(user_id)
+
+    if not isinstance(account_id, AccountId):
+        raise ValueError(
+            "account_id must be an AccountId"
+        )
+
+    if not isinstance(instrument_id, InstrumentId):
+        raise ValueError(
+            "instrument_id must be an InstrumentId"
+        )
+
+    if account_id.venue_id != instrument_id.venue_id:
+        raise ValueError(
+            "account venue must match instrument venue"
+        )
+
+    normalized_time = normalize_utc_datetime(
+        observed_at,
+        field_name="observed_at",
+    )
+
+    material = "|".join(
+        (
+            str(user_id),
+            str(account_id.venue_id),
+            str(account_id.value),
+            _instrument_identity_text(instrument_id),
+            normalized_time.isoformat(),
+        )
+    )
+
+    digest = sha256(
+        material.encode("utf-8")
+    ).hexdigest()
+
+    return ReconciliationRunId(
+        f"recon-run:{digest}"
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -397,6 +515,71 @@ def reconciliation_discrepancy_key(
     )
 
 
+def reconciliation_discrepancy_id(
+    discrepancy: ReconciliationDiscrepancy,
+    *,
+    scope_instrument_id: InstrumentId,
+) -> DiscrepancyId:
+    """Derive identity stable across repeated observations."""
+
+    if not isinstance(
+        discrepancy,
+        ReconciliationDiscrepancy,
+    ):
+        raise ValueError(
+            "discrepancy must be a ReconciliationDiscrepancy"
+        )
+
+    if not isinstance(
+        scope_instrument_id,
+        InstrumentId,
+    ):
+        raise ValueError(
+            "scope_instrument_id must be an InstrumentId"
+        )
+
+    if (
+        scope_instrument_id.venue_id
+        != discrepancy.account_id.venue_id
+    ):
+        raise ValueError(
+            "scope instrument venue must match account venue"
+        )
+
+    instrument = discrepancy.instrument_id
+
+    if instrument is not None:
+        if instrument != scope_instrument_id:
+            raise ValueError(
+                "discrepancy instrument outside reconciliation scope"
+            )
+
+        identity_instrument = instrument
+    else:
+        identity_instrument = scope_instrument_id
+
+    material = "|".join(
+        (
+            discrepancy.kind.value,
+            discrepancy.subject.value,
+            str(discrepancy.user_id),
+            str(discrepancy.account_id.venue_id),
+            str(discrepancy.account_id.value),
+            _instrument_identity_text(identity_instrument),
+            discrepancy.local_reference or "",
+            discrepancy.venue_reference or "",
+        )
+    )
+
+    digest = sha256(
+        material.encode("utf-8")
+    ).hexdigest()
+
+    return DiscrepancyId(
+        f"recon-discrepancy:{digest}"
+    )
+
+
 def _result_state(
     source_state: ReconciliationSourceState,
     *,
@@ -421,6 +604,7 @@ class ReconciliationResult:
     state: ReconciliationResultState
     observed_at: datetime
     discrepancies: tuple[ReconciliationDiscrepancy, ...]
+    instrument_id: InstrumentId | None = None
 
     def __post_init__(self) -> None:
         user_id = _require_user_id(self.user_id)
@@ -429,6 +613,25 @@ class ReconciliationResult:
             raise ValueError(
                 "account_id must be an AccountId"
             )
+
+        instrument_id = self.instrument_id
+
+        if instrument_id is not None:
+            if not isinstance(
+                instrument_id,
+                InstrumentId,
+            ):
+                raise ValueError(
+                    "instrument_id must be an InstrumentId"
+                )
+
+            if (
+                instrument_id.venue_id
+                != self.account_id.venue_id
+            ):
+                raise ValueError(
+                    "instrument_id must match account venue"
+                )
 
         if not isinstance(
             self.source_state,
@@ -539,6 +742,7 @@ def build_reconciliation_result(
     source_state: ReconciliationSourceState,
     observed_at: datetime,
     discrepancies: tuple[ReconciliationDiscrepancy, ...] = (),
+    instrument_id: InstrumentId | None = None,
 ) -> ReconciliationResult:
     state = _result_state(
         source_state,
@@ -552,4 +756,5 @@ def build_reconciliation_result(
         state=state,
         observed_at=observed_at,
         discrepancies=discrepancies,
+        instrument_id=instrument_id,
     )

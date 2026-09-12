@@ -53,6 +53,17 @@ class LedgerRepositoryPort(Protocol):
 
         ...
 
+    async def list_for_account(
+        self,
+        *,
+        user_id: int,
+        venue_id: str,
+        account_value: int,
+    ) -> tuple[ExecutionLedgerEventModel, ...]:
+        """Read immutable Ledger evidence for one user-owned account."""
+
+        ...
+
 
 ProjectionMutation = Callable[[AsyncSession], Awaitable[None]]
 
@@ -104,6 +115,21 @@ class ExecutionLedgerPersistenceService:
         return LedgerPersistResult(
             disposition=LedgerPersistDisposition.APPENDED,
             event=appended,
+        )
+
+    async def list_for_account(
+        self,
+        *,
+        user_id: int,
+        venue_id: str,
+        account_value: int,
+    ) -> tuple[ExecutionLedgerEventModel, ...]:
+        """Read account evidence through the configured repository."""
+
+        return await self._repository.list_for_account(
+            user_id=user_id,
+            venue_id=venue_id,
+            account_value=account_value,
         )
 
 
