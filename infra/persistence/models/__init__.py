@@ -4,6 +4,7 @@ from infra.persistence.models.execution import (
     ExecutionPlanLegModel,
     ExecutionPlanModel,
 )
+from infra.persistence.models.aiea import AIEAResearchRecordModel
 from infra.persistence.models.execution_coordinator import (
     ExecutionCoordinatorStateModel,
 )
@@ -22,6 +23,7 @@ from infra.persistence.models.positions import (
 )
 
 __all__ = (
+    "AIEAResearchRecordModel",
     "ExecutionCoordinatorStateModel",
     "ExecutionFillModel",
     "GridInstanceStateModel",

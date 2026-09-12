@@ -1,5 +1,6 @@
 """NEXUS V2 persistence repositories."""
 
+from infra.persistence.repositories.aiea import AIEAResearchRecordRepository
 from infra.persistence.repositories.execution_coordinator import (
     ExecutionCoordinatorStateRepository,
 )
@@ -12,6 +13,7 @@ from infra.persistence.repositories.multi_leg_execution import (
 )
 
 __all__ = (
+    "AIEAResearchRecordRepository",
     "ExecutionCoordinatorStateRepository",
     "ExecutionLedgerRepository",
     "GridInstanceStateRepository",

@@ -1,0 +1,1 @@
+"""AIEA canonical domain."""

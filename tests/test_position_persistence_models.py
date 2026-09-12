@@ -27,6 +27,7 @@ def test_position_tables_registered_with_existing_execution_tables() -> None:
         "execution_coordinator_states",
         "multi_leg_execution_states",
         "grid_instance_states",
+        "aiea_research_records",
     }
 
     assert ExecutionPlanModel.__tablename__ == "execution_plans"

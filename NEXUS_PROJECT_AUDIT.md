@@ -29393,3 +29393,50 @@ NEXUS_V2_INTELLIGENCE_FINAL_VERIFICATION_OK
 
 Phase 9 — AIEA V2.
 
+
+## 2026-09-12 — Phase 9 AIEA V2 Final Verification
+
+### VERIFIED
+
+AIEA V2 implemented as an evidence-driven research and evolution bounded context.
+
+Verified lifecycle: Evidence -> Knowledge Snapshot -> Hypothesis -> Candidate -> Experiment -> Falsification -> OOS / Walk-forward -> Shadow readiness -> independent approval boundary -> Drift -> Rollback -> Research memory.
+
+Mandatory falsification, leakage/holdout discipline, immutable dataset/code/environment binding, candidate parent-child lineage, champion/challenger assessment, model/research artifact registry and append-only persistent research memory are verified.
+
+AIEA research worker remains sandboxed and has no direct execution, venue, credential or order authority.
+
+### TEST EVIDENCE
+
+Focused AIEA suite: 35 passed.
+Adjacent suite: 117 passed.
+Full regression: 642 passed.
+flake8: PASS.
+mypy: PASS — 12 source files.
+Alembic head: b6e8c4d2f903.
+Fresh-session AIEA persistence: PASS.
+git diff --check: PASS.
+
+### SAFETY
+
+AI promotion remains SHADOW-ONLY.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+NEXUS_V2_AIEA_OK
+
+### AUDIT_TAG
+
+NEXUS_V2_AIEA_FINAL_VERIFICATION_OK
+
+### NEXT
+
+Phase 10 — Multi-user / Settings / Security.
+

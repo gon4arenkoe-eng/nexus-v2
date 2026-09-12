@@ -1,0 +1,43 @@
+"""AIEA ports for durable research records and isolated research workers."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Protocol
+
+from apps.aiea.domain.research import (
+    CandidateVersion,
+    ExperimentRecord,
+    Hypothesis,
+    ResearchArtifact,
+    ResearchEvidence,
+    ResearchMemoryEntry,
+)
+
+
+if TYPE_CHECKING:
+    from apps.aiea.application.research_loop import ResearchTask
+
+
+class ResearchRecordStore(Protocol):
+    async def append_evidence(self, value: ResearchEvidence) -> None: ...
+
+    async def append_memory(self, value: ResearchMemoryEntry) -> None: ...
+
+    async def append_hypothesis(self, value: Hypothesis) -> None: ...
+
+    async def append_candidate(self, value: CandidateVersion) -> None: ...
+
+    async def append_experiment(self, value: ExperimentRecord) -> None: ...
+
+    async def append_artifact(self, value: ResearchArtifact) -> None: ...
+
+    async def list_record_ids(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+    ) -> tuple[str, ...]: ...
+
+
+class ResearchWorkerPort(Protocol):
+    async def execute(self, task: ResearchTask) -> ExperimentRecord: ...
