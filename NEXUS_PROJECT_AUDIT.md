@@ -28662,3 +28662,153 @@ No production authority changed.
 Implement deterministic continuous reconciliation after startup so
 repeated live reconciliation passes continue to detect and persist
 drift without destructive auto-correction.
+## 2026-09-12 — Phase 3 Deterministic Continuous Reconciliation Cycle
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
+
+### FACT
+
+Core now owns a deterministic repeated reconciliation cycle boundary
+for runtime reconciliation after startup.
+
+Each cycle receives immutable canonical local/venue snapshots for one
+or more account/instrument scopes.
+
+Scopes are processed in deterministic canonical order.
+
+Each scope runs through the existing
+`ReconciliationPassOrchestrator` and therefore completes only after
+immutable discrepancy evidence persistence.
+
+### CONTINUOUS SEMANTICS
+
+One `run_cycle` represents one complete runtime reconciliation
+iteration.
+
+Runtime timing/scheduling is intentionally outside this pure Core
+boundary.
+
+The cycle does not sleep, loop forever, query exchanges directly or
+own infrastructure scheduling.
+
+A runtime lifecycle/scheduler may repeatedly invoke this deterministic
+cycle with fresh canonical observations.
+
+### REPEATED RECONCILIATION
+
+Equivalent snapshot inputs produce equivalent deterministic cycle
+results independent of caller scope ordering.
+
+A later cycle may observe new venue drift and returns the new explicit
+reconciliation state.
+
+`STALE`, `DEGRADED`, `UNAVAILABLE`, `UNKNOWN` and
+`DISCREPANCY` are preserved rather than converted to MATCHED.
+
+### FAIL-CLOSED BEHAVIOR
+
+A cycle fails closed when:
+
+- no required scopes are supplied;
+- duplicate scopes are supplied;
+- reconciliation detection fails;
+- evidence persistence fails;
+- result ownership mismatches the requested scope.
+
+A failed cycle does not return a successful cycle receipt.
+
+Previously persisted immutable evidence remains valid and retry-safe.
+
+### NO AUTO-CORRECTION
+
+Continuous reconciliation only detects and records drift.
+
+It does not:
+
+- submit orders;
+- cancel orders;
+- mutate venue state;
+- mutate positions destructively;
+- invoke ExecutionCoordinator;
+- activate strategies.
+
+Any destructive correction remains outside Phase 3 without separately
+approved policy.
+
+### REFERENCE CHECK
+
+NautilusTrader was reviewed as a mature reference.
+
+Its continuous reconciliation starts after startup reconciliation and
+performs periodic runtime checks for orders and positions.
+
+NEXUS adopts the startup-before-continuous sequencing and periodic
+reconciliation concept only.
+
+NEXUS does not copy Nautilus destructive/synthetic recovery behavior;
+Phase 3 remains evidence-only unless a separate policy is approved.
+
+### EVIDENCE
+
+Focused:
+
+`69 passed in 0.65s`
+
+Full:
+
+`436 passed in 0.87s`
+
+Additional verification:
+
+- deterministic scope order: PASS;
+- repeated equal cycle determinism: PASS;
+- later-cycle drift detection: PASS;
+- non-current state preservation: PASS;
+- evidence persistence before cycle completion: PASS;
+- persistence failure fail-closed: PASS;
+- duplicate scope fail-closed: PASS;
+- empty cycle fail-closed: PASS;
+- Core infrastructure/execution authority check: PASS;
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_CONTINUOUS_RECONCILIATION_CYCLE_OK`
+
+This closes the deterministic continuous reconciliation cycle boundary.
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production scheduler was enabled.
+
+No production database change was executed.
+
+No production strategy activation was performed.
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Close the next real Phase 3 gap by verifying and implementing the
+remaining venue account/balance observation and account discrepancy
+coverage required by the Master Plan before considering the overall
+Phase 3 gate.
