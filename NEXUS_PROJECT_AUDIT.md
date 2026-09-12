@@ -29718,3 +29718,68 @@ NEXUS_V2_PHASE12_DIGEST_DEPLOY_ROLLBACK_VERIFIED
 
 Final Phase 12 gate review remains required before closing NEXUS_V2_RELEASE_PIPELINE_OK.
 
+
+## 2026-09-12 — Phase 12 CI/CD + Production Packaging Final Verification
+
+### VERIFIED
+
+Phase 12 release pipeline requirements have been fully reviewed and verified.
+
+Verified release chain:
+source commit -> CI verification -> CI-only immutable release image -> GHCR -> image digest -> SBOM/provenance attestations -> digest-pinned deployment manifest -> backup-before-cutover contract -> previous verified digest rollback.
+
+### REQUIRED CAPABILITIES
+
+IMMUTABLE_IMAGES=VERIFIED
+GHCR_PUBLISHING=VERIFIED
+SBOM=VERIFIED
+ATTESTATIONS=VERIFIED
+DEPLOY_MANIFEST=VERIFIED
+BACKUP_RUNBOOK=VERIFIED
+ROLLBACK_RUNBOOK=VERIFIED
+NO_BUILD_ON_PRODUCTION=VERIFIED
+
+### RELEASE INVARIANTS
+
+CI_ONLY_BUILD=VERIFIED
+DEPLOY_REFERENCE=DIGEST_ONLY
+ROLLBACK_REFERENCE=PREVIOUS_VERIFIED_DIGEST
+BACKUP_BEFORE_CUTOVER=REQUIRED
+PRODUCTION_DEPLOY_AUTHORITY=NO
+
+### TEST EVIDENCE
+
+Focused Phase 12 suite: 23 passed.
+Full regression: 728 passed.
+Release foundation policy: PASS.
+Supply-chain evidence policy: PASS.
+Digest deploy/rollback policy: PASS.
+Alembic head: d8a0e6f5b125.
+git diff --check: PASS.
+Final Gate Review: PASS.
+GAP_COUNT=0.
+
+### SAFETY
+
+AI promotion remains SHADOW-ONLY.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+Production source builds remain FORBIDDEN.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+NEXUS_V2_RELEASE_PIPELINE_OK
+
+### AUDIT_TAG
+
+NEXUS_V2_RELEASE_PIPELINE_FINAL_VERIFICATION_OK
+
+### NEXT
+
+Phase 13 — Venue Certification.
+
