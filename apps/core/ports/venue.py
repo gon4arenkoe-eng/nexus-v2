@@ -566,3 +566,38 @@ class VenueAdapter(ABC):
         venue_order_id: VenueOrderId,
     ) -> VenueOrderResult:
         """Query one normalized venue order."""
+
+    @abstractmethod
+    async def get_open_orders(
+        self,
+        *,
+        account_id: AccountId,
+        instrument_id: InstrumentId | None = None,
+    ) -> tuple[VenueOrderResult, ...]:
+        """Read normalized open venue orders."""
+
+    @abstractmethod
+    async def get_positions(
+        self,
+        *,
+        account_id: AccountId,
+    ) -> tuple[VenuePosition, ...]:
+        """Read normalized venue positions."""
+
+    @abstractmethod
+    async def get_account_state(
+        self,
+        *,
+        account_id: AccountId,
+    ) -> VenueAccountState:
+        """Read normalized account and balance state."""
+
+    @abstractmethod
+    async def get_fills(
+        self,
+        *,
+        account_id: AccountId,
+        instrument_id: InstrumentId | None = None,
+        since: datetime | None = None,
+    ) -> tuple[VenueFill, ...]:
+        """Read normalized immutable venue fill observations."""

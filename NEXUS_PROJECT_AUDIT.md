@@ -27775,3 +27775,108 @@ Phase 3 overall gate remains OPEN.
 
 Implement explicit reconciliation source/result states and canonical
 discrepancy contracts before startup or continuous reconciliation runtime.
+## 2026-09-12 — Phase 3 Generic VenueAdapter Reconciliation Contract Suite
+
+### FACT
+
+Implemented the generic canonical VenueAdapter reconciliation read
+surface and reusable contract-test suite.
+
+Canonical asynchronous reconciliation reads now include:
+
+- `get_order`;
+- `get_open_orders`;
+- `get_positions`;
+- `get_account_state`;
+- `get_fills`.
+
+`get_fills` supports an optional canonical `since` timestamp.
+
+### CAPABILITY SAFETY
+
+The reusable contract suite requires:
+
+- `ORDER_QUERY`;
+- `OPEN_ORDER_QUERY`;
+- `POSITION_QUERY`;
+- `ACCOUNT_QUERY`;
+- `FILL_QUERY`.
+
+Missing required capability fails closed before adapter reads begin.
+
+### TESTKIT COMPATIBILITY
+
+Existing `packages.testkit.fake_venue.FakeVenue` remains unchanged.
+
+It remains the deterministic synchronous Phase 1 helper and does not
+inherit `VenueAdapter`.
+
+A dedicated deterministic adapter is used to prove the canonical async
+VenueAdapter contract instead of changing verified FakeVenue behavior.
+
+### REUSABLE CONTRACT SUITE
+
+Added:
+
+`packages/testkit/venue_adapter_contracts.py`
+
+with:
+
+- `VenueAdapterReadContractCase`;
+- `verify_venue_adapter_read_contract`.
+
+This reusable suite is the common canonical boundary for future venue
+adapter certification.
+
+### ARCHITECTURE
+
+No raw venue dictionary enters Core.
+
+No exchange SDK, SQLAlchemy or FastAPI dependency was introduced.
+
+The reconciliation read contract performs no submit/cancel operation.
+
+No discrepancy decision, destructive correction, ExecutionCoordinator
+behavior or production authority was introduced.
+
+### EVIDENCE
+
+Focused verification:
+
+`53 passed in 0.11s`
+
+Full regression:
+
+`367 passed in 0.73s`
+
+Static evidence:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- FakeVenue compatibility guard: PASS;
+- Core dependency guard: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_VENUE_ADAPTER_CONTRACT_SUITE_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Implement explicit Reconciliation source/result states and canonical
+discrepancy contracts before startup or continuous reconciliation runtime.
