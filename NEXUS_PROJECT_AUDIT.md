@@ -29348,3 +29348,48 @@ NEXUS_V2_GRID_TRADING_DESK_FINAL_VERIFICATION_OK
 
 Phase 8 — Intelligence V2.
 
+
+## 2026-09-12 — Phase 8 Intelligence V2 Final Verification
+
+### VERIFIED
+
+Intelligence V2 implemented as a read-only bounded context producing canonical market observations and normalized MarketContext.
+
+Verified scope: trades, candles, top-of-book, order-book depth, funding/open-interest, mark/index prices, news/events, correlations, provenance, event-time/ingestion-time, freshness, gaps, duplicates, outliers, trend, volatility, liquidity, funding state, event risk, market regime, quality score and explicit blockers.
+
+STALE, DEGRADED, UNAVAILABLE and UNKNOWN remain explicit and fail closed.
+
+Intelligence has no execution authority and no direct order submission/cancellation path.
+
+### TEST EVIDENCE
+
+Focused Intelligence suite: 36 passed.
+Adjacent Strategy/PortfolioRisk suite: 49 passed.
+Full regression: 607 passed.
+flake8: PASS.
+mypy: PASS — 7 source files.
+Alembic head: a5d7e9c3b102; no Phase 8 migration required.
+git diff --check: PASS.
+
+### SAFETY
+
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+NEXUS_V2_INTELLIGENCE_OK
+
+### AUDIT_TAG
+
+NEXUS_V2_INTELLIGENCE_FINAL_VERIFICATION_OK
+
+### NEXT
+
+Phase 9 — AIEA V2.
+
