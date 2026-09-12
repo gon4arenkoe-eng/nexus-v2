@@ -17,6 +17,20 @@ from infra.persistence.models.ledger import ExecutionLedgerEventModel
 from infra.persistence.models.multi_leg_execution import (
     MultiLegExecutionStateModel,
 )
+from infra.persistence.models.platform_security import (
+    AuditEventModel,
+    BillingEventModel,
+    EncryptedSecretModel,
+    EntitlementOverrideModel,
+    QuotaUsageModel,
+    ProductPlanVersionModel,
+    ProductPlanModel,
+    ResourceOwnershipModel,
+    SettingVersionModel,
+    SubscriptionModel,
+    WorkspaceMembershipModel,
+    WorkspaceModel,
+)
 from infra.persistence.models.positions import (
     PositionGroupModel,
     PositionLegModel,
@@ -34,4 +48,16 @@ __all__ = (
     "ExecutionPlanModel",
     "PositionGroupModel",
     "PositionLegModel",
+    "AuditEventModel",
+    "BillingEventModel",
+    "EncryptedSecretModel",
+    "EntitlementOverrideModel",
+    "QuotaUsageModel",
+    "ProductPlanVersionModel",
+    "ProductPlanModel",
+    "ResourceOwnershipModel",
+    "SettingVersionModel",
+    "SubscriptionModel",
+    "WorkspaceMembershipModel",
+    "WorkspaceModel",
 )

@@ -29440,3 +29440,49 @@ NEXUS_V2_AIEA_FINAL_VERIFICATION_OK
 
 Phase 10 — Multi-user / Settings / Security.
 
+
+## 2026-09-12 — Phase 10 Multi-user / Settings / Security Final Verification
+
+### VERIFIED
+
+Multi-user, settings, security and product-access boundaries implemented and verified.
+
+Verified scope: workspace/tenant membership, OWNER/ADMIN/TRADER/VIEWER roles, explicit permissions, cross-tenant isolation, resource ownership, hierarchical settings precedence, safety-critical settings audit, encrypted-secret metadata, secret rotation metadata, AIEA credential-deny policy, product plans, plan versions, subscriptions, entitlement overrides, quota definitions/snapshots/reservations and billing-event idempotency.
+
+Commercial access does not bypass Risk, Reconciliation or live-authority controls.
+
+### TEST EVIDENCE
+
+Focused Phase 10 suite: 41 passed.
+Adjacent suite: 147 passed.
+Full regression: 683 passed.
+flake8: PASS.
+mypy: PASS — 75 source files.
+Alembic head: c7f9d5e4a014.
+Fresh-session settings/security persistence: PASS.
+SQLite UTC hydration boundary: VERIFIED.
+git diff --check: PASS.
+
+### SAFETY
+
+AI promotion remains SHADOW-ONLY.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+NEXUS_V2_MULTI_USER_SECURITY_OK
+
+### AUDIT_TAG
+
+NEXUS_V2_MULTI_USER_SECURITY_FINAL_VERIFICATION_OK
+
+### NEXT
+
+Phase 11 — Control Plane.
+

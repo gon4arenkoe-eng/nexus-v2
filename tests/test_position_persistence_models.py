@@ -28,6 +28,18 @@ def test_position_tables_registered_with_existing_execution_tables() -> None:
         "multi_leg_execution_states",
         "grid_instance_states",
         "aiea_research_records",
+        "workspaces",
+        "product_plans",
+        "product_plan_versions",
+        "quota_usage",
+        "workspace_memberships",
+        "resource_ownership",
+        "setting_versions",
+        "audit_events",
+        "workspace_subscriptions",
+        "entitlement_overrides",
+        "billing_events",
+        "encrypted_secrets",
     }
 
     assert ExecutionPlanModel.__tablename__ == "execution_plans"

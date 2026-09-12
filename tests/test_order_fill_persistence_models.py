@@ -9,6 +9,7 @@ from sqlalchemy.schema import CreateTable
 
 from infra.persistence.base import PersistenceBase
 from infra.persistence.models.aiea import AIEAResearchRecordModel
+from infra.persistence.models.platform_security import WorkspaceModel
 from infra.persistence.models.execution_orders import (
     ExecutionFillModel,
     ExecutionOrderModel,
@@ -45,6 +46,18 @@ def test_order_fill_tables_registered() -> None:
         "multi_leg_execution_states",
         "grid_instance_states",
         "aiea_research_records",
+        "workspaces",
+        "product_plans",
+        "product_plan_versions",
+        "quota_usage",
+        "workspace_memberships",
+        "resource_ownership",
+        "setting_versions",
+        "audit_events",
+        "workspace_subscriptions",
+        "entitlement_overrides",
+        "billing_events",
+        "encrypted_secrets",
     }
 
 

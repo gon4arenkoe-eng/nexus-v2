@@ -13,9 +13,13 @@ from infra.persistence.repositories.multi_leg_execution import (
 )
 
 __all__ = (
+    "PlatformSecurityRepository",
     "AIEAResearchRecordRepository",
     "ExecutionCoordinatorStateRepository",
     "ExecutionLedgerRepository",
     "GridInstanceStateRepository",
     "MultiLegExecutionStateRepository",
+)
+from infra.persistence.repositories.platform_security import (
+    PlatformSecurityRepository,
 )
