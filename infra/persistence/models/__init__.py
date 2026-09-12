@@ -8,6 +8,7 @@ from infra.persistence.models.execution_orders import (
     ExecutionFillModel,
     ExecutionOrderModel,
 )
+from infra.persistence.models.ledger import ExecutionLedgerEventModel
 from infra.persistence.models.positions import (
     PositionGroupModel,
     PositionLegModel,
@@ -15,6 +16,7 @@ from infra.persistence.models.positions import (
 
 __all__ = (
     "ExecutionFillModel",
+    "ExecutionLedgerEventModel",
     "ExecutionOrderModel",
     "ExecutionPlanLegModel",
     "ExecutionPlanModel",

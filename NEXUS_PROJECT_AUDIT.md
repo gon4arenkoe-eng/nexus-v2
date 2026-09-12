@@ -27299,3 +27299,333 @@ Production safety remains unchanged:
 
 Resume Phase 2 FACT/Audit/Inventory/code inspection and identify the first
 remaining mandatory capability gap before implementing additional Core code.
+## 2026-09-10 — Phase 2 Execution Ledger Repository
+
+### FACT
+
+Implemented the Phase 2 persistence-only immutable Ledger repository:
+
+- `infra/persistence/repositories/ledger.py`;
+- `infra/persistence/repositories/__init__.py`;
+- focused contract tests in `tests/test_ledger_repository.py`.
+
+Repository surface:
+
+- `add`;
+- `get_by_event_id`;
+- `list_for_plan`;
+- `list_for_group`;
+- `list_for_leg`;
+- `list_for_order`;
+- `list_for_fill`.
+
+Read operations require explicit `user_id`.
+
+PositionLeg lookup preserves canonical composite ownership:
+
+`(group_id, leg_id)`.
+
+Deterministic Ledger ordering is:
+
+`occurred_at ASC → id ASC`.
+
+### BOUNDARY
+
+Repository remains persistence-only.
+
+Verified absent:
+
+- commit;
+- rollback;
+- Ledger update/delete/remove API;
+- VenueAdapter;
+- ExecutionCoordinator;
+- ExecutionBoundary;
+- reconciliation;
+- order submission.
+
+Application transaction ownership remains outside the repository.
+
+### EVIDENCE
+
+Local verification:
+
+- flake8: PASS;
+- mypy: PASS — 2 source files;
+- compileall: PASS;
+- focused Ledger persistence + repository: 16 passed;
+- full repository regression: 332 passed;
+- `git diff --check`: PASS.
+
+The earlier repository typing defect:
+
+`criterion: object`
+
+was corrected to the SQLAlchemy boolean expression type:
+
+`ColumnElement[bool]`.
+
+### STATUS
+
+`LOCAL TEST VERIFIED`
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_LEDGER_REPOSITORY_LOCAL_OK`
+
+This is local Phase 2 evidence.
+
+The overall Phase 2 gate remains OPEN.
+
+No production authority changed.
+
+### NEXT STEP
+
+Implement the Phase 2 atomic Ledger application-service boundary:
+
+`projection mutation + immutable Ledger append + flush → one caller-owned transaction`
+
+with deterministic event idempotency:
+
+- exact duplicate event → idempotent result;
+- same `event_id` with conflicting immutable content → fail closed.
+
+No reconciliation, VenueAdapter or ExecutionCoordinator integration in this step.
+## 2026-09-10 — Phase 2 Execution Ledger Atomic Application Service
+
+### FACT
+
+Implemented the persistence application boundary:
+
+- `infra/persistence/application/ledger.py`;
+- `infra/persistence/application/__init__.py`;
+- `tests/test_ledger_application_service.py`.
+
+Canonical persistence operation:
+
+`projection mutation → immutable Ledger append/flush → caller-owned transaction`
+
+The service does not commit or rollback.
+
+### IDEMPOTENCY
+
+Deterministic event identity behavior:
+
+- new `event_id` → projection mutation + Ledger append;
+- exact existing immutable event → `DUPLICATE` and no repeated projection mutation;
+- same `event_id` with conflicting immutable content → fail closed with `LedgerEventConflictError`.
+
+Persistence surrogate `id` is excluded from immutable-content equivalence.
+
+Ledger business/evidence content remains part of equivalence.
+
+### BOUNDARY
+
+Verified absent:
+
+- commit ownership;
+- rollback ownership;
+- VenueAdapter dependency;
+- ExecutionCoordinator dependency;
+- order submission;
+- reconciliation workflow.
+
+The caller remains transaction owner.
+
+### EVIDENCE
+
+Local verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- focused Ledger verification: 22 passed in 0.40s;
+- full regression: 338 passed in 0.64s;
+- architecture boundary guard: PASS;
+- `git diff --check`: PASS.
+
+Reference check:
+
+- NautilusTrader persists execution events for restart recovery rather than relying only on venue history;
+- Hummingbot issue #8042 demonstrates the failure mode of shutdown-only/deferred executor persistence.
+
+### STATUS
+
+`LOCAL TEST VERIFIED`
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_LEDGER_APPLICATION_SERVICE_LOCAL_OK`
+
+Overall Phase 2 gate remains OPEN.
+
+No production authority changed.
+
+### NEXT STEP
+
+Implement deterministic persistence replay verification over stored immutable Ledger events and compare deterministic projections/state.
+
+PostgreSQL migration apply remains required before final Phase 2 gate closure.
+## 2026-09-10 — Phase 2 Deterministic Execution Ledger Persistence Replay
+
+### FACT
+
+Implemented deterministic replay verification over persisted immutable
+Execution Ledger evidence:
+
+- `infra/persistence/application/replay.py`;
+- `tests/test_ledger_persistence_replay.py`.
+
+Replay canonicalizes immutable event content and orders events by:
+
+`occurred_at → recorded_at → event_id`.
+
+Persistence-only surrogate database `id` is not replay truth.
+
+Replay reconstructs deterministic latest evidence heads for:
+
+- ExecutionPlan;
+- PositionGroup;
+- composite PositionLeg `(group_id, leg_id)`;
+- ExecutionOrder;
+- ExecutionFill.
+
+### IDEMPOTENCY / FAILURE SAFETY
+
+Verified:
+
+- shuffled input produces identical projection and digest;
+- exact duplicate event collapses idempotently;
+- conflicting content under the same `event_id` fails closed;
+- JSON object key order does not change the replay digest;
+- timezone-naive timestamps fail closed;
+- user/plan ownership is preserved by repository replay reads.
+
+### BOUNDARY
+
+This is Phase 2 persisted Ledger replay evidence.
+
+It does not implement:
+
+- venue reconciliation;
+- startup strategy activation;
+- ExecutionCoordinator;
+- exchange write access.
+
+Those remain Phase 3/4 responsibilities.
+
+### EVIDENCE
+
+Local verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- focused Ledger/replay verification: 31 passed in 0.41s;
+- full regression: 347 passed in 0.68s;
+- `git diff --check`: PASS.
+
+GitHub/reference check:
+
+- NautilusTrader models execution/position changes as immutable events;
+- persisted execution events are recommended for complete recovery;
+- immutable message/event content supports replay, debugging and audit.
+
+### STATUS
+
+`LOCAL TEST VERIFIED`
+
+Evidence tag:
+
+`NEXUS_V2_EXECUTION_LEDGER_PERSISTENCE_REPLAY_LOCAL_OK`
+
+Overall Phase 2 gate remains OPEN pending final PostgreSQL migration /
+schema verification and gate publication evidence.
+
+No production authority changed.
+
+### NEXT STEP
+
+Perform final local PostgreSQL Phase 2 persistence verification:
+
+- apply `7da0d0b113ef`;
+- verify execution_ledger_events schema/indexes/FKs;
+- verify Alembic revision;
+- verify downgrade/upgrade path where safe;
+- run final tests;
+- record Phase 2 gate evidence;
+- commit/push and verify hosted CI.
+## 2026-09-10 — Phase 2 Core V2 Foundation Gate Closure
+
+### FACT
+
+Phase 2 mandatory Core V2 scope is implemented and verified:
+
+- TradeIntent and canonical identities;
+- Venue order contracts;
+- ExecutionPlan / ExecutionPlanLeg;
+- PositionGroup / PositionLeg;
+- ExecutionOrder / ExecutionFill;
+- local / venue order-state separation;
+- immutable Execution Ledger;
+- Ledger persistence repository;
+- caller-owned atomic persistence boundary;
+- deterministic event idempotency;
+- deterministic persistence replay.
+
+No legacy runtime cutover occurred.
+
+### POSTGRESQL INTEGRATION
+
+Verified using an isolated native PostgreSQL 17 test cluster:
+
+- complete Alembic chain reaches `7da0d0b113ef`;
+- all seven Phase 2 Core persistence tables exist;
+- `execution_ledger_events` has 26 expected columns;
+- payload is JSONB, NOT NULL, with server default;
+- required Ledger indexes verified;
+- unique event identity verified;
+- composite PositionLeg constraint verified;
+- downgrade to `4d6f7a8b9c01` removes Ledger schema;
+- re-upgrade to `7da0d0b113ef` succeeds.
+
+The database was disposable and development-only.
+No production database was changed.
+
+### EVIDENCE
+
+Latest full regression:
+
+`347 passed in 0.75s`
+
+Static verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- PostgreSQL integration: PASS;
+- Alembic upgrade/downgrade/re-upgrade: PASS;
+- deterministic replay: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Gate:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+
+Production authority remains unchanged.
+
+### PRODUCTION SAFETY
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Publish the Phase 2 changeset and verify hosted CI, then begin Phase 3 Reconciliation.

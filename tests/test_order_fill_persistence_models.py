@@ -38,6 +38,7 @@ def test_order_fill_tables_registered() -> None:
         "position_legs",
         "execution_orders",
         "execution_fills",
+        "execution_ledger_events",
     }
 
 
