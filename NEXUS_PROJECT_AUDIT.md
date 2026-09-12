@@ -28001,3 +28001,114 @@ No production authority changed.
 
 Implement pure deterministic discrepancy detection over canonical local
 and venue order/fill/position state without persistence or correction.
+## 2026-09-12 — Phase 3 Deterministic Reconciliation Detector
+
+### FACT
+
+Implemented pure deterministic Phase 3 reconciliation detection over
+canonical Core state and canonical venue observations.
+
+Comparison sequence:
+
+1. orders;
+2. fills;
+3. positions;
+4. canonical `ReconciliationResult`.
+
+### POSITION SIDE PROJECTION
+
+Phase 2 `PositionLeg` remains unchanged.
+
+For PositionLeg exposure reconciliation only:
+
+- `TradeSide.BUY` -> `VenuePositionSide.LONG`;
+- `TradeSide.SELL` -> `VenuePositionSide.SHORT`.
+
+This projection is not applied to arbitrary ExecutionOrder direction and
+does not infer `reduce_only` or close semantics.
+
+No Phase 2 schema or migration changed.
+
+### DETECTION COVERAGE
+
+Implemented:
+
+- local order missing on venue;
+- venue order unknown locally;
+- order state/projection drift;
+- missing local fill;
+- duplicate/replayed fill;
+- deterministic SHA-256 fill fallback identity;
+- local position missing on venue;
+- venue position missing locally;
+- quantity drift;
+- side drift;
+- entry-price drift;
+- fail-visible non-current source handling.
+
+### DETERMINISM / SAFETY
+
+Order, fill and position discrepancy families are independently tested.
+
+Test snapshots include matching unaffected entities so a focused
+discrepancy test does not suppress other valid detector findings.
+
+`STALE / DEGRADED / UNAVAILABLE / UNKNOWN` sources do not perform
+negative local-versus-venue comparison.
+
+### ARCHITECTURE
+
+Detector is Core application logic consuming canonical domain state and
+canonical Venue observation contracts.
+
+No persistence, SQLAlchemy, VenueAdapter writes, corrective mutation,
+ExecutionCoordinator behavior or production authority was introduced.
+
+### EVIDENCE
+
+Focused:
+
+`50 passed in 0.12s`
+
+Full:
+
+`397 passed in 0.81s`
+
+Static:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- `git diff --check`: PASS;
+- position exposure projection tests: PASS;
+- order discrepancy tests: PASS;
+- fill discrepancy tests: PASS;
+- position discrepancy tests: PASS;
+- deterministic input-order test: PASS;
+- non-current source fail-visible test: PASS;
+- no write-authority test: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_DETECTOR_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Persist reconciliation discrepancy output as immutable canonical Ledger
+evidence without destructive state correction.
