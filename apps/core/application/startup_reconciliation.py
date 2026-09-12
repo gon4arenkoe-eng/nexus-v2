@@ -21,6 +21,8 @@ from apps.core.ports.venue import (
     VenueOrderResult,
     VenuePosition,
 )
+from apps.core.ports.venue_account import VenueAccountState
+
 from packages.contracts.identities import (
     AccountId,
     InstrumentId,
@@ -48,6 +50,7 @@ class ReconciliationPassRunnerPort(Protocol):
         venue_fills: tuple[VenueFill, ...],
         local_positions: tuple[PositionLeg, ...],
         venue_positions: tuple[VenuePosition, ...],
+        venue_account: VenueAccountState | None = None,
     ) -> ReconciliationResult:
         """Return only after immutable reconciliation evidence persists."""
 
@@ -69,6 +72,7 @@ class StartupReconciliationInput:
     venue_fills: tuple[VenueFill, ...] = ()
     local_positions: tuple[PositionLeg, ...] = ()
     venue_positions: tuple[VenuePosition, ...] = ()
+    venue_account: VenueAccountState | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -174,6 +178,7 @@ class StartupReconciliationActivationGate:
                 venue_fills=item.venue_fills,
                 local_positions=item.local_positions,
                 venue_positions=item.venue_positions,
+                venue_account=item.venue_account,
             )
 
             if result.user_id != item.user_id:

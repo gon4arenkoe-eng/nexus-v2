@@ -27,6 +27,12 @@ from apps.core.ports.venue import (
     VenuePosition,
     VenuePositionSide,
 )
+from apps.core.ports.venue_account import (
+    VenueAccountObservationState,
+    VenueAccountState,
+)
+
+
 from packages.contracts.identities import (
     AccountId,
     InstrumentId,
@@ -710,6 +716,58 @@ def _detect_positions(
     return result
 
 
+def _detect_account_observation(
+    *,
+    user_id: int,
+    account_id: AccountId,
+    venue_account: VenueAccountState | None,
+) -> list[ReconciliationDiscrepancy]:
+    if venue_account is None:
+        return []
+
+    if venue_account.account_id != account_id:
+        raise ReconciliationDetectionError(
+            "venue account observation outside reconciliation scope"
+        )
+
+    if (
+        venue_account.state
+        is VenueAccountObservationState.CURRENT
+    ):
+        return []
+
+    if (
+        venue_account.state
+        is VenueAccountObservationState.STALE
+    ):
+        kind = (
+            ReconciliationDiscrepancyKind
+            .ACCOUNT_BALANCE_STALE
+        )
+    elif (
+        venue_account.state
+        is VenueAccountObservationState.UNAVAILABLE
+    ):
+        kind = (
+            ReconciliationDiscrepancyKind
+            .ACCOUNT_BALANCE_UNAVAILABLE
+        )
+    else:
+        raise ReconciliationDetectionError(
+            "unsupported venue account observation state"
+        )
+
+    return [
+        ReconciliationDiscrepancy(
+            kind=kind,
+            subject=ReconciliationSubject.ACCOUNT,
+            user_id=user_id,
+            account_id=account_id,
+            observed_at=venue_account.observed_at,
+        )
+    ]
+
+
 def detect_reconciliation(
     *,
     user_id: int,
@@ -723,6 +781,7 @@ def detect_reconciliation(
     venue_fills: tuple[VenueFill, ...],
     local_positions: tuple[PositionLeg, ...],
     venue_positions: tuple[VenuePosition, ...],
+    venue_account: VenueAccountState | None = None,
 ) -> ReconciliationResult:
     """Compare one canonical account/instrument reconciliation scope."""
 
@@ -749,6 +808,14 @@ def detect_reconciliation(
         )
 
     discrepancies: list[ReconciliationDiscrepancy] = []
+
+    discrepancies.extend(
+        _detect_account_observation(
+            user_id=user_id,
+            account_id=account_id,
+            venue_account=venue_account,
+        )
+    )
 
     discrepancies.extend(
         _detect_orders(

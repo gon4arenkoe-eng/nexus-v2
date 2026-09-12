@@ -22,6 +22,8 @@ from apps.core.ports.venue import (
     VenueOrderResult,
     VenuePosition,
 )
+from apps.core.ports.venue_account import VenueAccountState
+
 from packages.contracts.identities import (
     AccountId,
     InstrumentId,
@@ -63,6 +65,7 @@ class ReconciliationPassOrchestrator:
         venue_fills: tuple[VenueFill, ...],
         local_positions: tuple[PositionLeg, ...],
         venue_positions: tuple[VenuePosition, ...],
+        venue_account: VenueAccountState | None = None,
     ) -> ReconciliationResult:
         """Detect, persist evidence, then expose completed pass result."""
 
@@ -78,6 +81,7 @@ class ReconciliationPassOrchestrator:
             venue_fills=venue_fills,
             local_positions=local_positions,
             venue_positions=venue_positions,
+            venue_account=venue_account,
         )
 
         await self._evidence.persist_result(result)

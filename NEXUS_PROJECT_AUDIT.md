@@ -28812,3 +28812,132 @@ Close the next real Phase 3 gap by verifying and implementing the
 remaining venue account/balance observation and account discrepancy
 coverage required by the Master Plan before considering the overall
 Phase 3 gate.
+## 2026-09-12 — Phase 3 Venue Account Observation and Balance Discrepancies
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN pending a full
+Phase 3 gate review.
+
+### FACT
+
+A canonical venue account/balance observation contract now exists.
+
+`VenueAccountState` owns:
+
+- account identity;
+- explicit observation quality;
+- observation timestamp;
+- deterministic canonical balance collection.
+
+`VenueBalance` owns decimal-safe total and available balance
+observations per asset.
+
+### OBSERVATION STATES
+
+Account observation quality is explicit:
+
+- `CURRENT`;
+- `STALE`;
+- `UNAVAILABLE`.
+
+An UNAVAILABLE observation cannot fabricate balances.
+
+Duplicate asset balances fail closed.
+
+### RECONCILIATION
+
+Account observations are wired through the canonical reconciliation
+detector, pass orchestrator, startup gate and continuous reconciliation.
+
+A CURRENT account observation produces no account discrepancy.
+
+A STALE account observation emits:
+
+`ACCOUNT_BALANCE_STALE`
+
+An UNAVAILABLE account observation emits:
+
+`ACCOUNT_BALANCE_UNAVAILABLE`
+
+Account discrepancies remain account-scoped and do not fabricate an
+instrument identity.
+
+Account ownership mismatch fails closed.
+
+### STARTUP SAFETY
+
+A stale or unavailable account discrepancy creates a non-MATCHED
+startup result and therefore blocks `strategy_execution_allowed`.
+
+No strategy activation side effect was added.
+
+### ARCHITECTURE
+
+- no exchange SDK entered canonical Core logic;
+- no raw exchange payload entered canonical Core;
+- no direct venue write was introduced;
+- no destructive reconciliation correction was introduced;
+- no SQLAlchemy dependency entered Core domain/application logic;
+- venue adapters remain responsible for external payload conversion.
+
+### EVIDENCE
+
+Focused:
+
+`68 passed in 0.50s`
+
+Full:
+
+`445 passed in 0.85s`
+
+Additional verification:
+
+- detector function spacing: PASS;
+- account/balance contract tests: PASS;
+- deterministic balance ordering: PASS;
+- duplicate asset fail-closed: PASS;
+- unavailable balance fabrication guard: PASS;
+- CURRENT account observation: PASS;
+- ACCOUNT_BALANCE_STALE: PASS;
+- ACCOUNT_BALANCE_UNAVAILABLE: PASS;
+- account ownership mismatch fail-closed: PASS;
+- startup account-state blocking: PASS;
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_VENUE_ACCOUNT_RECONCILIATION_OK`
+
+### PRODUCTION SAFETY
+
+No production venue adapter was changed.
+
+No production account query was executed.
+
+No production database change was executed.
+
+No production strategy activation was performed.
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Perform the full Phase 3 gate review against Master Plan, current Audit,
+Functional Inventory and actual Core code before declaring
+`TRADING_CORE_V2_RECONCILIATION_OK`.
