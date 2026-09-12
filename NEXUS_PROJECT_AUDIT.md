@@ -27629,3 +27629,68 @@ Production authority remains unchanged.
 ### NEXT STEP
 
 Publish the Phase 2 changeset and verify hosted CI, then begin Phase 3 Reconciliation.
+## 2026-09-12 — Phase 2 Hosted CI Closure / Phase 3 Entry
+
+### FACT
+
+Phase 2 Core V2 Foundation changeset was published to `origin/main`:
+
+`65e60a6c624dd73de7bbf2e673e0e2941241e152`
+
+Hosted CI for this commit is GREEN.
+
+The previously recorded local Phase 2 gate evidence includes:
+
+- PostgreSQL 17 integration;
+- Alembic upgrade / downgrade / re-upgrade;
+- immutable Execution Ledger persistence;
+- deterministic event idempotency;
+- deterministic persistence replay;
+- static checks;
+- full local regression.
+
+### STATUS
+
+Phase 2:
+
+`DONE / TEST VERIFIED / HOSTED CI VERIFIED`
+
+Gate:
+
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
+
+Hosted CI evidence tag:
+
+`NEXUS_V2_PHASE2_HOSTED_CI_VERIFIED_OK`
+
+Phase 2 feature development is closed unless a new verified regression
+requires reopening it.
+
+### CURRENT STATE
+
+Current phase:
+
+`Phase 3 — Reconciliation`
+
+Current gate:
+
+`OPEN`
+
+Phase 3 starts from FACT/CHECK against Master Plan, full related Audit,
+Functional Inventory and current code before implementing the first gap.
+
+### PRODUCTION SAFETY
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Perform the Phase 3 Reconciliation FACT/CHECK and identify the first
+real implementation gap without redesigning already approved Phase 2
+capabilities.
