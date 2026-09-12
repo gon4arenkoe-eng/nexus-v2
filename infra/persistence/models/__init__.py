@@ -11,6 +11,7 @@ from infra.persistence.models.execution_orders import (
     ExecutionFillModel,
     ExecutionOrderModel,
 )
+from infra.persistence.models.grid_trading import GridInstanceStateModel
 from infra.persistence.models.ledger import ExecutionLedgerEventModel
 from infra.persistence.models.multi_leg_execution import (
     MultiLegExecutionStateModel,
@@ -23,6 +24,7 @@ from infra.persistence.models.positions import (
 __all__ = (
     "ExecutionCoordinatorStateModel",
     "ExecutionFillModel",
+    "GridInstanceStateModel",
     "ExecutionLedgerEventModel",
     "ExecutionOrderModel",
     "MultiLegExecutionStateModel",
