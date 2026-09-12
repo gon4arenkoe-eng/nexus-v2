@@ -28199,3 +28199,119 @@ AI direct exchange access remains BLOCKED.
 Persist canonical `ReconciliationDiscrepancy` as deterministic
 `RECONCILIATION_DISCREPANCY` Ledger evidence through the existing
 atomic/idempotent Ledger application service.
+## 2026-09-12 — Phase 3 Reconciliation Discrepancy Ledger Persistence
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
+
+### FACT
+
+Canonical `ReconciliationDiscrepancy` evidence is now mapped into the
+existing immutable Execution Ledger.
+
+No write authority was added to
+`apps.core.application.reconciliation_detector`.
+
+### DETERMINISTIC EVENT IDENTITY
+
+Ledger event identity is derived from the existing canonical
+`reconciliation_discrepancy_key` using SHA-256.
+
+The same discrepancy observation therefore produces the same
+`event_id`.
+
+A repeated persistence attempt returns `DUPLICATE` through the
+existing `ExecutionLedgerPersistenceService`.
+
+Reuse of the same event identity with different immutable content
+fails closed with `LedgerEventConflictError`.
+
+### LEDGER OWNERSHIP
+
+Reconciliation discrepancy events use:
+
+`RECONCILIATION_DISCREPANCY`
+
+and remain planless:
+
+- `plan_id` = NULL;
+- `group_id` = NULL;
+- `leg_id` = NULL;
+- `order_id` = NULL;
+- `fill_id` = NULL.
+
+User/account/venue ownership is retained.
+
+Instrument identity is persisted when the discrepancy is
+instrument-scoped.
+
+Source/account discrepancies do not invent an instrument.
+
+### PERSISTENCE
+
+Persistence uses the existing
+`ExecutionLedgerPersistenceService`.
+
+No second Ledger was introduced.
+
+No new repository was introduced.
+
+No destructive reconciliation correction was introduced.
+
+The projection mutation callback is intentionally a no-op because this
+slice records immutable discrepancy evidence only.
+
+### EVIDENCE
+
+Focused:
+
+`67 passed in 0.61s`
+
+Full:
+
+`412 passed in 0.82s`
+
+Additional verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- deterministic event identity: PASS;
+- retry idempotency: PASS;
+- immutable conflict fail-closed: PASS;
+- planless lineage: PASS;
+- source discrepancy without fake instrument: PASS;
+- detector write-authority guard remains covered;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_DISCREPANCY_LEDGER_PERSISTENCE_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production database change was executed.
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Persist one complete deterministic `ReconciliationResult` evidence
+batch so every discrepancy in a reconciliation pass is written through
+the canonical Ledger with repeat-pass idempotency and no destructive
+correction.
