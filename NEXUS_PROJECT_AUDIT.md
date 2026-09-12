@@ -27694,3 +27694,84 @@ No production authority changed.
 Perform the Phase 3 Reconciliation FACT/CHECK and identify the first
 real implementation gap without redesigning already approved Phase 2
 capabilities.
+## 2026-09-12 — Phase 3 Canonical Reconciliation Observation Contracts
+
+### FACT
+
+The historical Audit occurrence of:
+
+`TRADING_CORE_V2_RECONCILIATION_OBSERVATION_CONTRACTS_OK`
+
+was a future Target marker, not prior DONE evidence.
+
+Phase 3 now implements canonical read-only reconciliation observations:
+
+- `VenuePosition`;
+- `VenuePositionSide`;
+- `VenueBalance`;
+- `VenueAccountState`;
+- `VenueFill`.
+
+Added explicit venue capabilities:
+
+- `POSITION_QUERY`;
+- `ACCOUNT_QUERY`;
+- `FILL_QUERY`.
+
+No runtime VenueAdapter query method was added in this slice.
+
+### ARCHITECTURE
+
+Canonical observation contracts contain no raw exchange dictionaries.
+
+Position identity preserves hedge semantics through:
+
+`AccountId + InstrumentId + LONG/SHORT`
+
+Legacy PositionAgent direct mutation / commit ownership is not copied.
+
+Missing `venue_fill_id` remains valid; deterministic fallback fill
+identity remains later reconciliation/application ownership.
+
+No discrepancy processing, corrective writes, ExecutionCoordinator,
+exchange SDK dependency or production execution authority was added.
+
+### EVIDENCE
+
+Focused contract verification:
+
+`30 passed in 0.08s`
+
+Full regression:
+
+`361 passed in 0.99s`
+
+Static verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence target satisfied:
+
+`TRADING_CORE_V2_RECONCILIATION_OBSERVATION_CONTRACTS_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Implement explicit reconciliation source/result states and canonical
+discrepancy contracts before startup or continuous reconciliation runtime.

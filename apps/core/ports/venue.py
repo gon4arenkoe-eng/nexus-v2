@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 from typing import FrozenSet
@@ -14,9 +15,14 @@ from packages.contracts.identities import (
     AccountId,
     ClientOrderId,
     InstrumentId,
+    VenueFillId,
     VenueOrderId,
 )
-from packages.contracts.primitives import require_positive_decimal
+from packages.contracts.primitives import (
+    normalize_utc_datetime,
+    require_non_negative_decimal,
+    require_positive_decimal,
+)
 
 
 class VenueCapability(StrEnum):
@@ -29,6 +35,9 @@ class VenueCapability(StrEnum):
     FUNDING_HISTORY = "FUNDING_HISTORY"
     ORDER_QUERY = "ORDER_QUERY"
     OPEN_ORDER_QUERY = "OPEN_ORDER_QUERY"
+    POSITION_QUERY = "POSITION_QUERY"
+    ACCOUNT_QUERY = "ACCOUNT_QUERY"
+    FILL_QUERY = "FILL_QUERY"
 
 
 @dataclass(frozen=True, slots=True)
@@ -259,6 +268,270 @@ class VenueOrderResult:
                     field_name="rejection_reason",
                 ),
             )
+
+
+class VenuePositionSide(StrEnum):
+    """Canonical venue position direction."""
+
+    LONG = "LONG"
+    SHORT = "SHORT"
+
+
+def _require_finite_decimal(
+    value: Decimal,
+    *,
+    field_name: str,
+) -> Decimal:
+    if not isinstance(value, Decimal):
+        raise ValueError(f"{field_name} must be Decimal")
+
+    if not value.is_finite():
+        raise ValueError(f"{field_name} must be finite")
+
+    return value
+
+
+@dataclass(frozen=True, slots=True)
+class VenueBalance:
+    """One canonical balance observation."""
+
+    currency: str
+    total: Decimal
+    available: Decimal
+
+    def __post_init__(self) -> None:
+        currency = _require_non_empty_text(
+            self.currency,
+            field_name="currency",
+        ).upper()
+
+        total = _require_finite_decimal(
+            self.total,
+            field_name="total",
+        )
+        available = _require_finite_decimal(
+            self.available,
+            field_name="available",
+        )
+
+        object.__setattr__(self, "currency", currency)
+        object.__setattr__(self, "total", total)
+        object.__setattr__(self, "available", available)
+
+
+@dataclass(frozen=True, slots=True)
+class VenueAccountState:
+    """Canonical read-only venue account observation."""
+
+    account_id: AccountId
+    balances: tuple[VenueBalance, ...]
+    observed_at: datetime
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.account_id, AccountId):
+            raise ValueError("account_id must be an AccountId")
+
+        if not isinstance(self.balances, tuple):
+            raise ValueError("balances must be a tuple")
+
+        currencies: set[str] = set()
+
+        for balance in self.balances:
+            if not isinstance(balance, VenueBalance):
+                raise ValueError(
+                    "balances must contain VenueBalance values"
+                )
+
+            if balance.currency in currencies:
+                raise ValueError(
+                    "duplicate currency in account observation"
+                )
+
+            currencies.add(balance.currency)
+
+        object.__setattr__(
+            self,
+            "observed_at",
+            normalize_utc_datetime(
+                self.observed_at,
+                field_name="observed_at",
+            ),
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class VenuePosition:
+    """Canonical venue position observation."""
+
+    account_id: AccountId
+    instrument_id: InstrumentId
+    side: VenuePositionSide
+    quantity: Decimal
+    entry_price: Decimal | None
+    observed_at: datetime
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.account_id, AccountId):
+            raise ValueError("account_id must be an AccountId")
+
+        if not isinstance(self.instrument_id, InstrumentId):
+            raise ValueError(
+                "instrument_id must be an InstrumentId"
+            )
+
+        if self.account_id.venue_id != self.instrument_id.venue_id:
+            raise ValueError(
+                "account venue must match instrument venue"
+            )
+
+        if not isinstance(self.side, VenuePositionSide):
+            raise ValueError(
+                "side must be a VenuePositionSide"
+            )
+
+        quantity = require_non_negative_decimal(
+            self.quantity,
+            field_name="quantity",
+        )
+
+        entry_price = self.entry_price
+
+        if quantity == Decimal("0"):
+            if entry_price is not None:
+                raise ValueError(
+                    "flat venue position must not define entry_price"
+                )
+        else:
+            if entry_price is None:
+                raise ValueError(
+                    "open venue position requires entry_price"
+                )
+
+            entry_price = require_positive_decimal(
+                entry_price,
+                field_name="entry_price",
+            )
+
+        object.__setattr__(self, "quantity", quantity)
+        object.__setattr__(self, "entry_price", entry_price)
+        object.__setattr__(
+            self,
+            "observed_at",
+            normalize_utc_datetime(
+                self.observed_at,
+                field_name="observed_at",
+            ),
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class VenueFill:
+    """Canonical immutable venue fill observation."""
+
+    account_id: AccountId
+    instrument_id: InstrumentId
+    venue_fill_id: VenueFillId | None
+    venue_order_id: VenueOrderId | None
+    client_order_id: ClientOrderId | None
+    side: OrderSide
+    quantity: Decimal
+    price: Decimal
+    fee: Decimal
+    fee_currency: str | None
+    executed_at: datetime
+    observed_at: datetime
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.account_id, AccountId):
+            raise ValueError("account_id must be an AccountId")
+
+        if not isinstance(self.instrument_id, InstrumentId):
+            raise ValueError(
+                "instrument_id must be an InstrumentId"
+            )
+
+        if self.account_id.venue_id != self.instrument_id.venue_id:
+            raise ValueError(
+                "account venue must match instrument venue"
+            )
+
+        if self.venue_fill_id is not None and not isinstance(
+            self.venue_fill_id,
+            VenueFillId,
+        ):
+            raise ValueError(
+                "venue_fill_id must be a VenueFillId"
+            )
+
+        if self.venue_order_id is not None and not isinstance(
+            self.venue_order_id,
+            VenueOrderId,
+        ):
+            raise ValueError(
+                "venue_order_id must be a VenueOrderId"
+            )
+
+        if self.client_order_id is not None and not isinstance(
+            self.client_order_id,
+            ClientOrderId,
+        ):
+            raise ValueError(
+                "client_order_id must be a ClientOrderId"
+            )
+
+        if not isinstance(self.side, OrderSide):
+            raise ValueError("side must be an OrderSide")
+
+        quantity = require_positive_decimal(
+            self.quantity,
+            field_name="quantity",
+        )
+        price = require_positive_decimal(
+            self.price,
+            field_name="price",
+        )
+        fee = require_non_negative_decimal(
+            self.fee,
+            field_name="fee",
+        )
+
+        fee_currency = self.fee_currency
+
+        if fee_currency is not None:
+            fee_currency = _require_non_empty_text(
+                fee_currency,
+                field_name="fee_currency",
+            ).upper()
+
+        if fee > Decimal("0") and fee_currency is None:
+            raise ValueError(
+                "positive fee requires fee_currency"
+            )
+
+        executed_at = normalize_utc_datetime(
+            self.executed_at,
+            field_name="executed_at",
+        )
+        observed_at = normalize_utc_datetime(
+            self.observed_at,
+            field_name="observed_at",
+        )
+
+        if observed_at < executed_at:
+            raise ValueError(
+                "observed_at must not precede executed_at"
+            )
+
+        object.__setattr__(self, "quantity", quantity)
+        object.__setattr__(self, "price", price)
+        object.__setattr__(self, "fee", fee)
+        object.__setattr__(
+            self,
+            "fee_currency",
+            fee_currency,
+        )
+        object.__setattr__(self, "executed_at", executed_at)
+        object.__setattr__(self, "observed_at", observed_at)
 
 
 class VenueAdapter(ABC):
