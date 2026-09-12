@@ -28315,3 +28315,102 @@ Persist one complete deterministic `ReconciliationResult` evidence
 batch so every discrepancy in a reconciliation pass is written through
 the canonical Ledger with repeat-pass idempotency and no destructive
 correction.
+## 2026-09-12 — Phase 3 Reconciliation Result Ledger Batch Persistence
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
+
+### FACT
+
+A complete canonical `ReconciliationResult` can now persist every
+contained discrepancy through the existing immutable Execution Ledger.
+
+The domain result already owns deterministic discrepancy ordering.
+
+No second reconciliation ordering or identity system was introduced.
+
+### BATCH SEMANTICS
+
+`persist_reconciliation_result` processes
+`ReconciliationResult.discrepancies` in canonical domain order.
+
+Each discrepancy uses the already verified deterministic Ledger
+`event_id`.
+
+Repeated persistence of the same result therefore returns `DUPLICATE`
+for every previously persisted discrepancy without creating duplicate
+Ledger evidence.
+
+A matched CURRENT result with no discrepancies writes no discrepancy
+events.
+
+### TRANSACTION BOUNDARY
+
+The batch helper does not commit or rollback.
+
+It preserves caller-owned transaction semantics through the existing
+`ExecutionLedgerPersistenceService`.
+
+No destructive reconciliation correction is performed.
+
+### ARCHITECTURE
+
+Detector remains pure/read-only.
+
+No new repository was introduced.
+
+No second Ledger was introduced.
+
+No venue write authority was introduced.
+
+### EVIDENCE
+
+Focused:
+
+`63 passed in 0.50s`
+
+Full:
+
+`415 passed in 0.80s`
+
+Additional verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- deterministic batch order: PASS;
+- repeated-pass idempotency: PASS;
+- matched result produces zero discrepancy events: PASS;
+- immutable conflict behavior remains covered;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_RESULT_LEDGER_BATCH_PERSISTENCE_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production database change was executed.
+
+No production authority changed.
+
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### NEXT STEP
+
+Implement the Phase 3 reconciliation orchestration boundary that
+executes one canonical reconciliation pass and persists immutable
+evidence before strategy activation.

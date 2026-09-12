@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from apps.core.domain.ledger import ExecutionLedgerEventType
 from apps.core.domain.reconciliation import (
     ReconciliationDiscrepancy,
+    ReconciliationResult,
     reconciliation_discrepancy_key,
 )
 from infra.persistence.application.ledger import (
@@ -126,3 +127,22 @@ async def persist_reconciliation_discrepancy(
         event=event,
         mutate_projection=_no_projection_mutation,
     )
+
+
+async def persist_reconciliation_result(
+    service: ExecutionLedgerPersistenceService,
+    result: ReconciliationResult,
+) -> tuple[LedgerPersistResult, ...]:
+    """Persist all discrepancies from one deterministic pass."""
+
+    persisted: list[LedgerPersistResult] = []
+
+    for discrepancy in result.discrepancies:
+        persisted.append(
+            await persist_reconciliation_discrepancy(
+                service,
+                discrepancy,
+            )
+        )
+
+    return tuple(persisted)
