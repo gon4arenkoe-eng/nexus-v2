@@ -29486,3 +29486,64 @@ NEXUS_V2_MULTI_USER_SECURITY_FINAL_VERIFICATION_OK
 
 Phase 11 — Control Plane.
 
+
+## 2026-09-12 — Phase 11 Control Plane V2 Final Verification
+
+### VERIFIED
+
+Control Plane V2 foundation implemented and verified.
+
+Verified scope: Command Center, Portfolio, Positions, Orders/Fills, Strategies, Strategy Versions, Grid Desk, Risk, Reconciliation, Exchanges/Accounts, Intelligence, News/Events, AIEA Research surfaces, Experiments, Candidates/Promotion, Backtests/Walk-forward, Model Health, Execution Quality, History, Audit, Notifications, Settings and Administration.
+
+Workspace Composer supports multiple user-owned workspaces, canonical Widget Registry, curated templates plus blank workspace, widget add/remove/reorder/resize, layout versioning and recovery.
+
+Typed Context Bus provides presentation context linking without trading authority.
+
+Seven UI locales are included: English, Russian, German, French, Spanish, Simplified Chinese and Hindi.
+
+Safety presentation remains outside editable workspace layout and cannot be hidden by personalization.
+
+UI uses typed/versioned /api/v2 boundary and has no direct DB, VenueAdapter or ExecutionCoordinator authority.
+
+### DESIGN
+
+PHASE11_CONTROL_PLANE_DESIGN_APPROVED
+PHASE11_I18N_7_LANGUAGES_APPROVED
+
+### TEST EVIDENCE
+
+Focused Control Plane suite: 22 passed.
+Adjacent suite: 156 passed.
+Full regression: 705 passed.
+flake8: PASS.
+mypy: PASS — 79 source files.
+Python parse/compile: PASS.
+Compiled web JavaScript syntax: PASS.
+TypeScript delivery build: internally verified; target tsc tool was unavailable.
+Alembic head: d8a0e6f5b125.
+Fresh-session Control Plane persistence: PASS.
+git diff --check: PASS.
+
+### SAFETY
+
+AI promotion remains SHADOW-ONLY.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+NEXUS_V2_CONTROL_PLANE_OK
+
+### AUDIT_TAG
+
+NEXUS_V2_CONTROL_PLANE_FINAL_VERIFICATION_OK
+
+### NEXT
+
+Phase 12 — CI/CD + Packaging.
+

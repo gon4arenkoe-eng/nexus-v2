@@ -40,6 +40,10 @@ def test_position_tables_registered_with_existing_execution_tables() -> None:
         "entitlement_overrides",
         "billing_events",
         "encrypted_secrets",
+        "user_presentation_preferences",
+        "workspace_templates",
+        "workspace_layout_versions",
+        "user_workspaces",
     }
 
     assert ExecutionPlanModel.__tablename__ == "execution_plans"

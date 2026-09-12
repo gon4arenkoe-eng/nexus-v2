@@ -9,7 +9,7 @@ from sqlalchemy.schema import CreateTable
 
 from infra.persistence.base import PersistenceBase
 from infra.persistence.models.aiea import AIEAResearchRecordModel
-from infra.persistence.models.platform_security import WorkspaceModel
+from infra.persistence.models.control_plane import UserWorkspaceModel
 from infra.persistence.models.execution_orders import (
     ExecutionFillModel,
     ExecutionOrderModel,
@@ -34,6 +34,7 @@ def _check_sql(table) -> set[str]:
 
 def test_order_fill_tables_registered() -> None:
     assert AIEAResearchRecordModel.__tablename__ == "aiea_research_records"
+    assert UserWorkspaceModel.__tablename__ == "user_workspaces"
     assert set(PersistenceBase.metadata.tables) == {
         "execution_plans",
         "execution_plan_legs",
@@ -58,6 +59,10 @@ def test_order_fill_tables_registered() -> None:
         "entitlement_overrides",
         "billing_events",
         "encrypted_secrets",
+        "user_presentation_preferences",
+        "workspace_templates",
+        "workspace_layout_versions",
+        "user_workspaces",
     }
 
 

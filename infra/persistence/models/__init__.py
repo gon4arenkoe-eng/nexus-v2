@@ -1,5 +1,11 @@
 """NEXUS V2 persistence model registry."""
 
+from infra.persistence.models.control_plane import (
+    UserPresentationPreferenceModel,
+    UserWorkspaceModel,
+    WorkspaceLayoutVersionModel,
+    WorkspaceTemplateModel,
+)
 from infra.persistence.models.execution import (
     ExecutionPlanLegModel,
     ExecutionPlanModel,
@@ -37,6 +43,10 @@ from infra.persistence.models.positions import (
 )
 
 __all__ = (
+    "WorkspaceTemplateModel",
+    "WorkspaceLayoutVersionModel",
+    "UserWorkspaceModel",
+    "UserPresentationPreferenceModel",
     "AIEAResearchRecordModel",
     "ExecutionCoordinatorStateModel",
     "ExecutionFillModel",
