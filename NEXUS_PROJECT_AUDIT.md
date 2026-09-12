@@ -29547,3 +29547,58 @@ NEXUS_V2_CONTROL_PLANE_FINAL_VERIFICATION_OK
 
 Phase 12 — CI/CD + Packaging.
 
+
+## 2026-09-12 — Phase 12 Release Pipeline Foundation
+
+### VERIFIED
+
+Release Pipeline Foundation implemented and verified.
+
+Verified build boundary: source commit -> CI verification -> CI-only release image build -> GHCR publication definition -> immutable digest evidence.
+
+Production host receives no build, SSH, SCP or deployment authority from this slice.
+
+Release image uses non-root runtime execution and pinned base-image identity.
+
+### TEST EVIDENCE
+
+Focused release foundation suite: 7 passed.
+Full regression: 712 passed.
+flake8: PASS.
+mypy: PASS.
+Python compile: PASS.
+Release policy check: PASS.
+Alembic head unchanged: d8a0e6f5b125.
+git diff --check: PASS.
+
+### RELEASE INVARIANTS
+
+CI_ONLY_BUILD=VERIFIED_STATIC
+GHCR_WORKFLOW=VERIFIED_STATIC
+IMMUTABLE_DIGEST_EVIDENCE=DEFINED
+PRODUCTION_DEPLOY_AUTHORITY=NO
+NO_BUILD_ON_PRODUCTION=PRESERVED
+
+### SAFETY
+
+AI promotion remains SHADOW-ONLY.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED — Phase 12 Release Pipeline Foundation slice only.
+
+### PHASE 12 GATE
+
+NEXUS_V2_RELEASE_PIPELINE_OK = OPEN
+
+### AUDIT_TAG
+
+NEXUS_V2_PHASE12_RELEASE_FOUNDATION_VERIFIED
+
+### REMAINING PHASE 12
+
+SBOM, provenance/attestation, digest-pinned production deployment manifest, backup/restore verification and rollback-by-digest evidence remain required.
+

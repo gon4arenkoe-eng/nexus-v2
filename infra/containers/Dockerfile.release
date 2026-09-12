@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1.7
+
+FROM python:3.13-slim@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285 AS runtime
+
+ARG NEXUS_COMMIT_SHA=unknown
+ARG NEXUS_BUILD_VERSION=0.0.0
+
+LABEL org.opencontainers.image.title="NEXUS V2" \
+      org.opencontainers.image.description="NEXUS V2 verified release artifact" \
+      org.opencontainers.image.revision="${NEXUS_COMMIT_SHA}" \
+      org.opencontainers.image.version="${NEXUS_BUILD_VERSION}" \
+      org.opencontainers.image.source="https://github.com/gon4arenkoe-eng/nexus-v2"
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    NEXUS_RUNTIME_MODE=release-artifact
+
+WORKDIR /opt/nexus
+
+RUN groupadd --system --gid 10001 nexus \
+    && useradd --system --uid 10001 --gid nexus --home-dir /nonexistent --shell /usr/sbin/nologin nexus
+
+COPY pyproject.toml ./
+COPY apps ./apps
+COPY packages ./packages
+COPY infra ./infra
+COPY adapters ./adapters
+COPY workers ./workers
+COPY scripts ./scripts
+COPY alembic.ini ./
+
+RUN python -m pip install --no-cache-dir . \
+    && python -m compileall -q apps packages infra adapters workers scripts \
+    && rm -rf /root/.cache /tmp/*
+
+USER nexus:nexus
+
+ENTRYPOINT ["python", "-m", "scripts.release_image_probe"]
