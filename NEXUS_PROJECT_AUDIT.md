@@ -29182,3 +29182,38 @@ TRADING_CORE_V2_EXECUTION_COORDINATOR_OK
 Phase 5 — Pair / Basket Execution.
 Next gate: TRADING_CORE_V2_PAIR_EXECUTION_OK
 
+
+## 2026-09-12 — Phase 5 Pair / Basket Execution
+
+### VERIFIED
+
+Deterministic Pair / Basket multi-leg execution coordination implemented over the existing Phase 4 single-leg ExecutionCoordinator.
+
+Verified scope: pair ownership, basket ownership, per-leg execution ownership, hedge-ratio integrity, partial-fill mismatch recovery, unknown-outcome containment, restart continuation without duplicate submit, coordinated reduce-only close, durable multi-leg execution state.
+
+### TEST EVIDENCE
+
+Phase 5 focused and adjacent execution suites: PASS.
+Full regression: 492 passed.
+flake8: PASS.
+mypy: PASS.
+Alembic head: f4b6c8d2e1a0.
+git diff --check: PASS.
+
+### SAFETY
+
+Phase 5 coordinates canonical single-leg execution and does not introduce direct raw venue execution authority.
+No AI execution authority. No production cutover. Venue certification remains later work.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+TRADING_CORE_V2_PAIR_EXECUTION_OK
+
+### NEXT
+
+Phase 6 — Portfolio Risk V2.
+

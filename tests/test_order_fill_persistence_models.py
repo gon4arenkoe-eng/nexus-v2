@@ -40,6 +40,7 @@ def test_order_fill_tables_registered() -> None:
         "execution_fills",
         "execution_ledger_events",
         "execution_coordinator_states",
+        "multi_leg_execution_states",
     }
 
 
