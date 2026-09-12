@@ -39,6 +39,30 @@ class ExecutionLedgerEventType(StrEnum):
     RECONCILIATION_RESOLVED = "RECONCILIATION_RESOLVED"
 
 
+_RECONCILIATION_EVENT_TYPES = frozenset(
+    {
+        ExecutionLedgerEventType.RECONCILIATION_DISCREPANCY,
+        ExecutionLedgerEventType.RECONCILIATION_RESOLVED,
+    }
+)
+
+
+def ledger_event_requires_execution_plan(
+    event_type: ExecutionLedgerEventType,
+) -> bool:
+    """Return whether this event family requires ExecutionPlan lineage."""
+
+    if not isinstance(
+        event_type,
+        ExecutionLedgerEventType,
+    ):
+        raise ValueError(
+            "event_type must be an ExecutionLedgerEventType"
+        )
+
+    return event_type not in _RECONCILIATION_EVENT_TYPES
+
+
 def _require_non_empty_text(
     value: str,
     *,
@@ -118,7 +142,7 @@ class ExecutionLedgerEvent:
     event_type: ExecutionLedgerEventType
     event_version: int
     user_id: int
-    execution_plan_id: str
+    execution_plan_id: str | None
     position_group_id: str | None
     position_leg_id: str | None
     execution_order_id: OrderId | None
@@ -189,11 +213,55 @@ class ExecutionLedgerEvent:
         object.__setattr__(
             self,
             "execution_plan_id",
-            _require_non_empty_text(
+            _optional_text(
                 self.execution_plan_id,
                 field_name="execution_plan_id",
             ),
         )
+        requires_execution_plan = (
+            ledger_event_requires_execution_plan(
+                self.event_type
+            )
+        )
+
+        if (
+            requires_execution_plan
+            and self.execution_plan_id is None
+        ):
+            raise ValueError(
+                "execution_plan_id is required for "
+                "non-reconciliation ledger events"
+            )
+
+        if (
+            self.execution_plan_id is None
+            and any(
+                value is not None
+                for value in (
+                    self.position_group_id,
+                    self.position_leg_id,
+                    self.execution_order_id,
+                    self.execution_fill_id,
+                )
+            )
+        ):
+            raise ValueError(
+                "planless reconciliation event cannot carry "
+                "plan-owned aggregate lineage"
+            )
+
+        if (
+            not requires_execution_plan
+            and self.execution_plan_id is None
+            and (
+                self.account_id is None
+                or self.venue_id is None
+            )
+        ):
+            raise ValueError(
+                "planless reconciliation event requires "
+                "account_id and venue_id"
+            )
 
         for field_name in (
             "position_group_id",

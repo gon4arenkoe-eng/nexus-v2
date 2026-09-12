@@ -28112,3 +28112,90 @@ No production authority changed.
 
 Persist reconciliation discrepancy output as immutable canonical Ledger
 evidence without destructive state correction.
+## 2026-09-12 — Phase 3 Reconciliation Ledger Lineage Correction
+
+### PHASE / GATE
+
+Phase 3 — Reconciliation.
+
+Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
+
+### FACT
+
+Reconciliation evidence may legitimately exist before a local
+ExecutionPlan exists.
+
+Canonical Ledger lineage was extended narrowly:
+
+`ExecutionLedgerEvent.execution_plan_id: str | None`
+
+Persistence retains:
+
+`ExecutionLedgerEventModel.plan_id: Mapped[str | None]`
+
+and the foreign key to `execution_plans.plan_id` for non-NULL values.
+
+Only `RECONCILIATION_DISCREPANCY` and
+`RECONCILIATION_RESOLVED` may be planless.
+
+Normal execution Ledger events still require ExecutionPlan lineage.
+
+### REPLAY COMPATIBILITY
+
+Deterministic replay preserves planless reconciliation events in:
+
+- immutable event ordering;
+- canonical event documents;
+- replay digest.
+
+Planless events do not create an ExecutionPlan head.
+
+`plan_heads` therefore contains only events with a real `plan_id`.
+
+No reconciliation evidence is discarded.
+
+### EVIDENCE
+
+Focused:
+
+`89 passed in 0.63s`
+
+Full:
+
+`407 passed in 0.95s`
+
+Static verification:
+
+- flake8: PASS;
+- mypy: PASS;
+- compileall: PASS;
+- Alembic single-head: PASS;
+- deterministic replay compatibility: PASS;
+- `git diff --check`: PASS.
+
+### STATUS
+
+`DONE / TEST VERIFIED LOCALLY`
+
+Evidence tag:
+
+`TRADING_CORE_V2_RECONCILIATION_LEDGER_LINEAGE_CORRECTION_OK`
+
+Phase 3 overall gate remains OPEN.
+
+### PRODUCTION SAFETY
+
+No production database migration was executed.
+No production authority changed.
+
+AI promotion remains SHADOW-ONLY.
+Advisory remains OBSERVE_ONLY.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+AI direct exchange access remains BLOCKED.
+
+### NEXT STEP
+
+Persist canonical `ReconciliationDiscrepancy` as deterministic
+`RECONCILIATION_DISCREPANCY` Ledger evidence through the existing
+atomic/idempotent Ledger application service.

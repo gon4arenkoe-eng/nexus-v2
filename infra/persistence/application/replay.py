@@ -106,7 +106,8 @@ def project_ledger_events(
     for event in ordered:
         head = (event.event_type, event.event_id)
 
-        plan_heads[event.plan_id] = head
+        if event.plan_id is not None:
+            plan_heads[event.plan_id] = head
 
         if event.group_id is not None:
             group_heads[event.group_id] = head

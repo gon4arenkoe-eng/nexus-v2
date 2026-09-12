@@ -96,13 +96,13 @@ class ExecutionLedgerEventModel(PersistenceBase):
         index=True,
     )
 
-    plan_id: Mapped[str] = mapped_column(
+    plan_id: Mapped[str | None] = mapped_column(
         String(160),
         ForeignKey(
             "execution_plans.plan_id",
             ondelete="RESTRICT",
         ),
-        nullable=False,
+        nullable=True,
         index=True,
     )
 
