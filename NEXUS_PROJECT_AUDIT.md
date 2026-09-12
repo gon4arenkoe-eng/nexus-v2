@@ -29258,3 +29258,51 @@ Phase 7 — Strategy Portfolio + backtest/live parity.
 
 TRADING_CORE_V2_PORTFOLIO_RISK_FINAL_VERIFICATION_OK
 
+
+## 2026-09-12 — Phase 7 Strategy Portfolio Final Verification
+
+### VERIFIED
+
+Strategy Portfolio V2, strategy runtime contracts, allocation boundary, backtest/live semantic parity, strategy attribution and correlation analytics implemented and verified.
+
+Legacy strategy inventory covers 17/17 legacy candidates grouped into 7 canonical strategy families.
+
+All canonical family entries remain RESEARCH_ONLY. No strategy receives automatic live authority.
+
+Strategy execution boundary remains: StrategyPlugin -> TradeIntent -> Allocation -> PortfolioRisk -> ExecutionPlan.
+
+Grid trading remains outside StrategyPlugin ownership and is reserved for Phase 7G.
+
+### TEST EVIDENCE
+
+Focused Phase 7 + PortfolioRisk + TradeIntent suite: 62 passed.
+Full regression: 541 passed.
+flake8: PASS.
+mypy: PASS — 28 source files.
+Alembic head: f4b6c8d2e1a0; no Phase 7 migration required.
+git diff --check: PASS.
+Strategy authority scan: PASS.
+
+### SAFETY
+
+Strategy runtime has no direct VenueAdapter, ExecutionCoordinator, raw order submit/cancel, SQLAlchemy or FastAPI authority.
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### GATE
+
+NEXUS_V2_STRATEGY_PORTFOLIO_OK
+
+### AUDIT_TAG
+
+NEXUS_V2_STRATEGY_PORTFOLIO_FINAL_VERIFICATION_OK
+
+### NEXT
+
+Phase 7G — Grid Trading Desk.
+
