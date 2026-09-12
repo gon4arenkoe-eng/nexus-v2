@@ -29092,3 +29092,24 @@ CLOSURE_TAG: TRADING_CORE_V2_RECONCILIATION_GATE_CLOSED
 
 NEXT STEP: Phase 4 — Execution Coordinator
 
+
+## 2026-09-12 — Phase 3 Reconciliation Gate Status Correction
+
+The previously recorded Phase 3 closure is superseded by this correction.
+
+The Phase 3 component evidence remains valid:
+observation contracts; VenueAdapter contract suite; reconciliation state/discrepancy model; deterministic detector; Ledger lineage; immutable discrepancy persistence; result batch persistence; pass orchestration; startup reconciliation activation gate; continuous reconciliation cycle; venue account reconciliation; lifecycle and resolution evidence.
+
+The current repository does not contain verified end-to-end runtime composition proving VenueAdapter venue truth is acquired and supplied into StartupReconciliationInput before startup activation.
+
+STATUS: PARTIALLY VERIFIED
+
+PHASE_3_GATE: TRADING_CORE_V2_RECONCILIATION_OK
+PHASE_3_GATE_STATUS: OPEN
+
+No production-code change is made by this correction.
+
+NEXT STEP: close the single verified startup runtime composition gap.
+
+AUDIT_TAG: TRADING_CORE_V2_RECONCILIATION_GATE_STATUS_CORRECTED
+
