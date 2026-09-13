@@ -2,24 +2,24 @@
 
 > **CANONICAL LIVE PROJECT STATE**
 >
-> Р•РґРёРЅСЃС‚РІРµРЅРЅС‹Р№ СЂР°Р±РѕС‡РёР№ РґРѕРєСѓРјРµРЅС‚ С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ,
-> Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕР№ РєР°СЂС‚С‹, evidence Рё СЃР»РµРґСѓСЋС‰РµРіРѕ С€Р°РіР° NEXUS.
+> Единственный рабочий документ фактического состояния,
+> архитектурной карты, evidence и следующего шага NEXUS.
 
 Audit rebuild date: 2026-08-27 17:27:49
 
 ## 0. CANONICAL WORK PROTOCOL
 
-### 0.1. Р“Р»Р°РІРЅС‹Р№ РїСЂРёРЅС†РёРї
+### 0.1. Главный принцип
 
-**ONE PROJECT в†’ ONE LIVE AUDIT в†’ ONE CURRENT STATE в†’ ONE NEXT STEP**
+**ONE PROJECT → ONE LIVE AUDIT → ONE CURRENT STATE → ONE NEXT STEP**
 
-`NEXUS_PROJECT_AUDIT.md` СЏРІР»СЏРµС‚СЃСЏ РµРґРёРЅСЃС‚РІРµРЅРЅРѕР№ СЂР°Р±РѕС‡РµР№ С‚РѕС‡РєРѕР№ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїСЂРѕРµРєС‚Р°.
+`NEXUS_PROJECT_AUDIT.md` является единственной рабочей точкой синхронизации фактического состояния проекта.
 
-### 0.2. РћР±СЏР·Р°С‚РµР»СЊРЅР°СЏ С†РµРїРѕС‡РєР°
+### 0.2. Обязательная цепочка
 
-**FACT в†’ CHECK в†’ EVIDENCE в†’ AUDIT в†’ STATUS в†’ NEXT STEP**
+**FACT → CHECK → EVIDENCE → AUDIT → STATUS → NEXT STEP**
 
-### 0.3. РЎС‚Р°С‚СѓСЃС‹
+### 0.3. Статусы
 
 - `NOT STARTED`
 - `IN PROGRESS`
@@ -30,28 +30,28 @@ Audit rebuild date: 2026-08-27 17:27:49
 - `BLOCKED`
 - `NOT DOCUMENTED`
 
-### 0.4. РџСЂР°РІРёР»Р°
+### 0.4. Правила
 
-- РќРµ СЃС‡РёС‚Р°С‚СЊ РєРѕРґ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕРј Р±РµР· РїСЂРѕРІРµСЂРєРё.
-- РќРµ СЃС‡РёС‚Р°С‚СЊ СЃС‚Р°СЂСѓСЋ Р·Р°РїРёСЃСЊ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕРј Р±РµР· СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ evidence.
-- РќРµ РїРѕРІС‚РѕСЂСЏС‚СЊ СѓР¶Рµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рµ РїСЂРѕРІРµСЂРєРё Р±РµР· РЅРѕРІРѕР№ С‚РµС…РЅРёС‡РµСЃРєРѕР№ РїСЂРёС‡РёРЅС‹.
-- РќРѕРІС‹Рµ С‚СЂРµР±РѕРІР°РЅРёСЏ РґРѕР±Р°РІР»СЏС‚СЊ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ СЂР°Р·РґРµР».
-- РђСЂС…РёС‚РµРєС‚СѓСЂРЅС‹Рµ РёР·РјРµРЅРµРЅРёСЏ СЃРЅР°С‡Р°Р»Р° СЃРѕРіР»Р°СЃРѕРІС‹РІР°С‚СЊ СЃ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј.
-- РќРµ СѓРґР°Р»СЏС‚СЊ РёСЃС‚РѕСЂРёС‡РµСЃРєРёРµ РґРѕРєСѓРјРµРЅС‚С‹ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+- Не считать код доказательством без проверки.
+- Не считать старую запись доказательством без соответствующего evidence.
+- Не повторять уже подтверждённые проверки без новой технической причины.
+- Новые требования добавлять в соответствующий раздел.
+- Архитектурные изменения сначала согласовывать с пользователем.
+- Не удалять исторические документы автоматически.
 
 ## 1. CURRENT VERIFIED STATE
 
-### 1.1. РЈР¶Рµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рµ РєСЂСѓРїРЅС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹
+### 1.1. Уже подтверждённые крупные результаты
 
-- `BLOCK A / A8` вЂ” TEST VERIFIED / DONE
-- `BLOCK D / D.1вЂ“D.6.8` вЂ” DONE
-- `BLOCK E / E.1вЂ“E.12` вЂ” DONE
-- `BLOCK F / F.1вЂ“F.9` вЂ” DONE + REVIEWED
+- `BLOCK A / A8` — TEST VERIFIED / DONE
+- `BLOCK D / D.1–D.6.8` — DONE
+- `BLOCK E / E.1–E.12` — DONE
+- `BLOCK F / F.1–F.9` — DONE + REVIEWED
 
 ### 1.2. Current active work
 
-- `A9` вЂ” TEST VERIFIED / DONE
-- `B.5 News / Event Correlation` вЂ” TEST VERIFIED / DONE
+- `A9` — TEST VERIFIED / DONE
+- `B.5 News / Event Correlation` — TEST VERIFIED / DONE
 - No new implementation item is active until the next uncompleted Audit item is factually mapped.
 
 ### 1.3. A8 evidence
@@ -67,22 +67,22 @@ Audit rebuild date: 2026-08-27 17:27:49
 
 ### 1.4. BLOCK D evidence
 
-- `D.1вЂ“D.6.8 completed`
+- `D.1–D.6.8 completed`
 - `D6_8_BLOCK_D_FULL_COMPILE_OK`
 
 ### 1.5. Production execution boundary
 
 ```text
 SignalAgent
-    в†“
+    ↓
 StrategyDecisionEngine
-    в†“
+    ↓
 AIRiskAgent
-    в†“
+    ↓
 ExecutionAgent
-    в†“
+    ↓
 ExecutionBoundary
-    в†“
+    ↓
 BaseExchangeClient
 ```
 
@@ -90,38 +90,38 @@ Status: `VERIFIED`
 
 ### 1.6. Production protection fail-safe
 
-РџРѕСЃР»Рµ РѕС‚РєСЂС‹С‚РёСЏ РїРѕР·РёС†РёРё Р·Р°С‰РёС‚Р° РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ С„Р°РєС‚РёС‡РµСЃРєРё С‡РµСЂРµР· `get_open_orders()`. РџСЂРё РЅРµРІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РїРѕРґС‚РІРµСЂРґРёС‚СЊ SL/TP РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ `close_reason="PROTECTION_FAILSAFE"`.
+После открытия позиции защита проверяется фактически через `get_open_orders()`. При невозможности подтвердить SL/TP используется `close_reason="PROTECTION_FAILSAFE"`.
 
 Status: `VERIFIED`
 
 ## 2. PROJECT ARCHITECTURE MAP
 
-РљР°СЂС‚Р° РЅРёР¶Рµ РїРѕСЃС‚СЂРѕРµРЅР° РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РїРѕ С‚РµРєСѓС‰РµР№ СЃС‚СЂСѓРєС‚СѓСЂРµ `NEXUS_MASTER_PLAN.md`. РћРЅР° СЏРІР»СЏРµС‚СЃСЏ РїР»Р°РЅРѕРІРѕР№ РєР°СЂС‚РѕР№ РґРѕ С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ СЃРѕРїРѕСЃС‚Р°РІР»РµРЅРёСЏ РєР°Р¶РґРѕРіРѕ РїСѓРЅРєС‚Р° СЃ implementation/evidence.
+Карта ниже построена непосредственно по текущей структуре `NEXUS_MASTER_PLAN.md`. Она является плановой картой до фактического сопоставления каждого пункта с implementation/evidence.
 
-# 1. РќР°Р·РЅР°С‡РµРЅРёРµ РјРѕРґСѓР»СЏ
+# 1. Назначение модуля
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## Canonical requirement
 
-AIEA вЂ” РѕС‚РґРµР»СЊРЅС‹Р№ РёСЃСЃР»РµРґРѕРІР°С‚РµР»СЊСЃРєРѕ-СЂР°Р·РІРёРІР°СЋС‰РёР№ РєРѕРЅС‚СѓСЂ NEXUS.
+AIEA — отдельный исследовательско-развивающий контур NEXUS.
 
-РћРЅ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ:
+Он предназначен для:
 
-- Р°РЅР°Р»РёР·Р° РёСЃС‚РѕСЂРёС‡РµСЃРєРёС… РґР°РЅРЅС‹С…;
-- С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ С‚РѕСЂРіРѕРІС‹С… РіРёРїРѕС‚РµР·;
-- СЃРѕР·РґР°РЅРёСЏ РЅРѕРІС‹С… Рё РјРѕРґРёС„РёРєР°С†РёРё СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… СЃС‚СЂР°С‚РµРіРёР№;
-- РїСЂРѕРІРµРґРµРЅРёСЏ СЌРєСЃРїРµСЂРёРјРµРЅС‚РѕРІ;
+- анализа исторических данных;
+- формирования торговых гипотез;
+- создания новых и модификации существующих стратегий;
+- проведения экспериментов;
 - validation;
 - paper / shadow research;
 - comparison;
 - controlled promotion.
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ Р·Р°РјРµРЅСЏС‚СЊ Strategy Decision Engine Рё Grid Engine.
+AIEA не должен заменять Strategy Decision Engine и Grid Engine.
 
-## Р¤Р°РєС‚РёС‡РµСЃРєРё РѕР±РЅР°СЂСѓР¶РµРЅРЅР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## Фактически обнаруженная реализация
 
-Р’ РїСЂРѕРµРєС‚Рµ РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ РѕС‚РґРµР»СЊРЅС‹Рµ AIEA-РєРѕРјРїРѕРЅРµРЅС‚С‹:
+В проекте присутствуют отдельные AIEA-компоненты:
 
 - `agents/ai_orchestrator.py`
 - `agents/ai_risk_agent.py`
@@ -139,33 +139,33 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ Р·Р°РјРµРЅСЏС‚СЊ Strateg
 - `services/ai_promotion_*`
 - `services/ai_validation_evidence.py`
 - `services/ai_production_safety.py`
-- СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ `models/ai_*`.
+- соответствующие `models/ai_*`.
 
-## Р§С‚Рѕ СѓР¶Рµ С„Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ
+## Что уже фактически подтверждено
 
-- Foundation identity / isolation вЂ” A8 `TEST VERIFIED`.
-- AI Memory вЂ” B4 `TEST VERIFIED`.
-- Validation Engine вЂ” BLOCK D `DONE`.
-- Promotion Pipeline вЂ” E.1вЂ“E.12 `DONE`.
-- Comparison Engine вЂ” F.1вЂ“F.9 `DONE + REVIEWED`.
-- Production execution isolation вЂ” `VERIFIED` РґР»СЏ РїСЂРѕРІРµСЂРµРЅРЅС‹С… boundary paths.
+- Foundation identity / isolation — A8 `TEST VERIFIED`.
+- AI Memory — B4 `TEST VERIFIED`.
+- Validation Engine — BLOCK D `DONE`.
+- Promotion Pipeline — E.1–E.12 `DONE`.
+- Comparison Engine — F.1–F.9 `DONE + REVIEWED`.
+- Production execution isolation — `VERIFIED` для проверенных boundary paths.
 
-## Р§С‚Рѕ РµС‰С‘ РЅРµ РґРѕРєР°Р·Р°РЅРѕ РїРѕР»РЅРѕСЃС‚СЊСЋ
+## Что ещё не доказано полностью
 
-РќР°Р»РёС‡РёРµ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ СЃР°РјРѕ РїРѕ СЃРµР±Рµ РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚ Р·Р°РІРµСЂС€С‘РЅРЅРѕСЃС‚СЊ РїРѕР»РЅРѕРіРѕ AIEA lifecycle.
+Наличие компонентов само по себе не доказывает завершённость полного AIEA lifecycle.
 
-РўСЂРµР±СѓСЋС‚ РѕС‚РґРµР»СЊРЅРѕРіРѕ factual audit:
+Требуют отдельного factual audit:
 
-- РїРѕР»РЅС‹Р№ autonomous Evolution Loop;
-- РїРѕР»РЅС‹Р№ Strategy Generator lifecycle;
-- РїРѕР»РЅС‹Р№ Strategy Modifier lifecycle;
-- РїРѕР»РЅС‹Р№ Strategy Genome lifecycle;
-- РїРѕР»РЅС‹Р№ AI trust lifecycle;
+- полный autonomous Evolution Loop;
+- полный Strategy Generator lifecycle;
+- полный Strategy Modifier lifecycle;
+- полный Strategy Genome lifecycle;
+- полный AI trust lifecycle;
 - Restricted Live;
 - Full Live;
-- РїРѕР»РЅС‹Р№ News/Event Intelligence lifecycle;
-- РїРѕР»РЅС‹Р№ Dashboard;
-- РїРѕР»РЅС‹Р№ Application / Production Security.
+- полный News/Event Intelligence lifecycle;
+- полный Dashboard;
+- полный Application / Production Security.
 
 ## Evidence
 
@@ -186,27 +186,27 @@ Test evidence:
 - A8 Foundation Isolation
 - B4 AI Memory
 - BLOCK D final validation
-- E1вЂ“E12 Promotion
-- F1вЂ“F9 Comparison
+- E1–E12 Promotion
+- F1–F9 Comparison
 
 ## Remaining
 
-РџРѕР»РЅРѕРµ СЃРѕРїРѕСЃС‚Р°РІР»РµРЅРёРµ РЅР°Р·РЅР°С‡РµРЅРёСЏ AIEA СЃ С„Р°РєС‚РёС‡РµСЃРєРёРј implementation lifecycle.
+Полное сопоставление назначения AIEA с фактическим implementation lifecycle.
 
-# 2. РћСЃРЅРѕРІРЅС‹Рµ С†РµР»Рё
+# 2. Основные цели
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 2.1. Historical Research
 
-- [x] РђРЅР°Р»РёР· РёСЃС‚РѕСЂРёС‡РµСЃРєРёС… СЃРґРµР»РѕРє NEXUS.
-- [x] РђРЅР°Р»РёР· strategy Г— market_regime.
-- [x] РђРЅР°Р»РёР· strategy Г— symbol.
-- [x] РђРЅР°Р»РёР· strategy Г— side.
-- [x] РђРЅР°Р»РёР· strategy Г— volatility.
-- [x] РђРЅР°Р»РёР· strategy Г— confidence.
-- [x] РђРЅР°Р»РёР· temporal dimensions.
-- [x] РђРЅР°Р»РёР· strategy Г— leverage.
+- [x] Анализ исторических сделок NEXUS.
+- [x] Анализ strategy × market_regime.
+- [x] Анализ strategy × symbol.
+- [x] Анализ strategy × side.
+- [x] Анализ strategy × volatility.
+- [x] Анализ strategy × confidence.
+- [x] Анализ temporal dimensions.
+- [x] Анализ strategy × leverage.
 
 **Evidence:**
 
@@ -217,12 +217,12 @@ Test evidence:
 
 ## 2.2. Research / Discovery
 
-- [x] Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РёСЃСЃР»РµРґРѕРІР°С‚РµР»СЊСЃРєРёС… observations.
-- [x] Р’С‹СЏРІР»РµРЅРёРµ regime-dependent behaviour.
-- [x] Р’С‹СЏРІР»РµРЅРёРµ contrast РјРµР¶РґСѓ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹РјРё Рё РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё СЂРµР¶РёРјР°РјРё.
-- [x] РџРµСЂРµРґР°С‡Р° observations РІ Hypothesis Engine.
-- [ ] РџРѕР»РЅС‹Р№ autonomous discovery cycle вЂ” РЅРµ РґРѕРєР°Р·Р°РЅ.
-- [ ] РџРѕР»РЅРѕРµ РѕС‚РґРµР»РµРЅРёРµ correlation РѕС‚ causation вЂ” С‚СЂРµР±СѓРµС‚ РґР°Р»СЊРЅРµР№С€РµРіРѕ Р°СѓРґРёС‚Р°.
+- [x] Формирование исследовательских observations.
+- [x] Выявление regime-dependent behaviour.
+- [x] Выявление contrast между положительными и отрицательными режимами.
+- [x] Передача observations в Hypothesis Engine.
+- [ ] Полный autonomous discovery cycle — не доказан.
+- [ ] Полное отделение correlation от causation — требует дальнейшего аудита.
 
 **Evidence:**
 
@@ -230,14 +230,14 @@ Test evidence:
 
 ## 2.3. Hypothesis Generation
 
-- [x] Р“РµРЅРµСЂР°С†РёСЏ hypothesis РёР· knowledge snapshot.
-- [x] РџСЂРёРІСЏР·РєР° hypothesis Рє user.
-- [x] РџСЂРёРІСЏР·РєР° hypothesis Рє snapshot.
-- [x] РЎРѕС…СЂР°РЅРµРЅРёРµ expected effect.
-- [x] РЎРѕС…СЂР°РЅРµРЅРёРµ conditions.
-- [x] РЎРѕС…СЂР°РЅРµРЅРёРµ parameters.
-- [x] РЎРѕС…СЂР°РЅРµРЅРёРµ reasoning.
-- [x] Р—Р°РїСЂРµС‚ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕР№ strategy mutation РІ research stage.
+- [x] Генерация hypothesis из knowledge snapshot.
+- [x] Привязка hypothesis к user.
+- [x] Привязка hypothesis к snapshot.
+- [x] Сохранение expected effect.
+- [x] Сохранение conditions.
+- [x] Сохранение parameters.
+- [x] Сохранение reasoning.
+- [x] Запрет непосредственной strategy mutation в research stage.
 
 **Evidence:**
 
@@ -248,11 +248,11 @@ Test evidence:
 
 ## 2.4. Strategy Evolution
 
-- [ ] РџРѕР»РЅР°СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ РіРµРЅРµСЂР°С†РёСЏ РЅРѕРІРѕР№ strategy РЅРµ РґРѕРєР°Р·Р°РЅР°.
-- [ ] РџРѕР»РЅР°СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ РјРѕРґРёС„РёРєР°С†РёСЏ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ strategy РЅРµ РґРѕРєР°Р·Р°РЅР°.
-- [ ] РџРѕР»РЅС‹Р№ Strategy Genome lifecycle С‚СЂРµР±СѓРµС‚ РѕС‚РґРµР»СЊРЅРѕРіРѕ audit.
-- [x] Strategy version infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
-- [x] Strategy genealogy infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+- [ ] Полная автоматическая генерация новой strategy не доказана.
+- [ ] Полная автоматическая модификация существующей strategy не доказана.
+- [ ] Полный Strategy Genome lifecycle требует отдельного audit.
+- [x] Strategy version infrastructure существует.
+- [x] Strategy genealogy infrastructure существует.
 
 ## 2.5. Validation
 
@@ -275,7 +275,7 @@ Test evidence:
 - [x] Strategy Engine comparison.
 - [x] Grid comparison participant.
 - [x] Baseline participant.
-- [x] Symbol Г— regime Г— side alignment.
+- [x] Symbol × regime × side alignment.
 - [x] PnL / win rate / profit factor / expectancy.
 - [x] Drawdown / stability.
 - [x] trade_source separation.
@@ -285,7 +285,7 @@ Test evidence:
 
 **Evidence:**
 
-BLOCK F `F.1вЂ“F.9` вЂ” `DONE + REVIEWED`.
+BLOCK F `F.1–F.9` — `DONE + REVIEWED`.
 
 ## 2.7. Promotion / Trust
 
@@ -299,13 +299,13 @@ BLOCK F `F.1вЂ“F.9` вЂ” `DONE + REVIEWED`.
 - [x] Rollback.
 - [x] Rollback integrity.
 - [x] Production Safety boundary.
-- [ ] РџРѕР»РЅС‹Р№ AI trust-level lifecycle РЅРµ РґРѕРєР°Р·Р°РЅ.
-- [ ] Restricted Live РЅРµ Р°РєС‚РёРІРёСЂРѕРІР°РЅ.
-- [ ] Full Live РЅРµ Р°РєС‚РёРІРёСЂРѕРІР°РЅ.
+- [ ] Полный AI trust-level lifecycle не доказан.
+- [ ] Restricted Live не активирован.
+- [ ] Full Live не активирован.
 
 **Evidence:**
 
-E.1вЂ“E.12 test evidence.
+E.1–E.12 test evidence.
 
 ## 2.8. AI Memory
 
@@ -321,18 +321,18 @@ B4 evidence.
 
 ## 2.9. News & Event Intelligence
 
-- [ ] РџРѕР»РЅС‹Р№ external ingestion.
+- [ ] Полный external ingestion.
 - [ ] Historical event backfill.
 - [ ] Event deduplication.
-- [ ] Event в†’ market linkage.
-- [ ] Event в†’ regime linkage.
-- [ ] Event в†’ strategy linkage.
-- [ ] Event в†’ outcome linkage.
+- [ ] Event → market linkage.
+- [ ] Event → regime linkage.
+- [ ] Event → strategy linkage.
+- [ ] Event → outcome linkage.
 - [ ] News-aware research.
 - [ ] News-aware validation.
 - [ ] News/Event risk enforcement lifecycle.
 
-РЎС‚Р°С‚СѓСЃ:
+Статус:
 
 `PARTIALLY VERIFIED`
 
@@ -343,29 +343,29 @@ B4 evidence.
 - [x] Validation evidence.
 - [x] Promotion audit trail.
 - [x] Rollback audit trail.
-- [ ] РџРѕР»РЅР°СЏ end-to-end РёСЃС‚РѕСЂРёСЏ РєР°Р¶РґРѕРіРѕ AI observation/decision С‚СЂРµР±СѓРµС‚ РѕС‚РґРµР»СЊРЅРѕРіРѕ audit.
+- [ ] Полная end-to-end история каждого AI observation/decision требует отдельного audit.
 
-## 2.11. Р“Р»Р°РІРЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ С†РµР»Рё
+## 2.11. Главный результат цели
 
-AIEA СѓР¶Рµ РёРјРµРµС‚ СЃСѓС‰РµСЃС‚РІРµРЅРЅСѓСЋ РёСЃСЃР»РµРґРѕРІР°С‚РµР»СЊСЃРєСѓСЋ, validation, comparison Рё promotion infrastructure.
+AIEA уже имеет существенную исследовательскую, validation, comparison и promotion infrastructure.
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ Р·Р°СЏРІР»РµРЅРЅС‹Р№ lifecycle:
+Однако полный заявленный lifecycle:
 
-`research в†’ hypothesis в†’ generation в†’ validation в†’ paper в†’ shadow в†’ advisory в†’ restricted live в†’ live`
+`research → hypothesis → generation → validation → paper → shadow → advisory → restricted live → live`
 
-РµС‰С‘ РЅРµ РґРѕРєР°Р·Р°РЅ С†РµР»РёРєРѕРј.
+ещё не доказан целиком.
 
-**Evidence:** B1/B2/B3/B4, BLOCK D, BLOCK E, BLOCK F, С‚РµРєСѓС‰РёР№ code inventory.
+**Evidence:** B1/B2/B3/B4, BLOCK D, BLOCK E, BLOCK F, текущий code inventory.
 
-**Remaining:** Р·Р°РєСЂС‹С‚СЊ РЅРµРїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рµ lifecycle-РєРѕРјРїРѕРЅРµРЅС‚С‹ РѕС‚РґРµР»СЊРЅС‹РјРё factual audits.
+**Remaining:** закрыть неподтверждённые lifecycle-компоненты отдельными factual audits.
 
-# 3. Р§С‚Рѕ AIEA РќР• РґРѕР»Р¶РµРЅ РґРµР»Р°С‚СЊ
+# 3. Что AIEA НЕ должен делать
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 3.1. Direct Exchange Execution
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РЅР°РїСЂСЏРјСѓСЋ РѕС‚РїСЂР°РІР»СЏС‚СЊ production orders РЅР° BingX РёР»Рё РґСЂСѓРіРѕР№ exchange.
+AIEA не должен напрямую отправлять production orders на BingX или другой exchange.
 
 **Status:** `VERIFIED`
 
@@ -376,11 +376,11 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ РЅР°РїСЂСЏРјСѓСЋ РѕС�
 
 ## 3.2. RiskAgent Bypass
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ RiskAgent.
+AIEA не должен обходить RiskAgent.
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ production path:
+Канонический production path:
 
-`SignalAgent в†’ StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary в†’ Exchange`
+`SignalAgent → StrategyDecisionEngine → AIRiskAgent → ExecutionAgent → ExecutionBoundary → Exchange`
 
 **Status:** `VERIFIED`
 
@@ -393,9 +393,9 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ RiskAg
 
 ## 3.3. ExecutionAgent Bypass
 
-AIEA auxiliary services РЅРµ РґРѕР»Р¶РЅС‹ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РІС‹РїРѕР»РЅСЏС‚СЊ production execution.
+AIEA auxiliary services не должны самостоятельно выполнять production execution.
 
-**Status:** `VERIFIED` РґР»СЏ РїСЂРѕРІРµСЂРµРЅРЅС‹С… AI paths.
+**Status:** `VERIFIED` для проверенных AI paths.
 
 **Evidence:**
 - promotion services;
@@ -406,11 +406,11 @@ AIEA auxiliary services РЅРµ РґРѕР»Р¶РЅС‹ СЃР°РјРѕСЃ�
 
 ## 3.4. Production Strategy Mutation
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РїРµСЂРµРїРёСЃС‹РІР°С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ production strategy version.
+AIEA не должен переписывать существующую production strategy version.
 
-Evolution РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ С‡РµСЂРµР· РЅРѕРІСѓСЋ strategy version Рё genealogy.
+Evolution выполняется через новую strategy version и genealogy.
 
-**Status:** `VERIFIED` РґР»СЏ version/promotion boundary.
+**Status:** `VERIFIED` для version/promotion boundary.
 
 **Evidence:**
 - `models/ai_strategy_version.py`
@@ -420,7 +420,7 @@ Evolution РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ С‡РµСЂРµР· �
 
 ## 3.5. Risk Configuration Mutation
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РјРµРЅСЏС‚СЊ:
+AIEA не должен самостоятельно менять:
 
 - risk limits;
 - max leverage;
@@ -429,13 +429,13 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚Р�
 
 **Status:** `PARTIALLY VERIFIED`
 
-**Remaining:** РїРѕР»РЅС‹Р№ audit configuration write-paths.
+**Remaining:** полный audit configuration write-paths.
 
 ## 3.6. Self-Promotion
 
-AIEA РЅРµ РјРѕР¶РµС‚ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РїРѕРІС‹С€Р°С‚СЊ trust/promotion level.
+AIEA не может самостоятельно повышать trust/promotion level.
 
-Promotion С‚СЂРµР±СѓРµС‚ readiness, formal gates, risk approval Рё permission validation.
+Promotion требует readiness, formal gates, risk approval и permission validation.
 
 **Status:** `TEST VERIFIED`
 
@@ -444,11 +444,11 @@ Promotion С‚СЂРµР±СѓРµС‚ readiness, formal gates, risk approval 
 - E10 permission escalation test;
 - E12 promotion chain.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ audit `ai_agents.trust_level` lifecycle.
+**Remaining:** отдельный audit `ai_agents.trust_level` lifecycle.
 
 ## 3.7. Experiment / Audit History Destruction
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СѓРґР°Р»СЏС‚СЊ РёР»Рё РїРµСЂРµРїРёСЃС‹РІР°С‚СЊ:
+AIEA не должен удалять или переписывать:
 
 - experiments;
 - validation evidence;
@@ -464,7 +464,7 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ СѓРґР°Р»СЏС‚СЊ РёР»Р�
 
 ## 3.8. Unvalidated Hypothesis / Strategy
 
-AIEA РЅРµ РјРѕР¶РµС‚ СЃС‡РёС‚Р°С‚СЊ РіРёРїРѕС‚РµР·Сѓ РёР»Рё strategy РґРѕРєР°Р·Р°РЅРЅРѕР№ Р±РµР· РѕР±СЏР·Р°С‚РµР»СЊРЅРѕР№ validation pipeline.
+AIEA не может считать гипотезу или strategy доказанной без обязательной validation pipeline.
 
 **Status:** `TEST VERIFIED`
 
@@ -475,13 +475,13 @@ AIEA РЅРµ РјРѕР¶РµС‚ СЃС‡РёС‚Р°С‚СЊ РіРёРї
 
 ## 3.9. Shadow / Advisory Override
 
-Shadow/Advisory РЅРµ РґРѕР»Р¶РЅС‹:
+Shadow/Advisory не должны:
 
-- РёР·РјРµРЅСЏС‚СЊ production signal;
-- РјРµРЅСЏС‚СЊ strategy;
-- РјРµРЅСЏС‚СЊ confidence;
-- Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ execution;
-- РёРЅРёС†РёРёСЂРѕРІР°С‚СЊ execution.
+- изменять production signal;
+- менять strategy;
+- менять confidence;
+- блокировать execution;
+- инициировать execution.
 
 **Status:** `VERIFIED`
 
@@ -491,17 +491,17 @@ Shadow/Advisory РЅРµ РґРѕР»Р¶РЅС‹:
 
 ## 3.10. News/Event Risk Bypass
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РѕС‚РєР»СЋС‡Р°С‚СЊ РёР»Рё РѕР±С…РѕРґРёС‚СЊ News/Event Risk controls.
+AIEA не должен отключать или обходить News/Event Risk controls.
 
 **Status:** `NOT VERIFIED`
 
-**Remaining:** РїРѕР»РЅС‹Р№ audit `event в†’ risk restriction в†’ production safety`.
+**Remaining:** полный audit `event → risk restriction → production safety`.
 
 ## 3.11. AI-Generated Code Boundary
 
-AI-generated code РЅРµ РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ РїСЂСЏРјРѕР№ production access.
+AI-generated code не должен получать прямой production access.
 
-РћР±СЏР·Р°С‚РµР»СЊРЅС‹:
+Обязательны:
 
 - sandbox isolation;
 - network isolation;
@@ -512,33 +512,33 @@ AI-generated code РЅРµ РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С�
 
 **Status:** `NOT VERIFIED`
 
-## 3.12. РС‚РѕРі
+## 3.12. Итог
 
-РћСЃРЅРѕРІРЅС‹Рµ production-boundary РѕРіСЂР°РЅРёС‡РµРЅРёСЏ СѓР¶Рµ РёРјРµСЋС‚ С„Р°РєС‚РёС‡РµСЃРєРѕРµ РёР»Рё С‚РµСЃС‚РѕРІРѕРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ.
+Основные production-boundary ограничения уже имеют фактическое или тестовое подтверждение.
 
-РћСЃС‚Р°СЋС‚СЃСЏ:
+Остаются:
 
 - trust lifecycle audit;
 - risk configuration write-path audit;
 - News/Event Risk enforcement audit;
 - AI-generated code sandbox audit;
-- exhaustive AI в†’ production negative-path audit.
+- exhaustive AI → production negative-path audit.
 
-**Evidence:** A8, B2, E6вЂ“E12, code audit.
+**Evidence:** A8, B2, E6–E12, code audit.
 
-# 4. РђСЂС…РёС‚РµРєС‚СѓСЂРЅР°СЏ РјРѕРґРµР»СЊ
+# 4. Архитектурная модель
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 4.1. РђСЂС…РёС‚РµРєС‚СѓСЂРЅРѕРµ СЂР°Р·РґРµР»РµРЅРёРµ
+## 4.1. Архитектурное разделение
 
-NEXUS СЂР°Р·РґРµР»СЏРµС‚ Strategy Decision Engine, Grid Engine, AI Evolution Agent Рё production Risk / Execution / Position / TradeHistory РєРѕРЅС‚СѓСЂС‹.
+NEXUS разделяет Strategy Decision Engine, Grid Engine, AI Evolution Agent и production Risk / Execution / Position / TradeHistory контуры.
 
-AIEA РЅРµ Р·Р°РјРµРЅСЏРµС‚ Strategy Decision Engine РёР»Рё Grid Engine.
+AIEA не заменяет Strategy Decision Engine или Grid Engine.
 
 ## 4.2. Production decision path
 
-`Market в†’ MarketAgent в†’ SignalAgent в†’ StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary в†’ BaseExchangeClient в†’ Exchange`
+`Market → MarketAgent → SignalAgent → StrategyDecisionEngine → AIRiskAgent → ExecutionAgent → ExecutionBoundary → BaseExchangeClient → Exchange`
 
 **Status:** `VERIFIED`
 
@@ -552,13 +552,13 @@ AIEA РЅРµ Р·Р°РјРµРЅСЏРµС‚ Strategy Decision Engine РёР�
 
 ## 4.3. AIEA research boundary
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹ РѕС‚РґРµР»СЊРЅС‹Рµ РєРѕРЅС‚СѓСЂС‹ Knowledge, Hypothesis, Experiment, Validation, Memory, Comparison, Promotion Рё News/Event.
+Обнаружены отдельные контуры Knowledge, Hypothesis, Experiment, Validation, Memory, Comparison, Promotion и News/Event.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 4.4. Validation boundary
 
-Validation / Backtest / OOS / Walk-Forward / Paper РєРѕРЅС‚СѓСЂС‹ РѕС‚РґРµР»РµРЅС‹ РѕС‚ production execution.
+Validation / Backtest / OOS / Walk-Forward / Paper контуры отделены от production execution.
 
 **Status:** `VERIFIED`
 
@@ -566,25 +566,25 @@ Validation / Backtest / OOS / Walk-Forward / Paper РєРѕРЅС‚СѓСЂС�
 
 ## 4.5. Comparison boundary
 
-Comparison Engine СЏРІР»СЏРµС‚СЃСЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёРј РєРѕРЅС‚СѓСЂРѕРј.
+Comparison Engine является аналитическим контуром.
 
 `Comparison Observation != Trade`
 
 **Status:** `TEST VERIFIED`
 
-**Evidence:** BLOCK F `F.1вЂ“F.9` + review.
+**Evidence:** BLOCK F `F.1–F.9` + review.
 
 ## 4.6. Promotion boundary
 
-`Experiment в†’ Readiness в†’ Formal Gate в†’ Risk Approval в†’ Permission Policy в†’ Promotion Manager в†’ Strategy Version`
+`Experiment → Readiness → Formal Gate → Risk Approval → Permission Policy → Promotion Manager → Strategy Version`
 
 **Status:** `TEST VERIFIED`
 
-**Evidence:** E.1вЂ“E.12.
+**Evidence:** E.1–E.12.
 
 ## 4.7. Production safety boundary
 
-`ExecutionBoundary` СЏРІР»СЏРµС‚СЃСЏ С‚РµС…РЅРёС‡РµСЃРєРѕР№ РіСЂР°РЅРёС†РµР№ РїРµСЂРµРґ exchange execution Рё РІС‹РїРѕР»РЅСЏРµС‚ safety / permission / trading-control checks РґРѕ `place_order()`.
+`ExecutionBoundary` является технической границей перед exchange execution и выполняет safety / permission / trading-control checks до `place_order()`.
 
 **Status:** `VERIFIED`
 
@@ -593,61 +593,61 @@ Comparison Engine СЏРІР»СЏРµС‚СЃСЏ Р°РЅР°Р»РёС‚Р�
 - `services/ai_production_safety.py`
 - E10/E12 evidence.
 
-## 4.8. РќРµ РїРѕР»РЅРѕСЃС‚СЊСЋ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ
+## 4.8. Не полностью подтверждено
 
-- РїРѕР»РЅС‹Р№ autonomous AIEA evolution loop;
-- РїРѕР»РЅС‹Р№ News/Event Intelligence;
+- полный autonomous AIEA evolution loop;
+- полный News/Event Intelligence;
 - Dynamic Market Universe;
 - Restricted Live;
 - Full Live;
 - trust-level lifecycle;
 - AI-generated code sandbox lifecycle;
-- РїРѕР»РЅС‹Р№ Dashboard.
+- полный Dashboard.
 
 **Status:** `NOT VERIFIED`
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit РєР°Р¶РґРѕРіРѕ РєРѕРЅС‚СѓСЂР°.
+**Remaining:** отдельный factual audit каждого контура.
 
-# 5. РћСЃРЅРѕРІРЅС‹Рµ РїРѕРґСЃРёСЃС‚РµРјС‹ AIEA
+# 5. Основные подсистемы AIEA
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 5.1. Evolution Orchestrator
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ: Р·Р°РїСѓСЃРє research cycles, СЌРєСЃРїРµСЂРёРјРµРЅС‚РѕРІ, validation Рё РїРµСЂРµРґР°С‡Рё СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РІ controlled promotion.
+Каноническое назначение: запуск research cycles, экспериментов, validation и передачи результатов в controlled promotion.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РѕР±РЅР°СЂСѓР¶РµРЅ `agents/ai_orchestrator.py`.
+Фактически обнаружен `agents/ai_orchestrator.py`.
 
 **Status:** `PARTIALLY VERIFIED`
 
 **Evidence:** `agents/ai_orchestrator.py`
 
-**Remaining:** РїРѕР»РЅС‹Р№ audit С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ orchestration lifecycle.
+**Remaining:** полный audit фактического orchestration lifecycle.
 
 ## 5.2. Knowledge Engine
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 - `services/ai_knowledge_engine.py`
 - `services/ai_knowledge_snapshot_service.py`
 
-Knowledge snapshot РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Рє РІС…РѕРґ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµРіРѕ hypothesis generation.
+Knowledge snapshot используется как вход для последующего hypothesis generation.
 
 **Status:** `PARTIALLY VERIFIED`
 
-**Evidence:** B1/B2 research evidence Рё РЅР°Р№РґРµРЅРЅС‹Рµ AI knowledge services.
+**Evidence:** B1/B2 research evidence и найденные AI knowledge services.
 
 ## 5.3. Hypothesis Engine
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚ `services/ai_hypothesis_engine.py`.
+Фактически существует `services/ai_hypothesis_engine.py`.
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Подтверждено:
 
-- hypothesis generation РёР· snapshot;
+- hypothesis generation из snapshot;
 - user binding;
 - snapshot binding;
 - conditions / parameters / reasoning;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕР№ production mutation.
+- отсутствие автоматической production mutation.
 
 **Status:** `TEST VERIFIED`
 
@@ -660,9 +660,9 @@ Knowledge snapshot РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Р�
 
 ## 5.4. Strategy Generator
 
-РћС‚РґРµР»СЊРЅС‹Р№ production-ready AI Strategy Generator РєР°Рє РїРѕР»РЅС‹Р№ autonomous lifecycle РїРѕРєР° РЅРµ РґРѕРєР°Р·Р°РЅ.
+Отдельный production-ready AI Strategy Generator как полный autonomous lifecycle пока не доказан.
 
-РћР±РЅР°СЂСѓР¶РµРЅР° strategy-version infrastructure, РЅРѕ СЌС‚РѕРіРѕ РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР»СЏ СѓС‚РІРµСЂР¶РґРµРЅРёСЏ РїРѕР»РЅРѕР№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕР№ РіРµРЅРµСЂР°С†РёРё.
+Обнаружена strategy-version infrastructure, но этого недостаточно для утверждения полной автоматической генерации.
 
 **Status:** `NOT VERIFIED`
 
@@ -670,11 +670,11 @@ Knowledge snapshot РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Р�
 
 ## 5.5. Strategy Modifier
 
-Versioned strategy infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Versioned strategy infrastructure существует.
 
-РќРѕРІР°СЏ РІРµСЂСЃРёСЏ СЃРІСЏР·С‹РІР°РµС‚СЃСЏ СЃ hypothesis / experiment Рё promotion genealogy.
+Новая версия связывается с hypothesis / experiment и promotion genealogy.
 
-РџРѕР»РЅС‹Р№ autonomous modifier lifecycle РЅРµ РґРѕРєР°Р·Р°РЅ.
+Полный autonomous modifier lifecycle не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -685,11 +685,11 @@ Versioned strategy infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
 
 ## 5.6. Strategy Genome
 
-РўСЂРµР±СѓРµС‚СЃСЏ machine-readable strategy definition.
+Требуется machine-readable strategy definition.
 
-Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРєСѓ Strategy Definition / Genome schema.
+Static validation содержит проверку Strategy Definition / Genome schema.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРёР№ РїРѕР»РЅС‹Р№ genome lifecycle РѕС‚ generation РґРѕ comparison РµС‰С‘ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Фактический полный genome lifecycle от generation до comparison ещё не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -699,11 +699,11 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє
 
 ## 5.7. Experiment Engine
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_experiment_engine.py`
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - experiment creation;
 - hypothesis linkage;
@@ -720,7 +720,7 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє
 
 ## 5.8. Validation Engine
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅ РѕС‚РґРµР»СЊРЅС‹Р№ validation contour:
+Фактически реализован отдельный validation contour:
 
 - Static Validation;
 - Backtest;
@@ -735,7 +735,7 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє
 
 ## 5.9. Comparison Engine
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅС‹:
+Фактически реализованы:
 
 - comparison contract;
 - identity/alignment;
@@ -749,11 +749,11 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє
 
 **Status:** `DONE + REVIEWED`
 
-**Evidence:** BLOCK F `F.1вЂ“F.9`.
+**Evidence:** BLOCK F `F.1–F.9`.
 
 ## 5.10. Promotion subsystem
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚:
+Фактически существуют:
 
 - Promotion Manager;
 - Promotion Gates;
@@ -767,11 +767,11 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє
 
 **Status:** `DONE`
 
-**Evidence:** E.1вЂ“E.12.
+**Evidence:** E.1–E.12.
 
 ## 5.11. AI Memory
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅР° research-only append-only memory.
+Фактически реализована research-only append-only memory.
 
 **Status:** `TEST VERIFIED`
 
@@ -786,14 +786,14 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє
 
 ## 5.12. News / Event subsystem
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `services/ai_news_event_service.py`
 - `services/ai_news_ingestion.py`
 - `models/ai_news_event.py`
 - News/Event comparison context layer.
 
-РџРѕР»РЅР°СЏ production/research News & Event Intelligence РµС‰С‘ РЅРµ Р·Р°РІРµСЂС€РµРЅР°.
+Полная production/research News & Event Intelligence ещё не завершена.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -801,7 +801,7 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє
 
 ## 5.13. Production Safety
 
-AIEA-related production boundary СѓР¶Рµ РёРјРµРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ safety layer.
+AIEA-related production boundary уже имеет отдельный safety layer.
 
 **Status:** `VERIFIED`
 
@@ -810,11 +810,11 @@ AIEA-related production boundary СѓР¶Рµ РёРјРµРµС‚ РѕС‚Р�
 - `services/execution_boundary.py`
 - E10/E12 evidence.
 
-## 5.14. РС‚РѕРі СЂР°Р·РґРµР»Р°
+## 5.14. Итог раздела
 
-РћСЃРЅРѕРІРЅС‹Рµ Р±Р°Р·РѕРІС‹Рµ AIEA subsystems СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Основные базовые AIEA subsystems уже существуют.
 
-РџРѕР»РЅРѕСЃС‚СЊСЋ РґРѕРєР°Р·Р°РЅС‹ РѕС‚РґРµР»СЊРЅС‹РјРё С‚РµСЃС‚Р°РјРё/Р°СѓРґРёС‚Р°РјРё:
+Полностью доказаны отдельными тестами/аудитами:
 
 - Hypothesis;
 - Experiment;
@@ -823,7 +823,7 @@ AIEA-related production boundary СѓР¶Рµ РёРјРµРµС‚ РѕС‚Р�
 - Promotion;
 - Memory.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РґРѕРєР°Р·Р°РЅС‹:
+Частично доказаны:
 
 - Evolution Orchestrator;
 - Knowledge Engine;
@@ -831,18 +831,18 @@ AIEA-related production boundary СѓР¶Рµ РёРјРµРµС‚ РѕС‚Р�
 - Strategy Genome;
 - News/Event.
 
-РќРµ РґРѕРєР°Р·Р°РЅ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не доказан полностью:
 
 - autonomous Strategy Generator lifecycle.
 
-**Remaining:** Р·Р°РєСЂС‹РІР°С‚СЊ РїРѕРґСЃРёСЃС‚РµРјС‹ РїРѕ РѕС‚РґРµР»СЊРЅРѕРјСѓ factual audit, РЅРµ РїРѕРІС‚РѕСЂСЏСЏ СѓР¶Рµ Р·Р°РєСЂС‹С‚С‹Рµ С‚РµСЃС‚С‹.
+**Remaining:** закрывать подсистемы по отдельному factual audit, не повторяя уже закрытые тесты.
 # 6. Knowledge Engine
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 6.1. РќР°Р·РЅР°С‡РµРЅРёРµ
+## 6.1. Назначение
 
-Knowledge Engine РґРѕР»Р¶РµРЅ СЃРѕР±РёСЂР°С‚СЊ Рё Р°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊ:
+Knowledge Engine должен собирать и анализировать:
 
 - TradeHistory;
 - Positions;
@@ -862,17 +862,17 @@ Knowledge Engine РґРѕР»Р¶РµРЅ СЃРѕР±РёСЂР°С‚СЊ Рё
 - historical market data;
 - News & Event context.
 
-## 6.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## 6.2. Фактическая реализация
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `services/ai_knowledge_engine.py`
 - `services/ai_knowledge_snapshot_service.py`
 - `models/ai_knowledge_snapshot.py`
 
-Knowledge snapshots РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РєР°Рє СЃС‚СЂСѓРєС‚СѓСЂРёСЂРѕРІР°РЅРЅС‹Р№ РІС…РѕРґ РґР»СЏ research / hypothesis generation.
+Knowledge snapshots используются как структурированный вход для research / hypothesis generation.
 
-**Status:** `VERIFIED` РґР»СЏ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ Рё snapshot pipeline.
+**Status:** `VERIFIED` для существования и snapshot pipeline.
 
 **Evidence:**
 - B1 historical analysis;
@@ -880,22 +880,22 @@ Knowledge snapshots РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РєР°Р
 - `AIKnowledgeEngine`;
 - `AIKnowledgeSnapshotService`.
 
-## 6.3. РђРЅР°Р»РёС‚РёС‡РµСЃРєРёРµ СЂР°Р·СЂРµР·С‹
+## 6.3. Аналитические разрезы
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РІ B1:
+Подтверждены в B1:
 
-- strategy Г— regime;
-- strategy Г— symbol;
-- strategy Г— side;
-- strategy Г— regime Г— side;
-- strategy Г— regime Г— side Г— symbol;
-- strategy Г— volatility;
-- strategy Г— confidence;
-- symbol Г— regime;
-- strategy Г— hour;
-- strategy Г— day_of_week;
-- strategy Г— holding_time;
-- strategy Г— leverage.
+- strategy × regime;
+- strategy × symbol;
+- strategy × side;
+- strategy × regime × side;
+- strategy × regime × side × symbol;
+- strategy × volatility;
+- strategy × confidence;
+- symbol × regime;
+- strategy × hour;
+- strategy × day_of_week;
+- strategy × holding_time;
+- strategy × leverage.
 
 **Status:** `TEST VERIFIED`
 
@@ -907,7 +907,7 @@ Knowledge snapshots РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РєР°Р
 
 ## 6.4. Data quality
 
-AIEA research layer РґРѕР»Р¶РµРЅ РѕС‚РґРµР»СЏС‚СЊ РёР»Рё РёСЃРєР»СЋС‡Р°С‚СЊ:
+AIEA research layer должен отделять или исключать:
 
 - legacy;
 - GRID;
@@ -915,14 +915,14 @@ AIEA research layer РґРѕР»Р¶РµРЅ РѕС‚РґРµР»СЏС‚СЊ 
 - missing strategy;
 - missing regime;
 - invalid trade context;
-- РЅРµРїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рµ РёСЃС‚РѕС‡РЅРёРєРё.
+- неподтверждённые источники.
 
-B1 РїСЂРѕРІРµСЂСЏРµС‚:
+B1 проверяет:
 
 - `trade_source`;
 - strategy quality;
 - GRID exclusion;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ synthetic dimensions.
+- отсутствие synthetic dimensions.
 
 **Status:** `TEST VERIFIED`
 
@@ -934,11 +934,11 @@ B1 РїСЂРѕРІРµСЂСЏРµС‚:
 
 ## 6.5. Research snapshot integrity
 
-Snapshot РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ РєРѕРЅРєСЂРµС‚РЅС‹Рј user Рё dataset version.
+Snapshot должен быть связан с конкретным user и dataset version.
 
-РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ snapshot РІ hypothesis chain СѓР¶Рµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Использование snapshot в hypothesis chain уже подтверждено:
 
-`Knowledge Snapshot в†’ Hypothesis`
+`Knowledge Snapshot → Hypothesis`
 
 **Status:** `TEST VERIFIED`
 
@@ -949,28 +949,28 @@ Snapshot РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ С
 
 ## 6.6. AI Memory integration
 
-Knowledge results РјРѕРіСѓС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РєР°Рє РІС…РѕРґ РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ research cycle.
+Knowledge results могут использоваться как вход для следующего research cycle.
 
-AI Memory РѕСЃС‚Р°С‘С‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј append-only РєРѕРЅС‚СѓСЂРѕРј Рё РЅРµ Р·Р°РјРµРЅСЏРµС‚ РёСЃС‚РѕСЂРёС‡РµСЃРєРёРµ РґР°РЅРЅС‹Рµ.
+AI Memory остаётся отдельным append-only контуром и не заменяет исторические данные.
 
-**Status:** `TEST VERIFIED` С‡Р°СЃС‚РёС‡РЅРѕ РІ СЂР°РјРєР°С… B4.
+**Status:** `TEST VERIFIED` частично в рамках B4.
 
 **Evidence:** B4 research-memory-only boundary.
 
 ## 6.7. News & Event Intelligence
 
-РђСЂС…РёС‚РµРєС‚СѓСЂР° С‚СЂРµР±СѓРµС‚:
+Архитектура требует:
 
-`News/Event в†’ Knowledge в†’ Research в†’ Hypothesis в†’ Validation`
+`News/Event → Knowledge → Research → Hypothesis → Validation`
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `models/ai_news_event.py`
 - `services/ai_news_event_service.py`
 - `services/ai_news_ingestion.py`
 - `services/ai_comparison_news_context.py`
 
-РќРѕ РїРѕР»РЅС‹Р№ historical event ingestion, backfill Рё РєРѕСЂСЂРµР»СЏС†РёРѕРЅРЅС‹Р№ Knowledge pipeline РµС‰С‘ РЅРµ Р·Р°РєСЂС‹С‚С‹.
+Но полный historical event ingestion, backfill и корреляционный Knowledge pipeline ещё не закрыты.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -980,62 +980,62 @@ AI Memory РѕСЃС‚Р°С‘С‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹
 - persistent event store;
 - historical backfill;
 - deduplication;
-- event в†’ market linkage;
-- event в†’ regime linkage;
-- event в†’ strategy linkage;
-- event в†’ outcome linkage.
+- event → market linkage;
+- event → regime linkage;
+- event → strategy linkage;
+- event → outcome linkage.
 
-## 6.8. РСЃС‚РѕС‡РЅРёРєРё С‚РѕСЂРіРѕРІС‹С… РґР°РЅРЅС‹С…
+## 6.8. Источники торговых данных
 
-Knowledge Engine РЅРµ РґРѕР»Р¶РµРЅ СЃРјРµС€РёРІР°С‚СЊ:
+Knowledge Engine не должен смешивать:
 
 `REAL / GRID / TEST / AI_PAPER / AI_SHADOW / AI_LIVE / LEGACY`
 
-Production performance РґРѕР»Р¶РЅР° Р°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊСЃСЏ РѕС‚РґРµР»СЊРЅРѕ РѕС‚ experimental sources.
+Production performance должна анализироваться отдельно от experimental sources.
 
-**Status:** `TEST VERIFIED` РґР»СЏ РїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹С… B1 source guards; РїРѕР»РЅС‹Р№ cross-source audit РµС‰С‘ С‚СЂРµР±СѓРµС‚СЃСЏ.
+**Status:** `TEST VERIFIED` для подтверждённых B1 source guards; полный cross-source audit ещё требуется.
 
-## 6.9. РС‚РѕРі
+## 6.9. Итог
 
-РћСЃРЅРѕРІРЅРѕР№ historical research / aggregation РєРѕРЅС‚СѓСЂ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РёРјРµРµС‚ С‚РµСЃС‚РѕРІРѕРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ.
+Основной historical research / aggregation контур существует и имеет тестовое подтверждение.
 
-Р—Р°РєСЂС‹С‚Рѕ:
+Закрыто:
 
-- Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёРµ slices;
+- аналитические slices;
 - source/data quality filtering;
 - snapshot generation/binding;
-- research input РґР»СЏ hypothesis generation.
+- research input для hypothesis generation.
 
-РќРµ Р·Р°РєСЂС‹С‚Рѕ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не закрыто полностью:
 
-- РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ event-aware Knowledge layer;
-- РїРѕР»РЅС‹Р№ historical News/Event dataset lifecycle;
-- exhaustive source-isolation audit РІСЃРµС… research queries.
+- полноценный event-aware Knowledge layer;
+- полный historical News/Event dataset lifecycle;
+- exhaustive source-isolation audit всех research queries.
 
 **Remaining:** factual audit News/Event + complete Knowledge source coverage.
 # 7. Hypothesis Engine
 
 **Status:** `TEST VERIFIED`
 
-## 7.1. РќР°Р·РЅР°С‡РµРЅРёРµ
+## 7.1. Назначение
 
-Hypothesis Engine РґРѕР»Р¶РµРЅ РїСЂРµРѕР±СЂР°Р·РѕРІС‹РІР°С‚СЊ РЅР°Р±Р»СЋРґРµРЅРёСЏ Knowledge Engine РІ С„РѕСЂРјР°Р»РёР·РѕРІР°РЅРЅС‹Рµ, РїСЂРѕРІРµСЂСЏРµРјС‹Рµ Рё РІРѕСЃРїСЂРѕРёР·РІРѕРґРёРјС‹Рµ РіРёРїРѕС‚РµР·С‹.
+Hypothesis Engine должен преобразовывать наблюдения Knowledge Engine в формализованные, проверяемые и воспроизводимые гипотезы.
 
-Р‘Р°Р·РѕРІР°СЏ С†РµРїРѕС‡РєР°:
+Базовая цепочка:
 
-`Knowledge Snapshot в†’ Observation в†’ Hypothesis в†’ Experiment`
+`Knowledge Snapshot → Observation → Hypothesis → Experiment`
 
-## 7.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## 7.2. Фактическая реализация
 
-РћР±РЅР°СЂСѓР¶РµРЅ:
+Обнаружен:
 
 `services/ai_hypothesis_engine.py`
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Фактически подтверждено:
 
-- РіРµРЅРµСЂР°С†РёСЏ hypothesis РёР· Knowledge Snapshot;
-- РїСЂРёРІСЏР·РєР° hypothesis Рє user;
-- РїСЂРёРІСЏР·РєР° Рє snapshot;
+- генерация hypothesis из Knowledge Snapshot;
+- привязка hypothesis к user;
+- привязка к snapshot;
 - target strategy;
 - hypothesis type;
 - conditions;
@@ -1043,9 +1043,9 @@ Hypothesis Engine РґРѕР»Р¶РµРЅ РїСЂРµРѕР±СЂР°Р·Рѕ�
 - reasoning;
 - status.
 
-## 7.3. РЎС‚СЂСѓРєС‚СѓСЂР° hypothesis
+## 7.3. Структура hypothesis
 
-РџРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ РґР°РЅРЅС‹Рµ:
+Поддерживаются данные:
 
 - `title`;
 - `description`;
@@ -1058,15 +1058,15 @@ Hypothesis Engine РґРѕР»Р¶РµРЅ РїСЂРµРѕР±СЂР°Р·Рѕ�
 - `reasoning`;
 - `status`.
 
-Hypothesis РґРѕР»Р¶РЅР° РѕСЃС‚Р°РІР°С‚СЊСЃСЏ РёСЃСЃР»РµРґРѕРІР°С‚РµР»СЊСЃРєРёРј РѕР±СЉРµРєС‚РѕРј РґРѕ validation.
+Hypothesis должна оставаться исследовательским объектом до validation.
 
-## 7.4. РЎРІСЏР·СЊ СЃ РёСЃС…РѕРґРЅС‹РјРё РЅР°Р±Р»СЋРґРµРЅРёСЏРјРё
+## 7.4. Связь с исходными наблюдениями
 
-Hypothesis СЃРІСЏР·С‹РІР°РµС‚СЃСЏ СЃ РєРѕРЅРєСЂРµС‚РЅС‹Рј Knowledge Snapshot.
+Hypothesis связывается с конкретным Knowledge Snapshot.
 
-Р­С‚Рѕ РѕР±РµСЃРїРµС‡РёРІР°РµС‚ С‚СЂР°СЃСЃРёСЂСѓРµРјРѕСЃС‚СЊ:
+Это обеспечивает трассируемость:
 
-`research data в†’ snapshot в†’ hypothesis`
+`research data → snapshot → hypothesis`
 
 **Status:** `TEST VERIFIED`
 
@@ -1076,9 +1076,9 @@ Hypothesis СЃРІСЏР·С‹РІР°РµС‚СЃСЏ СЃ РєРѕРЅРє�
 
 ## 7.5. User / identity isolation
 
-Hypothesis РґРѕР»Р¶РЅР° РїСЂРёРЅР°РґР»РµР¶Р°С‚СЊ С‚РѕРјСѓ Р¶Рµ user, РєРѕС‚РѕСЂРѕРјСѓ РїСЂРёРЅР°РґР»РµР¶РёС‚ РёСЃС…РѕРґРЅС‹Р№ snapshot.
+Hypothesis должна принадлежать тому же user, которому принадлежит исходный snapshot.
 
-Р­С‚Рѕ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ Р·Р°С‰РёС‰РµРЅРѕ A8 identity isolation.
+Это дополнительно защищено A8 identity isolation.
 
 **Status:** `TEST VERIFIED`
 
@@ -1088,18 +1088,18 @@ Hypothesis РґРѕР»Р¶РЅР° РїСЂРёРЅР°РґР»РµР¶Р°С�
 
 ## 7.6. Validation boundary
 
-Hypothesis РЅРµ СЃС‡РёС‚Р°РµС‚СЃСЏ РґРѕРєР°Р·Р°РЅРЅРѕР№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Hypothesis не считается доказанной автоматически.
 
-Р”Р»СЏ РїРµСЂРµС…РѕРґР° Рє strategy validation С‚СЂРµР±СѓРµС‚СЃСЏ Experiment Engine Рё РґР°Р»СЊРЅРµР№С€Р°СЏ validation pipeline.
+Для перехода к strategy validation требуется Experiment Engine и дальнейшая validation pipeline.
 
 **Status:** `TEST VERIFIED`
 
 **Evidence:**
 - `B2_VALIDATION_REQUIRED_OK`
 
-## 7.7. Р—Р°РїСЂРµС‚ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕР№ mutation production strategy
+## 7.7. Запрет самостоятельной mutation production strategy
 
-Р“РµРЅРµСЂР°С†РёСЏ hypothesis СЃР°РјР° РїРѕ СЃРµР±Рµ РЅРµ РґРѕР»Р¶РЅР° РёР·РјРµРЅСЏС‚СЊ production strategy.
+Генерация hypothesis сама по себе не должна изменять production strategy.
 
 **Status:** `TEST VERIFIED`
 
@@ -1108,11 +1108,11 @@ Hypothesis РЅРµ СЃС‡РёС‚Р°РµС‚СЃСЏ РґРѕРєР°Р·
 
 ## 7.8. Experiment linkage
 
-Hypothesis РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°РЅР° СЃ СЃРѕР·РґР°РІР°РµРјС‹Рј СЌРєСЃРїРµСЂРёРјРµРЅС‚РѕРј, Р° СЌРєСЃРїРµСЂРёРјРµРЅС‚ вЂ” СЃ РєРѕРЅРєСЂРµС‚РЅРѕР№ Strategy Version.
+Hypothesis должна быть связана с создаваемым экспериментом, а эксперимент — с конкретной Strategy Version.
 
-Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ С†РµРїРѕС‡РєР° РїРѕРґС‚РІРµСЂР¶РґРµРЅР° РІ A9:
+Фактическая цепочка подтверждена в A9:
 
-`Snapshot в†’ Hypothesis в†’ Experiment в†’ StrategyVersion`
+`Snapshot → Hypothesis → Experiment → StrategyVersion`
 
 **Status:** `TEST VERIFIED`
 
@@ -1123,26 +1123,26 @@ Hypothesis РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ�
 
 ## 7.9. Research-only boundary
 
-Hypothesis Engine РЅРµ РїРѕР»СѓС‡Р°РµС‚ production execution authority.
+Hypothesis Engine не получает production execution authority.
 
-РћРЅ РЅРµ РґРѕР»Р¶РµРЅ:
+Он не должен:
 
-- РѕС‚РїСЂР°РІР»СЏС‚СЊ exchange orders;
-- РјРµРЅСЏС‚СЊ RiskAgent;
-- РјРµРЅСЏС‚СЊ ExecutionAgent;
-- РјРµРЅСЏС‚СЊ production strategy;
-- РјРµРЅСЏС‚СЊ risk limits;
-- СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РІС‹РїРѕР»РЅСЏС‚СЊ promotion.
+- отправлять exchange orders;
+- менять RiskAgent;
+- менять ExecutionAgent;
+- менять production strategy;
+- менять risk limits;
+- самостоятельно выполнять promotion.
 
 **Status:** `PARTIALLY VERIFIED`
 
-**Remaining:** РїРѕР»РЅС‹Р№ negative-path audit РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РґР»СЏ Hypothesis Engine.
+**Remaining:** полный negative-path audit непосредственно для Hypothesis Engine.
 
-## 7.10. РС‚РѕРі
+## 7.10. Итог
 
-Hypothesis Engine С„Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РµРіРѕ РѕСЃРЅРѕРІРЅРѕР№ research lifecycle РїРѕРґС‚РІРµСЂР¶РґС‘РЅ С‚РµСЃС‚Р°РјРё.
+Hypothesis Engine фактически существует и его основной research lifecycle подтверждён тестами.
 
-Р—Р°РєСЂС‹С‚Рѕ:
+Закрыто:
 
 - hypothesis generation;
 - snapshot binding;
@@ -1152,21 +1152,21 @@ Hypothesis Engine С„Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰Рµ�
 - no-strategy-mutation boundary;
 - experiment linkage.
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - exhaustive negative-path audit;
-- РїСЂРѕРІРµСЂРєР° РїРѕРІРµРґРµРЅРёСЏ РїСЂРё malformed / inconsistent snapshot data;
-- СЂР°СЃС€РёСЂРµРЅРЅР°СЏ РґРµРґСѓРїР»РёРєР°С†РёСЏ РїРѕС…РѕР¶РёС… РіРёРїРѕС‚РµР·.
+- проверка поведения при malformed / inconsistent snapshot data;
+- расширенная дедупликация похожих гипотез.
 
 # 8. Strategy Generator
 
 **Status:** `NOT VERIFIED`
 
-## 8.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 8.1. Каноническое требование
 
-AIEA РґРѕР»Р¶РµРЅ СѓРјРµС‚СЊ СЃРѕР·РґР°РІР°С‚СЊ РЅРѕРІС‹Рµ СЃС‚СЂР°С‚РµРіРёРё.
+AIEA должен уметь создавать новые стратегии.
 
-РљР°Р¶РґР°СЏ generated strategy РґРѕР»Р¶РЅР° РїРѕР»СѓС‡Р°С‚СЊ:
+Каждая generated strategy должна получать:
 
 - unique strategy ID;
 - version;
@@ -1175,21 +1175,21 @@ AIEA РґРѕР»Р¶РµРЅ СѓРјРµС‚СЊ СЃРѕР·РґР°РІР°
 - experiment ID;
 - validation state.
 
-Generated strategy РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЏРІР»СЏРµС‚СЃСЏ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р°Р»СЊРЅРѕР№ Рё РЅРµ РїРѕР»СѓС‡Р°РµС‚ production permissions Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Generated strategy по умолчанию является экспериментальной и не получает production permissions автоматически.
 
-## 8.2. РўСЂРµР±РѕРІР°РЅРёСЏ Рє implementation boundary
+## 8.2. Требования к implementation boundary
 
-Generation РґРѕР»Р¶РЅР° РїСЂРѕРёСЃС…РѕРґРёС‚СЊ РІ research / sandbox environment.
+Generation должна происходить в research / sandbox environment.
 
-Production РЅРµ РґРѕР»Р¶РµРЅ РёСЃРїРѕР»РЅСЏС‚СЊ РЅРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅС‹Р№ AI-generated Python.
+Production не должен исполнять необработанный AI-generated Python.
 
-Generated strategy РґРѕР»Р¶РЅР° РїСЂРѕС…РѕРґРёС‚СЊ:
+Generated strategy должна проходить:
 
-`generation в†’ static validation в†’ sandbox execution в†’ backtest в†’ OOS в†’ walk-forward в†’ paper в†’ shadow в†’ evaluation в†’ promotion`
+`generation → static validation → sandbox execution → backtest → OOS → walk-forward → paper → shadow → evaluation → promotion`
 
-## 8.3. Р¤Р°РєС‚РёС‡РµСЃРєРё РѕР±РЅР°СЂСѓР¶РµРЅРЅР°СЏ РёРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂР°
+## 8.3. Фактически обнаруженная инфраструктура
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `models/ai_strategy_version.py`;
 - `services/ai_static_strategy_validator.py`;
@@ -1199,28 +1199,28 @@ Generated strategy РґРѕР»Р¶РЅР° РїСЂРѕС…РѕРґРёС‚С
 - `services/ai_walk_forward_validator.py`;
 - `services/ai_paper_trading_service.py`.
 
-Р­С‚Р° РёРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂР° РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ РЅР°Р»РёС‡РёРµ РЅРµРѕР±С…РѕРґРёРјС‹С… downstream РєРѕРјРїРѕРЅРµРЅС‚РѕРІ, РЅРѕ РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚ РЅР°Р»РёС‡РёРµ РїРѕР»РЅРѕРіРѕ Р°РІС‚РѕРЅРѕРјРЅРѕРіРѕ Strategy Generator.
+Эта инфраструктура подтверждает наличие необходимых downstream компонентов, но не доказывает наличие полного автономного Strategy Generator.
 
 ## 8.4. Strategy Version boundary
 
-Strategy Version СѓР¶Рµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ experiment / promotion identity chains.
+Strategy Version уже используется в experiment / promotion identity chains.
 
-A9 РїРѕРґС‚РІРµСЂРґРёР»:
+A9 подтвердил:
 
-`Experiment в†’ StrategyVersion`
+`Experiment → StrategyVersion`
 
-РЅРѕ СЌС‚Рѕ РЅРµ СЏРІР»СЏРµС‚СЃСЏ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕРј autonomous generation.
+но это не является доказательством autonomous generation.
 
-**Status:** `TEST VERIFIED` РґР»СЏ version linkage.
+**Status:** `TEST VERIFIED` для version linkage.
 
 **Evidence:**
 - `A9_EXPERIMENT_STRATEGY_VERSION_OK`
 
 ## 8.5. Static validation boundary
 
-Static validator СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРєРё СЃС‚СЂР°С‚РµРіРёРё Рё Р·Р°РїСЂРµС‰С‘РЅРЅС‹С… operations, РІРєР»СЋС‡Р°СЏ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ РЅР° RiskAgent / ExecutionAgent / exchange access.
+Static validator содержит проверки стратегии и запрещённых operations, включая ограничения на RiskAgent / ExecutionAgent / exchange access.
 
-**Status:** `VERIFIED` РєР°Рє СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ validation component.
+**Status:** `VERIFIED` как существующий validation component.
 
 **Evidence:**
 - `services/ai_static_strategy_validator.py`
@@ -1228,9 +1228,9 @@ Static validator СЃРѕРґРµСЂР¶РёС‚ РїСЂРѕРІРµСЂРє�
 
 ## 8.6. Production permission boundary
 
-РќРѕРІР°СЏ strategy version РЅРµ РґРѕР»Р¶РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРѕР»СѓС‡Р°С‚СЊ production permission.
+Новая strategy version не должна автоматически получать production permission.
 
-Promotion E.1вЂ“E.12 РѕР±РµСЃРїРµС‡РёРІР°РµС‚ РѕС‚РґРµР»СЊРЅСѓСЋ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјСѓСЋ permission / promotion boundary.
+Promotion E.1–E.12 обеспечивает отдельную контролируемую permission / promotion boundary.
 
 **Status:** `TEST VERIFIED`
 
@@ -1239,39 +1239,39 @@ Promotion E.1вЂ“E.12 РѕР±РµСЃРїРµС‡РёРІР°РµС‚ Рѕ
 - E.10 production safety;
 - E.12 promotion integration.
 
-## 8.7. Р§С‚Рѕ РµС‰С‘ РЅРµ РґРѕРєР°Р·Р°РЅРѕ
+## 8.7. Что ещё не доказано
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
 - autonomous generation logic;
 - generation input/context assembly;
 - automatic genome generation;
 - generated implementation persistence;
 - sandbox execution lifecycle;
-- generator в†’ experiment automatic linkage;
-- generator в†’ validation automatic pipeline;
+- generator → experiment automatic linkage;
+- generator → validation automatic pipeline;
 - duplicate strategy detection;
 - generator failure handling.
 
-## 8.8. РС‚РѕРі
+## 8.8. Итог
 
-РРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ Strategy Version, Static Validation, Experiment Рё Validation СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Инфраструктура для Strategy Version, Static Validation, Experiment и Validation уже существует.
 
-РџРѕР»РЅС‹Р№ Р°РІС‚РѕРЅРѕРјРЅС‹Р№ Strategy Generator РїРѕРєР° **РЅРµ СЃС‡РёС‚Р°РµС‚СЃСЏ СЂРµР°Р»РёР·РѕРІР°РЅРЅС‹Рј Р±РµР· РѕС‚РґРµР»СЊРЅРѕРіРѕ factual/test evidence**.
+Полный автономный Strategy Generator пока **не считается реализованным без отдельного factual/test evidence**.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ audit generator implementation Рё РµРіРѕ end-to-end lifecycle.
+**Remaining:** отдельный audit generator implementation и его end-to-end lifecycle.
 
 # 9. Strategy Modifier
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 9.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 9.1. Каноническое требование
 
-AIEA РґРѕР»Р¶РµРЅ РёР·РјРµРЅСЏС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ СЃС‚СЂР°С‚РµРіРёРё С‚РѕР»СЊРєРѕ С‡РµСЂРµР· СЃРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ РІРµСЂСЃРёРё.
+AIEA должен изменять существующие стратегии только через создание новой версии.
 
-Р—Р°РїСЂРµС‰РµРЅРѕ РёР·РјРµРЅСЏС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ production version РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ.
+Запрещено изменять существующую production version непосредственно.
 
-РџРѕРґРґРµСЂР¶РёРІР°РµРјС‹Рµ С‚РёРїС‹ РёР·РјРµРЅРµРЅРёР№:
+Поддерживаемые типы изменений:
 
 - parameter change;
 - rule addition;
@@ -1290,24 +1290,24 @@ AIEA РґРѕР»Р¶РµРЅ РёР·РјРµРЅСЏС‚СЊ СЃСѓС‰Р�
 
 ## 9.2. Versioned strategy infrastructure
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_strategy_version.py`
 
-Strategy Version РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ identity chain, experiments Рё promotion.
+Strategy Version используется в identity chain, experiments и promotion.
 
-**Status:** `VERIFIED` РґР»СЏ version infrastructure.
+**Status:** `VERIFIED` для version infrastructure.
 
 **Evidence:**
 - `models/ai_strategy_version.py`
 - `A9_EXPERIMENT_STRATEGY_VERSION_OK`
-- E.1вЂ“E.12 promotion evidence.
+- E.1–E.12 promotion evidence.
 
 ## 9.3. Parent / Genealogy binding
 
-Promotion rollback Рё integrity layer С‚СЂРµР±СѓСЋС‚ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјРѕР№ СЃРІСЏР·Рё СЃ parent version.
+Promotion rollback и integrity layer требуют контролируемой связи с parent version.
 
-РџСЂРѕРІРµСЂСЏСЋС‚СЃСЏ:
+Проверяются:
 
 - parent existence;
 - same strategy;
@@ -1329,9 +1329,9 @@ Promotion rollback Рё integrity layer С‚СЂРµР±СѓСЋС‚ РєРѕ�
 
 ## 9.4. Production version immutability
 
-РЎСѓС‰РµСЃС‚РІСѓСЋС‰Р°СЏ РґРѕРєР°Р·Р°РЅРЅР°СЏ version РЅРµ РґРѕР»Р¶РЅР° РїРµСЂРµРїРёСЃС‹РІР°С‚СЊСЃСЏ РЅРѕРІРѕР№ РІРµСЂСЃРёРµР№.
+Существующая доказанная version не должна переписываться новой версией.
 
-Rollback СЃРѕС…СЂР°РЅСЏРµС‚ parent version Рё РЅРµ СѓРґР°Р»СЏРµС‚ РёСЃС‚РѕСЂРёСЋ.
+Rollback сохраняет parent version и не удаляет историю.
 
 **Status:** `TEST VERIFIED`
 
@@ -1342,13 +1342,13 @@ Rollback СЃРѕС…СЂР°РЅСЏРµС‚ parent version Рё РЅРµ С�
 
 ## 9.5. Hypothesis / Experiment linkage
 
-РР·РјРµРЅРµРЅРёРµ strategy version РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅРѕ СЃ hypothesis Рё experiment.
+Изменение strategy version должно быть связано с hypothesis и experiment.
 
-A9 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
+A9 подтверждает:
 
-`Hypothesis в†’ Experiment в†’ StrategyVersion`
+`Hypothesis → Experiment → StrategyVersion`
 
-Promotion layer РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂСЏРµС‚ identity consistency.
+Promotion layer дополнительно проверяет identity consistency.
 
 **Status:** `TEST VERIFIED`
 
@@ -1359,26 +1359,26 @@ Promotion layer РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РїСЂР
 
 ## 9.6. Autonomous modifier lifecycle
 
-РќР°Р»РёС‡РёРµ version infrastructure РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚ РЅР°Р»РёС‡РёРµ РїРѕР»РЅРѕРіРѕ autonomous Strategy Modifier.
+Наличие version infrastructure не доказывает наличие полного autonomous Strategy Modifier.
 
-РќРµ РґРѕРєР°Р·Р°РЅС‹:
+Не доказаны:
 
-- РїРѕР»СѓС‡РµРЅРёРµ РёСЃС…РѕРґРЅРѕР№ strategy context;
-- С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ modification proposal;
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ РёР·РјРµРЅРµРЅРёРµ genome;
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ РіРµРЅРµСЂР°С†РёСЏ РЅРѕРІРѕР№ definition;
-- СЃРѕС…СЂР°РЅРµРЅРёРµ before/after genome;
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ experiment creation;
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ validation Р·Р°РїСѓСЃРє;
-- automatic comparison СЃС‚Р°СЂРѕР№ Рё РЅРѕРІРѕР№ version.
+- получение исходной strategy context;
+- формирование modification proposal;
+- автоматическое изменение genome;
+- автоматическая генерация новой definition;
+- сохранение before/after genome;
+- автоматический experiment creation;
+- автоматический validation запуск;
+- automatic comparison старой и новой version.
 
 **Status:** `NOT VERIFIED`
 
 ## 9.7. Production safety
 
-Р”Р°Р¶Рµ СЃРѕР·РґР°РЅРЅР°СЏ РЅРѕРІР°СЏ version РЅРµ РґРѕР»Р¶РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ production version.
+Даже созданная новая version не должна автоматически становиться production version.
 
-Promotion РґРѕР»Р¶РµРЅ РїСЂРѕС…РѕРґРёС‚СЊ С‡РµСЂРµР· controlled pipeline.
+Promotion должен проходить через controlled pipeline.
 
 **Status:** `TEST VERIFIED`
 
@@ -1387,24 +1387,24 @@ Promotion РґРѕР»Р¶РµРЅ РїСЂРѕС…РѕРґРёС‚СЊ С‡�
 - E10 production safety;
 - E12 end-to-end promotion integration.
 
-## 9.8. РС‚РѕРі
+## 9.8. Итог
 
-Versioning, genealogy Рё promotion boundaries С„Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅС‹ Рё РїСЂРѕС‚РµСЃС‚РёСЂРѕРІР°РЅС‹.
+Versioning, genealogy и promotion boundaries фактически реализованы и протестированы.
 
-РџРѕР»РЅС‹Р№ autonomous Strategy Modifier РµС‰С‘ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Полный autonomous Strategy Modifier ещё не доказан.
 
 **Remaining:**
 
-РѕС‚РґРµР»СЊРЅС‹Р№ audit modifier implementation в†’ genome diff в†’ experiment в†’ validation в†’ promotion lifecycle.
+отдельный audit modifier implementation → genome diff → experiment → validation → promotion lifecycle.
 # 10. Strategy Genome
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 10.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 10.1. Каноническое требование
 
-РљР°Р¶РґР°СЏ AI strategy РґРѕР»Р¶РЅР° РёРјРµС‚СЊ РјР°С€РёРЅРЅРѕ-С‡РёС‚Р°РµРјРѕРµ РѕРїРёСЃР°РЅРёРµ вЂ” Strategy Genome.
+Каждая AI strategy должна иметь машинно-читаемое описание — Strategy Genome.
 
-Genome РґРѕР»Р¶РµРЅ РѕРїРёСЃС‹РІР°С‚СЊ РєР°Рє РјРёРЅРёРјСѓРј:
+Genome должен описывать как минимум:
 
 - strategy;
 - version;
@@ -1416,17 +1416,17 @@ Genome РґРѕР»Р¶РµРЅ РѕРїРёСЃС‹РІР°С‚СЊ РєР°�
 - confidence rules;
 - risk rules.
 
-Genome РґРѕР»Р¶РµРЅ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РєР°Рє СЃС‚СЂСѓРєС‚СѓСЂРёСЂРѕРІР°РЅРЅРѕРµ РѕРїСЂРµРґРµР»РµРЅРёРµ СЃС‚СЂР°С‚РµРіРёРё, Р° РЅРµ С‚РѕР»СЊРєРѕ РєР°Рє С‚РµРєСЃС‚РѕРІРѕРµ РѕРїРёСЃР°РЅРёРµ.
+Genome должен использоваться как структурированное определение стратегии, а не только как текстовое описание.
 
 ## 10.2. Genome schema / static validation
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_static_strategy_validator.py`
 
-Static validation СЃРѕРґРµСЂР¶РёС‚ РѕС‚РґРµР»СЊРЅС‹Рµ РїСЂРѕРІРµСЂРєРё Strategy Definition / Genome schema Рё Р·Р°РїСЂРµС‰С‘РЅРЅС‹С… РѕРїРµСЂР°С†РёР№.
+Static validation содержит отдельные проверки Strategy Definition / Genome schema и запрещённых операций.
 
-**Status:** `VERIFIED` РґР»СЏ schema/static validation layer.
+**Status:** `VERIFIED` для schema/static validation layer.
 
 **Evidence:**
 - BLOCK D / D.1 static validation;
@@ -1434,21 +1434,21 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ РѕС‚РґРµР»СЊР�
 
 ## 10.3. Strategy Version integration
 
-Strategy Version С…СЂР°РЅРёС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕ Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ:
+Strategy Version хранится отдельно и используется в:
 
-`Hypothesis в†’ Experiment в†’ StrategyVersion в†’ Validation/Promotion`
+`Hypothesis → Experiment → StrategyVersion → Validation/Promotion`
 
-**Status:** `TEST VERIFIED` РґР»СЏ linkage.
+**Status:** `TEST VERIFIED` для linkage.
 
 **Evidence:**
 - `A9_EXPERIMENT_STRATEGY_VERSION_OK`;
-- E.1вЂ“E.12 identity/promotion evidence.
+- E.1–E.12 identity/promotion evidence.
 
 ## 10.4. Version immutability
 
-РР·РјРµРЅРµРЅРёРµ genome РЅРµ РґРѕР»Р¶РЅРѕ РїРµСЂРµРїРёСЃС‹РІР°С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ version.
+Изменение genome не должно переписывать существующую version.
 
-РќРѕРІР°СЏ definition РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕС‚РґРµР»СЊРЅРѕР№ version СЃ parent linkage.
+Новая definition должна быть отдельной version с parent linkage.
 
 **Status:** `TEST VERIFIED`
 
@@ -1457,9 +1457,9 @@ Strategy Version С…СЂР°РЅРёС‚СЃСЏ РѕС‚РґРµР»СЊР�
 - `E9_PARENT_PRESERVED_OK`;
 - `E9_ROLLBACK_AUDIT_INTEGRITY_OK`.
 
-## 10.5. Genome в†’ Validation
+## 10.5. Genome → Validation
 
-Genome/strategy definition РґРѕР»Р¶РЅР° РїСЂРѕС…РѕРґРёС‚СЊ static validation РґРѕ РґР°Р»СЊРЅРµР№С€РµРіРѕ validation pipeline.
+Genome/strategy definition должна проходить static validation до дальнейшего validation pipeline.
 
 **Status:** `TEST VERIFIED`
 
@@ -1468,9 +1468,9 @@ Genome/strategy definition РґРѕР»Р¶РЅР° РїСЂРѕС…РѕРґР�
 - malformed definition / forbidden operations tests;
 - validation gate integration.
 
-## 10.6. Genome в†’ Backtest / OOS / Walk-Forward / Paper / Shadow
+## 10.6. Genome → Backtest / OOS / Walk-Forward / Paper / Shadow
 
-Validation infrastructure СЃРѕРґРµСЂР¶РёС‚ downstream stages:
+Validation infrastructure содержит downstream stages:
 
 - Backtest;
 - OOS;
@@ -1478,11 +1478,11 @@ Validation infrastructure СЃРѕРґРµСЂР¶РёС‚ downstream stages:
 - Paper;
 - Shadow.
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ РґРѕРєР°Р·Р°РЅРЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ lifecycle РёРјРµРЅРЅРѕ:
+Однако полный доказанный автоматический lifecycle именно:
 
-`Genome в†’ Stage 1 в†’ Stage 2 в†’ ... в†’ Stage 6`
+`Genome → Stage 1 → Stage 2 → ... → Stage 6`
 
-РґР»СЏ AI-generated genome РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+для AI-generated genome отдельно не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -1493,7 +1493,7 @@ Validation infrastructure СЃРѕРґРµСЂР¶РёС‚ downstream stages:
 
 ## 10.7. Before / After Genome evolution
 
-Р”Р»СЏ РёР·РјРµРЅРµРЅРёСЏ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ СЃС‚СЂР°С‚РµРіРёРё С‚СЂРµР±СѓРµС‚СЃСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ:
+Для изменения существующей стратегии требуется сохранять:
 
 - parent genome;
 - new genome;
@@ -1503,36 +1503,36 @@ Validation infrastructure СЃРѕРґРµСЂР¶РёС‚ downstream stages:
 - actual effect;
 - validation history.
 
-РќР°Р»РёС‡РёРµ РїРѕР»РЅРѕР№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕР№ before/after genome persistence РїРѕРєР° РЅРµ РґРѕРєР°Р·Р°РЅРѕ.
+Наличие полной автоматической before/after genome persistence пока не доказано.
 
 **Status:** `NOT VERIFIED`
 
 ## 10.8. Genome comparison
 
-Genome РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚СЊ СЃСЂР°РІРЅРёРІР°С‚СЊ РІРµСЂСЃРёРё Рё РѕРїСЂРµРґРµР»СЏС‚СЊ, РєР°РєРёРµ РёР·РјРµРЅРµРЅРёСЏ РїСЂРёРІРµР»Рё Рє РёР·РјРµРЅРµРЅРёСЋ СЂРµР·СѓР»СЊС‚Р°С‚Р°.
+Genome должен позволять сравнивать версии и определять, какие изменения привели к изменению результата.
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ Genome Diff / comparison lifecycle РїРѕРєР° РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Отдельный полноценный Genome Diff / comparison lifecycle пока не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 10.9. Autonomous genome generation
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ РїРѕСЃС‚СЂРѕРµРЅРёРµ genome AI;
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ mutation genome;
+- автоматическое построение genome AI;
+- автоматическая mutation genome;
 - genome deduplication;
 - genome complexity limits;
-- automatic genome в†’ strategy implementation;
-- sandbox execution РёРјРµРЅРЅРѕ genome-generated strategy.
+- automatic genome → strategy implementation;
+- sandbox execution именно genome-generated strategy.
 
 **Status:** `NOT VERIFIED`
 
 ## 10.10. Production boundary
 
-Genome РЅРµ РїРѕР»СѓС‡Р°РµС‚ production permission Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Genome не получает production permission автоматически.
 
-Р›СЋР±Р°СЏ version РґРѕР»Р¶РЅР° РїСЂРѕР№С‚Рё controlled Promotion Pipeline.
+Любая version должна пройти controlled Promotion Pipeline.
 
 **Status:** `TEST VERIFIED`
 
@@ -1541,17 +1541,17 @@ Genome РЅРµ РїРѕР»СѓС‡Р°РµС‚ production permission Р°Р�
 - E10 production safety;
 - E12 promotion integration.
 
-## 10.11. РС‚РѕРі
+## 10.11. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - Strategy Definition / Genome schema validation;
 - Strategy Version integration;
 - immutable version boundary;
-- СЃРІСЏР·СЊ СЃ validation infrastructure;
+- связь с validation infrastructure;
 - production permission boundary.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
 - autonomous genome generation;
 - genome mutation lifecycle;
@@ -1559,36 +1559,36 @@ Genome РЅРµ РїРѕР»СѓС‡Р°РµС‚ production permission Р°Р�
 - genome diff;
 - complete genome-driven strategy execution lifecycle.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit РїРѕР»РЅРѕРіРѕ Strategy Genome lifecycle.
+**Remaining:** отдельный factual audit полного Strategy Genome lifecycle.
 # 11. Validation Engine
 
 **Status:** `DONE`
 
-## 11.1. РћР±С‰РёР№ validation pipeline
+## 11.1. Общий validation pipeline
 
-РљР°РЅРѕРЅРёС‡РµСЃРєР°СЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ:
+Каноническая последовательность:
 
-`Static Validation в†’ Backtest в†’ OOS в†’ Walk-Forward в†’ Paper в†’ Shadow`
+`Static Validation → Backtest → OOS → Walk-Forward → Paper → Shadow`
 
-РљР°Р¶РґР°СЏ СЃС‚Р°РґРёСЏ РґРѕР»Р¶РЅР° РёРјРµС‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ, СЂРµР·СѓР»СЊС‚Р°С‚С‹ Рё РєСЂРёС‚РµСЂРёРё РїСЂРѕС…РѕР¶РґРµРЅРёСЏ.
+Каждая стадия должна иметь собственные данные, результаты и критерии прохождения.
 
-BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С‘РЅ.
+BLOCK D фактически завершён.
 
 **Evidence:** `D6_8_BLOCK_D_FULL_COMPILE_OK`
 
-## 11.2. Stage 1 вЂ” Static Validation
+## 11.2. Stage 1 — Static Validation
 
-РџСЂРѕРІРµСЂСЏСЋС‚СЃСЏ:
+Проверяются:
 
-- СЃС‚СЂСѓРєС‚СѓСЂР° strategy definition;
-- РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ РїРѕР»СЏ;
-- РґРѕРїСѓСЃС‚РёРјС‹Рµ РїР°СЂР°РјРµС‚СЂС‹;
+- структура strategy definition;
+- обязательные поля;
+- допустимые параметры;
 - forbidden operations;
 - production/exchange isolation;
 - RiskAgent / ExecutionAgent restrictions;
 - Strategy Genome schema.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_static_strategy_validator.py`
 
@@ -1600,9 +1600,9 @@ BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С�
 - forbidden operations blocked;
 - validation gate integration.
 
-## 11.3. Stage 2 вЂ” Backtest
+## 11.3. Stage 2 — Backtest
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅС‹ РѕС‚РґРµР»СЊРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹:
+Фактически реализованы отдельные компоненты:
 
 - `services/ai_backtest_dataset.py`
 - `services/ai_historical_market_data_loader.py`
@@ -1612,7 +1612,7 @@ BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С�
 - `services/ai_backtest_engine.py`
 - `services/ai_candle_backtest_service.py`
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - historical data loading;
 - pagination;
@@ -1637,51 +1637,51 @@ BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С�
 
 **Status:** `TEST VERIFIED`
 
-**Evidence:** D.2.1вЂ“D.2.8 + `D6_8_BLOCK_D_FULL_COMPILE_OK`.
+**Evidence:** D.2.1–D.2.8 + `D6_8_BLOCK_D_FULL_COMPILE_OK`.
 
-## 11.4. Stage 3 вЂ” Out-of-Sample
+## 11.4. Stage 3 — Out-of-Sample
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_oos_validator.py`
 
-OOS СЃРІСЏР·Р°РЅ СЃ РєРѕРЅРєСЂРµС‚РЅС‹Рј:
+OOS связан с конкретным:
 
 - experiment;
 - strategy version;
 - hypothesis;
 - target strategy.
 
-РўР°РєР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚ source/data validity guards.
+Также существуют source/data validity guards.
 
 **Status:** `TEST VERIFIED`
 
 **Evidence:** completed BLOCK D OOS validation and promotion evidence.
 
-## 11.5. Stage 4 вЂ” Walk-Forward
+## 11.5. Stage 4 — Walk-Forward
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 - `services/ai_walk_forward_validator.py`
 - `services/ai_shadow_walk_forward_validator.py`
 
-РќР°Р·РЅР°С‡РµРЅРёРµ вЂ” РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅР°СЏ РѕС†РµРЅРєР° РЅР° РЅРµР·Р°РІРёСЃРёРјС‹С… РІСЂРµРјРµРЅРЅС‹С… РѕРєРЅР°С….
+Назначение — последовательная оценка на независимых временных окнах.
 
 **Status:** `TEST VERIFIED`
 
 **Evidence:** BLOCK D completion + validation evidence.
 
-## 11.6. Stage 5 вЂ” Paper
+## 11.6. Stage 5 — Paper
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_paper_trading_service.py`
 
-Рё:
+и:
 
 `services/ai_paper_result_aggregation.py`
 
-Paper РґРѕР»Р¶РµРЅ РјРѕРґРµР»РёСЂРѕРІР°С‚СЊ:
+Paper должен моделировать:
 
 - entry;
 - exit;
@@ -1692,15 +1692,15 @@ Paper РґРѕР»Р¶РµРЅ РјРѕРґРµР»РёСЂРѕРІР°С‚СЊ
 - holding time;
 - PnL.
 
-Р РµР·СѓР»СЊС‚Р°С‚С‹ РѕС‚РґРµР»РµРЅС‹ РѕС‚ production trading.
+Результаты отделены от production trading.
 
 **Status:** `TEST VERIFIED`
 
 **Evidence:** BLOCK D paper validation completion.
 
-## 11.7. Stage 6 вЂ” Shadow
+## 11.7. Stage 6 — Shadow
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚ shadow infrastructure:
+Фактически существует shadow infrastructure:
 
 - `models/ai_shadow_decision.py`;
 - shadow quality services;
@@ -1712,7 +1712,7 @@ Current production safety:
 
 - Strategy Decision Engine = SHADOW-ONLY;
 - Advisory = OBSERVE_ONLY;
-- shadow/advisory РЅРµ СѓРїСЂР°РІР»СЏСЋС‚ production execution.
+- shadow/advisory не управляют production execution.
 
 **Status:** `TEST VERIFIED`
 
@@ -1723,7 +1723,7 @@ Current production safety:
 
 ## 11.8. Validation result persistence
 
-Validation results РґРѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊ:
+Validation results должны сохранять:
 
 - strategy version;
 - experiment;
@@ -1731,23 +1731,23 @@ Validation results РґРѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚�
 - validation stage;
 - result;
 - evidence;
-- РєСЂРёС‚РµСЂРёРё РїСЂРѕС…РѕР¶РґРµРЅРёСЏ.
+- критерии прохождения.
 
-Validation Evidence infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Validation Evidence infrastructure существует:
 
 `services/ai_validation_evidence.py`
 
-Promotion E.4 РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂСЏРµС‚ identity/evidence binding.
+Promotion E.4 дополнительно проверяет identity/evidence binding.
 
 **Status:** `TEST VERIFIED`
 
 **Evidence:** E4 exact evidence binding + E10/E12 integration.
 
-## 11.9. Validation в†’ Promotion boundary
+## 11.9. Validation → Promotion boundary
 
-Р’С‹СЃРѕРєРёР№ PnL СЃР°Рј РїРѕ СЃРµР±Рµ РЅРµ СЂР°Р·СЂРµС€Р°РµС‚ РїРµСЂРµС…РѕРґ.
+Высокий PnL сам по себе не разрешает переход.
 
-Promotion С‚СЂРµР±СѓРµС‚:
+Promotion требует:
 
 - readiness;
 - formal gate;
@@ -1769,13 +1769,13 @@ Promotion С‚СЂРµР±СѓРµС‚:
 
 ## 11.10. Production isolation
 
-Validation services РЅРµ РґРѕР»Р¶РЅС‹ РІС‹Р·С‹РІР°С‚СЊ:
+Validation services не должны вызывать:
 
 - RiskAgent;
 - ExecutionAgent;
 - direct exchange execution.
 
-Backtest / OOS / validation РѕСЃС‚Р°СЋС‚СЃСЏ research-only.
+Backtest / OOS / validation остаются research-only.
 
 **Status:** `VERIFIED`
 
@@ -1786,24 +1786,24 @@ Backtest / OOS / validation РѕСЃС‚Р°СЋС‚СЃСЏ research-only.
 - D BLOCK production isolation;
 - E10/E12 production isolation.
 
-## 11.11. РћСЃС‚Р°РІС€РёРµСЃСЏ validation extensions
+## 11.11. Оставшиеся validation extensions
 
-РќРµ СЃС‡РёС‚Р°СЋС‚СЃСЏ РїРѕР»РЅРѕСЃС‚СЊСЋ Р·Р°РєСЂС‹С‚С‹РјРё РѕС‚РґРµР»СЊРЅС‹РјРё РєРѕРЅС‚СѓСЂР°РјРё:
+Не считаются полностью закрытыми отдельными контурами:
 
-- РїРѕР»РЅС‹Р№ News/Event-aware validation;
+- полный News/Event-aware validation;
 - exhaustive robustness framework beyond completed BLOCK D;
-- Р°РІС‚РѕРјР°С‚РёР·РёСЂРѕРІР°РЅРЅР°СЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєР°СЏ sufficiency policy РЅР° РІСЃРµС… stages;
-- РµРґРёРЅС‹Р№ end-to-end generated-strategy validation runner.
+- автоматизированная статистическая sufficiency policy на всех stages;
+- единый end-to-end generated-strategy validation runner.
 
 **Status:** `PARTIALLY VERIFIED`
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ audit СЌС‚РёС… СЂР°СЃС€РёСЂРµРЅРёР№.
+**Remaining:** отдельный audit этих расширений.
 
-## 11.12. РС‚РѕРі
+## 11.12. Итог
 
-BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С‘РЅ.
+BLOCK D фактически завершён.
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - Static Validation;
 - Backtest;
@@ -1821,25 +1821,25 @@ BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С�
 
 **Status:** `TEST VERIFIED`
 
-## 12.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 12.1. Каноническое требование
 
-РљР°Р¶РґС‹Р№ СЌРєСЃРїРµСЂРёРјРµРЅС‚ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ СѓРЅРёРєР°Р»СЊРЅС‹Р№ identity Рё Р±С‹С‚СЊ РІРѕСЃРїСЂРѕРёР·РІРѕРґРёРјС‹Рј.
+Каждый эксперимент должен иметь уникальный identity и быть воспроизводимым.
 
-РњРёРЅРёРјР°Р»СЊРЅР°СЏ С†РµРїРѕС‡РєР°:
+Минимальная цепочка:
 
-`Hypothesis в†’ Experiment в†’ Strategy Version в†’ Dataset в†’ Parameters в†’ Result`
+`Hypothesis → Experiment → Strategy Version → Dataset → Parameters → Result`
 
-## 12.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## 12.2. Фактическая реализация
 
-РћР±РЅР°СЂСѓР¶РµРЅ:
+Обнаружен:
 
 `services/ai_experiment_engine.py`
 
-РўР°РєР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РјРѕРґРµР»СЊ:
+Также существует модель:
 
 `models/ai_experiment.py`
 
-Р­РєСЃРїРµСЂРёРјРµРЅС‚ СЃРІСЏР·С‹РІР°РµС‚СЃСЏ СЃ:
+Эксперимент связывается с:
 
 - hypothesis;
 - strategy version;
@@ -1853,7 +1853,7 @@ BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С�
 
 ## 12.3. Experiment identity
 
-Р”Р»СЏ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р° РґРѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ:
+Для эксперимента должны сохраняться:
 
 - `experiment_id`;
 - `hypothesis_id`;
@@ -1873,16 +1873,16 @@ BLOCK D С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С�
 
 ## 12.4. Experiment lifecycle
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ:
+Канонические состояния:
 
-`CREATED в†’ RUNNING в†’ PASSED / FAILED / REJECTED`
+`CREATED → RUNNING → PASSED / FAILED / REJECTED`
 
-Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РІРѕР·РјРѕР¶РЅС‹:
+Дополнительно возможны:
 
 `PROMOTED`
 `ROLLED_BACK`
 
-Experiment history РЅРµ РґРѕР»Р¶РЅР° РїРµСЂРµРїРёСЃС‹РІР°С‚СЊСЃСЏ РїСЂРё РїРѕСЃР»РµРґСѓСЋС‰РёС… promotion / rollback РґРµР№СЃС‚РІРёСЏС….
+Experiment history не должна переписываться при последующих promotion / rollback действиях.
 
 **Status:** `TEST VERIFIED`
 
@@ -1892,7 +1892,7 @@ Experiment history РЅРµ РґРѕР»Р¶РЅР° РїРµСЂРµРїРёС�
 
 ## 12.5. Hypothesis binding
 
-Р­РєСЃРїРµСЂРёРјРµРЅС‚ РґРѕР»Р¶РµРЅ РїСЂРёРЅР°РґР»РµР¶Р°С‚СЊ С‚РѕР№ Р¶Рµ hypothesis, РёР· РєРѕС‚РѕСЂРѕР№ РѕРЅ Р±С‹Р» СЃРѕР·РґР°РЅ.
+Эксперимент должен принадлежать той же hypothesis, из которой он был создан.
 
 **Status:** `TEST VERIFIED`
 
@@ -1903,9 +1903,9 @@ Experiment history РЅРµ РґРѕР»Р¶РЅР° РїРµСЂРµРїРёС�
 
 ## 12.6. Strategy Version binding
 
-РљР°Р¶РґС‹Р№ experiment, СЃРІСЏР·Р°РЅРЅС‹Р№ СЃРѕ strategy validation РёР»Рё promotion, РґРѕР»Р¶РµРЅ СЃСЃС‹Р»Р°С‚СЊСЃСЏ РЅР° РєРѕРЅРєСЂРµС‚РЅСѓСЋ Strategy Version.
+Каждый experiment, связанный со strategy validation или promotion, должен ссылаться на конкретную Strategy Version.
 
-РќРµР»СЊР·СЏ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚РѕР»СЊРєРѕ РёРјСЏ СЃС‚СЂР°С‚РµРіРёРё Р±РµР· version identity.
+Нельзя использовать только имя стратегии без version identity.
 
 **Status:** `TEST VERIFIED`
 
@@ -1916,9 +1916,9 @@ Experiment history РЅРµ РґРѕР»Р¶РЅР° РїРµСЂРµРїРёС�
 
 ## 12.7. User ownership
 
-Experiment РґРѕР»Р¶РµРЅ РїСЂРёРЅР°РґР»РµР¶Р°С‚СЊ С‚РѕРјСѓ Р¶Рµ user, С‡С‚Рѕ Рё РµРіРѕ hypothesis / strategy identity chain.
+Experiment должен принадлежать тому же user, что и его hypothesis / strategy identity chain.
 
-Cross-user tampering РґРѕР»Р¶РЅРѕ Р±Р»РѕРєРёСЂРѕРІР°С‚СЊСЃСЏ.
+Cross-user tampering должно блокироваться.
 
 **Status:** `TEST VERIFIED`
 
@@ -1929,7 +1929,7 @@ Cross-user tampering РґРѕР»Р¶РЅРѕ Р±Р»РѕРєРёСЂРѕРІР
 
 ## 12.8. Reproducibility
 
-Р”Р»СЏ РІРѕСЃРїСЂРѕРёР·РІРѕРґРёРјРѕСЃС‚Рё РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РґРѕСЃС‚СѓРїРЅС‹:
+Для воспроизводимости должны быть доступны:
 
 - exact strategy version;
 - hypothesis;
@@ -1942,16 +1942,16 @@ Cross-user tampering РґРѕР»Р¶РЅРѕ Р±Р»РѕРєРёСЂРѕРІР
 
 **Evidence:** model / service infrastructure.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ deterministic rerun audit.
+**Remaining:** отдельный deterministic rerun audit.
 
 ## 12.9. Production isolation
 
-Experiment Engine РЅРµ РґРѕР»Р¶РµРЅ:
+Experiment Engine не должен:
 
-- РѕС‚РїСЂР°РІР»СЏС‚СЊ exchange orders;
-- РІС‹Р·С‹РІР°С‚СЊ production ExecutionAgent;
-- РјРµРЅСЏС‚СЊ production strategy;
-- РјРµРЅСЏС‚СЊ risk limits.
+- отправлять exchange orders;
+- вызывать production ExecutionAgent;
+- менять production strategy;
+- менять risk limits.
 
 **Status:** `VERIFIED`
 
@@ -1961,9 +1961,9 @@ Experiment Engine РЅРµ РґРѕР»Р¶РµРЅ:
 
 ## 12.10. Result linkage
 
-Р­РєСЃРїРµСЂРёРјРµРЅС‚ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ СЃРІСЏР·Р°РЅРЅС‹Р№ result/evidence РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ validation Рё promotion.
+Эксперимент должен иметь связанный result/evidence для последующей validation и promotion.
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `models/ai_experiment_result.py`;
 - `services/ai_validation_evidence.py`.
@@ -1974,7 +1974,7 @@ Experiment Engine РЅРµ РґРѕР»Р¶РµРЅ:
 
 ## 12.11. Cleanup / test isolation
 
-Integration tests СЃРѕР·РґР°СЋС‚ РІСЂРµРјРµРЅРЅС‹Рµ experiment fixtures Рё РѕС‡РёС‰Р°СЋС‚ РёС… РїРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ.
+Integration tests создают временные experiment fixtures и очищают их после завершения.
 
 **Status:** `TEST VERIFIED`
 
@@ -1983,23 +1983,23 @@ Integration tests СЃРѕР·РґР°СЋС‚ РІСЂРµРјРµРЅРЅС�
 - A9 cleanup;
 - E12 cleanup.
 
-## 12.12. РќРµ Р·Р°РєСЂС‹С‚Рѕ РїРѕР»РЅРѕСЃС‚СЊСЋ
+## 12.12. Не закрыто полностью
 
-РћСЃС‚Р°С‘С‚СЃСЏ РїСЂРѕРІРµСЂРёС‚СЊ РѕС‚РґРµР»СЊРЅРѕ:
+Остаётся проверить отдельно:
 
 - deterministic experiment rerun;
 - complete dataset fingerprint/version binding;
-- automatic end-to-end Experiment в†’ all validation stages orchestration;
+- automatic end-to-end Experiment → all validation stages orchestration;
 - failed experiment recovery;
 - concurrent experiment isolation.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 12.13. РС‚РѕРі
+## 12.13. Итог
 
-Experiment Engine Рё РµРіРѕ identity chain С„Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Рё РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ С‚РµСЃС‚Р°РјРё.
+Experiment Engine и его identity chain фактически существуют и подтверждены тестами.
 
-Р—Р°РєСЂС‹С‚Рѕ:
+Закрыто:
 
 - experiment model;
 - hypothesis binding;
@@ -2009,14 +2009,14 @@ Experiment Engine Рё РµРіРѕ identity chain С„Р°РєС‚РёС‡Р
 - production isolation;
 - cleanup.
 
-Remaining: СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ reproducibility / concurrency audit.
-# 13. РњРµС‚СЂРёРєРё СЃС‚СЂР°С‚РµРіРёРё
+Remaining: расширенный reproducibility / concurrency audit.
+# 13. Метрики стратегии
 
 **Status:** `TEST VERIFIED`
 
-## 13.1. РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РЅР°Р±РѕСЂ РјРµС‚СЂРёРє
+## 13.1. Канонический набор метрик
 
-Р”Р»СЏ РєР°Р¶РґРѕР№ Strategy Version РґРѕР»Р¶РЅС‹ СЂР°СЃСЃС‡РёС‚С‹РІР°С‚СЊСЃСЏ:
+Для каждой Strategy Version должны рассчитываться:
 
 - total trades;
 - wins;
@@ -2037,15 +2037,15 @@ Remaining: СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ reproducibility / con
 - worst trade;
 - best trade.
 
-## 13.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## 13.2. Фактическая реализация
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `services/ai_backtest_metrics.py`
 - `services/ai_research_evaluation.py`
 - `models/ai_experiment_result.py`
 
-B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ canonical metrics РЅР° С‚РµСЃС‚РѕРІС‹С… РґР°РЅРЅС‹С….
+B3 подтверждает canonical metrics на тестовых данных.
 
 **Status:** `TEST VERIFIED`
 
@@ -2058,14 +2058,14 @@ B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ canonical metrics РЅР°
 
 ## 13.3. PnL integrity
 
-РњРµС‚СЂРёРєРё РґРѕР»Р¶РЅС‹ СЂР°Р·Р»РёС‡Р°С‚СЊ:
+Метрики должны различать:
 
 - gross PnL;
 - fees;
 - funding;
 - net PnL.
 
-B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
+B3 подтверждает:
 
 `gross_pnl = 120.0`
 `fees = 10.0`
@@ -2076,13 +2076,13 @@ B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
 
 ## 13.4. Strategy slices
 
-РћР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёРµ СЂР°Р·СЂРµР·С‹:
+Обязательные аналитические разрезы:
 
-- strategy Г— regime;
-- strategy Г— symbol;
-- strategy Г— side.
+- strategy × regime;
+- strategy × symbol;
+- strategy × side.
 
-Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ research dimensions:
+Дополнительные research dimensions:
 
 - volatility;
 - confidence;
@@ -2097,9 +2097,9 @@ B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
 
 ## 13.5. Trade source separation
 
-Metrics РґРѕР»Р¶РЅС‹ СЂР°СЃСЃС‡РёС‚С‹РІР°С‚СЊСЃСЏ РѕС‚РґРµР»СЊРЅРѕ РїРѕ `trade_source`.
+Metrics должны рассчитываться отдельно по `trade_source`.
 
-РќРµР»СЊР·СЏ СЃРјРµС€РёРІР°С‚СЊ production Рё experimental sources.
+Нельзя смешивать production и experimental sources.
 
 **Status:** `TEST VERIFIED`
 
@@ -2110,11 +2110,11 @@ Metrics РґРѕР»Р¶РЅС‹ СЂР°СЃСЃС‡РёС‚С‹РІР°С�
 
 ## 13.6. Strategy Version binding
 
-Evaluation РґРѕР»Р¶РµРЅ РѕС‚РЅРѕСЃРёС‚СЊСЃСЏ Рє РєРѕРЅРєСЂРµС‚РЅРѕР№ Strategy Version, Р° РЅРµ С‚РѕР»СЊРєРѕ Рє РёРјРµРЅРё strategy.
+Evaluation должен относиться к конкретной Strategy Version, а не только к имени strategy.
 
-B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
+B3 подтверждает:
 
-- РєРѕРЅРєСЂРµС‚РЅСѓСЋ strategy version;
+- конкретную strategy version;
 - `trade_source=REAL`;
 - research-only result;
 - `validated=False`;
@@ -2126,29 +2126,29 @@ B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
 
 ## 13.7. Stability metrics
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёРµ С‚СЂРµР±РѕРІР°РЅРёСЏ РІРєР»СЋС‡Р°СЋС‚:
+Канонические требования включают:
 
 - stability;
 - variance;
 - win/loss sequences;
-- degradation train в†’ OOS;
-- degradation backtest в†’ paper в†’ shadow;
+- degradation train → OOS;
+- degradation backtest → paper → shadow;
 - statistical significance;
 - minimum sample size.
 
-Р’ РїСЂРѕРµРєС‚Рµ РѕР±РЅР°СЂСѓР¶РµРЅС‹ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ stability services:
+В проекте обнаружены дополнительные stability services:
 
 - `services/ai_shadow_stability_service.py`
 - `services/ai_shadow_quality_service.py`
 - `services/ai_shadow_quality_window_service.py`
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ РµРґРёРЅС‹Р№ statistical stability policy РґР»СЏ РІСЃРµРіРѕ lifecycle РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Однако полный единый statistical stability policy для всего lifecycle отдельно не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 13.8. Best / Worst trade and holding time
 
-B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
+B3 подтверждает:
 
 - best trade;
 - worst trade;
@@ -2161,11 +2161,11 @@ B3 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
 
 ## 13.9. Statistical sufficiency
 
-РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅС‹Р№ sample size РЅРµ РґРѕР»Р¶РµРЅ СЃС‡РёС‚Р°С‚СЊСЃСЏ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕРј edge.
+Недостаточный sample size не должен считаться доказательством edge.
 
-Promotion gates СѓР¶Рµ РёСЃРїРѕР»СЊР·СѓСЋС‚ sufficiency guards РґР»СЏ РѕС‚РґРµР»СЊРЅС‹С… validation stages.
+Promotion gates уже используют sufficiency guards для отдельных validation stages.
 
-**Status:** `TEST VERIFIED` РґР»СЏ promotion gates; `PARTIALLY VERIFIED` РґР»СЏ РµРґРёРЅРѕР№ metrics policy.
+**Status:** `TEST VERIFIED` для promotion gates; `PARTIALLY VERIFIED` для единой metrics policy.
 
 **Evidence:**
 - E3 insufficient-data guard;
@@ -2173,9 +2173,9 @@ Promotion gates СѓР¶Рµ РёСЃРїРѕР»СЊР·СѓСЋС‚ sufficien
 
 ## 13.10. Research-only semantics
 
-РСЃСЃР»РµРґРѕРІР°С‚РµР»СЊСЃРєР°СЏ РѕС†РµРЅРєР° РЅРµ РґРѕР»Р¶РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РґРµР»Р°С‚СЊ strategy validated РёР»Рё promotion-ready.
+Исследовательская оценка не должна автоматически делать strategy validated или promotion-ready.
 
-B3 СЏРІРЅРѕ РїСЂРѕРІРµСЂСЏРµС‚:
+B3 явно проверяет:
 
 - `research_only=True`;
 - `validated=False`;
@@ -2185,9 +2185,9 @@ B3 СЏРІРЅРѕ РїСЂРѕРІРµСЂСЏРµС‚:
 
 **Evidence:** `B3_RESEARCH_ONLY_OK`
 
-## 13.11. РС‚РѕРі
+## 13.11. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - canonical performance metrics;
 - PnL / fee / funding accounting;
@@ -2199,22 +2199,22 @@ B3 СЏРІРЅРѕ РїСЂРѕРІРµСЂСЏРµС‚:
 - holding time;
 - basic sufficiency guards.
 
-РќРµ Р·Р°РєСЂС‹С‚Рѕ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не закрыто полностью:
 
-- РµРґРёРЅР°СЏ statistical significance policy;
-- РµРґРёРЅР°СЏ stability/degradation policy РјРµР¶РґСѓ РІСЃРµРјРё validation stages;
-- РїРѕР»РЅР°СЏ statistical robustness framework.
+- единая statistical significance policy;
+- единая stability/degradation policy между всеми validation stages;
+- полная statistical robustness framework.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit stability / significance / degradation policy.
+**Remaining:** отдельный factual audit stability / significance / degradation policy.
 # 14. Overfitting Protection
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 14.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 14.1. Каноническое назначение
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃС‡РёС‚Р°С‚СЊ strategy РґРѕРєР°Р·Р°РЅРЅРѕР№ С‚РѕР»СЊРєРѕ РїРѕС‚РѕРјСѓ, С‡С‚Рѕ РѕРЅР° РїРѕРєР°Р·Р°Р»Р° РІС‹СЃРѕРєРёР№ historical/backtest PnL.
+AIEA не должен считать strategy доказанной только потому, что она показала высокий historical/backtest PnL.
 
-РћР±СЏР·Р°С‚РµР»СЊРЅС‹:
+Обязательны:
 
 - train/test separation;
 - OOS validation;
@@ -2226,12 +2226,12 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃС‡РёС‚Р°С‚СЊ strategy 
 - robustness checks;
 - multi-symbol validation;
 - multi-regime validation;
-- РѕС‚РґРµР»СЊРЅР°СЏ LONG/SHORT РїСЂРѕРІРµСЂРєР°;
-- News/Event behaviour analysis РїСЂРё РЅР°Р»РёС‡РёРё РґР°РЅРЅС‹С….
+- отдельная LONG/SHORT проверка;
+- News/Event behaviour analysis при наличии данных.
 
 ## 14.2. Train / Test Separation
 
-Validation architecture СЃРѕРґРµСЂР¶РёС‚ РѕС‚РґРµР»СЊРЅС‹Р№ OOS stage Рё Р·Р°РїСЂРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ OOS/test РґР°РЅРЅС‹С… РґР»СЏ optimization.
+Validation architecture содержит отдельный OOS stage и запрет использования OOS/test данных для optimization.
 
 **Status:** `VERIFIED`
 
@@ -2242,7 +2242,7 @@ Validation architecture СЃРѕРґРµСЂР¶РёС‚ РѕС‚РґРµР»�
 
 ## 14.3. Out-of-Sample Protection
 
-OOS РёСЃРїРѕР»СЊР·СѓРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ РїРµСЂРёРѕРґ, РЅРµ СѓС‡Р°СЃС‚РІСѓСЋС‰РёР№ РІ СЃРѕР·РґР°РЅРёРё/РѕРїС‚РёРјРёР·Р°С†РёРё strategy.
+OOS использует отдельный период, не участвующий в создании/оптимизации strategy.
 
 **Status:** `TEST VERIFIED`
 
@@ -2250,9 +2250,9 @@ OOS РёСЃРїРѕР»СЊР·СѓРµС‚ РѕС‚РґРµР»СЊРЅС‹
 
 ## 14.4. Walk-Forward Protection
 
-Walk-Forward РёСЃРїРѕР»СЊР·СѓРµС‚ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅС‹Рµ РЅРµР·Р°РІРёСЃРёРјС‹Рµ РІСЂРµРјРµРЅРЅС‹Рµ РѕРєРЅР°:
+Walk-Forward использует последовательные независимые временные окна:
 
-`train в†’ validate в†’ test в†’ next window`
+`train → validate → test → next window`
 
 **Status:** `TEST VERIFIED`
 
@@ -2262,9 +2262,9 @@ Walk-Forward РёСЃРїРѕР»СЊР·СѓРµС‚ РїРѕСЃР»РµРґ�
 
 ## 14.5. Minimum Sample / Sufficiency
 
-РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅС‹Р№ sample size РЅРµ РґРѕР»Р¶РµРЅ СЃС‡РёС‚Р°С‚СЊСЃСЏ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕРј.
+Недостаточный sample size не должен считаться доказательством.
 
-Promotion Gate СѓР¶Рµ Р±Р»РѕРєРёСЂСѓРµС‚ `INSUFFICIENT_DATA`.
+Promotion Gate уже блокирует `INSUFFICIENT_DATA`.
 
 **Status:** `TEST VERIFIED`
 
@@ -2274,21 +2274,21 @@ Promotion Gate СѓР¶Рµ Р±Р»РѕРєРёСЂСѓРµС‚ `INSUFFICIENT_
 
 ## 14.6. Performance Degradation
 
-РўСЂРµР±СѓРµС‚СЃСЏ Р°РЅР°Р»РёР· degradation РјРµР¶РґСѓ:
+Требуется анализ degradation между:
 
-- backtest в†’ OOS;
-- OOS в†’ walk-forward;
-- backtest в†’ paper;
-- paper в†’ shadow;
-- shadow в†’ РґР°Р»СЊРЅРµР№С€РёРµ СЃС‚Р°РґРёРё.
+- backtest → OOS;
+- OOS → walk-forward;
+- backtest → paper;
+- paper → shadow;
+- shadow → дальнейшие стадии.
 
-РРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂР° evaluation/stability СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ РµРґРёРЅР°СЏ policy РґР»СЏ РІСЃРµС… РїРµСЂРµС…РѕРґРѕРІ РѕС‚РґРµР»СЊРЅРѕ РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Инфраструктура evaluation/stability существует, но единая policy для всех переходов отдельно не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 14.7. Multi-symbol / Multi-regime Robustness
 
-Backtest architecture РїРѕРґРґРµСЂР¶РёРІР°РµС‚:
+Backtest architecture поддерживает:
 
 - multi-symbol;
 - multi-regime;
@@ -2303,60 +2303,60 @@ Backtest architecture РїРѕРґРґРµСЂР¶РёРІР°РµС‚:
 
 ## 14.8. Parameter Complexity
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїР»Р°РЅ С‚СЂРµР±СѓРµС‚ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ СЃР»РѕР¶РЅРѕСЃС‚Рё РїР°СЂР°РјРµС‚СЂРѕРІ, С‡С‚РѕР±С‹ СѓРјРµРЅСЊС€Р°С‚СЊ СЂРёСЃРє overfitting.
+Канонический план требует ограничения сложности параметров, чтобы уменьшать риск overfitting.
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅС‹Р№ complexity budget / parameter-count policy С„Р°РєС‚РёС‡РµСЃРєРё РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Отдельный полный complexity budget / parameter-count policy фактически не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
-**Remaining:** РѕРїСЂРµРґРµР»РёС‚СЊ Рё РїСЂРѕРІРµСЂРёС‚СЊ РёР·РјРµСЂСЏРµРјСѓСЋ complexity policy.
+**Remaining:** определить и проверить измеряемую complexity policy.
 
 ## 14.9. Stability / Variance
 
-Р’ РїСЂРѕРµРєС‚Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚:
+В проекте существуют:
 
 - `ai_shadow_stability_service.py`;
 - `ai_shadow_quality_service.py`;
 - `ai_shadow_quality_window_service.py`.
 
-РћРЅРё РѕР±РµСЃРїРµС‡РёРІР°СЋС‚ РѕС‚РґРµР»СЊРЅС‹Рµ stability/quality analyses.
+Они обеспечивают отдельные stability/quality analyses.
 
-Р•РґРёРЅР°СЏ overfitting stability policy РґР»СЏ РІСЃРµС… validation stages РµС‰С‘ РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Единая overfitting stability policy для всех validation stages ещё не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 14.10. Statistical Significance
 
-Р РµР·СѓР»СЊС‚Р°С‚ РґРѕР»Р¶РµРЅ РѕС†РµРЅРёРІР°С‚СЊСЃСЏ СЃ СѓС‡С‘С‚РѕРј statistical significance Рё sample sufficiency.
+Результат должен оцениваться с учётом statistical significance и sample sufficiency.
 
-Sufficiency guards РµСЃС‚СЊ РІ promotion layer, РЅРѕ РїРѕР»РЅРѕС†РµРЅРЅР°СЏ unified statistical significance framework РµС‰С‘ РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Sufficiency guards есть в promotion layer, но полноценная unified statistical significance framework ещё не подтверждена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 14.11. News/Event Overfitting Protection
 
-РџСЂРё РЅР°Р»РёС‡РёРё РёСЃС‚РѕСЂРёС‡РµСЃРєРёС… News/Event РґР°РЅРЅС‹С… РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕРІРµСЂСЏС‚СЊ:
+При наличии исторических News/Event данных необходимо проверять:
 
 - pre-event behaviour;
 - during-event behaviour;
 - post-event behaviour;
-- degradation РїСЂРё СЃРёР»СЊРЅРѕРј event/news background.
+- degradation при сильном event/news background.
 
-РџРѕР»РЅС‹Р№ historical event-aware validation РµС‰С‘ РЅРµ Р·Р°РєСЂС‹С‚.
+Полный historical event-aware validation ещё не закрыт.
 
 **Status:** `NOT VERIFIED`
 
 ## 14.12. No Optimization on OOS/Test
 
-OOS/test РґР°РЅРЅС‹Рµ РЅРµ РґРѕР»Р¶РЅС‹ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РґР»СЏ РЅР°СЃС‚СЂРѕР№РєРё strategy.
+OOS/test данные не должны использоваться для настройки strategy.
 
-Р­С‚Рѕ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ validation pipeline.
+Это архитектурное требование validation pipeline.
 
-**Status:** `VERIFIED` РЅР° СѓСЂРѕРІРЅРµ OOS design; exhaustive runtime proof РµС‰С‘ РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+**Status:** `VERIFIED` на уровне OOS design; exhaustive runtime proof ещё не проведён.
 
-## 14.13. РС‚РѕРі
+## 14.13. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - OOS separation;
 - Walk-Forward;
@@ -2364,42 +2364,42 @@ OOS/test РґР°РЅРЅС‹Рµ РЅРµ РґРѕР»Р¶РЅС‹ РёСЃР
 - multi-symbol;
 - multi-regime;
 - LONG/SHORT robustness;
-- Р±Р°Р·РѕРІС‹Рµ stability components.
+- базовые stability components.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
 - degradation policy;
 - unified stability policy;
 - statistical significance.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
 - parameter complexity policy;
-- РїРѕР»РЅС‹Р№ News/Event-aware anti-overfitting pipeline;
+- полный News/Event-aware anti-overfitting pipeline;
 - exhaustive automated overfitting detector.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ audit anti-overfitting policy Рё РµС‘ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРіРѕ enforcement.
+**Remaining:** отдельный audit anti-overfitting policy и её автоматического enforcement.
 # 15. Strategy Promotion Pipeline
 
 **Status:** `TEST VERIFIED / DONE`
 
-Promotion СЏРІР»СЏРµС‚СЃСЏ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹Рј РїРµСЂРµС…РѕРґРѕРј РјРµР¶РґСѓ validation stages Рё production permissions.
+Promotion является контролируемым переходом между validation stages и production permissions.
 
-РљР°РЅРѕРЅРёС‡РµСЃРєР°СЏ С†РµРїРѕС‡РєР°:
+Каноническая цепочка:
 
-`DRAFT в†’ VALIDATED в†’ BACKTEST_PASSED в†’ OOS_PASSED в†’ PAPER в†’ SHADOW в†’ ADVISORY в†’ RESTRICTED_LIVE в†’ LIVE`
+`DRAFT → VALIDATED → BACKTEST_PASSED → OOS_PASSED → PAPER → SHADOW → ADVISORY → RESTRICTED_LIVE → LIVE`
 
-РџСЂРѕРїСѓСЃРє СЃС‚Р°РґРёР№ Р·Р°РїСЂРµС‰С‘РЅ.
+Пропуск стадий запрещён.
 
-## 15.1. E.1 вЂ” Promotion Manager
+## 15.1. E.1 — Promotion Manager
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_promotion_manager.py`
 
-Promotion Manager СЏРІР»СЏРµС‚СЃСЏ controlled mutation boundary.
+Promotion Manager является controlled mutation boundary.
 
-РџСЂРѕРІРµСЂСЏРµС‚:
+Проверяет:
 
 - user;
 - hypothesis;
@@ -2420,14 +2420,14 @@ Promotion Manager СЏРІР»СЏРµС‚СЃСЏ controlled mutation boundary
 - `E1_IDENTITY_ISOLATION_OK`
 - `E1_PRODUCTION_ISOLATION_OK`
 
-## 15.2. E.2 вЂ” Promotion State Machine
+## 15.2. E.2 — Promotion State Machine
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Фактически подтверждены:
 
-- С‚РѕР»СЊРєРѕ СЃР»РµРґСѓСЋС‰РёР№ stage;
-- Р·Р°РїСЂРµС‚ РїСЂРѕРїСѓСЃРєР°;
-- Р·Р°РїСЂРµС‚ РѕР±СЂР°С‚РЅРѕРіРѕ РїРµСЂРµС…РѕРґР°;
-- stage в†” level consistency.
+- только следующий stage;
+- запрет пропуска;
+- запрет обратного перехода;
+- stage ↔ level consistency.
 
 **Status:** `TEST VERIFIED`
 
@@ -2438,15 +2438,15 @@ Promotion Manager СЏРІР»СЏРµС‚СЃСЏ controlled mutation boundary
 - `E2_LEVEL_STAGE_INTEGRITY_OK`
 - `E2_PRODUCTION_ISOLATION_OK`
 
-## 15.3. E.3 вЂ” Formal Promotion Gates
+## 15.3. E.3 — Formal Promotion Gates
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_promotion_gates.py`
 
-РџСЂРѕРІРµСЂСЏСЋС‚СЃСЏ stage-specific validation results Рё evidence.
+Проверяются stage-specific validation results и evidence.
 
-РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅС‹Рµ РґР°РЅРЅС‹Рµ Р±Р»РѕРєРёСЂСѓСЋС‚ promotion.
+Недостаточные данные блокируют promotion.
 
 **Status:** `TEST VERIFIED`
 
@@ -2461,9 +2461,9 @@ Promotion Manager СЏРІР»СЏРµС‚СЃСЏ controlled mutation boundary
 - `E3_PRODUCTION_ISOLATION_OK`
 - `E3_CLEANUP_OK`
 
-## 15.4. E.4 вЂ” Promotion Evidence Binding
+## 15.4. E.4 — Promotion Evidence Binding
 
-Validation evidence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РїСЂРёРІСЏР·Р°РЅР° Рє exact:
+Validation evidence должна быть привязана к exact:
 
 - user;
 - experiment;
@@ -2481,15 +2481,15 @@ Validation evidence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РїСЂРёРІ
 - `E4_PRODUCTION_ISOLATION_OK`
 - `E4_CLEANUP_OK`
 
-## 15.5. E.5 вЂ” Risk Approval Gate
+## 15.5. E.5 — Risk Approval Gate
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ promotion-risk РєРѕРЅС‚СѓСЂ:
+Фактически существует отдельный promotion-risk контур:
 
 `services/ai_promotion_risk_approval.py`
 
-РћРЅ РѕС‚РґРµР»С‘РЅ РѕС‚ С‚РѕСЂРіРѕРІРѕРіРѕ AIRiskAgent.
+Он отделён от торгового AIRiskAgent.
 
-РџРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ:
+Поддерживаются:
 
 - `APPROVED`;
 - `REJECTED`;
@@ -2512,17 +2512,17 @@ Validation evidence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РїСЂРёРІ
 - `E5_MANAGER_RISK_BLOCK_OK`
 - `E5_MANAGER_RISK_APPROVAL_PASS_OK`
 
-## 15.6. E.6 вЂ” Promotion Level / Permissions
+## 15.6. E.6 — Promotion Level / Permissions
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_promotion_permissions.py`
 
-РЈСЃС‚Р°РЅРѕРІР»РµРЅР° РµРґРёРЅР°СЏ policy:
+Установлена единая policy:
 
-`promotion_stage в†’ promotion_level в†’ permissions`
+`promotion_stage → promotion_level → permissions`
 
-РџСЂРѕРІРµСЂСЏСЋС‚СЃСЏ stage/level consistency Рё permission escalation.
+Проверяются stage/level consistency и permission escalation.
 
 **Status:** `TEST VERIFIED`
 
@@ -2534,9 +2534,9 @@ Validation evidence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РїСЂРёРІ
 - `E6_INVALID_STATE_NO_PERMISSION_OK`
 - `E6_PRODUCTION_ISOLATION_OK`
 
-## 15.7. E.7 вЂ” Approval / Promotion Audit Trail
+## 15.7. E.7 — Approval / Promotion Audit Trail
 
-Promotion СЃРѕС…СЂР°РЅСЏРµС‚ РёСЃС‚РѕСЂРёС‡РµСЃРєРёР№ snapshot, РІРєР»СЋС‡Р°СЏ:
+Promotion сохраняет исторический snapshot, включая:
 
 - user;
 - experiment;
@@ -2560,19 +2560,19 @@ Promotion СЃРѕС…СЂР°РЅСЏРµС‚ РёСЃС‚РѕСЂРёС‡�
 - `E7_PRODUCTION_ISOLATION_OK`
 - `E7_CLEANUP_OK`
 
-## 15.8. E.8 вЂ” Rollback Mechanism
+## 15.8. E.8 — Rollback Mechanism
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_promotion_rollback.py`
 
 Rollback:
 
-- РёСЃРїРѕР»СЊР·СѓРµС‚ parent version;
-- РЅРµ СѓРґР°Р»СЏРµС‚ current version;
-- СЃРѕС…СЂР°РЅСЏРµС‚ history;
-- СЃРѕР·РґР°С‘С‚ rollback audit;
-- РѕС‚Р·С‹РІР°РµС‚ permissions rolled-back version.
+- использует parent version;
+- не удаляет current version;
+- сохраняет history;
+- создаёт rollback audit;
+- отзывает permissions rolled-back version.
 
 **Status:** `TEST VERIFIED`
 
@@ -2585,9 +2585,9 @@ Rollback:
 - `E8_PRODUCTION_ISOLATION_OK`
 - `E8_CLEANUP_OK`
 
-## 15.9. E.9 вЂ” Rollback Integrity
+## 15.9. E.9 — Rollback Integrity
 
-Rollback genealogy integrity С‚СЂРµР±СѓРµС‚:
+Rollback genealogy integrity требует:
 
 - valid parent;
 - same strategy;
@@ -2613,19 +2613,19 @@ Rollback genealogy integrity С‚СЂРµР±СѓРµС‚:
 - `E9_PRODUCTION_ISOLATION_OK`
 - `E9_CLEANUP_OK`
 
-## 15.10. E.10 вЂ” Production Safety
+## 15.10. E.10 — Production Safety
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_production_safety.py`
 
-Рё production boundary:
+и production boundary:
 
 `services/execution_boundary.py`
 
-AI production execution С‚СЂРµР±СѓРµС‚ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹С… СѓСЃР»РѕРІРёР№.
+AI production execution требует контролируемых условий.
 
-РџСЂРѕРІРµСЂСЏСЋС‚СЃСЏ:
+Проверяются:
 
 - live stage;
 - permission;
@@ -2645,13 +2645,13 @@ AI production execution С‚СЂРµР±СѓРµС‚ РєРѕРЅС‚СЂРѕ
 - `E10_SAFETY_POLICY_OK`
 - `E10_PRODUCTION_ISOLATION_OK`
 
-## 15.11. E.11 вЂ” Multi-user / Strategy Isolation
+## 15.11. E.11 — Multi-user / Strategy Isolation
 
-Promotion identity chain С‚СЂРµР±СѓРµС‚ СЃРѕРІРїР°РґРµРЅРёСЏ:
+Promotion identity chain требует совпадения:
 
-`user в†’ hypothesis в†’ strategy version в†’ experiment в†’ evidence`
+`user → hypothesis → strategy version → experiment → evidence`
 
-Cross-user substitution/tampering Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
+Cross-user substitution/tampering блокируется.
 
 **Status:** `TEST VERIFIED`
 
@@ -2665,11 +2665,11 @@ Cross-user substitution/tampering Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
 - `E11_PRODUCTION_ISOLATION_OK`
 - `E11_CLEANUP_OK`
 
-## 15.12. E.12 вЂ” End-to-End Promotion Integration
+## 15.12. E.12 — End-to-End Promotion Integration
 
-E12 РѕР±СЉРµРґРёРЅСЏРµС‚ РїРѕР»РЅС‹Р№ controlled chain:
+E12 объединяет полный controlled chain:
 
-`Hypothesis в†’ StrategyVersion в†’ Experiment в†’ Validation в†’ Readiness в†’ Formal Gate в†’ Risk Approval в†’ Promotion в†’ Permission в†’ Audit в†’ Rollback`
+`Hypothesis → StrategyVersion → Experiment → Validation → Readiness → Formal Gate → Risk Approval → Promotion → Permission → Audit → Rollback`
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -2688,9 +2688,9 @@ E12 РѕР±СЉРµРґРёРЅСЏРµС‚ РїРѕР»РЅС‹Р№ control
 
 ## 15.13. Production state protection
 
-РџРѕСЃР»РµРґРЅРёРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рµ integration checks РїРѕРєР°Р·С‹РІР°Р»Рё РѕС‚СЃСѓС‚СЃС‚РІРёРµ test promotion artifacts РїРѕСЃР»Рµ cleanup.
+Последние подтверждённые integration checks показывали отсутствие test promotion artifacts после cleanup.
 
-Production strategy version `12` РѕСЃС‚Р°С‘С‚СЃСЏ:
+Production strategy version `12` остаётся:
 
 `CANDIDATE / DRAFT / promotion_level=0 / NOT_EVALUATED`
 
@@ -2698,62 +2698,62 @@ Production strategy version `12` РѕСЃС‚Р°С‘С‚СЃСЏ:
 
 ## 15.14. Promotion limitations
 
-РќР°Р»РёС‡РёРµ Promotion Pipeline РЅРµ РѕР·РЅР°С‡Р°РµС‚ СЂР°Р·СЂРµС€РµРЅРёРµ AIEA С‚РѕСЂРіРѕРІР°С‚СЊ РІ production.
+Наличие Promotion Pipeline не означает разрешение AIEA торговать в production.
 
-РќР° С‚РµРєСѓС‰РµРј СЃРѕСЃС‚РѕСЏРЅРёРё:
+На текущем состоянии:
 
-- Restricted Live РѕС‚РєР»СЋС‡С‘РЅ;
-- Full Live РѕС‚РєР»СЋС‡С‘РЅ;
-- AI РЅРµ РёРјРµРµС‚ РїСЂСЏРјРѕРіРѕ exchange authority;
-- Promotion РѕСЃС‚Р°С‘С‚СЃСЏ fail-closed.
+- Restricted Live отключён;
+- Full Live отключён;
+- AI не имеет прямого exchange authority;
+- Promotion остаётся fail-closed.
 
 **Status:** `VERIFIED`
 
-## 15.15. РС‚РѕРі
+## 15.15. Итог
 
-E.1вЂ“E.12 С„Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅС‹, РїСЂРѕС‚РµСЃС‚РёСЂРѕРІР°РЅС‹ Рё РёРЅС‚РµРіСЂР°С†РёРѕРЅРЅРѕ РїСЂРѕРІРµСЂРµРЅС‹.
+E.1–E.12 фактически реализованы, протестированы и интеграционно проверены.
 
 **Final status:** `DONE + TEST VERIFIED`
 
-**Remaining:** РґР°Р»СЊРЅРµР№С€РµРµ СЂР°СЃС€РёСЂРµРЅРёРµ permission levels РІРѕР·РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· РЅРѕРІС‹Р№ СЃРѕРіР»Р°СЃРѕРІР°РЅРЅС‹Р№ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅС‹Р№ РїСѓРЅРєС‚ Рё РѕС‚РґРµР»СЊРЅРѕРµ evidence.
+**Remaining:** дальнейшее расширение permission levels возможно только через новый согласованный архитектурный пункт и отдельное evidence.
 # 16. AI Confidence Levels
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 16.1. РљР°РЅРѕРЅРёС‡РµСЃРєРёРµ СѓСЂРѕРІРЅРё
+## 16.1. Канонические уровни
 
-AIEA РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕС‚РґРµР»СЊРЅС‹Р№ trust level:
+AIEA должен иметь отдельный trust level:
 
-- `0` вЂ” Research only;
-- `1` вЂ” Paper;
-- `2` вЂ” Shadow;
-- `3` вЂ” Advisory;
-- `4` вЂ” Restricted Live;
-- `5` вЂ” Live.
+- `0` — Research only;
+- `1` — Paper;
+- `2` — Shadow;
+- `3` — Advisory;
+- `4` — Restricted Live;
+- `5` — Live.
 
-AI РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РёР·РјРµРЅСЏС‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅС‹Р№ trust level.
+AI не должен самостоятельно изменять собственный trust level.
 
-## 16.2. Р Р°Р·РґРµР»РµРЅРёРµ confidence Рё trust
+## 16.2. Разделение confidence и trust
 
-РќРµРѕР±С…РѕРґРёРјРѕ СЂР°Р·Р»РёС‡Р°С‚СЊ:
+Необходимо различать:
 
-`strategy confidence` вЂ” СѓРІРµСЂРµРЅРЅРѕСЃС‚СЊ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ С‚РѕСЂРіРѕРІРѕРіРѕ СЃРёРіРЅР°Р»Р°;
+`strategy confidence` — уверенность конкретного торгового сигнала;
 
-`AI trust level` вЂ” СЂР°Р·СЂРµС€С‘РЅРЅС‹Р№ СЃРёСЃС‚РµРјРµ СѓСЂРѕРІРµРЅСЊ СѓС‡Р°СЃС‚РёСЏ AIEA РІ С‚РѕСЂРіРѕРІРѕРј РєРѕРЅС‚СѓСЂРµ.
+`AI trust level` — разрешённый системе уровень участия AIEA в торговом контуре.
 
-Р­С‚Рѕ СЂР°Р·РЅС‹Рµ СЃСѓС‰РЅРѕСЃС‚Рё Рё РЅРµ РґРѕР»Р¶РЅС‹ СЃРјРµС€РёРІР°С‚СЊСЃСЏ.
+Это разные сущности и не должны смешиваться.
 
-## 16.3. Р¤Р°РєС‚РёС‡РµСЃРєРѕРµ С…СЂР°РЅРµРЅРёРµ trust level
+## 16.3. Фактическое хранение trust level
 
-Р’ РјРѕРґРµР»Рё AI Agent РѕР±РЅР°СЂСѓР¶РµРЅРѕ:
+В модели AI Agent обнаружено:
 
 `models/ai_agent.py`
 
-РџРѕР»Рµ:
+Поле:
 
 `trust_level = Column(Integer, nullable=False, default=0)`
 
-РўР°РєРёРј РѕР±СЂР°Р·РѕРј, РѕС‚РґРµР»СЊРЅРѕРµ persistent РїРѕР»Рµ РґР»СЏ AI trust level СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Таким образом, отдельное persistent поле для AI trust level существует.
 
 **Status:** `VERIFIED`
 
@@ -2761,13 +2761,13 @@ AI РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚Рµ�
 
 ## 16.4. Promotion level / permission separation
 
-Promotion infrastructure СЃРѕРґРµСЂР¶РёС‚ РѕС‚РґРµР»СЊРЅС‹Рµ:
+Promotion infrastructure содержит отдельные:
 
 - promotion stage;
 - promotion level;
 - permission policy.
 
-Permission layer РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРѕРІС‹С€Р°С‚СЊ AI trust level.
+Permission layer не должен автоматически повышать AI trust level.
 
 **Status:** `TEST VERIFIED`
 
@@ -2776,11 +2776,11 @@ Permission layer РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С�
 - E10 production safety;
 - E12 integration.
 
-## 16.5. Р—Р°РїСЂРµС‚ self-escalation
+## 16.5. Запрет self-escalation
 
-AI РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РїРѕР»СѓС‡РёС‚СЊ Р±РѕР»РµРµ РІС‹СЃРѕРєРёР№ access level.
+AI не должен самостоятельно получить более высокий access level.
 
-Promotion layer Р±Р»РѕРєРёСЂСѓРµС‚ РЅРµРІР°Р»РёРґРЅРѕРµ РїРѕРІС‹С€РµРЅРёРµ permissions Рё stage/level mismatch.
+Promotion layer блокирует невалидное повышение permissions и stage/level mismatch.
 
 **Status:** `TEST VERIFIED`
 
@@ -2792,59 +2792,59 @@ Promotion layer Р±Р»РѕРєРёСЂСѓРµС‚ РЅРµРІР°Р»РёР
 
 ## 16.6. Trust lifecycle
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ РїРѕР»РЅРѕСЃС‚СЊСЋ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ lifecycle:
+Не подтверждён полностью автоматический lifecycle:
 
-`Research в†’ Paper в†’ Shadow в†’ Advisory в†’ Restricted Live в†’ Live`
+`Research → Paper → Shadow → Advisory → Restricted Live → Live`
 
-РєР°Рє РёР·РјРµРЅРµРЅРёРµ РёРјРµРЅРЅРѕ `ai_agent.trust_level`.
+как изменение именно `ai_agent.trust_level`.
 
-Promotion stages Рё permissions СЃСѓС‰РµСЃС‚РІСѓСЋС‚, РЅРѕ unified trust lifecycle РѕС‚РґРµР»СЊРЅРѕ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Promotion stages и permissions существуют, но unified trust lifecycle отдельно не доказан.
 
 **Status:** `NOT VERIFIED`
 
 ## 16.7. Immutable / controlled trust policy
 
-РўСЂРµР±РѕРІР°РЅРёРµ:
+Требование:
 
-AI РЅРµ РјРѕР¶РµС‚ СЃР°Рј РјРµРЅСЏС‚СЊ:
+AI не может сам менять:
 
 - trust level;
 - promotion criteria;
 - risk limits;
 - permissions.
 
-Production safety Рё promotion permission infrastructure СЂРµР°Р»РёР·СѓСЋС‚ Р·РЅР°С‡РёС‚РµР»СЊРЅСѓСЋ С‡Р°СЃС‚СЊ СЌС‚РѕР№ РіСЂР°РЅРёС†С‹.
+Production safety и promotion permission infrastructure реализуют значительную часть этой границы.
 
-РћРґРЅР°РєРѕ РѕС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅС‹Р№ audit РјРµС…Р°РЅРёР·РјР° РёР·РјРµРЅРµРЅРёСЏ СЃР°РјРѕРіРѕ `trust_level` РµС‰С‘ РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+Однако отдельный полный audit механизма изменения самого `trust_level` ещё не проведён.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 16.8. РўРµРєСѓС‰РёР№ С„Р°РєС‚РёС‡РµСЃРєРёР№ РІС‹РІРѕРґ
+## 16.8. Текущий фактический вывод
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Подтверждено:
 
-- РѕС‚РґРµР»СЊРЅРѕРµ РїРѕР»Рµ `trust_level`;
-- СЂР°Р·РґРµР»РµРЅРёРµ promotion permissions;
-- Р±Р»РѕРєРёСЂРѕРІРєР° permission escalation;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ СЂР°Р·СЂРµС€РµРЅРёСЏ AI СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЂР°СЃС€РёСЂСЏС‚СЊ production authority.
+- отдельное поле `trust_level`;
+- разделение promotion permissions;
+- блокировка permission escalation;
+- отсутствие разрешения AI самостоятельно расширять production authority.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждено полностью:
 
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ state machine РґР»СЏ `ai_agent.trust_level`;
-- РїРµСЂРµС…РѕРґС‹ trust level С‡РµСЂРµР· РІСЃРµ СѓСЂРѕРІРЅРё;
-- РѕС‚РґРµР»СЊРЅС‹Р№ immutable audit trail РёР·РјРµРЅРµРЅРёСЏ trust level.
+- автоматическая state machine для `ai_agent.trust_level`;
+- переходы trust level через все уровни;
+- отдельный immutable audit trail изменения trust level.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit AI trust-level lifecycle Рё mutation boundary.
+**Remaining:** отдельный factual audit AI trust-level lifecycle и mutation boundary.
 
 # 17. Restricted Live
 
 **Status:** `NOT VERIFIED / DISABLED`
 
-## 17.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 17.1. Каноническое назначение
 
-Restricted Live вЂ” РїРµСЂРІС‹Р№ РѕРіСЂР°РЅРёС‡РµРЅРЅС‹Р№ live-СѓСЂРѕРІРµРЅСЊ СѓС‡Р°СЃС‚РёСЏ AIEA РІ СЂРµР°Р»СЊРЅРѕР№ С‚РѕСЂРіРѕРІР»Рµ.
+Restricted Live — первый ограниченный live-уровень участия AIEA в реальной торговле.
 
-РћРЅ РґРѕР»Р¶РµРЅ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЃС‚СЂРѕРіРѕ РѕРіСЂР°РЅРёС‡РµРЅРЅС‹Рµ:
+Он должен использовать строго ограниченные:
 
 - AI risk budget;
 - maximum position size;
@@ -2858,18 +2858,18 @@ Restricted Live вЂ” РїРµСЂРІС‹Р№ РѕРіСЂР°РЅРёС‡
 - protection validation;
 - AI kill switch.
 
-## 17.2. РўРµРєСѓС‰РёР№ production state
+## 17.2. Текущий production state
 
-РќР° С‚РµРєСѓС‰РµРј СЃРѕСЃС‚РѕСЏРЅРёРё Restricted Live РЅРµ СЂР°Р·СЂРµС€С‘РЅ.
+На текущем состоянии Restricted Live не разрешён.
 
-РџРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ:
+Подтверждённые ограничения:
 
 - `Restricted Live = DISABLED`;
-- AIEA РЅРµ РёРјРµРµС‚ РїСЂСЏРјРѕРіРѕ BingX execution authority;
-- AI РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ RiskAgent;
-- AI РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ ExecutionAgent.
+- AIEA не имеет прямого BingX execution authority;
+- AI не должен обходить RiskAgent;
+- AI не должен обходить ExecutionAgent.
 
-**Status:** `VERIFIED` РґР»СЏ С‚РµРєСѓС‰РµРіРѕ disabled safety state.
+**Status:** `VERIFIED` для текущего disabled safety state.
 
 **Evidence:**
 - `NEXUS_CURRENT_STATE.md`;
@@ -2878,47 +2878,47 @@ Restricted Live вЂ” РїРµСЂРІС‹Р№ РѕРіСЂР°РЅРёС‡
 
 ## 17.3. Isolated AI risk budget
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїР»Р°РЅ С‚СЂРµР±СѓРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ AI risk budget.
+Канонический план требует отдельный AI risk budget.
 
-РџСЂРёРјРµСЂ Р±Р°Р·РѕРІРѕРіРѕ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ:
+Пример базового ограничения:
 
 - risk budget = 0.25% account;
 - max positions = 1;
 - max leverage = 3;
 - daily loss limit = 0.5%.
 
-РљРѕРЅРєСЂРµС‚РЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РЅРµ РґРѕР»Р¶РЅС‹ РёР·РјРµРЅСЏС‚СЊСЃСЏ AIEA.
+Конкретные параметры не должны изменяться AIEA.
 
-РћС‚РґРµР»СЊРЅР°СЏ С„Р°РєС‚РёС‡РµСЃРєР°СЏ Restricted Live risk-budget policy РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Отдельная фактическая Restricted Live risk-budget policy не подтверждена.
 
 **Status:** `NOT VERIFIED`
 
 ## 17.4. Position / exposure limits
 
-РћР±СЏР·Р°С‚РµР»СЊРЅС‹:
+Обязательны:
 
 - max position size;
 - max simultaneous AI positions;
 - symbol whitelist;
 - leverage ceiling.
 
-Production Risk / Execution infrastructure СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚, РѕРґРЅР°РєРѕ РѕС‚РґРµР»СЊРЅС‹Р№ Restricted Live AI limit layer РЅРµ РґРѕРєР°Р·Р°РЅ.
+Production Risk / Execution infrastructure уже существует, однако отдельный Restricted Live AI limit layer не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ audit Restricted Live limit enforcement.
+**Remaining:** отдельный audit Restricted Live limit enforcement.
 
 ## 17.5. Mandatory protection
 
-Restricted Live РґРѕР»Р¶РµРЅ С‚СЂРµР±РѕРІР°С‚СЊ:
+Restricted Live должен требовать:
 
 - SL;
 - TP;
 - protection validation.
 
-Production protection fail-safe СѓР¶Рµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ РѕС‚РґРµР»СЊРЅРѕ.
+Production protection fail-safe уже подтверждён отдельно.
 
-**Status:** `VERIFIED` РґР»СЏ РѕР±С‰РµРіРѕ production protection boundary; `NOT VERIFIED` РґР»СЏ РїРѕР»РЅРѕРіРѕ Restricted Live-specific gate.
+**Status:** `VERIFIED` для общего production protection boundary; `NOT VERIFIED` для полного Restricted Live-specific gate.
 
 **Evidence:**
 - protection fail-safe;
@@ -2927,25 +2927,25 @@ Production protection fail-safe СѓР¶Рµ РїРѕРґС‚РІРµСЂР¶Р
 
 ## 17.6. RiskAgent requirement
 
-Restricted Live РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ RiskAgent.
+Restricted Live не должен обходить RiskAgent.
 
-Production execution chain СѓР¶Рµ СЃРѕРґРµСЂР¶РёС‚:
+Production execution chain уже содержит:
 
-`SignalAgent в†’ StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary`
+`SignalAgent → StrategyDecisionEngine → AIRiskAgent → ExecutionAgent → ExecutionBoundary`
 
-**Status:** `VERIFIED` РґР»СЏ production boundary; Restricted Live-specific activation path РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ.
+**Status:** `VERIFIED` для production boundary; Restricted Live-specific activation path не используется.
 
 ## 17.7. AI Kill Switch
 
-Restricted Live РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕС‚РґРµР»СЊРЅС‹Р№ AI kill switch, РєРѕС‚РѕСЂС‹Р№ РёРјРµРµС‚ priority РІС‹С€Рµ AI decisions.
+Restricted Live должен иметь отдельный AI kill switch, который имеет priority выше AI decisions.
 
-РќР°Р»РёС‡РёРµ РѕР±С‰РµРіРѕ production safety / trading kill-switch РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ, РЅРѕ РѕС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅС‹Р№ `AI_LIVE_KILL_SWITCH` lifecycle РЅРµ РґРѕРєР°Р·Р°РЅ.
+Наличие общего production safety / trading kill-switch подтверждено, но отдельный полный `AI_LIVE_KILL_SWITCH` lifecycle не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 17.8. Promotion dependency
 
-Restricted Live РІРѕР·РјРѕР¶РµРЅ С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ:
+Restricted Live возможен только после:
 
 - validation;
 - shadow evidence;
@@ -2953,17 +2953,17 @@ Restricted Live РІРѕР·РјРѕР¶РµРЅ С‚РѕР»СЊРєРѕ Рї�
 - risk approval;
 - permission evaluation.
 
-Р­С‚Р° РёРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂР° E.1вЂ“E.12 СѓР¶Рµ СЂРµР°Р»РёР·РѕРІР°РЅР°.
+Эта инфраструктура E.1–E.12 уже реализована.
 
-Р­С‚Рѕ РЅРµ РѕР·РЅР°С‡Р°РµС‚, С‡С‚Рѕ Restricted Live РІРєР»СЋС‡С‘РЅ.
+Это не означает, что Restricted Live включён.
 
-**Status:** `TEST VERIFIED` РґР»СЏ prerequisite promotion controls.
+**Status:** `TEST VERIFIED` для prerequisite promotion controls.
 
 ## 17.9. Restricted Live activation
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
-- РѕС‚РґРµР»СЊРЅР°СЏ activation state machine;
+- отдельная activation state machine;
 - AI-specific risk budget enforcement;
 - AI-specific position/exposure limits;
 - whitelist enforcement;
@@ -2974,34 +2974,34 @@ Restricted Live РІРѕР·РјРѕР¶РµРЅ С‚РѕР»СЊРєРѕ Рї�
 
 **Status:** `NOT VERIFIED`
 
-## 17.10. РС‚РѕРі
+## 17.10. Итог
 
-Restricted Live РЅР° С‚РµРєСѓС‰РµРј СЌС‚Р°РїРµ:
+Restricted Live на текущем этапе:
 
 `DISABLED`
 
-Safety infrastructure, РЅРµРѕР±С…РѕРґРёРјР°СЏ РґР»СЏ Р±СѓРґСѓС‰РµРіРѕ СЌС‚Р°РїР°, С‡Р°СЃС‚РёС‡РЅРѕ СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Safety infrastructure, необходимая для будущего этапа, частично существует.
 
-РџРѕР»РЅРѕС†РµРЅРЅС‹Р№ Restricted Live operational contour РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅ Рё РЅРµ РґРѕР»Р¶РµРЅ СЃС‡РёС‚Р°С‚СЊСЃСЏ Р°РєС‚РёРІРЅС‹Рј.
+Полноценный Restricted Live operational contour не реализован и не должен считаться активным.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ Restricted Live factual audit Рё С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ РЅРµРіРѕ вЂ” controlled implementation.
-# 18. AI РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ RiskAgent
+**Remaining:** отдельный Restricted Live factual audit и только после него — controlled implementation.
+# 18. AI не должен обходить RiskAgent
 
 **Status:** `TEST VERIFIED`
 
-## 18.1. РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ production РєРѕРЅС‚СѓСЂ
+## 18.1. Канонический production контур
 
-Р’СЃРµ AI live decisions РґРѕР»Р¶РЅС‹ РїСЂРѕС…РѕРґРёС‚СЊ:
+Все AI live decisions должны проходить:
 
-`AI в†’ Strategy Decision в†’ RiskAgent в†’ Protection Validation в†’ ExecutionAgent в†’ Exchange`
+`AI → Strategy Decision → RiskAgent → Protection Validation → ExecutionAgent → Exchange`
 
-AIEA РЅРµ РїРѕР»СѓС‡Р°РµС‚ РїСЂСЏРјРѕРіРѕ exchange execution authority.
+AIEA не получает прямого exchange execution authority.
 
-## 18.2. Р¤Р°РєС‚РёС‡РµСЃРєРёР№ production path
+## 18.2. Фактический production path
 
-РџРѕРґС‚РІРµСЂР¶РґС‘РЅ:
+Подтверждён:
 
-`SignalAgent в†’ StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary в†’ BaseExchangeClient.place_order()`
+`SignalAgent → StrategyDecisionEngine → AIRiskAgent → ExecutionAgent → ExecutionBoundary → BaseExchangeClient.place_order()`
 
 **Status:** `VERIFIED`
 
@@ -3014,9 +3014,9 @@ AIEA РЅРµ РїРѕР»СѓС‡Р°РµС‚ РїСЂСЏРјРѕРіРѕ ex
 
 ## 18.3. Execution Boundary
 
-`ExecutionBoundary` СЏРІР»СЏРµС‚СЃСЏ С‚РµС…РЅРёС‡РµСЃРєРѕР№ РіСЂР°РЅРёС†РµР№ РїРµСЂРµРґ exchange execution.
+`ExecutionBoundary` является технической границей перед exchange execution.
 
-РџРµСЂРµРґ `BaseExchangeClient.place_order()` РІС‹РїРѕР»РЅСЏСЋС‚СЃСЏ safety checks.
+Перед `BaseExchangeClient.place_order()` выполняются safety checks.
 
 **Status:** `VERIFIED`
 
@@ -3027,11 +3027,11 @@ AIEA РЅРµ РїРѕР»СѓС‡Р°РµС‚ РїСЂСЏРјРѕРіРѕ ex
 
 ## 18.4. AIProductionSafetyService
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_production_safety.py`
 
-Safety layer РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РІС‹РїРѕР»РЅСЏС‚СЊ exchange execution.
+Safety layer не должен самостоятельно выполнять exchange execution.
 
 **Status:** `TEST VERIFIED`
 
@@ -3041,13 +3041,13 @@ Safety layer РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏ
 
 ## 18.5. Promotion / permission boundary
 
-AI promotion execution РґРѕР»Р¶РµРЅ С‚СЂРµР±РѕРІР°С‚СЊ:
+AI promotion execution должен требовать:
 
-- СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ live promotion stage;
-- СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ permission;
+- соответствующий live promotion stage;
+- соответствующее permission;
 - approved risk state;
 - valid strategy version;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ rolled-back state.
+- отсутствие rolled-back state.
 
 **Status:** `TEST VERIFIED`
 
@@ -3057,31 +3057,31 @@ AI promotion execution РґРѕР»Р¶РµРЅ С‚СЂРµР±РѕРІР°С�
 - E10 production safety;
 - E12 integration.
 
-## 18.6. Р—Р°РїСЂРµС‚ РїСЂСЏРјРѕРіРѕ РІС‹Р·РѕРІР° ExecutionAgent
+## 18.6. Запрет прямого вызова ExecutionAgent
 
-Promotion / research services РЅРµ РґРѕР»Р¶РЅС‹ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РІС‹Р·С‹РІР°С‚СЊ:
+Promotion / research services не должны самостоятельно вызывать:
 
 - RiskAgent;
 - ExecutionAgent;
 - exchange client.
 
-РџСЂРѕРІРµСЂРµРЅРЅС‹Рµ СЃРµСЂРІРёСЃС‹ РёСЃРїРѕР»СЊР·СѓСЋС‚ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёР№ / promotion layer РІРјРµСЃС‚Рѕ РїСЂСЏРјРѕРіРѕ execution.
+Проверенные сервисы используют аналитический / promotion layer вместо прямого execution.
 
-**Status:** `VERIFIED` РІ СЂР°РјРєР°С… РїСЂРѕРІРµРґС‘РЅРЅРѕРіРѕ service boundary audit.
+**Status:** `VERIFIED` в рамках проведённого service boundary audit.
 
-## 18.7. Р—Р°РїСЂРµС‚ direct BingX access
+## 18.7. Запрет direct BingX access
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РѕС‚РїСЂР°РІР»СЏС‚СЊ production orders РЅР°РїСЂСЏРјСѓСЋ РІ BingX.
+AIEA не должен отправлять production orders напрямую в BingX.
 
-Production exchange execution РѕСЃС‚Р°С‘С‚СЃСЏ Р·Р° `BaseExchangeClient`, РґРѕСЃС‚СѓРїРЅС‹Рј С‡РµСЂРµР· РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјСѓСЋ execution chain.
+Production exchange execution остаётся за `BaseExchangeClient`, доступным через контролируемую execution chain.
 
-**Status:** `VERIFIED` РґР»СЏ С‚РµРєСѓС‰РµРіРѕ production architecture.
+**Status:** `VERIFIED` для текущего production architecture.
 
 ## 18.8. Protection validation
 
-РџРѕСЃР»Рµ РѕС‚РєСЂС‹С‚РёСЏ production position Р·Р°С‰РёС‚Р° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+После открытия production position защита должна быть фактически подтверждена.
 
-Failure path РёСЃРїРѕР»СЊР·СѓРµС‚:
+Failure path использует:
 
 `close_reason="PROTECTION_FAILSAFE"`
 
@@ -3091,13 +3091,13 @@ Failure path РёСЃРїРѕР»СЊР·СѓРµС‚:
 
 ## 18.9. Advisory / Shadow isolation
 
-Advisory / Shadow РЅРµ РґРѕР»Р¶РЅС‹:
+Advisory / Shadow не должны:
 
-- РјРµРЅСЏС‚СЊ strategy;
-- РјРµРЅСЏС‚СЊ signal;
-- РјРµРЅСЏС‚СЊ confidence;
-- Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ execution;
-- РёРЅРёС†РёРёСЂРѕРІР°С‚СЊ execution.
+- менять strategy;
+- менять signal;
+- менять confidence;
+- блокировать execution;
+- инициировать execution.
 
 **Status:** `TEST VERIFIED`
 
@@ -3108,7 +3108,7 @@ Advisory / Shadow РЅРµ РґРѕР»Р¶РЅС‹:
 
 ## 18.10. Production isolation
 
-AIEA-related research, comparison, validation and promotion components РЅРµ РґРѕР»Р¶РЅС‹ РїСЂРµРІСЂР°С‰Р°С‚СЊСЃСЏ РІ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Р№ execution path.
+AIEA-related research, comparison, validation and promotion components не должны превращаться в самостоятельный execution path.
 
 **Status:** `TEST VERIFIED`
 
@@ -3117,28 +3117,28 @@ AIEA-related research, comparison, validation and promotion components РЅРµ 
 - E10 production isolation;
 - E12 production isolation.
 
-## 18.11. РС‚РѕРі
+## 18.11. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Подтверждено:
 
-- РµРґРёРЅС‹Р№ RiskAgent-controlled production path;
-- ExecutionBoundary РїРµСЂРµРґ exchange;
+- единый RiskAgent-controlled production path;
+- ExecutionBoundary перед exchange;
 - AI Production Safety;
 - permission / risk approval gates;
 - protection fail-safe;
 - advisory/shadow isolation;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕРіРѕ execution authority Сѓ research/promotion СЃР»РѕСЏ.
+- отсутствие самостоятельного execution authority у research/promotion слоя.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ periodic negative-path audit direct exchange access РїСЂРё РїРѕСЏРІР»РµРЅРёРё РЅРѕРІС‹С… AIEA РєРѕРјРїРѕРЅРµРЅС‚РѕРІ.
+**Remaining:** отдельный periodic negative-path audit direct exchange access при появлении новых AIEA компонентов.
 # 19. Strategy Registry
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 19.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 19.1. Каноническое назначение
 
-Registry РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РµРґРёРЅСЃС‚РІРµРЅРЅС‹Рј РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹Рј РёСЃС‚РѕС‡РЅРёРєРѕРј РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЂР°Р·СЂРµС€С‘РЅРЅС‹С… Strategy Versions.
+Registry должен быть единственным контролируемым источником информации о разрешённых Strategy Versions.
 
-Р”Р»СЏ РєР°Р¶РґРѕР№ РІРµСЂСЃРёРё РґРѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ:
+Для каждой версии должны сохраняться:
 
 - strategy;
 - version;
@@ -3152,19 +3152,19 @@ Registry РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РµРґРёРЅСЃС‚Р
 - created_by;
 - created_at.
 
-## 19.2. Р¤Р°РєС‚РёС‡РµСЃРєРё РѕР±РЅР°СЂСѓР¶РµРЅРЅР°СЏ registry infrastructure
+## 19.2. Фактически обнаруженная registry infrastructure
 
-РћР±РЅР°СЂСѓР¶РµРЅ:
+Обнаружен:
 
 `strategies/registry.py`
 
-РўР°РєР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Также существует:
 
 `models/ai_strategy_version.py`
 
-Рё promotion-specific version state.
+и promotion-specific version state.
 
-**Status:** `VERIFIED` РґР»СЏ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ registry/version infrastructure.
+**Status:** `VERIFIED` для существования registry/version infrastructure.
 
 **Evidence:**
 - `strategies/registry.py`
@@ -3172,7 +3172,7 @@ Registry РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РµРґРёРЅСЃС‚Р
 
 ## 19.3. AI Strategy Version
 
-AI Strategy Version СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕР№ persistent СЃСѓС‰РЅРѕСЃС‚СЊСЋ Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ experiment / validation / promotion identity chains.
+AI Strategy Version является отдельной persistent сущностью и используется в experiment / validation / promotion identity chains.
 
 **Status:** `TEST VERIFIED`
 
@@ -3183,7 +3183,7 @@ AI Strategy Version СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊ�
 
 ## 19.4. Strategy status lifecycle
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё РґРѕР»Р¶РЅС‹ СЂР°Р·Р»РёС‡Р°С‚СЊСЃСЏ:
+Канонически должны различаться:
 
 - `DRAFT`;
 - `VALIDATED`;
@@ -3192,7 +3192,7 @@ AI Strategy Version СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊ�
 - `ROLLED_BACK`;
 - `REJECTED`.
 
-Production Registry РЅРµ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚СЊ Р·Р°РјРµРЅРёС‚СЊ ACTIVE version Р±РµР· Promotion Pipeline.
+Production Registry не должен позволять заменить ACTIVE version без Promotion Pipeline.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -3201,13 +3201,13 @@ Production Registry РЅРµ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»С
 - E6 promotion permission policy;
 - E8/E9 rollback state.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅР°СЏ exhaustive audit status transition matrix.
+**Remaining:** отдельная exhaustive audit status transition matrix.
 
 ## 19.5. Promotion level
 
-Strategy Version СЃРѕРґРµСЂР¶РёС‚ promotion state, РёСЃРїРѕР»СЊР·СѓРµРјС‹Р№ РІРјРµСЃС‚Рµ СЃ controlled promotion policy.
+Strategy Version содержит promotion state, используемый вместе с controlled promotion policy.
 
-Stage/level mismatch Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
+Stage/level mismatch блокируется.
 
 **Status:** `TEST VERIFIED`
 
@@ -3217,7 +3217,7 @@ Stage/level mismatch Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
 
 ## 19.6. Approved metadata
 
-Promotion audit СЃРѕС…СЂР°РЅСЏРµС‚ approval metadata:
+Promotion audit сохраняет approval metadata:
 
 - approver;
 - timestamp;
@@ -3233,11 +3233,11 @@ Promotion audit СЃРѕС…СЂР°РЅСЏРµС‚ approval metadata:
 
 ## 19.7. ACTIVE version protection
 
-РќРѕРІР°СЏ version РЅРµ РґРѕР»Р¶РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё Р·Р°РјРµРЅРёС‚СЊ ACTIVE version.
+Новая version не должна автоматически заменить ACTIVE version.
 
-Promotion manager Рё permission layer СЃРѕР·РґР°СЋС‚ controlled boundary.
+Promotion manager и permission layer создают controlled boundary.
 
-Rollback С‚Р°РєР¶Рµ СЃРѕС…СЂР°РЅСЏРµС‚ РїСЂРµРґС‹РґСѓС‰СѓСЋ РґРѕРєР°Р·Р°РЅРЅСѓСЋ version.
+Rollback также сохраняет предыдущую доказанную version.
 
 **Status:** `TEST VERIFIED`
 
@@ -3247,9 +3247,9 @@ Rollback С‚Р°РєР¶Рµ СЃРѕС…СЂР°РЅСЏРµС‚ РїСЂР
 - E8 parent preservation;
 - E9 genealogy integrity.
 
-## 19.8. Registry в†” Genealogy
+## 19.8. Registry ↔ Genealogy
 
-РљР°Р¶РґР°СЏ РЅРѕРІР°СЏ version РґРѕР»Р¶РЅР° РёРјРµС‚СЊ parent relationship, РєРѕРіРґР° РѕРЅР° СЏРІР»СЏРµС‚СЃСЏ СЌРІРѕР»СЋС†РёРµР№ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ strategy.
+Каждая новая version должна иметь parent relationship, когда она является эволюцией существующей strategy.
 
 **Status:** `TEST VERIFIED`
 
@@ -3257,14 +3257,14 @@ Rollback С‚Р°РєР¶Рµ СЃРѕС…СЂР°РЅСЏРµС‚ РїСЂР
 - E9 genealogy tests;
 - `models/ai_strategy_version.py`.
 
-## 19.9. Registry в†” Hypothesis / Experiment
+## 19.9. Registry ↔ Hypothesis / Experiment
 
-AI-generated or modified version РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°РЅР° СЃ:
+AI-generated or modified version должна быть связана с:
 
 `hypothesis_id`
 `experiment_id`
 
-Р­С‚Р° identity chain СѓР¶Рµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ promotion subsystem.
+Эта identity chain уже используется promotion subsystem.
 
 **Status:** `TEST VERIFIED`
 
@@ -3274,17 +3274,17 @@ AI-generated or modified version РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С�
 
 ## 19.10. Production registry authority
 
-Registry РґРѕР»Р¶РµРЅ РїСЂРµРґРѕС‚РІСЂР°С‰Р°С‚СЊ РЅРµСЃР°РЅРєС†РёРѕРЅРёСЂРѕРІР°РЅРЅСѓСЋ Р°РєС‚РёРІР°С†РёСЋ Strategy Version.
+Registry должен предотвращать несанкционированную активацию Strategy Version.
 
-Promotion permission Рё production safety layers РѕР±РµСЃРїРµС‡РёРІР°СЋС‚ Р·РЅР°С‡РёС‚РµР»СЊРЅСѓСЋ С‡Р°СЃС‚СЊ СЌС‚РѕР№ РіСЂР°РЅРёС†С‹.
+Promotion permission и production safety layers обеспечивают значительную часть этой границы.
 
-РџРѕР»РЅС‹Р№ direct-mutation audit registry РѕС‚РґРµР»СЊРЅРѕ РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+Полный direct-mutation audit registry отдельно не выполнен.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 19.11. РС‚РѕРі
+## 19.11. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - Strategy Registry infrastructure;
 - AI Strategy Version;
@@ -3292,22 +3292,22 @@ Promotion permission Рё production safety layers РѕР±РµСЃРїРµС‡
 - genealogy linkage;
 - hypothesis/experiment linkage;
 - approval metadata;
-- ACTIVE version protection С‡РµСЂРµР· promotion boundary.
+- ACTIVE version protection через promotion boundary.
 
-РќРµ Р·Р°РєСЂС‹С‚С‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не закрыты полностью:
 
 - exhaustive registry status machine;
-- РїРѕР»РЅС‹Р№ direct-mutation negative-path audit;
-- РµРґРёРЅС‹Р№ runtime РёСЃС‚РѕС‡РЅРёРє СЂР°Р·СЂРµС€С‘РЅРЅРѕР№ production version РґР»СЏ РІСЃРµС… consumers.
+- полный direct-mutation negative-path audit;
+- единый runtime источник разрешённой production version для всех consumers.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit РїРѕР»РЅРѕРіРѕ Strategy Registry lifecycle.
+**Remaining:** отдельный factual audit полного Strategy Registry lifecycle.
 # 20. Genealogy
 
 **Status:** `TEST VERIFIED`
 
-## 20.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 20.1. Каноническое требование
 
-Р”Р»СЏ РєР°Р¶РґРѕР№ СЌРІРѕР»СЋС†РёРё СЃС‚СЂР°С‚РµРіРёРё РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ РїРѕР»РЅР°СЏ lineage:
+Для каждой эволюции стратегии должна сохраняться полная lineage:
 
 - strategy_id;
 - version;
@@ -3318,13 +3318,13 @@ Promotion permission Рё production safety layers РѕР±РµСЃРїРµС‡
 - hypothesis_id;
 - experiment_id.
 
-РќРѕРІР°СЏ РІРµСЂСЃРёСЏ РЅРµ РґРѕР»Р¶РЅР° СѓРЅРёС‡С‚РѕР¶Р°С‚СЊ РёР»Рё РёР·РјРµРЅСЏС‚СЊ parent version.
+Новая версия не должна уничтожать или изменять parent version.
 
-## 20.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ genealogy infrastructure
+## 20.2. Фактическая genealogy infrastructure
 
-Genealogy СЂРµР°Р»РёР·РѕРІР°РЅР° С‡РµСЂРµР· versioned Strategy Version Рё `parent_version_id`.
+Genealogy реализована через versioned Strategy Version и `parent_version_id`.
 
-РСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ:
+Используются:
 
 - `models/ai_strategy_version.py`;
 - `services/ai_promotion_rollback.py`;
@@ -3334,15 +3334,15 @@ Genealogy СЂРµР°Р»РёР·РѕРІР°РЅР° С‡РµСЂРµР· ver
 
 ## 20.3. Parent strategy validation
 
-Rollback / promotion integrity РїСЂРѕРІРµСЂСЏРµС‚:
+Rollback / promotion integrity проверяет:
 
-- РЅР°Р»РёС‡РёРµ parent;
+- наличие parent;
 - same strategy;
 - same hypothesis;
-- РєРѕСЂСЂРµРєС‚РЅС‹Р№ promotion stage;
-- РєРѕСЂСЂРµРєС‚РЅС‹Р№ promotion level;
+- корректный promotion stage;
+- корректный promotion level;
 - approval metadata;
-- РґРѕРїСѓСЃС‚РёРјС‹Р№ parent status.
+- допустимый parent status.
 
 **Status:** `TEST VERIFIED`
 
@@ -3356,7 +3356,7 @@ Rollback / promotion integrity РїСЂРѕРІРµСЂСЏРµС‚:
 
 ## 20.4. Parent preservation
 
-Rollback РЅРµ РґРѕР»Р¶РµРЅ РёР·РјРµРЅСЏС‚СЊ РёР»Рё СѓРґР°Р»СЏС‚СЊ РїСЂРµРґС‹РґСѓС‰СѓСЋ РґРѕРєР°Р·Р°РЅРЅСѓСЋ version.
+Rollback не должен изменять или удалять предыдущую доказанную version.
 
 **Status:** `TEST VERIFIED`
 
@@ -3366,7 +3366,7 @@ Rollback РЅРµ РґРѕР»Р¶РµРЅ РёР·РјРµРЅСЏС‚СЊ Р�
 
 ## 20.5. History preservation
 
-Р­РєСЃРїРµСЂРёРјРµРЅС‚Р°Р»СЊРЅР°СЏ Рё validation history РЅРµ РґРѕР»Р¶РЅР° СѓРґР°Р»СЏС‚СЊСЃСЏ РїСЂРё rollback.
+Экспериментальная и validation history не должна удаляться при rollback.
 
 **Status:** `TEST VERIFIED`
 
@@ -3376,9 +3376,9 @@ Rollback РЅРµ РґРѕР»Р¶РµРЅ РёР·РјРµРЅСЏС‚СЊ Р�
 
 ## 20.6. Rollback genealogy
 
-Rollback РїСЂРѕРёСЃС…РѕРґРёС‚ С‚РѕР»СЊРєРѕ Рє РґРѕРєР°Р·Р°РЅРЅРѕРјСѓ parent С‡РµСЂРµР· РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјСѓСЋ genealogy.
+Rollback происходит только к доказанному parent через контролируемую genealogy.
 
-РџРѕРІС‚РѕСЂРЅС‹Р№ rollback СѓР¶Рµ rolled-back РІРµСЂСЃРёРё Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
+Повторный rollback уже rolled-back версии блокируется.
 
 **Status:** `TEST VERIFIED`
 
@@ -3390,11 +3390,11 @@ Rollback РїСЂРѕРёСЃС…РѕРґРёС‚ С‚РѕР»СЊРєРѕ Р
 
 ## 20.7. Hypothesis / Experiment genealogy
 
-Strategy Version genealogy РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊ СЃРІСЏР·СЊ:
+Strategy Version genealogy должна сохранять связь:
 
-`Parent Version в†’ Hypothesis в†’ Experiment в†’ New Version`
+`Parent Version → Hypothesis → Experiment → New Version`
 
-Р­С‚Р° identity chain РёРЅС‚РµРіСЂРёСЂРѕРІР°РЅР° РІ promotion layer.
+Эта identity chain интегрирована в promotion layer.
 
 **Status:** `TEST VERIFIED`
 
@@ -3405,28 +3405,28 @@ Strategy Version genealogy РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅС�
 
 ## 20.8. Immutable lineage
 
-РСЃС‚РѕСЂРёСЏ СЌРІРѕР»СЋС†РёРё РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРјР° Р±РµР· РїРµСЂРµРїРёСЃС‹РІР°РЅРёСЏ parent records.
+История эволюции должна быть восстанавливаема без переписывания parent records.
 
-РўРµСЃС‚С‹ РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ СЃРѕС…СЂР°РЅРµРЅРёРµ parent Рё rollback history.
+Тесты подтверждают сохранение parent и rollback history.
 
 **Status:** `TEST VERIFIED`
 
-## 20.9. РќРµ РїРѕР»РЅРѕСЃС‚СЊСЋ Р·Р°РєСЂС‹С‚Рѕ
+## 20.9. Не полностью закрыто
 
-РќРµ РґРѕРєР°Р·Р°РЅС‹ РѕС‚РґРµР»СЊРЅРѕ:
+Не доказаны отдельно:
 
-- РІРёР·СѓР°Р»РёР·Р°С†РёСЏ РїРѕР»РЅРѕРіРѕ genealogy tree;
-- query/API РґР»СЏ РїРѕР»РЅРѕРіРѕ lineage traversal;
-- РјР°СЃСЃРѕРІР°СЏ РїСЂРѕРІРµСЂРєР° genealogy РІСЃРµС… СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… Strategy Versions;
-- Р·Р°С‰РёС‚Р° РѕС‚ С†РёРєР»РёС‡РµСЃРєРёС… lineage records РЅР° СѓСЂРѕРІРЅРµ РІСЃРµР№ Р‘Р”.
+- визуализация полного genealogy tree;
+- query/API для полного lineage traversal;
+- массовая проверка genealogy всех существующих Strategy Versions;
+- защита от циклических lineage records на уровне всей БД.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 20.10. РС‚РѕРі
+## 20.10. Итог
 
-Genealogy foundation С„Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅ Рё Р·Р°С‰РёС‰С‘РЅ С‚РµСЃС‚Р°РјРё.
+Genealogy foundation фактически реализован и защищён тестами.
 
-Р—Р°РєСЂС‹С‚Рѕ:
+Закрыто:
 
 - parent linkage;
 - strategy/hypothesis consistency;
@@ -3436,20 +3436,20 @@ Genealogy foundation С„Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р�
 - rollback integrity;
 - history preservation.
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
-- РїРѕР»РЅС‹Р№ lineage traversal audit;
+- полный lineage traversal audit;
 - cycle detection;
-- API/reporting РїРѕР»РЅРѕРіРѕ РґРµСЂРµРІР° genealogy.
+- API/reporting полного дерева genealogy.
 
-**Remaining:** СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ factual audit genealogy graph/runtime consumers.
+**Remaining:** расширенный factual audit genealogy graph/runtime consumers.
 # 21. AI Memory
 
 **Status:** `TEST VERIFIED`
 
-## 21.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 21.1. Каноническое назначение
 
-AI Memory РґРѕР»Р¶РЅР° С…СЂР°РЅРёС‚СЊ РґРѕР»РіРѕРІСЂРµРјРµРЅРЅС‹Рµ research lessons Рё observations:
+AI Memory должна хранить долговременные research lessons и observations:
 
 - market observations;
 - successful hypotheses;
@@ -3464,21 +3464,21 @@ AI Memory РґРѕР»Р¶РЅР° С…СЂР°РЅРёС‚СЊ РґРѕР»Р
 - validation failures;
 - promotion / rollback history.
 
-Memory РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СЃР»РµРґСѓСЋС‰РёС… research cycles Рё hypothesis generation.
+Memory используется для следующих research cycles и hypothesis generation.
 
-## 21.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## 21.2. Фактическая реализация
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `services/ai_memory.py`;
 - `models/ai_lesson.py`;
 - `models/ai_agent.py`.
 
-РћСЃРЅРѕРІРЅР°СЏ СЃСѓС‰РЅРѕСЃС‚СЊ РїР°РјСЏС‚Рё вЂ” `AILesson`.
+Основная сущность памяти — `AILesson`.
 
 ## 21.3. Lesson recording
 
-РўРµСЃС‚ B4 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ СЃРѕР·РґР°РЅРёРµ lesson Рё РµРіРѕ РїСЂРёРІСЏР·РєСѓ Рє AI agent.
+Тест B4 подтверждает создание lesson и его привязку к AI agent.
 
 **Status:** `TEST VERIFIED`
 
@@ -3488,9 +3488,9 @@ Memory РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СЃР»Р
 
 ## 21.4. User isolation
 
-Memory РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РёР·РѕР»РёСЂРѕРІР°РЅР° РїРѕ user.
+Memory должна быть изолирована по user.
 
-B4 РїСЂРѕРІРµСЂСЏРµС‚ РѕС‚СЃСѓС‚СЃС‚РІРёРµ СѓС‚РµС‡РєРё lessons РјРµР¶РґСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё.
+B4 проверяет отсутствие утечки lessons между пользователями.
 
 **Status:** `TEST VERIFIED`
 
@@ -3499,9 +3499,9 @@ B4 РїСЂРѕРІРµСЂСЏРµС‚ РѕС‚СЃСѓС‚СЃС‚РІРё
 
 ## 21.5. Experiment ownership
 
-Memory item РјРѕР¶РµС‚ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ experiment С‚РѕР»СЊРєРѕ РІ РїСЂРµРґРµР»Р°С… РґРѕРїСѓСЃС‚РёРјРѕР№ identity chain.
+Memory item может быть связан с experiment только в пределах допустимой identity chain.
 
-Cross-user experiment ownership РґРѕР»Р¶РµРЅ Р±Р»РѕРєРёСЂРѕРІР°С‚СЊСЃСЏ.
+Cross-user experiment ownership должен блокироваться.
 
 **Status:** `TEST VERIFIED`
 
@@ -3510,9 +3510,9 @@ Cross-user experiment ownership РґРѕР»Р¶РµРЅ Р±Р»РѕРєРёС�
 
 ## 21.6. Append-only semantics
 
-AI Memory РЅРµ РґРѕР»Р¶РЅР° РїРѕР·РІРѕР»СЏС‚СЊ РёР·РјРµРЅСЏС‚СЊ РёСЃС‚РѕСЂРёС‡РµСЃРєРёРµ lessons Р·Р°РґРЅРёРј С‡РёСЃР»РѕРј.
+AI Memory не должна позволять изменять исторические lessons задним числом.
 
-B4 РїСЂРѕРІРµСЂСЏРµС‚ РѕС‚СЃСѓС‚СЃС‚РІРёРµ mutation API:
+B4 проверяет отсутствие mutation API:
 
 - `update_lesson`;
 - `delete_lesson`.
@@ -3524,12 +3524,12 @@ B4 РїСЂРѕРІРµСЂСЏРµС‚ РѕС‚СЃСѓС‚СЃС‚РІРё
 
 ## 21.7. Research-only boundary
 
-Memory РЅРµ РґРѕР»Р¶РЅР° СЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ РјРµС…Р°РЅРёР·РјРѕРј promotion РёР»Рё production control.
+Memory не должна становиться механизмом promotion или production control.
 
-B4 РїСЂРѕРІРµСЂСЏРµС‚:
+B4 проверяет:
 
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ `promotion_level` РІ lesson;
-- lesson type РЅРµ РјРѕР¶РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РєР°Рє validation evidence.
+- отсутствие `promotion_level` в lesson;
+- lesson type не может использоваться как validation evidence.
 
 **Status:** `TEST VERIFIED`
 
@@ -3538,17 +3538,17 @@ B4 РїСЂРѕРІРµСЂСЏРµС‚:
 
 ## 21.8. Experiment-linked memory
 
-Memory РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊ `source_experiment_id`, РєРѕРіРґР° lesson РїРѕР»СѓС‡РµРЅ РёР· РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ experiment.
+Memory должна сохранять `source_experiment_id`, когда lesson получен из конкретного experiment.
 
-Р­С‚Рѕ РѕР±РµСЃРїРµС‡РёРІР°РµС‚:
+Это обеспечивает:
 
-`Experiment в†’ Lesson в†’ Future Research`
+`Experiment → Lesson → Future Research`
 
-**Status:** `TEST VERIFIED` РІ СЂР°РјРєР°С… B4 ownership test.
+**Status:** `TEST VERIFIED` в рамках B4 ownership test.
 
-## 21.9. РљРѕРЅС‚РµРєСЃС‚ lesson
+## 21.9. Контекст lesson
 
-РљР°РЅРѕРЅРёС‡РµСЃРєР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР° РїСЂРµРґСѓСЃРјР°С‚СЂРёРІР°РµС‚:
+Каноническая структура предусматривает:
 
 - lesson_id;
 - context;
@@ -3559,40 +3559,40 @@ Memory РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊ `source_e
 - source_experiment_id;
 - created_at.
 
-Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ РјРѕРґРµР»СЊ `AILesson` СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Фактическая модель `AILesson` существует.
 
 **Status:** `PARTIALLY VERIFIED`
 
-**Remaining:** РїРѕР»РЅС‹Р№ schema audit РІСЃРµС… memory fields.
+**Remaining:** полный schema audit всех memory fields.
 
-## 21.10. Memory integration СЃ Knowledge / Hypothesis
+## 21.10. Memory integration с Knowledge / Hypothesis
 
-Memory РґРѕР»Р¶РЅР° РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ СЃР»РµРґСѓСЋС‰РёРј research cycle.
+Memory должна использоваться следующим research cycle.
 
-Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ РёРЅС‚РµРіСЂР°С†РёСЏ memory в†’ Knowledge / Hypothesis generation РѕС‚РґРµР»СЊРЅРѕ РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Фактическая интеграция memory → Knowledge / Hypothesis generation отдельно не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 21.11. Historical integrity
 
-Memory РЅРµ РґРѕР»Р¶РЅР° РїРѕР·РІРѕР»СЏС‚СЊ AI РїРµСЂРµРїРёСЃС‹РІР°С‚СЊ historical knowledge.
+Memory не должна позволять AI переписывать historical knowledge.
 
-Append-only test РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ РѕСЃРЅРѕРІРЅСѓСЋ boundary.
+Append-only test подтверждает основную boundary.
 
 **Status:** `TEST VERIFIED`
 
 ## 21.12. Cleanup / test isolation
 
-B4 fixture cleanup РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+B4 fixture cleanup подтверждён.
 
 **Status:** `TEST VERIFIED`
 
 **Evidence:**
 - `B4_CLEANUP_OK`
 
-## 21.13. РС‚РѕРі
+## 21.13. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - AI agent memory;
 - lesson recording;
@@ -3602,28 +3602,28 @@ B4 fixture cleanup РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
 - research-only boundary;
 - cleanup.
 
-Р§Р°СЃС‚РёС‡РЅРѕ С‚СЂРµР±СѓСЋС‚ РїСЂРѕРІРµСЂРєРё:
+Частично требуют проверки:
 
-- РїРѕР»РЅР°СЏ schema coverage;
-- С„Р°РєС‚РёС‡РµСЃРєРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ memory РІ СЃР»РµРґСѓСЋС‰РµРј research cycle;
-- РёРЅС‚РµРіСЂР°С†РёСЏ Memory в†’ Knowledge в†’ Hypothesis.
+- полная schema coverage;
+- фактическое использование memory в следующем research cycle;
+- интеграция Memory → Knowledge → Hypothesis.
 
-**Remaining:** audit downstream memory consumers Рё РїРѕР»РЅРѕРіРѕ lesson schema.
+**Remaining:** audit downstream memory consumers и полного lesson schema.
 # 22. Learning Loop
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 22.1. РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ С†РёРєР»
+## 22.1. Канонический цикл
 
-AIEA РґРѕР»Р¶РµРЅ РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ РїРѕРІС‚РѕСЂСЏРµРјС‹Р№ С†РёРєР»:
+AIEA должен поддерживать повторяемый цикл:
 
-`OBSERVE в†’ ANALYZE в†’ HYPOTHESIZE в†’ GENERATE в†’ BACKTEST в†’ VALIDATE в†’ PAPER в†’ SHADOW в†’ COMPARE в†’ LEARN в†’ MODIFY в†’ RETEST`
+`OBSERVE → ANALYZE → HYPOTHESIZE → GENERATE → BACKTEST → VALIDATE → PAPER → SHADOW → COMPARE → LEARN → MODIFY → RETEST`
 
-РљР°Р¶РґС‹Р№ С†РёРєР» РґРѕР»Р¶РµРЅ СЃРѕС…СЂР°РЅСЏС‚СЊ РІС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ, hypotheses, strategy versions, experiment results Рё lessons.
+Каждый цикл должен сохранять входные данные, hypotheses, strategy versions, experiment results и lessons.
 
-## 22.2. Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ СЌР»РµРјРµРЅС‚С‹ С†РёРєР»Р°
+## 22.2. Фактически существующие элементы цикла
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - Knowledge Engine;
 - Knowledge Snapshot;
@@ -3635,7 +3635,7 @@ AIEA РґРѕР»Р¶РµРЅ РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ 
 - Comparison Engine;
 - AI Memory.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹:
+Фактические компоненты:
 
 - `services/ai_knowledge_engine.py`
 - `services/ai_knowledge_snapshot_service.py`
@@ -3648,11 +3648,11 @@ AIEA РґРѕР»Р¶РµРЅ РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ 
 - `services/ai_memory.py`
 - comparison services
 
-**Status:** `VERIFIED` РґР»СЏ РЅР°Р»РёС‡РёСЏ РѕСЃРЅРѕРІРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ.
+**Status:** `VERIFIED` для наличия основных компонентов.
 
 ## 22.3. Observe / Analyze
 
-Knowledge layer Р°РЅР°Р»РёР·РёСЂСѓРµС‚ historical trading data, market context Рё С„РѕСЂРјРёСЂСѓРµС‚ snapshots.
+Knowledge layer анализирует historical trading data, market context и формирует snapshots.
 
 **Status:** `TEST VERIFIED`
 
@@ -3663,9 +3663,9 @@ Knowledge layer Р°РЅР°Р»РёР·РёСЂСѓРµС‚ historical trading
 
 ## 22.4. Hypothesize
 
-РќР°Р±Р»СЋРґРµРЅРёСЏ РїРµСЂРµРґР°СЋС‚СЃСЏ РІ Hypothesis Engine.
+Наблюдения передаются в Hypothesis Engine.
 
-`Knowledge Snapshot в†’ Hypothesis`
+`Knowledge Snapshot → Hypothesis`
 
 **Status:** `TEST VERIFIED`
 
@@ -3676,7 +3676,7 @@ Knowledge layer Р°РЅР°Р»РёР·РёСЂСѓРµС‚ historical trading
 
 ## 22.5. Generate / Modify
 
-Strategy Version infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ РїРѕР»РЅС‹Р№ autonomous generation / modification lifecycle РµС‰С‘ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Strategy Version infrastructure существует, но полный autonomous generation / modification lifecycle ещё не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -3687,11 +3687,11 @@ Strategy Version infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚, Р�
 
 ## 22.6. Backtest / Validate
 
-Validation stages С„Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅС‹:
+Validation stages фактически реализованы:
 
-`Static в†’ Backtest в†’ OOS в†’ Walk-Forward в†’ Paper в†’ Shadow`
+`Static → Backtest → OOS → Walk-Forward → Paper → Shadow`
 
-BLOCK D Р·Р°РІРµСЂС€С‘РЅ.
+BLOCK D завершён.
 
 **Status:** `TEST VERIFIED`
 
@@ -3699,15 +3699,15 @@ BLOCK D Р·Р°РІРµСЂС€С‘РЅ.
 
 ## 22.7. Compare
 
-Comparison Engine РїРѕР·РІРѕР»СЏРµС‚ СЃРѕРїРѕСЃС‚Р°РІР»СЏС‚СЊ AI / production / Grid / Baseline СѓС‡Р°СЃС‚РЅРёРєРѕРІ РЅР° СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… market contexts.
+Comparison Engine позволяет сопоставлять AI / production / Grid / Baseline участников на сопоставимых market contexts.
 
 **Status:** `DONE + REVIEWED`
 
-**Evidence:** BLOCK F `F.1вЂ“F.9`.
+**Evidence:** BLOCK F `F.1–F.9`.
 
 ## 22.8. Learn / Memory
 
-AI Memory С…СЂР°РЅРёС‚ lessons Рё СЃРѕС…СЂР°РЅСЏРµС‚ research knowledge РґР»СЏ Р±СѓРґСѓС‰РµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ.
+AI Memory хранит lessons и сохраняет research knowledge для будущего использования.
 
 **Status:** `TEST VERIFIED`
 
@@ -3715,31 +3715,31 @@ AI Memory С…СЂР°РЅРёС‚ lessons Рё СЃРѕС…СЂР°РЅСЏ�
 
 ## 22.9. Modify / Retest
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїР»Р°РЅ С‚СЂРµР±СѓРµС‚:
+Канонический план требует:
 
-`LEARN в†’ MODIFY в†’ RETEST`
+`LEARN → MODIFY → RETEST`
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ Р·Р°РјРєРЅСѓС‚С‹Р№ С†РёРєР»:
+Однако полный автоматический замкнутый цикл:
 
-`lesson в†’ automatic modification в†’ new experiment в†’ retest`
+`lesson → automatic modification → new experiment → retest`
 
-РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+отдельно не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 22.10. Repeatability
 
-Learning Loop РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРѕРІС‚РѕСЂСЏРµРјС‹Рј Рё СЃРѕС…СЂР°РЅСЏС‚СЊ identity РєР°Р¶РґРѕРіРѕ С†РёРєР»Р°.
+Learning Loop должен быть повторяемым и сохранять identity каждого цикла.
 
-Р§Р°СЃС‚Рё repeatable pipeline СЃСѓС‰РµСЃС‚РІСѓСЋС‚, РЅРѕ РѕС‚РґРµР»СЊРЅРѕР№ СЃСѓС‰РЅРѕСЃС‚Рё `learning_cycle` Рё РїРѕР»РЅРѕРіРѕ cycle-level audit РїРѕРєР° РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅРѕ РІ РїСЂРѕРІРµРґС‘РЅРЅРѕР№ РїСЂРѕРІРµСЂРєРµ.
+Части repeatable pipeline существуют, но отдельной сущности `learning_cycle` и полного cycle-level audit пока не обнаружено в проведённой проверке.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 22.11. Promotion safety
 
-Learning Loop РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РїРѕРІС‹С€Р°С‚СЊ promotion level.
+Learning Loop не должен самостоятельно повышать promotion level.
 
-Promotion РѕСЃС‚Р°С‘С‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹Рј РєРѕРЅС‚СѓСЂРѕРј E.1вЂ“E.12.
+Promotion остаётся отдельным контролируемым контуром E.1–E.12.
 
 **Status:** `TEST VERIFIED`
 
@@ -3750,19 +3750,19 @@ Promotion РѕСЃС‚Р°С‘С‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹
 
 ## 22.12. News/Event integration
 
-News & Event Intelligence РґРѕР»Р¶РЅР° СѓС‡Р°СЃС‚РІРѕРІР°С‚СЊ РІ:
+News & Event Intelligence должна участвовать в:
 
-`OBSERVE в†’ ANALYZE в†’ LEARN`
+`OBSERVE → ANALYZE → LEARN`
 
-РµСЃР»Рё РёСЃС‚РѕСЂРёС‡РµСЃРєРёРµ/realtime РґР°РЅРЅС‹Рµ РґРѕСЃС‚СѓРїРЅС‹.
+если исторические/realtime данные доступны.
 
-РџРѕР»РЅС‹Р№ event-aware learning cycle РїРѕРєР° РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный event-aware learning cycle пока не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
-## 22.13. РС‚РѕРі
+## 22.13. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РѕС‚РґРµР»СЊРЅС‹Рµ РѕСЃРЅРѕРІРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹ Learning Loop:
+Подтверждены отдельные основные компоненты Learning Loop:
 
 - observation;
 - analysis;
@@ -3774,32 +3774,32 @@ News & Event Intelligence РґРѕР»Р¶РЅР° СѓС‡Р°СЃС‚РІР�
 - memory;
 - promotion safety.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
 - autonomous generate/modify/retest loop;
-- РѕС‚РґРµР»СЊРЅР°СЏ cycle identity;
-- automatic lesson в†’ modification feedback;
-- РїРѕР»РЅС‹Р№ News/Event-aware learning loop.
+- отдельная cycle identity;
+- automatic lesson → modification feedback;
+- полный News/Event-aware learning loop.
 
-**Remaining:** factual audit РїРѕР»РЅРѕРіРѕ Р·Р°РјРєРЅСѓС‚РѕРіРѕ Learning Loop.
+**Remaining:** factual audit полного замкнутого Learning Loop.
 # 23. Comparison Engine
 
 **Status:** `DONE + TEST VERIFIED`
 
-## 23.1. РќР°Р·РЅР°С‡РµРЅРёРµ
+## 23.1. Назначение
 
-Comparison Engine РґРѕР»Р¶РµРЅ СЃСЂР°РІРЅРёРІР°С‚СЊ:
+Comparison Engine должен сравнивать:
 
 - AI Strategy;
 - Strategy Engine;
 - Grid;
 - Baseline.
 
-РЎСЂР°РІРЅРµРЅРёРµ РґРѕР»Р¶РЅРѕ РІС‹РїРѕР»РЅСЏС‚СЊСЃСЏ РЅР° СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… РІСЂРµРјРµРЅРЅС‹С… С‚РѕС‡РєР°С… Рё market context.
+Сравнение должно выполняться на сопоставимых временных точках и market context.
 
-## 23.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## 23.2. Фактическая реализация
 
-РћР±РЅР°СЂСѓР¶РµРЅС‹:
+Обнаружены:
 
 - `services/ai_comparison_contract.py`
 - `services/ai_comparison_alignment.py`
@@ -3811,16 +3811,16 @@ Comparison Engine РґРѕР»Р¶РµРЅ СЃСЂР°РІРЅРёРІР°С‚
 - `services/ai_comparison_news_context.py`
 - `services/ai_comparison_persistence.py`
 
-РњРѕРґРµР»Рё:
+Модели:
 
 - `models/ai_comparison_observation.py`
 - `models/ai_comparison_result.py`
 
 ## 23.3. Comparison Data Contract
 
-Comparison Observation Рё Comparison Result СЏРІР»СЏСЋС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹РјРё Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёРјРё СЃСѓС‰РЅРѕСЃС‚СЏРјРё.
+Comparison Observation и Comparison Result являются отдельными аналитическими сущностями.
 
-РљР»СЋС‡РµРІРѕР№ РїСЂРёРЅС†РёРї:
+Ключевой принцип:
 
 `Comparison Observation != Trade`
 
@@ -3830,14 +3830,14 @@ Comparison Observation Рё Comparison Result СЏРІР»СЏСЋС‚СЃСЏ 
 
 ## 23.4. Identity / Alignment
 
-РЎСЂР°РІРЅРµРЅРёРµ РёСЃРїРѕР»СЊР·СѓРµС‚ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹Рµ:
+Сравнение использует сопоставимые:
 
 - symbol;
 - market_regime;
 - side;
 - temporal context.
 
-Alignment СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј СЃРµСЂРІРёСЃРѕРј.
+Alignment является отдельным сервисом.
 
 **Status:** `TEST VERIFIED`
 
@@ -3845,7 +3845,7 @@ Alignment СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Р
 
 ## 23.5. Participant separation
 
-РЈС‡Р°СЃС‚РЅРёРєРё comparison СЂР°Р·РґРµР»СЏСЋС‚СЃСЏ:
+Участники comparison разделяются:
 
 - `STRATEGY_ENGINE`;
 - `GRID`;
@@ -3856,7 +3856,7 @@ Alignment СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Р
 - `MANUAL`;
 - `BASELINE`.
 
-`BASELINE` СЏРІР»СЏРµС‚СЃСЏ comparison participant, Р° РЅРµ trade_source.
+`BASELINE` является comparison participant, а не trade_source.
 
 **Status:** `TEST VERIFIED`
 
@@ -3864,7 +3864,7 @@ Alignment СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Р
 
 ## 23.6. Required identity dimensions
 
-Comparison РїРѕРґРґРµСЂР¶РёРІР°РµС‚:
+Comparison поддерживает:
 
 - symbol;
 - market_regime;
@@ -3883,7 +3883,7 @@ Comparison РїРѕРґРґРµСЂР¶РёРІР°РµС‚:
 
 ## 23.7. Performance metrics
 
-Comparison РґРѕР»Р¶РµРЅ СѓС‡РёС‚С‹РІР°С‚СЊ:
+Comparison должен учитывать:
 
 - PnL;
 - win rate;
@@ -3895,7 +3895,7 @@ Comparison РґРѕР»Р¶РµРЅ СѓС‡РёС‚С‹РІР°С‚СЊ:
 - fees;
 - funding.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ metrics layer.
+Фактически присутствует metrics layer.
 
 **Status:** `TEST VERIFIED`
 
@@ -3903,13 +3903,13 @@ Comparison РґРѕР»Р¶РµРЅ СѓС‡РёС‚С‹РІР°С‚СЊ:
 
 ## 23.8. Trade source isolation
 
-Comparison РЅРµ РґРѕР»Р¶РµРЅ СЃРјРµС€РёРІР°С‚СЊ production Рё experimental sources.
+Comparison не должен смешивать production и experimental sources.
 
-Р•СЃС‚СЊ РѕС‚РґРµР»СЊРЅС‹Р№:
+Есть отдельный:
 
 `services/ai_comparison_trade_source.py`
 
-Source isolation Р±С‹Р»Р° РѕС‚РґРµР»СЊРЅРѕ reviewed.
+Source isolation была отдельно reviewed.
 
 **Status:** `TEST VERIFIED`
 
@@ -3919,28 +3919,28 @@ Source isolation Р±С‹Р»Р° РѕС‚РґРµР»СЊРЅРѕ reviewed.
 
 ## 23.9. News/Event context
 
-Comparison РёРјРµРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ News/Event context layer.
+Comparison имеет отдельный News/Event context layer.
 
-РћР±РЅР°СЂСѓР¶РµРЅ:
+Обнаружен:
 
 `services/ai_comparison_news_context.py`
 
-РљРѕРЅС‚РµРєСЃС‚ РјРѕР¶РµС‚ РІРєР»СЋС‡Р°С‚СЊСЃСЏ РІ comparison observation.
+Контекст может включаться в comparison observation.
 
 **Status:** `TEST VERIFIED`
 
 **Evidence:** F.7.
 
-Р­С‚Рѕ РЅРµ РѕР·РЅР°С‡Р°РµС‚ Р·Р°РІРµСЂС€С‘РЅРЅС‹Р№ РѕР±С‰РёР№ News/Event Intelligence pipeline.
+Это не означает завершённый общий News/Event Intelligence pipeline.
 
 ## 23.10. Persistence
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚:
+Фактически существуют:
 
 - `ai_comparison_observations`;
 - `ai_comparison_results`.
 
-Persistence СЃРѕС…СЂР°РЅСЏРµС‚ comparison identity.
+Persistence сохраняет comparison identity.
 
 **Status:** `TEST VERIFIED`
 
@@ -3948,13 +3948,13 @@ Persistence СЃРѕС…СЂР°РЅСЏРµС‚ comparison identity.
 
 ## 23.11. Read-only production boundary
 
-Comparison Engine РЅРµ РґРѕР»Р¶РµРЅ:
+Comparison Engine не должен:
 
-- РјРµРЅСЏС‚СЊ production strategy;
-- РёР·РјРµРЅСЏС‚СЊ signal;
-- РёР·РјРµРЅСЏС‚СЊ confidence;
-- Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ execution;
-- Р·Р°РїСѓСЃРєР°С‚СЊ execution.
+- менять production strategy;
+- изменять signal;
+- изменять confidence;
+- блокировать execution;
+- запускать execution.
 
 **Status:** `TEST VERIFIED`
 
@@ -3962,15 +3962,15 @@ Comparison Engine РЅРµ РґРѕР»Р¶РµРЅ:
 
 ## 23.12. Stability
 
-Comparison РёРјРµРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ stability analysis layer.
+Comparison имеет отдельный stability analysis layer.
 
-РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ СЏРІР»СЏРµС‚СЃСЏ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёРј/research indicator Рё РЅРµ РґРѕР»Р¶РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ Promotion criterion Р±РµР· СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ formal gate.
+Стабильность является аналитическим/research indicator и не должна автоматически становиться Promotion criterion без соответствующего formal gate.
 
 **Status:** `VERIFIED`
 
 ## 23.13. Post-block review
 
-РџСЂРѕРІРµРґРµРЅ review:
+Проведен review:
 
 - Comparison Identity;
 - Participant-specific Analytics;
@@ -3989,32 +3989,32 @@ Comparison РёРјРµРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ stabili
 
 ## 23.14. Production independence
 
-Comparison Engine РѕСЃС‚Р°С‘С‚СЃСЏ read-only РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ production.
+Comparison Engine остаётся read-only относительно production.
 
-Production trading РЅРµ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµС‚СЃСЏ Comparison Engine.
+Production trading не контролируется Comparison Engine.
 
 **Status:** `VERIFIED`
 
-## 23.15. РћРіСЂР°РЅРёС‡РµРЅРёСЏ
+## 23.15. Ограничения
 
-РќРµ СЃР»РµРґСѓРµС‚ СЃС‡РёС‚Р°С‚СЊ Comparison Engine СЂРµР°Р»РёР·Р°С†РёРµР№ РїРѕР»РЅРѕРіРѕ:
+Не следует считать Comparison Engine реализацией полного:
 
 - autonomous Learning Loop;
 - Promotion decision;
 - News/Event Intelligence;
 - live trading control.
 
-Р­С‚Рѕ РѕС‚РґРµР»СЊРЅС‹Рµ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅС‹Рµ РєРѕРЅС‚СѓСЂС‹.
+Это отдельные архитектурные контуры.
 
-## 23.16. РС‚РѕРі
+## 23.16. Итог
 
-F.1вЂ“F.9 РїРѕР»РЅРѕСЃС‚СЊСЋ РѕС‚СЂР°Р¶РµРЅС‹ РІ Audit.
+F.1–F.9 полностью отражены в Audit.
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - contract;
 - identity/alignment;
-- symbol Г— regime Г— side;
+- symbol × regime × side;
 - metrics;
 - stability;
 - trade_source separation;
@@ -4025,42 +4025,42 @@ F.1вЂ“F.9 РїРѕР»РЅРѕСЃС‚СЊСЋ РѕС‚СЂР°Р¶РµР�
 
 **Final status:** `DONE + TEST VERIFIED`
 
-**Evidence:** BLOCK F / F.1вЂ“F.9 + F-REVIEW-1вЂ¦5.
+**Evidence:** BLOCK F / F.1–F.9 + F-REVIEW-1…5.
 # 24. AI Discovery
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 24.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 24.1. Каноническое назначение
 
-AIEA Discovery РґРѕР»Р¶РµРЅ РёСЃРєР°С‚СЊ:
+AIEA Discovery должен искать:
 
-- РЅРѕРІС‹Рµ market patterns;
-- РєРѕРјР±РёРЅР°С†РёРё СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… РёРЅРґРёРєР°С‚РѕСЂРѕРІ;
+- новые market patterns;
+- комбинации существующих индикаторов;
 - regime-specific behaviour;
 - failure patterns;
-- СѓСЃРїРµС€РЅС‹Рµ РєРѕРјР±РёРЅР°С†РёРё СЃС‚СЂР°С‚РµРіРёР№;
-- СЂР°Р·Р»РёС‡РёСЏ LONG/SHORT;
-- СЂР°Р·Р»РёС‡РёСЏ symbol;
+- успешные комбинации стратегий;
+- различия LONG/SHORT;
+- различия symbol;
 - volatility-dependent behaviour;
 - time-dependent behaviour;
 - news-dependent behaviour;
 - event-dependent behaviour;
-- РїРѕРІС‚РѕСЂСЏСЋС‰РёРµСЃСЏ РїСЂРёС‡РёРЅС‹ СѓР±С‹С‚РєРѕРІ;
-- РїРѕРІС‚РѕСЂСЏСЋС‰РёРµСЃСЏ РїСЂРёС‡РёРЅС‹ СѓСЃРїРµС€РЅС‹С… СЃРґРµР»РѕРє.
+- повторяющиеся причины убытков;
+- повторяющиеся причины успешных сделок.
 
-РћР±РЅР°СЂСѓР¶РµРЅРЅР°СЏ Р·Р°РєРѕРЅРѕРјРµСЂРЅРѕСЃС‚СЊ РґРѕР»Р¶РЅР° РїСЂРµРІСЂР°С‰Р°С‚СЊСЃСЏ РІ С„РѕСЂРјР°Р»РёР·РѕРІР°РЅРЅСѓСЋ hypothesis Рё РїСЂРѕРІРµСЂСЏС‚СЊСЃСЏ С‡РµСЂРµР· Experiment Engine.
+Обнаруженная закономерность должна превращаться в формализованную hypothesis и проверяться через Experiment Engine.
 
 ## 24.2. Existing discovery inputs
 
-Knowledge Engine СѓР¶Рµ С„РѕСЂРјРёСЂСѓРµС‚ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёРµ СЂР°Р·СЂРµР·С‹, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ СЃР»СѓР¶РёС‚СЊ РІС…РѕРґРѕРј Discovery:
+Knowledge Engine уже формирует аналитические разрезы, которые могут служить входом Discovery:
 
-- strategy Г— regime;
-- strategy Г— symbol;
-- strategy Г— side;
-- strategy Г— regime Г— side;
-- strategy Г— volatility;
-- strategy Г— confidence;
-- symbol Г— regime;
+- strategy × regime;
+- strategy × symbol;
+- strategy × side;
+- strategy × regime × side;
+- strategy × volatility;
+- strategy × confidence;
+- symbol × regime;
 - temporal slices;
 - holding time;
 - leverage.
@@ -4072,13 +4072,13 @@ Knowledge Engine СѓР¶Рµ С„РѕСЂРјРёСЂСѓРµС‚ Р°РЅР�
 - `B1_OPTIONAL_SLICES_OK`
 - `B1_AGGREGATION_OK`
 
-## 24.3. Discovery в†’ Hypothesis
+## 24.3. Discovery → Hypothesis
 
-Hypothesis Engine СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё СЃРїРѕСЃРѕР±РµРЅ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ РёСЃСЃР»РµРґРѕРІР°С‚РµР»СЊСЃРєРѕРµ РЅР°Р±Р»СЋРґРµРЅРёРµ РІ С„РѕСЂРјР°Р»РёР·РѕРІР°РЅРЅСѓСЋ hypothesis.
+Hypothesis Engine существует и способен преобразовать исследовательское наблюдение в формализованную hypothesis.
 
-Р¦РµРїРѕС‡РєР°:
+Цепочка:
 
-`Observation в†’ Knowledge Snapshot в†’ Hypothesis`
+`Observation → Knowledge Snapshot → Hypothesis`
 
 **Status:** `TEST VERIFIED`
 
@@ -4089,9 +4089,9 @@ Hypothesis Engine СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё СЃРїРѕ�
 
 ## 24.4. Correlation versus proof
 
-Discovery РЅРµ РґРѕР»Р¶РЅР° СЃС‡РёС‚Р°С‚СЊ correlation РґРѕРєР°Р·Р°РЅРЅРѕР№ causal relationship.
+Discovery не должна считать correlation доказанной causal relationship.
 
-Hypothesis РґРѕР»Р¶РЅР° РїСЂРѕС…РѕРґРёС‚СЊ Experiment / Validation pipeline.
+Hypothesis должна проходить Experiment / Validation pipeline.
 
 **Status:** `TEST VERIFIED`
 
@@ -4102,37 +4102,37 @@ Hypothesis РґРѕР»Р¶РЅР° РїСЂРѕС…РѕРґРёС‚СЊ Exper
 
 ## 24.5. Hypothesis deduplication
 
-РџР»Р°РЅ С‚СЂРµР±СѓРµС‚ РёР·Р±РµРіР°С‚СЊ Р±РѕР»СЊС€РѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° РїСЂР°РєС‚РёС‡РµСЃРєРё РѕРґРёРЅР°РєРѕРІС‹С… hypotheses.
+План требует избегать большого количества практически одинаковых hypotheses.
 
-РџРѕС…РѕР¶РёРµ hypotheses РґРѕР»Р¶РЅС‹ РіСЂСѓРїРїРёСЂРѕРІР°С‚СЊСЃСЏ Рё СЃСЂР°РІРЅРёРІР°С‚СЊСЃСЏ.
+Похожие hypotheses должны группироваться и сравниваться.
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ similarity / clustering / deduplication service РІ С‚РµРєСѓС‰РµРј factual audit РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Отдельный полноценный similarity / clustering / deduplication service в текущем factual audit не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 24.6. Failure pattern discovery
 
-Knowledge / research infrastructure РїРѕР·РІРѕР»СЏРµС‚ Р°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹ Рё performance slices.
+Knowledge / research infrastructure позволяет анализировать отрицательные результаты и performance slices.
 
-РћРґРЅР°РєРѕ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ failure-pattern discovery engine РѕС‚РґРµР»СЊРЅРѕ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Однако самостоятельный автоматический failure-pattern discovery engine отдельно не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 24.7. Success pattern discovery
 
-РђРЅР°Р»РѕРіРёС‡РЅРѕ, performance analytics РјРѕРіСѓС‚ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚СЊ РґР°РЅРЅС‹Рµ РґР»СЏ РїРѕРёСЃРєР° СѓСЃРїРµС€РЅС‹С… patterns.
+Аналогично, performance analytics могут предоставлять данные для поиска успешных patterns.
 
-РћС‚РґРµР»СЊРЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ discovery lifecycle:
+Отдельный автоматический discovery lifecycle:
 
-`detect в†’ rank в†’ hypothesize`
+`detect → rank → hypothesize`
 
-РµС‰С‘ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+ещё не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 24.8. Regime / symbol / side discovery
 
-Required dimensions РїРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ Knowledge Engine.
+Required dimensions поддерживаются Knowledge Engine.
 
 **Status:** `TEST VERIFIED`
 
@@ -4140,25 +4140,25 @@ Required dimensions РїРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ Kn
 
 ## 24.9. News/Event discovery
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїР»Р°РЅ С‚СЂРµР±СѓРµС‚ event/news-dependent discovery.
+Канонический план требует event/news-dependent discovery.
 
-B.5 СЏРІР»СЏРµС‚СЃСЏ Р°РєС‚РёРІРЅС‹Рј research-only track, РѕРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ discovery РїРѕ СЃРѕР±С‹С‚РёСЏРј РµС‰С‘ РЅРµ Р·Р°РєСЂС‹С‚.
+B.5 является активным research-only track, однако полный автоматический discovery по событиям ещё не закрыт.
 
 **Status:** `PARTIALLY VERIFIED`
 
 **Remaining:**
 - event history;
 - event grouping;
-- event в†’ market pattern discovery;
-- event в†’ strategy pattern discovery;
-- event в†’ outcome analysis;
+- event → market pattern discovery;
+- event → strategy pattern discovery;
+- event → outcome analysis;
 - statistical confirmation.
 
-## 24.10. Discovery в†’ Experiment
+## 24.10. Discovery → Experiment
 
-Р›СЋР±Р°СЏ РѕР±РЅР°СЂСѓР¶РµРЅРЅР°СЏ Р·Р°РєРѕРЅРѕРјРµСЂРЅРѕСЃС‚СЊ РґРѕР»Р¶РЅР° СЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ РїСЂРѕРІРµСЂСЏРµРјРѕР№ hypothesis Рё РґР°Р»РµРµ experiment.
+Любая обнаруженная закономерность должна становиться проверяемой hypothesis и далее experiment.
 
-Hypothesis/Experiment linkage СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Hypothesis/Experiment linkage существует.
 
 **Status:** `TEST VERIFIED`
 
@@ -4168,15 +4168,15 @@ Hypothesis/Experiment linkage СЃСѓС‰РµСЃС‚РІСѓРµС‚.
 
 ## 24.11. Discovery safety
 
-Discovery РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ research-only.
+Discovery должен оставаться research-only.
 
-РћРЅ РЅРµ РґРѕР»Р¶РµРЅ:
+Он не должен:
 
-- РјРµРЅСЏС‚СЊ production strategy;
-- РѕС‚РїСЂР°РІР»СЏС‚СЊ orders;
+- менять production strategy;
+- отправлять orders;
 - bypass RiskAgent;
 - bypass ExecutionAgent;
-- СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ promote strategy.
+- самостоятельно promote strategy.
 
 **Status:** `VERIFIED`
 
@@ -4184,49 +4184,49 @@ Discovery РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ re
 - B2 no strategy mutation;
 - A8/E10 production isolation.
 
-## 24.12. РС‚РѕРі
+## 24.12. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
-- Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёРµ РІС…РѕРґС‹ РґР»СЏ discovery;
+- аналитические входы для discovery;
 - Knowledge slices;
-- Observation в†’ Hypothesis;
-- correlation в†’ validation boundary;
+- Observation → Hypothesis;
+- correlation → validation boundary;
 - regime/symbol/side discovery inputs;
-- Hypothesis в†’ Experiment linkage;
+- Hypothesis → Experiment linkage;
 - research-only boundary.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
-- СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Р№ Discovery Engine;
+- самостоятельный Discovery Engine;
 - hypothesis deduplication/clustering;
 - automatic failure/success pattern ranking;
 - complete News/Event discovery;
-- Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ discovery в†’ experiment orchestration.
+- автоматический discovery → experiment orchestration.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit РїРѕР»РЅРѕРіРѕ AI Discovery lifecycle.
-# 25. РќРѕРІС‹Рµ СЃС‚СЂР°С‚РµРіРёРё РѕС‚ AI
+**Remaining:** отдельный factual audit полного AI Discovery lifecycle.
+# 25. Новые стратегии от AI
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 25.1. РљР°РЅРѕРЅРёС‡РµСЃРєР°СЏ С†РµРїРѕС‡РєР°
+## 25.1. Каноническая цепочка
 
-Р”Р»СЏ РЅРѕРІРѕР№ AI-generated strategy С‚СЂРµР±СѓРµС‚СЃСЏ:
+Для новой AI-generated strategy требуется:
 
-`AI-generated strategy в†’ unique ID в†’ version в†’ hypothesis в†’ implementation в†’ tests в†’ backtest в†’ OOS в†’ walk-forward в†’ paper в†’ shadow в†’ evaluation в†’ promotion`
+`AI-generated strategy → unique ID → version → hypothesis → implementation → tests → backtest → OOS → walk-forward → paper → shadow → evaluation → promotion`
 
-Р‘РµР· РїСЂРѕС…РѕР¶РґРµРЅРёСЏ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… СЃС‚Р°РґРёР№ strategy РЅРµ РґРѕР»Р¶РЅР° РїРѕРїР°РґР°С‚СЊ РІ Production.
+Без прохождения обязательных стадий strategy не должна попадать в Production.
 
 ## 25.2. Strategy Version infrastructure
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 - `models/ai_strategy_version.py`;
 - `services/ai_experiment_engine.py`;
 - validation services;
 - promotion services.
 
-A9 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ СЃРІСЏР·С‹РІР°РЅРёРµ experiment СЃ РєРѕРЅРєСЂРµС‚РЅРѕР№ Strategy Version.
+A9 подтверждает связывание experiment с конкретной Strategy Version.
 
 **Status:** `TEST VERIFIED`
 
@@ -4237,9 +4237,9 @@ A9 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ СЃРІСЏР·С‹РІ�
 
 ## 25.3. Unique strategy identity
 
-AI strategy РґРѕР»Р¶РЅР° РёРјРµС‚СЊ СѓРЅРёРєР°Р»СЊРЅСѓСЋ identity Рё РѕС‚РґРµР»СЊРЅСѓСЋ version.
+AI strategy должна иметь уникальную identity и отдельную version.
 
-Strategy Version СЏРІР»СЏРµС‚СЃСЏ persistent РѕР±СЉРµРєС‚РѕРј Рё РЅРµ РґРѕР»Р¶РЅР° Р·Р°РјРµРЅСЏС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ version.
+Strategy Version является persistent объектом и не должна заменять существующую version.
 
 **Status:** `VERIFIED`
 
@@ -4249,11 +4249,11 @@ Strategy Version СЏРІР»СЏРµС‚СЃСЏ persistent РѕР±СЉРµР
 
 ## 25.4. Hypothesis linkage
 
-РќРѕРІР°СЏ strategy РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°РЅР° СЃ hypothesis.
+Новая strategy должна быть связана с hypothesis.
 
-Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ identity chain:
+Фактическая identity chain:
 
-`Snapshot в†’ Hypothesis в†’ Experiment в†’ StrategyVersion`
+`Snapshot → Hypothesis → Experiment → StrategyVersion`
 
 **Status:** `TEST VERIFIED`
 
@@ -4264,9 +4264,9 @@ Strategy Version СЏРІР»СЏРµС‚СЃСЏ persistent РѕР±СЉРµР
 
 ## 25.5. Experiment linkage
 
-РќРѕРІР°СЏ strategy РґРѕР»Р¶РЅР° СЃРѕР·РґР°РІР°С‚СЊСЃСЏ РІ СЂР°РјРєР°С… РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјРѕРіРѕ experiment.
+Новая strategy должна создаваться в рамках контролируемого experiment.
 
-Experiment model Рё engine СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Experiment model и engine существуют.
 
 **Status:** `TEST VERIFIED`
 
@@ -4276,27 +4276,27 @@ Experiment model Рё engine СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
 
 ## 25.6. Strategy Genome requirement
 
-РќРѕРІР°СЏ СЃС‚СЂР°С‚РµРіРёСЏ РґРѕР»Р¶РЅР° РёРјРµС‚СЊ machine-readable Strategy Genome.
+Новая стратегия должна иметь machine-readable Strategy Genome.
 
-Static validation РїРѕРґРґРµСЂР¶РёРІР°РµС‚ Strategy Definition / Genome schema.
+Static validation поддерживает Strategy Definition / Genome schema.
 
-РџРѕР»РЅР°СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ РіРµРЅРµСЂР°С†РёСЏ Genome РґР»СЏ РЅРѕРІРѕР№ СЃС‚СЂР°С‚РµРіРёРё РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Полная автоматическая генерация Genome для новой стратегии не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 25.7. Implementation / sandbox boundary
 
-AI-generated implementation РЅРµ РґРѕР»Р¶РЅР° РїРѕР»СѓС‡Р°С‚СЊ production Python execution authority.
+AI-generated implementation не должна получать production Python execution authority.
 
-Static validation Рё downstream sandbox/research infrastructure СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Static validation и downstream sandbox/research infrastructure существуют.
 
-РџРѕР»РЅС‹Р№ РґРѕРєР°Р·Р°РЅРЅС‹Р№ generated-code sandbox lifecycle РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный доказанный generated-code sandbox lifecycle отдельно не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 25.8. Validation lifecycle
 
-Downstream validation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Downstream validation infrastructure существует:
 
 - Static Validation;
 - Backtest;
@@ -4305,13 +4305,13 @@ Downstream validation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚
 - Paper;
 - Shadow.
 
-BLOCK D Р·Р°РІРµСЂС€С‘РЅ.
+BLOCK D завершён.
 
-РћРґРЅР°РєРѕ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ orchestration РёРјРµРЅРЅРѕ РґР»СЏ РєР°Р¶РґРѕР№ newly generated strategy:
+Однако автоматическая orchestration именно для каждой newly generated strategy:
 
-`generate в†’ validate all stages`
+`generate → validate all stages`
 
-РѕС‚РґРµР»СЊРЅРѕ РЅРµ РґРѕРєР°Р·Р°РЅР°.
+отдельно не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -4319,7 +4319,7 @@ BLOCK D Р·Р°РІРµСЂС€С‘РЅ.
 
 ## 25.9. Evaluation
 
-AI-generated strategy РґРѕР»Р¶РЅР° РѕС†РµРЅРёРІР°С‚СЊСЃСЏ РѕС‚РґРµР»СЊРЅРѕ РїРѕ:
+AI-generated strategy должна оцениваться отдельно по:
 
 - PnL;
 - win rate;
@@ -4333,7 +4333,7 @@ AI-generated strategy РґРѕР»Р¶РЅР° РѕС†РµРЅРёРІР°С�
 - symbol;
 - side.
 
-Metrics/evaluation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Metrics/evaluation infrastructure существует.
 
 **Status:** `TEST VERIFIED`
 
@@ -4343,7 +4343,7 @@ Metrics/evaluation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
 
 ## 25.10. Production promotion boundary
 
-AI-generated strategy РЅРµ РґРѕР»Р¶РЅР° СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЃС‡РёС‚Р°С‚СЊСЃСЏ production-ready.
+AI-generated strategy не должна самостоятельно считаться production-ready.
 
 Promotion requires controlled:
 
@@ -4365,7 +4365,7 @@ Promotion requires controlled:
 
 ## 25.11. Autonomous creation
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РѕС‚РґРµР»СЊРЅРѕ:
+Не подтверждены отдельно:
 
 - AI strategy generation engine;
 - automatic strategy ID allocation;
@@ -4381,7 +4381,7 @@ Promotion requires controlled:
 
 ## 25.12. Production isolation
 
-Р”Р°Р¶Рµ РїСЂРё РЅР°Р»РёС‡РёРё generated strategy infrastructure production permissions РЅРµ РІС‹РґР°СЋС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Даже при наличии generated strategy infrastructure production permissions не выдаются автоматически.
 
 **Status:** `VERIFIED`
 
@@ -4390,9 +4390,9 @@ Promotion requires controlled:
 - E10 production safety;
 - E12 production isolation.
 
-## 25.13. РС‚РѕРі
+## 25.13. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - Strategy Version infrastructure;
 - hypothesis linkage;
@@ -4401,24 +4401,24 @@ Promotion requires controlled:
 - metrics/evaluation;
 - production permission boundary.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
 - Genome integration;
 - sandbox boundary;
 - generated-strategy validation orchestration.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждён полностью:
 
-- Р°РІС‚РѕРЅРѕРјРЅС‹Р№ lifecycle СЃРѕР·РґР°РЅРёСЏ РЅРѕРІРѕР№ СЃС‚СЂР°С‚РµРіРёРё РѕС‚ AI РґРѕ promotion request.
+- автономный lifecycle создания новой стратегии от AI до promotion request.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit autonomous Strategy Generation lifecycle.
-# 26. РР·РјРµРЅРµРЅРёРµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… СЃС‚СЂР°С‚РµРіРёР№
+**Remaining:** отдельный factual audit autonomous Strategy Generation lifecycle.
+# 26. Изменение существующих стратегий
 
 **Status:** `NOT VERIFIED`
 
 **Canonical requirement:**
 
-AI РјРѕР¶РµС‚ РїСЂРµРґР»РѕР¶РёС‚СЊ:
+AI может предложить:
 
 * parameter change;
 * rule addition;
@@ -4436,24 +4436,24 @@ AI РјРѕР¶РµС‚ РїСЂРµРґР»РѕР¶РёС‚СЊ:
 * News/Event filter;
 * News/Event risk restriction.
 
-РљР°Р¶РґРѕРµ РёР·РјРµРЅРµРЅРёРµ СЃРѕР·РґР°С‘С‚ РЅРѕРІСѓСЋ РІРµСЂСЃРёСЋ.
+Каждое изменение создаёт новую версию.
 
-РЎСѓС‰РµСЃС‚РІСѓСЋС‰Р°СЏ production-РІРµСЂСЃРёСЏ РЅРёРєРѕРіРґР° РЅРµ РёР·РјРµРЅСЏРµС‚СЃСЏ.
+Существующая production-версия никогда не изменяется.
 
-Р”Р»СЏ РєР°Р¶РґРѕРіРѕ РёР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅСЏС‚СЊ:
+Для каждого изменения сохранять:
 
 * parent strategy;
 * parent version;
 * hypothesis_id;
 * experiment_id;
-* Strategy Genome РґРѕ РёР·РјРµРЅРµРЅРёСЏ;
-* Strategy Genome РїРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ;
-* РїСЂРёС‡РёРЅСѓ РёР·РјРµРЅРµРЅРёСЏ;
-* РѕР¶РёРґР°РµРјС‹Р№ СЌС„С„РµРєС‚;
-* С„Р°РєС‚РёС‡РµСЃРєРёР№ СЌС„С„РµРєС‚;
-* СЂРµР·СѓР»СЊС‚Р°С‚С‹ validation.
+* Strategy Genome до изменения;
+* Strategy Genome после изменения;
+* причину изменения;
+* ожидаемый эффект;
+* фактический эффект;
+* результаты validation.
 
-РР·РјРµРЅРµРЅРёРµ СЃС‚СЂР°С‚РµРіРёРё РЅРµ РјРѕР¶РµС‚ РїРѕРїР°СЃС‚СЊ РІ production Р±РµР· РїРѕР»РЅРѕРіРѕ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ Promotion Pipeline.
+Изменение стратегии не может попасть в production без полного прохождения Promotion Pipeline.
 
 ---
 
@@ -4461,41 +4461,41 @@ AI РјРѕР¶РµС‚ РїСЂРµРґР»РѕР¶РёС‚СЊ:
 
 **Verification:** REQUIRED
 
-**Remaining:** С„Р°РєС‚РёС‡РµСЃРєРёР№ code / DB / runtime / test audit.
+**Remaining:** фактический code / DB / runtime / test audit.
 
 # 27. Rollback
 
 **Status:** `TEST VERIFIED / DONE`
 
-## 27.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 27.1. Каноническое требование
 
-Rollback РґРѕР»Р¶РµРЅ РІРѕР·РІСЂР°С‰Р°С‚СЊ РїСЂРµРґС‹РґСѓС‰СѓСЋ РґРѕРєР°Р·Р°РЅРЅСѓСЋ Strategy Version Р±РµР· РёР·РјРµРЅРµРЅРёСЏ РёСЃС‚РѕСЂРёС‡РµСЃРєРёС… РґР°РЅРЅС‹С….
+Rollback должен возвращать предыдущую доказанную Strategy Version без изменения исторических данных.
 
-РџСЂРё degradation РёР»Рё risk breach РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹Р№ rollback РґРѕР»Р¶РµРЅ:
+При degradation или risk breach контролируемый rollback должен:
 
-- СЃРѕС…СЂР°РЅРёС‚СЊ С‚РµРєСѓС‰СѓСЋ version;
-- РѕРїСЂРµРґРµР»РёС‚СЊ РїСЂРµРґС‹РґСѓС‰СѓСЋ РґРѕРєР°Р·Р°РЅРЅСѓСЋ version;
-- РїРµСЂРµРІРµСЃС‚Рё С‚РµРєСѓС‰СѓСЋ version РІ `ROLLED_BACK`;
-- РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РґРѕРїСѓСЃС‚РёРјСѓСЋ РїСЂРµРґС‹РґСѓС‰СѓСЋ version;
-- РѕС‚РѕР·РІР°С‚СЊ permissions rolled-back version;
-- СЃРѕС…СЂР°РЅРёС‚СЊ audit trail;
-- РЅРµ СѓРґР°Р»СЏС‚СЊ experiment / hypothesis / paper / shadow / live history.
+- сохранить текущую version;
+- определить предыдущую доказанную version;
+- перевести текущую version в `ROLLED_BACK`;
+- восстановить допустимую предыдущую version;
+- отозвать permissions rolled-back version;
+- сохранить audit trail;
+- не удалять experiment / hypothesis / paper / shadow / live history.
 
-## 27.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
+## 27.2. Фактическая реализация
 
-РћР±РЅР°СЂСѓР¶РµРЅ РѕС‚РґРµР»СЊРЅС‹Р№ СЃРµСЂРІРёСЃ:
+Обнаружен отдельный сервис:
 
 `services/ai_promotion_rollback.py`
 
-Rollback СЏРІР»СЏРµС‚СЃСЏ С‡Р°СЃС‚СЊСЋ Promotion Pipeline.
+Rollback является частью Promotion Pipeline.
 
 **Status:** `VERIFIED`
 
 ## 27.3. Genealogy-based rollback
 
-Rollback РґРѕРїСѓСЃРєР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ genealogy Рё parent version.
+Rollback допускается только через существующую genealogy и parent version.
 
-РџСЂРѕРІРµСЂСЏСЋС‚СЃСЏ:
+Проверяются:
 
 - parent existence;
 - same strategy;
@@ -4516,11 +4516,11 @@ Rollback РґРѕРїСѓСЃРєР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ
 
 ## 27.4. Rollback execution
 
-Rollback operation СЃРѕР·РґР°С‘С‚ controlled state transition.
+Rollback operation создаёт controlled state transition.
 
-РўРµРєСѓС‰Р°СЏ version РЅРµ СѓРґР°Р»СЏРµС‚СЃСЏ.
+Текущая version не удаляется.
 
-РџСЂРµРґС‹РґСѓС‰Р°СЏ РґРѕРєР°Р·Р°РЅРЅР°СЏ version СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ.
+Предыдущая доказанная version сохраняется.
 
 **Status:** `TEST VERIFIED`
 
@@ -4530,7 +4530,7 @@ Rollback operation СЃРѕР·РґР°С‘С‚ controlled state transition.
 
 ## 27.5. Permission revocation
 
-РџРѕСЃР»Рµ rollback rolled-back version РґРѕР»Р¶РЅР° РїРѕС‚РµСЂСЏС‚СЊ promotion permissions.
+После rollback rolled-back version должна потерять promotion permissions.
 
 **Status:** `TEST VERIFIED`
 
@@ -4539,9 +4539,9 @@ Rollback operation СЃРѕР·РґР°С‘С‚ controlled state transition.
 
 ## 27.6. Rollback audit
 
-Rollback СЃРѕР·РґР°С‘С‚ РѕС‚РґРµР»СЊРЅСѓСЋ audit record/snapshot СЃ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ РїРµСЂРµС…РѕРґРµ.
+Rollback создаёт отдельную audit record/snapshot с информацией о переходе.
 
-Р”РѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ РєР°Рє РјРёРЅРёРјСѓРј:
+Должны сохраняться как минимум:
 
 - source version;
 - target/parent version;
@@ -4560,7 +4560,7 @@ Rollback СЃРѕР·РґР°С‘С‚ РѕС‚РґРµР»СЊРЅСѓСЋ au
 
 ## 27.7. History preservation
 
-Rollback РЅРµ РґРѕР»Р¶РµРЅ СѓРґР°Р»СЏС‚СЊ:
+Rollback не должен удалять:
 
 - experiment;
 - hypothesis;
@@ -4576,7 +4576,7 @@ Rollback РЅРµ РґРѕР»Р¶РµРЅ СѓРґР°Р»СЏС‚СЊ:
 
 ## 27.8. Repeated rollback protection
 
-РџРѕРІС‚РѕСЂРЅС‹Р№ rollback СѓР¶Рµ rolled-back version РґРѕР»Р¶РµРЅ Р±Р»РѕРєРёСЂРѕРІР°С‚СЊСЃСЏ.
+Повторный rollback уже rolled-back version должен блокироваться.
 
 **Status:** `TEST VERIFIED`
 
@@ -4585,9 +4585,9 @@ Rollback РЅРµ РґРѕР»Р¶РµРЅ СѓРґР°Р»СЏС‚СЊ:
 
 ## 27.9. Production isolation
 
-Rollback service РЅРµ РґРѕР»Р¶РµРЅ РЅР°РїСЂСЏРјСѓСЋ РІС‹РїРѕР»РЅСЏС‚СЊ exchange operations.
+Rollback service не должен напрямую выполнять exchange operations.
 
-Production execution РѕСЃС‚Р°С‘С‚СЃСЏ Р·Р° РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹Рј execution boundary.
+Production execution остаётся за контролируемым execution boundary.
 
 **Status:** `TEST VERIFIED`
 
@@ -4597,20 +4597,20 @@ Production execution РѕСЃС‚Р°С‘С‚СЃСЏ Р·Р° РєРѕРЅС
 
 ## 27.10. Automatic rollback policy
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїР»Р°РЅ РґРѕРїСѓСЃРєР°РµС‚ automatic rollback С‚РѕР»СЊРєРѕ РїРѕ Р·Р°СЂР°РЅРµРµ СѓС‚РІРµСЂР¶РґС‘РЅРЅС‹Рј:
+Канонический план допускает automatic rollback только по заранее утверждённым:
 
 - degradation criteria;
 - risk breach criteria.
 
-AI РЅРµ РґРѕР»Р¶РµРЅ РјРµРЅСЏС‚СЊ rollback criteria.
+AI не должен менять rollback criteria.
 
-РџРѕР»РЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ degradation-triggered runtime rollback РѕС‚РґРµР»СЊРЅРѕ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Полный автоматический degradation-triggered runtime rollback отдельно не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 27.11. Rollback integrity
 
-E.9 РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РѕР±РµСЃРїРµС‡РёРІР°РµС‚:
+E.9 дополнительно обеспечивает:
 
 - parent integrity;
 - strategy consistency;
@@ -4622,9 +4622,9 @@ E.9 РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РѕР±РµСЃРїР
 
 **Status:** `TEST VERIFIED`
 
-## 27.12. РС‚РѕРі
+## 27.12. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - rollback service;
 - genealogy-based rollback;
@@ -4636,20 +4636,20 @@ E.9 РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РѕР±РµСЃРїР
 - production isolation;
 - rollback integrity.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РѕСЃС‚Р°С‘С‚СЃСЏ:
+Частично остаётся:
 
 - fully automatic degradation/risk-triggered rollback runtime.
 
 **Final status:** `DONE + TEST VERIFIED`
 
-**Remaining:** РїСЂРё Р±СѓРґСѓС‰РµР№ Р°РєС‚РёРІР°С†РёРё Restricted Live РѕС‚РґРµР»СЊРЅРѕ РїСЂРѕРІРµСЂРёС‚СЊ runtime degradation-triggered rollback.
+**Remaining:** при будущей активации Restricted Live отдельно проверить runtime degradation-triggered rollback.
 # 28. Kill Switch
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 28.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 28.1. Каноническое требование
 
-Р”Р»СЏ AIEA РґРѕР»Р¶РЅС‹ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РѕС‚РґРµР»СЊРЅС‹Рµ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹Рµ flags:
+Для AIEA должны существовать отдельные контролируемые flags:
 
 - `AI_EVOLUTION_ENABLED`;
 - `AI_PAPER_ENABLED`;
@@ -4658,15 +4658,15 @@ E.9 РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РѕР±РµСЃРїР
 - `AI_LIVE_ENABLED`;
 - `AI_LIVE_KILL_SWITCH`.
 
-Kill switch РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ Р±РѕР»РµРµ РІС‹СЃРѕРєРёР№ РїСЂРёРѕСЂРёС‚РµС‚, С‡РµРј AI decisions.
+Kill switch должен иметь более высокий приоритет, чем AI decisions.
 
-РџСЂРё Р°РєС‚РёРІР°С†РёРё AI live execution РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р·Р°РїСЂРµС‰С‘РЅ.
+При активации AI live execution должен быть запрещён.
 
 ## 28.2. Production trading kill-switch
 
-Р’ production execution path СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РѕР±С‰РёР№ trading kill-switch.
+В production execution path уже существует общий trading kill-switch.
 
-`ExecutionBoundary` РїСЂРѕРІРµСЂСЏРµС‚ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЂР°Р·РјРµС‰РµРЅРёСЏ РЅРѕРІРѕРіРѕ order С‡РµСЂРµР·:
+`ExecutionBoundary` проверяет возможность размещения нового order через:
 
 `allow_new_order()`
 
@@ -4678,11 +4678,11 @@ Kill switch РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ Р±РѕР»РµРµ 
 
 ## 28.3. AI Production Safety
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_production_safety.py`
 
-Safety layer СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕР№ Р·Р°С‰РёС‚РѕР№ РїРµСЂРµРґ production execution.
+Safety layer является отдельной защитой перед production execution.
 
 **Status:** `TEST VERIFIED`
 
@@ -4692,9 +4692,9 @@ Safety layer СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕ
 
 ## 28.4. AI-specific enable flags
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїР»Р°РЅ С‚СЂРµР±СѓРµС‚ РѕС‚РґРµР»СЊРЅС‹Рµ AI lifecycle flags.
+Канонический план требует отдельные AI lifecycle flags.
 
-Р’ РїСЂРѕРІРµРґС‘РЅРЅРѕРј audit РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ РїРѕР»РЅС‹Р№ РЅР°Р±РѕСЂ Рё РµРґРёРЅС‹Р№ enforcement РІСЃРµС…:
+В проведённом audit не подтверждён полный набор и единый enforcement всех:
 
 - `AI_EVOLUTION_ENABLED`;
 - `AI_PAPER_ENABLED`;
@@ -4706,20 +4706,20 @@ Safety layer СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕ
 
 ## 28.5. AI_LIVE_KILL_SWITCH
 
-РћС‚РґРµР»СЊРЅС‹Р№ AI-specific live kill switch РґРѕР»Р¶РµРЅ:
+Отдельный AI-specific live kill switch должен:
 
-- Р·Р°РїСЂРµС‰Р°С‚СЊ РЅРѕРІС‹Рµ AI live trades;
-- Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ promotion/activation РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё;
-- РёРјРµС‚СЊ РїСЂРёРѕСЂРёС‚РµС‚ РЅР°Рґ AI decision;
-- РЅРµ Р·Р°РєСЂС‹РІР°С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РїРѕР·РёС†РёРё Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё Р±РµР· РѕС‚РґРµР»СЊРЅРѕР№ risk policy.
+- запрещать новые AI live trades;
+- блокировать promotion/activation при необходимости;
+- иметь приоритет над AI decision;
+- не закрывать существующие позиции автоматически без отдельной risk policy.
 
-РџРѕР»РЅР°СЏ РѕС‚РґРµР»СЊРЅР°СЏ implementation Рё runtime verification РїРѕРєР° РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹.
+Полная отдельная implementation и runtime verification пока не подтверждены.
 
 **Status:** `NOT VERIFIED`
 
 ## 28.6. Kill switch audit trail
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ РїСЂРµРґСѓСЃРјР°С‚СЂРёРІР°РµС‚:
+Каноническое требование предусматривает:
 
 - actor;
 - activation time;
@@ -4728,39 +4728,39 @@ Safety layer СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕ
 - state before;
 - state after.
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅС‹Р№ audit lifecycle РґР»СЏ AI kill switch РїРѕРєР° РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Отдельный полный audit lifecycle для AI kill switch пока не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 28.7. Promotion interaction
 
-Kill switch РЅРµ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚СЊ AIEA Р°РєС‚РёРІРёСЂРѕРІР°С‚СЊ РЅРѕРІСѓСЋ live strategy РёР»Рё РїРѕРІС‹С€Р°С‚СЊ permission РїСЂРё РѕС‚РєР»СЋС‡С‘РЅРЅРѕРј AI live path.
+Kill switch не должен позволять AIEA активировать новую live strategy или повышать permission при отключённом AI live path.
 
-Promotion infrastructure СѓР¶Рµ fail-closed, РЅРѕ РѕС‚РґРµР»СЊРЅР°СЏ integration СЃ dedicated AI kill switch РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Promotion infrastructure уже fail-closed, но отдельная integration с dedicated AI kill switch не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 28.8. Existing positions
 
-Kill switch РґРѕР»Р¶РµРЅ Р·Р°РїСЂРµС‰Р°С‚СЊ РЅРѕРІС‹Рµ AI live entries, РїСЂРё СЌС‚РѕРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РїРѕР·РёС†РёРё РґРѕР»Р¶РЅС‹ РїСЂРѕРґРѕР»Р¶Р°С‚СЊ СѓРїСЂР°РІР»СЏС‚СЊСЃСЏ РѕР±С‹С‡РЅС‹Рј Risk/Execution РєРѕРЅС‚СѓСЂРѕРј, РµСЃР»Рё РёРЅРѕРµ РЅРµ РѕРїСЂРµРґРµР»РµРЅРѕ risk policy.
+Kill switch должен запрещать новые AI live entries, при этом существующие позиции должны продолжать управляться обычным Risk/Execution контуром, если иное не определено risk policy.
 
-РўР°РєРѕРµ РїРѕРІРµРґРµРЅРёРµ РѕС‚РґРµР»СЊРЅС‹Рј AI kill-switch runtime С‚РµСЃС‚РѕРј РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.
+Такое поведение отдельным AI kill-switch runtime тестом не подтверждено.
 
 **Status:** `NOT VERIFIED`
 
 ## 28.9. Priority
 
-Kill switch РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РїСЂРёРѕСЂРёС‚РµС‚ РЅР°Рґ Р»СЋР±С‹РјРё AI СЂРµС€РµРЅРёСЏРјРё.
+Kill switch должен иметь приоритет над любыми AI решениями.
 
-Production safety boundary СѓР¶Рµ СЏРІР»СЏРµС‚СЃСЏ fail-closed РїРµСЂРµРґ exchange execution.
+Production safety boundary уже является fail-closed перед exchange execution.
 
-РћРґРЅР°РєРѕ РѕС‚РґРµР»СЊРЅР°СЏ proof priority РґР»СЏ dedicated AI kill switch РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.
+Однако отдельная proof priority для dedicated AI kill switch отсутствует.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 28.10. Production isolation
 
-Kill switch РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚СЊ AIEA РїСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї Рє exchange РёР»Рё РїРѕР·РІРѕР»СЏС‚СЊ РѕР±С…РѕРґРёС‚СЊ RiskAgent / ExecutionAgent.
+Kill switch не должен предоставлять AIEA прямой доступ к exchange или позволять обходить RiskAgent / ExecutionAgent.
 
 **Status:** `VERIFIED`
 
@@ -4769,33 +4769,33 @@ Kill switch РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°�
 - E12;
 - ExecutionBoundary.
 
-## 28.11. РС‚РѕРі
+## 28.11. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - production trading kill-switch;
 - AI Production Safety;
 - fail-closed execution boundary;
 - production isolation.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
-- РїРѕР»РЅС‹Р№ РЅР°Р±РѕСЂ AI lifecycle flags;
+- полный набор AI lifecycle flags;
 - dedicated `AI_LIVE_KILL_SWITCH`;
 - dedicated kill-switch audit trail;
 - runtime priority semantics;
-- behaviour РґР»СЏ СѓР¶Рµ РѕС‚РєСЂС‹С‚С‹С… AI positions.
+- behaviour для уже открытых AI positions.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit Рё implementation verification dedicated AIEA Kill Switch.
-# 29. РђСѓРґРёС‚
+**Remaining:** отдельный factual audit и implementation verification dedicated AIEA Kill Switch.
+# 29. Аудит
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 29.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 29.1. Каноническое требование
 
-РљР°Р¶РґРѕРµ СЃСѓС‰РµСЃС‚РІРµРЅРЅРѕРµ РґРµР№СЃС‚РІРёРµ AIEA РґРѕР»Р¶РЅРѕ РёРјРµС‚СЊ РЅРµРёР·РјРµРЅСЏРµРјСѓСЋ audit trail.
+Каждое существенное действие AIEA должно иметь неизменяемую audit trail.
 
-РњРёРЅРёРјР°Р»СЊРЅРѕ РґРѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ:
+Минимально должны сохраняться:
 
 - timestamp;
 - agent;
@@ -4815,17 +4815,17 @@ Kill switch РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°�
 - result;
 - created_at.
 
-Audit РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚СЊ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ С†РµРїРѕС‡РєСѓ:
+Audit должен позволять восстановить цепочку:
 
-`market context в†’ observation в†’ hypothesis в†’ strategy version в†’ experiment в†’ validation в†’ decision в†’ promotion в†’ production result`
+`market context → observation → hypothesis → strategy version → experiment → validation → decision → promotion → production result`
 
-## 29.2. Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ audit infrastructure
+## 29.2. Фактическая audit infrastructure
 
-РћР±РЅР°СЂСѓР¶РµРЅР° РјРѕРґРµР»СЊ:
+Обнаружена модель:
 
 `models/ai_audit_log.py`
 
-РўР°РєР¶Рµ audit РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ Promotion Pipeline:
+Также audit используется в Promotion Pipeline:
 
 - `services/ai_promotion_audit.py`;
 - promotion snapshots;
@@ -4835,17 +4835,17 @@ Audit РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚СЊ РІРѕС�
 
 ## 29.3. AI action logging
 
-AI audit model РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РґРµР№СЃС‚РІРёР№/СЂРµС€РµРЅРёР№ AIEA.
+AI audit model предназначена для хранения действий/решений AIEA.
 
-Р¤Р°РєС‚ РїРѕР»РЅРѕРіРѕ РїРѕРєСЂС‹С‚РёСЏ РІСЃРµС… AI actions РѕС‚РґРµР»СЊРЅС‹Рј exhaustive runtime audit РµС‰С‘ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Факт полного покрытия всех AI actions отдельным exhaustive runtime audit ещё не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 29.4. Promotion audit
 
-Promotion audit trail РїРѕР»РЅРѕСЃС‚СЊСЋ СЂРµР°Р»РёР·РѕРІР°РЅ Рё СЃРѕС…СЂР°РЅСЏРµС‚ РёСЃС‚РѕСЂРёС‡РµСЃРєРёР№ snapshot.
+Promotion audit trail полностью реализован и сохраняет исторический snapshot.
 
-Р¤РёРєСЃРёСЂСѓСЋС‚СЃСЏ:
+Фиксируются:
 
 - user;
 - experiment;
@@ -4870,7 +4870,7 @@ Promotion audit trail РїРѕР»РЅРѕСЃС‚СЊСЋ СЂРµР°Р»Рё
 
 ## 29.5. Rollback audit
 
-Rollback СЃРѕР·РґР°С‘С‚ РѕС‚РґРµР»СЊРЅСѓСЋ audit record.
+Rollback создаёт отдельную audit record.
 
 **Status:** `TEST VERIFIED`
 
@@ -4880,9 +4880,9 @@ Rollback СЃРѕР·РґР°С‘С‚ РѕС‚РґРµР»СЊРЅСѓСЋ au
 
 ## 29.6. Immutable audit history
 
-Audit history РЅРµ РґРѕР»Р¶РЅР° Р·Р°РІРёСЃРµС‚СЊ РѕС‚ РїРѕСЃР»РµРґСѓСЋС‰РёС… mutation StrategyVersion РёР»Рё experiment state.
+Audit history не должна зависеть от последующих mutation StrategyVersion или experiment state.
 
-Promotion snapshot stability СѓР¶Рµ РїСЂРѕРІРµСЂРµРЅР°.
+Promotion snapshot stability уже проверена.
 
 **Status:** `TEST VERIFIED`
 
@@ -4891,14 +4891,14 @@ Promotion snapshot stability СѓР¶Рµ РїСЂРѕРІРµСЂРµРЅР°.
 
 ## 29.7. Identity binding
 
-Audit records РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅС‹ СЃ РїСЂР°РІРёР»СЊРЅС‹РјРё:
+Audit records должны быть связаны с правильными:
 
 - user;
 - hypothesis;
 - experiment;
 - strategy version.
 
-Identity isolation СЂРµР°Р»РёР·РѕРІР°РЅР° РІ A8/E11.
+Identity isolation реализована в A8/E11.
 
 **Status:** `TEST VERIFIED`
 
@@ -4909,75 +4909,75 @@ Identity isolation СЂРµР°Р»РёР·РѕРІР°РЅР° РІ A8/E11.
 
 ## 29.8. AI model version
 
-РљР°Р¶РґРѕРµ AI decision РґРѕР»Р¶РЅРѕ СЃРѕС…СЂР°РЅСЏС‚СЊ РІРµСЂСЃРёСЋ AI model.
+Каждое AI decision должно сохранять версию AI model.
 
-РњРѕРґРµР»СЊ `ai_audit_log` СЃСѓС‰РµСЃС‚РІСѓРµС‚, РѕРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ factual audit Р·Р°РїРѕР»РЅРµРЅРёСЏ:
+Модель `ai_audit_log` существует, однако полный factual audit заполнения:
 
 - `model`;
 - `model_version`;
 - `agent_version`;
 - `prompt_version`
 
-РґР»СЏ РІСЃРµС… AI actions РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+для всех AI actions не проведён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 29.9. Input snapshot
 
-Audit РґРѕР»Р¶РµРЅ СЃРѕС…СЂР°РЅСЏС‚СЊ input snapshot, РґРѕСЃС‚Р°С‚РѕС‡РЅС‹Р№ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµРіРѕ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РєРѕРЅС‚РµРєСЃС‚Р° СЂРµС€РµРЅРёСЏ.
+Audit должен сохранять input snapshot, достаточный для последующего восстановления контекста решения.
 
-Promotion audit СѓР¶Рµ СЃРѕС…СЂР°РЅСЏРµС‚ snapshots.
+Promotion audit уже сохраняет snapshots.
 
-РџРѕР»РЅРѕРµ РїРѕРєСЂС‹С‚РёРµ РѕР±С‹С‡РЅС‹С… research decisions РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.
+Полное покрытие обычных research decisions отдельно не подтверждено.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 29.10. Reasoning summary
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ РїСЂРµРґСѓСЃРјР°С‚СЂРёРІР°РµС‚ `reasoning_summary`.
+Каноническое требование предусматривает `reasoning_summary`.
 
-РќР°Р»РёС‡РёРµ РїРѕР»СЏ/РёРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂС‹ РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚, С‡С‚Рѕ РѕРЅРѕ СЃС‚Р°Р±РёР»СЊРЅРѕ Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ РґР»СЏ РєР°Р¶РґРѕРіРѕ AI action.
+Наличие поля/инфраструктуры не доказывает, что оно стабильно заполняется для каждого AI action.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 29.11. Audit immutability
 
-AI РЅРµ РґРѕР»Р¶РµРЅ РёР·РјРµРЅСЏС‚СЊ РёР»Рё СѓРґР°Р»СЏС‚СЊ РёСЃС‚РѕСЂРёС‡РµСЃРєРёРµ audit records.
+AI не должен изменять или удалять исторические audit records.
 
-Promotion audit snapshots СЏРІР»СЏСЋС‚СЃСЏ РёСЃС‚РѕСЂРёС‡РµСЃРєРёРјРё.
+Promotion audit snapshots являются историческими.
 
-РџРѕР»РЅС‹Р№ negative-path audit mutation/delete РґР»СЏ РІСЃРµС… audit records РµС‰С‘ РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+Полный negative-path audit mutation/delete для всех audit records ещё не выполнен.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 29.12. Audit в†’ Production traceability
+## 29.12. Audit → Production traceability
 
-Р¦РµРїРѕС‡РєР° РґРѕ production РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊ:
+Цепочка до production должна сохранять:
 
-`AI в†’ promotion в†’ permission в†’ production result`
+`AI → promotion → permission → production result`
 
-Promotion E.1вЂ“E.12 РѕР±РµСЃРїРµС‡РёРІР°РµС‚ Р·РЅР°С‡РёС‚РµР»СЊРЅСѓСЋ С‡Р°СЃС‚СЊ СЌС‚РѕР№ С‚СЂР°СЃСЃРёСЂСѓРµРјРѕСЃС‚Рё.
+Promotion E.1–E.12 обеспечивает значительную часть этой трассируемости.
 
-РћРґРЅР°РєРѕ end-to-end proof РґРѕ С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ production trade СЂРµР·СѓР»СЊС‚Р°С‚Р° РґР»СЏ AI Live РїРѕРєР° РЅРµРІРѕР·РјРѕР¶РµРЅ, РїРѕСЃРєРѕР»СЊРєСѓ Restricted Live Рё Full Live РѕС‚РєР»СЋС‡РµРЅС‹.
+Однако end-to-end proof до фактического production trade результата для AI Live пока невозможен, поскольку Restricted Live и Full Live отключены.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 29.13. Research / validation audit
 
-Research, validation Рё experiments РёРјРµСЋС‚ persistent models/services.
+Research, validation и experiments имеют persistent models/services.
 
-РџРѕР»РЅРѕРµ СѓРЅРёС„РёС†РёСЂРѕРІР°РЅРЅРѕРµ audit coverage РІСЃРµС… research actions РїРѕРєР° РЅРµ РґРѕРєР°Р·Р°РЅРѕ.
+Полное унифицированное audit coverage всех research actions пока не доказано.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 29.14. Audit isolation
 
-Audit РЅРµ РґРѕР»Р¶РµРЅ РґР°РІР°С‚СЊ AI РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ:
+Audit не должен давать AI возможность:
 
-- РјРµРЅСЏС‚СЊ production;
-- РѕР±С…РѕРґРёС‚СЊ RiskAgent;
-- РѕР±С…РѕРґРёС‚СЊ ExecutionAgent;
-- СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РїРѕРІС‹С€Р°С‚СЊ permissions.
+- менять production;
+- обходить RiskAgent;
+- обходить ExecutionAgent;
+- самостоятельно повышать permissions.
 
 **Status:** `TEST VERIFIED`
 
@@ -4987,9 +4987,9 @@ Audit РЅРµ РґРѕР»Р¶РµРЅ РґР°РІР°С‚СЊ AI РІРѕР�
 - E10;
 - E12.
 
-## 29.15. РС‚РѕРі
+## 29.15. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - AI audit model;
 - promotion audit;
@@ -4998,7 +4998,7 @@ Audit РЅРµ РґРѕР»Р¶РµРЅ РґР°РІР°С‚СЊ AI РІРѕР�
 - identity binding;
 - production isolation.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
 - exhaustive AI action logging;
 - model/prompt version coverage;
@@ -5007,16 +5007,16 @@ Audit РЅРµ РґРѕР»Р¶РµРЅ РґР°РІР°С‚СЊ AI РІРѕР�
 - universal audit immutability;
 - full research-to-production traceability.
 
-**Remaining:** РїРѕР»РЅС‹Р№ audit coverage / immutability / model-version population audit.
-# 30. Р‘РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ AI-generated Code
+**Remaining:** полный audit coverage / immutability / model-version population audit.
+# 30. Безопасность AI-generated Code
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 30.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 30.1. Каноническое требование
 
-Production РЅРµ РґРѕР»Р¶РµРЅ РёСЃРїРѕР»РЅСЏС‚СЊ РЅРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅС‹Р№ AI-generated Python.
+Production не должен исполнять необработанный AI-generated Python.
 
-Р”Р»СЏ generated code С‚СЂРµР±СѓРµС‚СЃСЏ sandbox СЃ:
+Для generated code требуется sandbox с:
 
 - container isolation;
 - CPU limit;
@@ -5025,20 +5025,20 @@ Production РЅРµ РґРѕР»Р¶РµРЅ РёСЃРїРѕР»РЅСЏС‚С
 - filesystem isolation;
 - network disabled;
 - allowed imports whitelist;
-- РѕРіСЂР°РЅРёС‡РµРЅРЅС‹РјРё system calls;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµРј production credentials;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµРј Docker socket;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµРј РїСЂСЏРјРѕРіРѕ РґРѕСЃС‚СѓРїР° Рє production database;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµРј РїСЂСЏРјРѕРіРѕ РґРѕСЃС‚СѓРїР° Рє BingX;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµРј РїСЂСЏРјРѕРіРѕ РґРѕСЃС‚СѓРїР° Рє RiskAgent / ExecutionAgent.
+- ограниченными system calls;
+- отсутствием production credentials;
+- отсутствием Docker socket;
+- отсутствием прямого доступа к production database;
+- отсутствием прямого доступа к BingX;
+- отсутствием прямого доступа к RiskAgent / ExecutionAgent.
 
 ## 30.2. Static Strategy Validation
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_static_strategy_validator.py`
 
-Validator РїСЂРѕРІРµСЂСЏРµС‚:
+Validator проверяет:
 
 - structure;
 - required fields;
@@ -5059,7 +5059,7 @@ Validator РїСЂРѕРІРµСЂСЏРµС‚:
 
 ## 30.3. Forbidden operations
 
-Static validation СЃРѕРґРµСЂР¶РёС‚ Р·Р°РїСЂРµС‚С‹ РЅР° РѕРїР°СЃРЅС‹Рµ РѕРїРµСЂР°С†РёРё, РІРєР»СЋС‡Р°СЏ РѕР±СЂР°С‰РµРЅРёСЏ Рє execution/risk/exchange СЃР»РѕСЏРј.
+Static validation содержит запреты на опасные операции, включая обращения к execution/risk/exchange слоям.
 
 **Status:** `VERIFIED`
 
@@ -5068,9 +5068,9 @@ Static validation СЃРѕРґРµСЂР¶РёС‚ Р·Р°РїСЂРµС‚С�
 
 ## 30.4. Generated strategy production boundary
 
-Generated strategy РЅРµ РґРѕР»Р¶РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРѕР»СѓС‡Р°С‚СЊ production permission.
+Generated strategy не должна автоматически получать production permission.
 
-Promotion layer С‚СЂРµР±СѓРµС‚:
+Promotion layer требует:
 
 - validation evidence;
 - formal gate;
@@ -5090,9 +5090,9 @@ Promotion layer С‚СЂРµР±СѓРµС‚:
 
 ## 30.5. Sandbox execution
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ РїСЂРµРґСѓСЃРјР°С‚СЂРёРІР°РµС‚ РІС‹РїРѕР»РЅРµРЅРёРµ generated code С‚РѕР»СЊРєРѕ РІРЅСѓС‚СЂРё РёР·РѕР»РёСЂРѕРІР°РЅРЅРѕРіРѕ sandbox.
+Каноническое требование предусматривает выполнение generated code только внутри изолированного sandbox.
 
-Р’ С‚РµРєСѓС‰РµРј factual audit РѕС‚РґРµР»СЊРЅС‹Р№ production-grade sandbox executor СЃ РґРѕРєР°Р·Р°РЅРЅС‹РјРё:
+В текущем factual audit отдельный production-grade sandbox executor с доказанными:
 
 - CPU limits;
 - memory limits;
@@ -5102,67 +5102,67 @@ Promotion layer С‚СЂРµР±СѓРµС‚:
 - import whitelist;
 - syscall restrictions
 
-РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 30.6. Secrets isolation
 
-Generated code РЅРµ РґРѕР»Р¶РЅРѕ РїРѕР»СѓС‡Р°С‚СЊ production credentials РёР»Рё secrets.
+Generated code не должно получать production credentials или secrets.
 
-РћС‚РґРµР»СЊРЅС‹Р№ dedicated runtime proof secrets isolation РґР»СЏ generated code РїРѕРєР° РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+Отдельный dedicated runtime proof secrets isolation для generated code пока не проведён.
 
 **Status:** `NOT VERIFIED`
 
 ## 30.7. Filesystem isolation
 
-Generated code РЅРµ РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ РґРѕСЃС‚СѓРї Рє production filesystem.
+Generated code не должен получать доступ к production filesystem.
 
-Static validator РѕРіСЂР°РЅРёС‡РёРІР°РµС‚ strategy definition operations, РЅРѕ СЌС‚РѕРіРѕ РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РєР°Рє РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕ runtime filesystem isolation.
+Static validator ограничивает strategy definition operations, но этого недостаточно как доказательство runtime filesystem isolation.
 
 **Status:** `NOT VERIFIED`
 
 ## 30.8. Network isolation
 
-Generated code РЅРµ РґРѕР»Р¶РµРЅ РІС‹РїРѕР»РЅСЏС‚СЊ РїСЂРѕРёР·РІРѕР»СЊРЅС‹Рµ network calls.
+Generated code не должен выполнять произвольные network calls.
 
-Static validation РјРѕР¶РµС‚ Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РёР·РІРµСЃС‚РЅС‹Рµ Р·Р°РїСЂРµС‰С‘РЅРЅС‹Рµ operations, РЅРѕ РѕС‚РґРµР»СЊРЅР°СЏ runtime network isolation РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Static validation может блокировать известные запрещённые operations, но отдельная runtime network isolation не доказана.
 
 **Status:** `NOT VERIFIED`
 
 ## 30.9. Database isolation
 
-Generated code РЅРµ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РїСЂСЏРјРѕРіРѕ РґРѕСЃС‚СѓРїР° Рє production database credentials.
+Generated code не должен иметь прямого доступа к production database credentials.
 
-РћС‚РґРµР»СЊРЅС‹Р№ controlled interface РґР»СЏ sandbox database access РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ РїРѕР»РЅС‹Рј runtime audit.
+Отдельный controlled interface для sandbox database access не подтверждён полным runtime audit.
 
 **Status:** `NOT VERIFIED`
 
 ## 30.10. Docker isolation
 
-Generated code РЅРµ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РґРѕСЃС‚СѓРї Рє Docker socket РёР»Рё host-level control.
+Generated code не должен иметь доступ к Docker socket или host-level control.
 
-РћС‚РґРµР»СЊРЅС‹Р№ sandbox runtime proof РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.
+Отдельный sandbox runtime proof отсутствует.
 
 **Status:** `NOT VERIFIED`
 
 ## 30.11. Resource limits
 
-РћР±СЏР·Р°С‚РµР»СЊРЅС‹:
+Обязательны:
 
 - CPU;
 - memory;
 - timeout.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРёР№ isolated execution manager СЃ РґРѕРєР°Р·Р°РЅРЅС‹РјРё hard limits РІ С‚РµРєСѓС‰РµРј audit РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Фактический isolated execution manager с доказанными hard limits в текущем audit не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
-## 30.12. Sandbox в†’ Validation
+## 30.12. Sandbox → Validation
 
-Generated strategy РґРѕР»Р¶РЅР° СЃРЅР°С‡Р°Р»Р° РїСЂРѕР№С‚Рё static validation Рё С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ СЌС‚РѕРіРѕ РїРѕРїР°СЃС‚СЊ РІ СЃР»РµРґСѓСЋС‰РёР№ controlled stage.
+Generated strategy должна сначала пройти static validation и только после этого попасть в следующий controlled stage.
 
-Static validation gate СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РёРЅС‚РµРіСЂРёСЂРѕРІР°РЅ РІ validation pipeline.
+Static validation gate существует и интегрирован в validation pipeline.
 
 **Status:** `TEST VERIFIED`
 
@@ -5170,9 +5170,9 @@ Static validation gate СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РёРЅ
 - D.1 validation gate;
 - malformed/forbidden strategy tests.
 
-## 30.13. Sandbox в†’ Production
+## 30.13. Sandbox → Production
 
-Р”Р°Р¶Рµ РїРѕСЃР»Рµ sandbox execution generated strategy РЅРµ РїРѕР»СѓС‡Р°РµС‚ production execution authority Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Даже после sandbox execution generated strategy не получает production execution authority автоматически.
 
 **Status:** `TEST VERIFIED`
 
@@ -5181,9 +5181,9 @@ Static validation gate СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РёРЅ
 - E10 production safety;
 - E12 integration.
 
-## 30.14. РС‚РѕРі
+## 30.14. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - static validation;
 - forbidden operations guard;
@@ -5191,9 +5191,9 @@ Static validation gate СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РёРЅ
 - production permission boundary;
 - validation-before-promotion principle.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
-- РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ runtime sandbox;
+- полноценный runtime sandbox;
 - resource limits;
 - filesystem isolation;
 - network isolation;
@@ -5202,14 +5202,14 @@ Static validation gate СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РёРЅ
 - Docker socket isolation;
 - complete generated-code execution lifecycle.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual/security audit sandbox runtime architecture.
+**Remaining:** отдельный factual/security audit sandbox runtime architecture.
 # 31. Database Model
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 31.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 31.1. Каноническое требование
 
-Database model РґРѕР»Р¶РЅР° РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ:
+Database model должна поддерживать:
 
 - AI agents;
 - hypotheses;
@@ -5229,11 +5229,11 @@ Database model РґРѕР»Р¶РЅР° РїРѕРґРґРµСЂР¶РёРІР°
 
 ## 31.2. AI Agent
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_agent.py`
 
-Р”РѕР»Р¶РЅС‹ С…СЂР°РЅРёС‚СЊСЃСЏ РєР°Рє РјРёРЅРёРјСѓРј:
+Должны храниться как минимум:
 
 - id;
 - name;
@@ -5244,17 +5244,17 @@ Database model РґРѕР»Р¶РЅР° РїРѕРґРґРµСЂР¶РёРІР°
 - created_at;
 - updated_at.
 
-`trust_level` С„Р°РєС‚РёС‡РµСЃРєРё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Рє РѕС‚РґРµР»СЊРЅРѕРµ РїРѕР»Рµ AI identity.
+`trust_level` фактически используется как отдельное поле AI identity.
 
 **Status:** `VERIFIED`
 
 ## 31.3. AI Hypothesis
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_hypothesis.py`
 
-Hypothesis СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕР№ persistent СЃСѓС‰РЅРѕСЃС‚СЊСЋ Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ identity chain.
+Hypothesis является отдельной persistent сущностью и используется в identity chain.
 
 **Status:** `TEST VERIFIED`
 
@@ -5265,13 +5265,13 @@ Hypothesis СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕР
 
 ## 31.4. AI Strategy Version
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_strategy_version.py`
 
-Version РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ:
+Version используется в:
 
-`Hypothesis в†’ Experiment в†’ Validation в†’ Promotion`
+`Hypothesis → Experiment → Validation → Promotion`
 
 **Status:** `TEST VERIFIED`
 
@@ -5281,11 +5281,11 @@ Version РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ:
 
 ## 31.5. AI Experiment
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_experiment.py`
 
-Experiment СЃРІСЏР·С‹РІР°РµС‚:
+Experiment связывает:
 
 - hypothesis;
 - strategy version;
@@ -5302,31 +5302,31 @@ Experiment СЃРІСЏР·С‹РІР°РµС‚:
 
 ## 31.6. AI Experiment Result
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_experiment_result.py`
 
-РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ validation / evaluation metrics.
+Используется для хранения validation / evaluation metrics.
 
 **Status:** `VERIFIED`
 
 ## 31.7. AI Paper Trade
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_paper_trade.py`
 
-Paper infrastructure РѕС‚РґРµР»РµРЅР° РѕС‚ production execution.
+Paper infrastructure отделена от production execution.
 
 **Status:** `VERIFIED`
 
 ## 31.8. AI Shadow Decision
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_shadow_decision.py`
 
-РўР°РєР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ additional shadow/advisory infrastructure.
+Также существует additional shadow/advisory infrastructure.
 
 **Status:** `TEST VERIFIED`
 
@@ -5336,11 +5336,11 @@ Paper infrastructure РѕС‚РґРµР»РµРЅР° РѕС‚ production exec
 
 ## 31.9. AI Lesson / Memory
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_lesson.py`
 
-AI Memory B4 РїРѕРґС‚РІРµСЂР¶РґРµРЅР° С‚РµСЃС‚Р°РјРё.
+AI Memory B4 подтверждена тестами.
 
 **Status:** `TEST VERIFIED`
 
@@ -5351,21 +5351,21 @@ AI Memory B4 РїРѕРґС‚РІРµСЂР¶РґРµРЅР° С‚РµСЃС�
 
 ## 31.10. AI Audit Log
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_audit_log.py`
 
-РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ AI audit / promotion history.
+Используется для AI audit / promotion history.
 
 **Status:** `VERIFIED`
 
 ## 31.11. AI Validation Evidence
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_validation_evidence.py`
 
-Evidence binding РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Promotion Pipeline.
+Evidence binding используется Promotion Pipeline.
 
 **Status:** `TEST VERIFIED`
 
@@ -5374,22 +5374,22 @@ Evidence binding РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Promotion Pip
 
 ## 31.12. News/Event model
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_news_event.py`
 
-News/Event foundation СЃСѓС‰РµСЃС‚РІСѓРµС‚, РѕРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ ingestion / historical linkage lifecycle РµС‰С‘ РЅРµ Р·Р°РєСЂС‹С‚.
+News/Event foundation существует, однако полный ingestion / historical linkage lifecycle ещё не закрыт.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 31.13. Comparison models
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚:
+Фактически существуют:
 
 - `models/ai_comparison_observation.py`;
 - `models/ai_comparison_result.py`.
 
-Persistence Рё identity reviewed РІ BLOCK F.
+Persistence и identity reviewed в BLOCK F.
 
 **Status:** `TEST VERIFIED`
 
@@ -5400,7 +5400,7 @@ Persistence Рё identity reviewed РІ BLOCK F.
 
 ## 31.14. Promotion state persistence
 
-Promotion migrations/model fields С„Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Рё РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ:
+Promotion migrations/model fields фактически существуют и используются:
 
 - promotion stage;
 - promotion level;
@@ -5408,7 +5408,7 @@ Promotion migrations/model fields С„Р°РєС‚РёС‡РµСЃРєРё С
 - rollback state;
 - audit snapshots.
 
-РњРёРіСЂР°С†РёРё РІРєР»СЋС‡Р°СЋС‚:
+Миграции включают:
 
 - `b925e8aaa0bf_e1_add_promotion_state_fields.py`;
 - `eebb9e6fdbf3_e1_add_promotion_approval_fields.py`;
@@ -5416,11 +5416,11 @@ Promotion migrations/model fields С„Р°РєС‚РёС‡РµСЃРєРё С
 
 **Status:** `TEST VERIFIED`
 
-**Evidence:** E.1вЂ“E.12.
+**Evidence:** E.1–E.12.
 
 ## 31.15. User / identity isolation
 
-Database model supports identity chains, РєРѕС‚РѕСЂС‹Рµ РїСЂРѕРІРµСЂСЏСЋС‚СЃСЏ С‡РµСЂРµР· A8/E11.
+Database model supports identity chains, которые проверяются через A8/E11.
 
 **Status:** `TEST VERIFIED`
 
@@ -5430,7 +5430,7 @@ Database model supports identity chains, РєРѕС‚РѕСЂС‹Рµ РїСЂ
 
 ## 31.16. Production trade metadata
 
-`models/position.py` and `models/trade_history.py` С„Р°РєС‚РёС‡РµСЃРєРё СЃРѕРґРµСЂР¶Р°С‚:
+`models/position.py` and `models/trade_history.py` фактически содержат:
 
 - strategy;
 - market_regime;
@@ -5445,7 +5445,7 @@ Database model supports identity chains, РєРѕС‚РѕСЂС‹Рµ РїСЂ
 
 ## 31.17. Migration coverage
 
-AI-related migrations С„Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚ РґР»СЏ:
+AI-related migrations фактически существуют для:
 
 - AIEA foundation;
 - knowledge snapshots;
@@ -5461,7 +5461,7 @@ AI-related migrations С„Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰�
 
 ## 31.18. Database schema completeness
 
-РќРµ РІСЃРµ РєР°РЅРѕРЅРёС‡РµСЃРєРёРµ database requirements РґРѕРєР°Р·Р°РЅС‹ РєР°Рє РїРѕР»РЅРѕСЃС‚СЊСЋ СЂРµР°Р»РёР·РѕРІР°РЅРЅС‹Рµ:
+Не все канонические database requirements доказаны как полностью реализованные:
 
 - dedicated learning-cycle persistence;
 - complete sandbox execution records;
@@ -5474,15 +5474,15 @@ AI-related migrations С„Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰�
 
 ## 31.19. Production database isolation
 
-Research / experiment / promotion services РЅРµ РґРѕР»Р¶РЅС‹ РїРѕР»СѓС‡Р°С‚СЊ unrestricted production database control.
+Research / experiment / promotion services не должны получать unrestricted production database control.
 
-Existing identity and execution boundaries РѕР±РµСЃРїРµС‡РёРІР°СЋС‚ Р·РЅР°С‡РёС‚РµР»СЊРЅСѓСЋ С‡Р°СЃС‚СЊ separation, РЅРѕ dedicated sandbox DB boundary РµС‰С‘ РЅРµ Р·Р°РєСЂС‹С‚.
+Existing identity and execution boundaries обеспечивают значительную часть separation, но dedicated sandbox DB boundary ещё не закрыт.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 31.20. РС‚РѕРі
+## 31.20. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - AI Agent;
 - Hypothesis;
@@ -5501,7 +5501,7 @@ Existing identity and execution boundaries РѕР±РµСЃРїРµС‡РёРІ
 - migration infrastructure;
 - user isolation.
 
-РќРµ Р·Р°РєСЂС‹С‚С‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не закрыты полностью:
 
 - learning-cycle persistence;
 - sandbox execution persistence;
@@ -5511,27 +5511,27 @@ Existing identity and execution boundaries РѕР±РµСЃРїРµС‡РёРІ
 - Genome before/after persistence;
 - dedicated database sandbox boundary.
 
-**Remaining:** factual audit database schema completeness Рё runtime migration/model consistency.
-# 32. РЎРІСЏР·СЊ СЃ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ РјРѕРґРµР»СЊСЋ NEXUS
+**Remaining:** factual audit database schema completeness и runtime migration/model consistency.
+# 32. Связь с существующей моделью NEXUS
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 32.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 32.1. Каноническое требование
 
-Р”Р»СЏ СЂРµР°Р»СЊРЅС‹С… СЃРґРµР»РѕРє AI-related metadata РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ Р±РµР· РїРѕС‚РµСЂРё РґР°РЅРЅС‹С… РІ С†РµРїРѕС‡РєРµ:
+Для реальных сделок AI-related metadata должна сохраняться без потери данных в цепочке:
 
-`Signal в†’ Risk в†’ Execution в†’ Position в†’ TradeHistory`
+`Signal → Risk → Execution → Position → TradeHistory`
 
-Р”Р»СЏ AI-СЃРґРµР»РѕРє РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ:
+Для AI-сделок дополнительно:
 
 - `ai_experiment_id`;
 - `ai_decision_id`.
 
-РЎСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ production fields РЅРµ РґРѕР»Р¶РЅС‹ Р·Р°РјРµРЅСЏС‚СЊСЃСЏ AI metadata.
+Существующие production fields не должны заменяться AI metadata.
 
 ## 32.2. Position model
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё `models/position.py` СЃРѕРґРµСЂР¶РёС‚:
+Фактически `models/position.py` содержит:
 
 - `strategy`;
 - `market_regime`;
@@ -5546,7 +5546,7 @@ Existing identity and execution boundaries РѕР±РµСЃРїРµС‡РёРІ
 
 ## 32.3. TradeHistory model
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё `models/trade_history.py` СЃРѕРґРµСЂР¶РёС‚:
+Фактически `models/trade_history.py` содержит:
 
 - `strategy`;
 - `market_regime`;
@@ -5561,7 +5561,7 @@ Existing identity and execution boundaries РѕР±РµСЃРїРµС‡РёРІ
 
 ## 32.4. Signal layer
 
-`SignalAgent` С„РѕСЂРјРёСЂСѓРµС‚ production decision output СЃ:
+`SignalAgent` формирует production decision output с:
 
 - signal;
 - confidence;
@@ -5569,7 +5569,7 @@ Existing identity and execution boundaries РѕР±РµСЃРїРµС‡РёРІ
 - regime;
 - decision_score.
 
-Strategy Рё regime РїРµСЂРµРґР°СЋС‚СЃСЏ РґР°Р»СЊС€Рµ РїРѕ production chain.
+Strategy и regime передаются дальше по production chain.
 
 **Status:** `VERIFIED`
 
@@ -5579,11 +5579,11 @@ Strategy Рё regime РїРµСЂРµРґР°СЋС‚СЃСЏ РґР°Р»СЊ�
 
 ## 32.5. Risk layer
 
-Production execution path РёСЃРїРѕР»СЊР·СѓРµС‚:
+Production execution path использует:
 
-`SignalAgent в†’ StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent`
+`SignalAgent → StrategyDecisionEngine → AIRiskAgent → ExecutionAgent`
 
-Risk layer РЅР°С…РѕРґРёС‚СЃСЏ РјРµР¶РґСѓ strategy decision Рё execution.
+Risk layer находится между strategy decision и execution.
 
 **Status:** `VERIFIED`
 
@@ -5594,9 +5594,9 @@ Risk layer РЅР°С…РѕРґРёС‚СЃСЏ РјРµР¶РґСѓ strategy 
 
 ## 32.6. Execution layer
 
-`ExecutionAgent` РїРµСЂРµРґР°С‘С‚ РІ `ExecutionBoundary` production execution parameters Рё source.
+`ExecutionAgent` передаёт в `ExecutionBoundary` production execution parameters и source.
 
-Р’ production path РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ:
+В production path используется:
 
 `source="STRATEGY_ENGINE"`
 
@@ -5608,9 +5608,9 @@ Risk layer РЅР°С…РѕРґРёС‚СЃСЏ РјРµР¶РґСѓ strategy 
 
 ## 32.7. Position persistence
 
-РџРѕСЃР»Рµ СѓСЃРїРµС€РЅРѕРіРѕ exchange order СЃРѕР·РґР°С‘С‚СЃСЏ Position.
+После успешного exchange order создаётся Position.
 
-Position model РїРѕРґРґРµСЂР¶РёРІР°РµС‚ AI metadata.
+Position model поддерживает AI metadata.
 
 **Status:** `VERIFIED`
 
@@ -5618,17 +5618,17 @@ Position model РїРѕРґРґРµСЂР¶РёРІР°РµС‚ AI metadata.
 
 ## 32.8. TradeHistory persistence
 
-Trade history model РїРѕРґРґРµСЂР¶РёРІР°РµС‚ AI metadata РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ traceability.
+Trade history model поддерживает AI metadata для последующей traceability.
 
-**Status:** `VERIFIED` РґР»СЏ schema support.
+**Status:** `VERIFIED` для schema support.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ end-to-end runtime proof РїРѕР»РЅРѕРіРѕ СЃРѕС…СЂР°РЅРµРЅРёСЏ РІСЃРµС… AI fields РґРѕ TradeHistory.
+**Remaining:** отдельный end-to-end runtime proof полного сохранения всех AI fields до TradeHistory.
 
 ## 32.9. Strategy Version propagation
 
-AI strategy version РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ РѕС‚РґРµР»СЊРЅРѕ РѕС‚ strategy name.
+AI strategy version должна сохраняться отдельно от strategy name.
 
-Strategy Version infrastructure Рё promotion identity chain СЌС‚Рѕ РїРѕРґРґРµСЂР¶РёРІР°СЋС‚.
+Strategy Version infrastructure и promotion identity chain это поддерживают.
 
 **Status:** `TEST VERIFIED`
 
@@ -5638,23 +5638,23 @@ Strategy Version infrastructure Рё promotion identity chain СЌС‚Рѕ Рї
 
 ## 32.10. AI experiment propagation
 
-`ai_experiment_id` РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РІ Position Рё TradeHistory schema.
+`ai_experiment_id` присутствует в Position и TradeHistory schema.
 
-РћРґРЅР°РєРѕ full live execution path РґР»СЏ AI Live currently disabled, РїРѕСЌС‚РѕРјСѓ end-to-end production runtime propagation С‡РµСЂРµР· СЂРµР°Р»СЊРЅСѓСЋ AI Live СЃРґРµР»РєСѓ РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Однако full live execution path для AI Live currently disabled, поэтому end-to-end production runtime propagation через реальную AI Live сделку не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 32.11. AI decision propagation
 
-`ai_decision_id` РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РІ Position Рё TradeHistory schema.
+`ai_decision_id` присутствует в Position и TradeHistory schema.
 
-Full runtime propagation through an enabled AI Live execution path РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Full runtime propagation through an enabled AI Live execution path не подтверждена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 32.12. Metadata integrity
 
-AI metadata РЅРµ РґРѕР»Р¶РЅР° Р·Р°РјРµРЅСЏС‚СЊ:
+AI metadata не должна заменять:
 
 - strategy;
 - strategy version;
@@ -5662,15 +5662,15 @@ AI metadata РЅРµ РґРѕР»Р¶РЅР° Р·Р°РјРµРЅСЏС‚СЊ:
 - trade source;
 - standard production trade fields.
 
-Schema Рё production boundary РґРѕРїСѓСЃРєР°СЋС‚ С…СЂР°РЅРµРЅРёРµ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… AI fields.
+Schema и production boundary допускают хранение дополнительных AI fields.
 
-**Status:** `VERIFIED` РЅР° СѓСЂРѕРІРЅРµ model/boundary design.
+**Status:** `VERIFIED` на уровне model/boundary design.
 
 ## 32.13. Production isolation
 
-AI metadata fields СЃР°РјРё РїРѕ СЃРµР±Рµ РЅРµ РґР°СЋС‚ AIEA direct execution authority.
+AI metadata fields сами по себе не дают AIEA direct execution authority.
 
-Promotion / execution safety layers СЃРѕС…СЂР°РЅСЏСЋС‚ production boundary.
+Promotion / execution safety layers сохраняют production boundary.
 
 **Status:** `TEST VERIFIED`
 
@@ -5679,35 +5679,35 @@ Promotion / execution safety layers СЃРѕС…СЂР°РЅСЏСЋС‚ produ
 - E12;
 - production execution boundary.
 
-## 32.14. РС‚РѕРі
+## 32.14. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
-- AI metadata fields РІ Position;
-- AI metadata fields РІ TradeHistory;
+- AI metadata fields в Position;
+- AI metadata fields в TradeHistory;
 - strategy / regime propagation;
 - production Risk / Execution sequence;
 - Strategy Version identity;
 - production isolation.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
-- РїРѕР»РЅР°СЏ runtime propagation `ai_experiment_id`;
-- РїРѕР»РЅР°СЏ runtime propagation `ai_decision_id`;
+- полная runtime propagation `ai_experiment_id`;
+- полная runtime propagation `ai_decision_id`;
 - end-to-end AI Live trade traceability.
 
-РџСЂРёС‡РёРЅР° РѕРіСЂР°РЅРёС‡РµРЅРЅРѕРіРѕ СЃС‚Р°С‚СѓСЃР° вЂ” AI Live execution РІ С‚РµРєСѓС‰РµРј СЃРѕСЃС‚РѕСЏРЅРёРё РѕС‚РєР»СЋС‡С‘РЅ.
+Причина ограниченного статуса — AI Live execution в текущем состоянии отключён.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ runtime audit metadata propagation С‡РµСЂРµР· paper/shadow/Рё Р±СѓРґСѓС‰РёР№ controlled live path.
-# 33. Р Р°Р·РґРµР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєРѕРІ С‚РѕСЂРіРѕРІР»Рё
+**Remaining:** отдельный runtime audit metadata propagation через paper/shadow/и будущий controlled live path.
+# 33. Разделение источников торговли
 
 **Status:** `TEST VERIFIED`
 
-## 33.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 33.1. Каноническое требование
 
-РљР°Р¶РґР°СЏ Position Рё РєР°Р¶РґР°СЏ Р·Р°РїРёСЃСЊ TradeHistory РґРѕР»Р¶РЅС‹ РёРјРµС‚СЊ РѕРґРЅРѕР·РЅР°С‡РЅС‹Р№ `trade_source`.
+Каждая Position и каждая запись TradeHistory должны иметь однозначный `trade_source`.
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёРµ РёСЃС‚РѕС‡РЅРёРєРё:
+Канонические источники:
 
 - `STRATEGY_ENGINE`;
 - `GRID`;
@@ -5717,17 +5717,17 @@ Promotion / execution safety layers СЃРѕС…СЂР°РЅСЏСЋС‚ produ
 - `AI_LIVE`;
 - `MANUAL`.
 
-РСЃС‚РѕСЂРёС‡РµСЃРєРёРµ `LEGACY` Р·Р°РїРёСЃРё РЅРµ РґРѕР»Р¶РЅС‹ СЃРјРµС€РёРІР°С‚СЊСЃСЏ СЃ РІР°Р»РёРґРЅРѕР№ production statistics.
+Исторические `LEGACY` записи не должны смешиваться с валидной production statistics.
 
-`BASELINE` СЏРІР»СЏРµС‚СЃСЏ comparison participant, Р° РЅРµ trade_source.
+`BASELINE` является comparison participant, а не trade_source.
 
 ## 33.2. Position source field
 
-`models/position.py` СЃРѕРґРµСЂР¶РёС‚:
+`models/position.py` содержит:
 
 `trade_source`
 
-Рё СЃРІСЏР·Р°РЅРЅС‹Рµ AI metadata fields.
+и связанные AI metadata fields.
 
 **Status:** `VERIFIED`
 
@@ -5735,11 +5735,11 @@ Promotion / execution safety layers СЃРѕС…СЂР°РЅСЏСЋС‚ produ
 
 ## 33.3. TradeHistory source field
 
-`models/trade_history.py` СЃРѕРґРµСЂР¶РёС‚:
+`models/trade_history.py` содержит:
 
 `trade_source`
 
-Рё СЃРІСЏР·Р°РЅРЅС‹Рµ AI metadata fields.
+и связанные AI metadata fields.
 
 **Status:** `VERIFIED`
 
@@ -5747,11 +5747,11 @@ Promotion / execution safety layers СЃРѕС…СЂР°РЅСЏСЋС‚ produ
 
 ## 33.4. Production source
 
-Production ExecutionAgent РїРµСЂРµРґР°С‘С‚ source:
+Production ExecutionAgent передаёт source:
 
 `STRATEGY_ENGINE`
 
-РІ ExecutionBoundary.
+в ExecutionBoundary.
 
 **Status:** `VERIFIED`
 
@@ -5761,17 +5761,17 @@ Production ExecutionAgent РїРµСЂРµРґР°С‘С‚ source:
 
 ## 33.5. Grid separation
 
-Grid СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј С‚РѕСЂРіРѕРІС‹Рј РєРѕРЅС‚СѓСЂРѕРј.
+Grid является отдельным торговым контуром.
 
-Grid РЅРµ РґРѕР»Р¶РµРЅ СЂР°СЃСЃРјР°С‚СЂРёРІР°С‚СЊСЃСЏ РєР°Рє РѕР±С‹С‡РЅР°СЏ Strategy Engine strategy.
+Grid не должен рассматриваться как обычная Strategy Engine strategy.
 
-**Status:** `VERIFIED` РЅР° СѓСЂРѕРІРЅРµ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕРіРѕ СЂР°Р·РґРµР»РµРЅРёСЏ.
+**Status:** `VERIFIED` на уровне архитектурного разделения.
 
 ## 33.6. AI Paper separation
 
-AI Paper РґРѕР»Р¶РµРЅ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РѕС‚РґРµР»СЊРЅРѕ РѕС‚ real production trades.
+AI Paper должен существовать отдельно от real production trades.
 
-Paper trade РёРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂР° СЂРµР°Р»РёР·РѕРІР°РЅР° РѕС‚РґРµР»СЊРЅРѕР№ РјРѕРґРµР»СЊСЋ:
+Paper trade инфраструктура реализована отдельной моделью:
 
 `models/ai_paper_trade.py`
 
@@ -5779,9 +5779,9 @@ Paper trade РёРЅС„СЂР°СЃС‚СЂСѓРєС‚СѓСЂР° СЂРµ
 
 ## 33.7. AI Shadow separation
 
-AI Shadow decisions РЅРµ СЏРІР»СЏСЋС‚СЃСЏ СЂРµР°Р»СЊРЅС‹РјРё Trade records.
+AI Shadow decisions не являются реальными Trade records.
 
-РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅР°СЏ shadow infrastructure.
+Используется отдельная shadow infrastructure.
 
 **Status:** `TEST VERIFIED`
 
@@ -5792,19 +5792,19 @@ AI Shadow decisions РЅРµ СЏРІР»СЏСЋС‚СЃСЏ СЂРµР°Р»�
 
 ## 33.8. AI Live separation
 
-`AI_LIVE` РїСЂРµРґСѓСЃРјРѕС‚СЂРµРЅ РєР°РЅРѕРЅРёС‡РµСЃРєРѕР№ Р°СЂС…РёС‚РµРєС‚СѓСЂРѕР№ РєР°Рє РѕС‚РґРµР»СЊРЅС‹Р№ source.
+`AI_LIVE` предусмотрен канонической архитектурой как отдельный source.
 
-РџСЂРё СЌС‚РѕРј Restricted Live Рё Full Live РІ С‚РµРєСѓС‰РµРј СЃРѕСЃС‚РѕСЏРЅРёРё РѕС‚РєР»СЋС‡РµРЅС‹.
+При этом Restricted Live и Full Live в текущем состоянии отключены.
 
-**Status:** `VERIFIED` РґР»СЏ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕРіРѕ source definition; `NOT VERIFIED` РґР»СЏ С„Р°РєС‚РёС‡РµСЃРєРёС… live records.
+**Status:** `VERIFIED` для архитектурного source definition; `NOT VERIFIED` для фактических live records.
 
 ## 33.9. Comparison source isolation
 
-Comparison Engine РёРјРµРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ source isolation layer:
+Comparison Engine имеет отдельный source isolation layer:
 
 `services/ai_comparison_trade_source.py`
 
-Comparison participants РЅРµ РґРѕР»Р¶РЅС‹ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ Trade records.
+Comparison participants не должны автоматически становиться Trade records.
 
 **Status:** `TEST VERIFIED`
 
@@ -5812,7 +5812,7 @@ Comparison participants РЅРµ РґРѕР»Р¶РЅС‹ Р°РІС‚РѕРј
 
 ## 33.10. Production performance isolation
 
-Production performance РЅРµ РґРѕР»Р¶РЅР° РІРєР»СЋС‡Р°С‚СЊ:
+Production performance не должна включать:
 
 - AI Paper;
 - AI Shadow;
@@ -5830,39 +5830,39 @@ Production performance РЅРµ РґРѕР»Р¶РЅР° РІРєР»СЋС‡Р
 
 ## 33.11. Legacy handling
 
-Legacy trades РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РёСЃРєР»СЋС‡РµРЅС‹ РёР»Рё РѕС‚РґРµР»СЊРЅРѕ РјР°СЂРєРёСЂРѕРІР°РЅС‹ РїСЂРё research analysis.
+Legacy trades должны быть исключены или отдельно маркированы при research analysis.
 
-Knowledge/Data Quality infrastructure СЃРѕРґРµСЂР¶РёС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ source/data guards.
+Knowledge/Data Quality infrastructure содержит соответствующие source/data guards.
 
-**Status:** `VERIFIED` РґР»СЏ research filtering.
+**Status:** `VERIFIED` для research filtering.
 
 ## 33.12. Trade source integrity
 
-РћР±РЅР°СЂСѓР¶РµРЅ РѕС‚РґРµР»СЊРЅС‹Р№ СЃРµСЂРІРёСЃ:
+Обнаружен отдельный сервис:
 
 `services/ai_trade_source_integrity.py`
 
-РћРЅ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ РєРѕРЅС‚СЂРѕР»СЏ source identity Рё РЅРµРґРѕРїСѓС‰РµРЅРёСЏ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕРіРѕ mixing.
+Он предназначен для контроля source identity и недопущения некорректного mixing.
 
 **Status:** `VERIFIED`
 
 ## 33.13. Source propagation
 
-Source РґРѕР»Р¶РµРЅ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ С‡РµСЂРµР·:
+Source должен сохраняться через:
 
-`Execution в†’ Position в†’ TradeHistory`
+`Execution → Position → TradeHistory`
 
-Schema РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЌС‚Сѓ С‚СЂР°СЃСЃРёСЂСѓРµРјРѕСЃС‚СЊ.
+Schema поддерживает эту трассируемость.
 
 **Status:** `PARTIALLY VERIFIED`
 
-РџРѕР»РЅС‹Р№ runtime proof РІСЃРµС… AI source variants С‚СЂРµР±СѓРµС‚ С„Р°РєС‚РёС‡РµСЃРєРёС… executions СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… С‚РёРїРѕРІ, Р° `AI_LIVE` currently disabled.
+Полный runtime proof всех AI source variants требует фактических executions соответствующих типов, а `AI_LIVE` currently disabled.
 
 ## 33.14. Statistical isolation
 
-Р’СЃРµ research/validation/comparison calculations РґРѕР»Р¶РЅС‹ СЏРІРЅРѕ Р·Р°РґР°РІР°С‚СЊ РґРѕРїСѓСЃС‚РёРјС‹Р№ source scope.
+Все research/validation/comparison calculations должны явно задавать допустимый source scope.
 
-Implicit cross-source aggregation Р·Р°РїСЂРµС‰С‘РЅ.
+Implicit cross-source aggregation запрещён.
 
 **Status:** `TEST VERIFIED`
 
@@ -5870,12 +5870,12 @@ Implicit cross-source aggregation Р·Р°РїСЂРµС‰С‘РЅ.
 - B1 data quality/source filtering;
 - F.6 trade_source separation.
 
-## 33.15. РС‚РѕРі
+## 33.15. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
-- trade_source РІ Position;
-- trade_source РІ TradeHistory;
+- trade_source в Position;
+- trade_source в TradeHistory;
 - production source;
 - Grid separation;
 - AI Paper separation;
@@ -5885,19 +5885,19 @@ Implicit cross-source aggregation Р·Р°РїСЂРµС‰С‘РЅ.
 - trade-source integrity service;
 - production statistics isolation.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Частично подтверждено:
 
-- РїРѕР»РЅС‹Р№ runtime propagation РєР°Р¶РґРѕРіРѕ source С‡РµСЂРµР· РІРµСЃСЊ production lifecycle;
-- AI Live source, РїРѕСЃРєРѕР»СЊРєСѓ live AI execution РѕС‚РєР»СЋС‡С‘РЅ.
+- полный runtime propagation каждого source через весь production lifecycle;
+- AI Live source, поскольку live AI execution отключён.
 
-**Remaining:** РїРµСЂРёРѕРґРёС‡РµСЃРєРёР№ source-integrity audit Рё runtime proof РЅРѕРІС‹С… source variants РїСЂРё РёС… С„Р°РєС‚РёС‡РµСЃРєРѕРј РїРѕСЏРІР»РµРЅРёРё.
+**Remaining:** периодический source-integrity audit и runtime proof новых source variants при их фактическом появлении.
 # 34. API
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 34.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 34.1. Каноническое требование
 
-AIEA РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚СЊ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјС‹Р№ API РєР°Рє РјРёРЅРёРјСѓРј РґР»СЏ:
+AIEA должен предоставлять контролируемый API как минимум для:
 
 - AI status;
 - strategies;
@@ -5913,17 +5913,17 @@ AIEA РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚
 - events;
 - comparison.
 
-Mutation endpoints РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕС‚РґРµР»РµРЅС‹ РѕС‚ read-only endpoints Рё С‚СЂРµР±РѕРІР°С‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ permission level.
+Mutation endpoints должны быть отделены от read-only endpoints и требовать соответствующий permission level.
 
-API РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚СЊ AIEA РїСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї Рє:
+API не должен предоставлять AIEA прямой доступ к:
 
 - ExecutionAgent;
 - RiskAgent;
 - BingX exchange execution.
 
-## 34.2. Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‰Р°СЏ API infrastructure
+## 34.2. Фактически существующая API infrastructure
 
-Р’ РїСЂРѕРµРєС‚Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ FastAPI application Рё РЅР°Р±РѕСЂ routers:
+В проекте существует FastAPI application и набор routers:
 
 - `routers/agents.py`;
 - `routers/dashboard.py`;
@@ -5932,9 +5932,9 @@ API РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»�
 - `routers/portfolio.py`;
 - `routers/signals.py`;
 - `routers/trading.py`;
-- РґСЂСѓРіРёРµ production routers.
+- другие production routers.
 
-РћСЃРЅРѕРІРЅРѕР№ application entry:
+Основной application entry:
 
 `app_fastapi.py`
 
@@ -5942,7 +5942,7 @@ API РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»�
 
 ## 34.3. AIEA-specific endpoints
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїР»Р°РЅ РїСЂРµРґСѓСЃРјР°С‚СЂРёРІР°РµС‚:
+Канонический план предусматривает:
 
 `GET /api/ai/status`
 `GET /api/ai/strategies`
@@ -5952,7 +5952,7 @@ API РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»�
 `GET /api/ai/performance`
 `GET /api/ai/shadow`
 
-Рё mutation endpoints РґР»СЏ:
+и mutation endpoints для:
 
 - experiment creation;
 - validation;
@@ -5960,13 +5960,13 @@ API РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»�
 - rollback;
 - kill-switch.
 
-Р’ РїСЂРѕРІРµРґС‘РЅРЅРѕРј audit РїРѕР»РЅС‹Р№ РЅР°Р±РѕСЂ СЌС‚РёС… endpoints РєР°Рє РµРґРёРЅРѕРіРѕ AIEA API РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+В проведённом audit полный набор этих endpoints как единого AIEA API не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 34.4. Read-only AI API
 
-Р”РѕР»Р¶РЅС‹ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ read-only operations РґР»СЏ:
+Должны существовать read-only operations для:
 
 - hypotheses;
 - memory;
@@ -5975,17 +5975,17 @@ API РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»�
 - News/Event;
 - comparison.
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅС‹Р№ AIEA read API surface РїРѕРєР° РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Отдельный полный AIEA read API surface пока не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 34.5. Promotion API
 
-Promotion endpoint РґРѕР»Р¶РµРЅ С‚СЂРµР±РѕРІР°С‚СЊ РѕС‚РґРµР»СЊРЅС‹Р№ permission level.
+Promotion endpoint должен требовать отдельный permission level.
 
-Promotion Manager СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РєР°Рє internal controlled mutation boundary.
+Promotion Manager уже существует как internal controlled mutation boundary.
 
-**Status:** `TEST VERIFIED` РґР»СЏ internal promotion control; `NOT VERIFIED` РґР»СЏ РїРѕР»РЅРѕРіРѕ public HTTP API surface.
+**Status:** `TEST VERIFIED` для internal promotion control; `NOT VERIFIED` для полного public HTTP API surface.
 
 **Evidence:**
 - E1;
@@ -5995,47 +5995,47 @@ Promotion Manager СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рє�
 
 ## 34.6. Rollback API
 
-Rollback РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ controlled operation Рё РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРѕСЃС‚СѓРїРµРЅ Р±РµР· СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ identity / state validation.
+Rollback должен быть controlled operation и не должен быть доступен без соответствующей identity / state validation.
 
-Internal rollback service СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Internal rollback service существует:
 
 `services/ai_promotion_rollback.py`
 
-**Status:** `TEST VERIFIED` РґР»СЏ service boundary; HTTP endpoint РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+**Status:** `TEST VERIFIED` для service boundary; HTTP endpoint отдельно не подтверждён.
 
 **Evidence:** E8/E9.
 
 ## 34.7. Kill-switch API
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ API РїСЂРµРґСѓСЃРјР°С‚СЂРёРІР°РµС‚:
+Канонический API предусматривает:
 
 `POST /api/ai/kill-switch`
 
-Р”РѕР»Р¶РµРЅ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Р±РѕР»РµРµ РІС‹СЃРѕРєРёР№ permission level.
+Должен использовать более высокий permission level.
 
-Dedicated AIEA kill-switch API РїРѕРєР° РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Dedicated AIEA kill-switch API пока не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 34.8. API authorization
 
-Production API РёРјРµРµС‚ authentication / authorization infrastructure.
+Production API имеет authentication / authorization infrastructure.
 
-РћРґРЅР°РєРѕ РѕС‚РґРµР»СЊРЅР°СЏ exhaustive authorization matrix РёРјРµРЅРЅРѕ РґР»СЏ AIEA endpoints РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Однако отдельная exhaustive authorization matrix именно для AIEA endpoints не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 34.9. Direct execution exposure
 
-API РЅРµ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚СЊ AIEA РІС‹Р·С‹РІР°С‚СЊ:
+API не должен позволять AIEA вызывать:
 
-- ExecutionAgent РЅР°РїСЂСЏРјСѓСЋ;
-- RiskAgent РЅР°РїСЂСЏРјСѓСЋ;
-- BingX РЅР°РїСЂСЏРјСѓСЋ.
+- ExecutionAgent напрямую;
+- RiskAgent напрямую;
+- BingX напрямую.
 
-Production architecture РёСЃРїРѕР»СЊР·СѓРµС‚ ExecutionBoundary.
+Production architecture использует ExecutionBoundary.
 
-**Status:** `VERIFIED` РґР»СЏ production execution architecture.
+**Status:** `VERIFIED` для production execution architecture.
 
 **Evidence:**
 - ExecutionBoundary;
@@ -6043,7 +6043,7 @@ Production architecture РёСЃРїРѕР»СЊР·СѓРµС‚ ExecutionBound
 
 ## 34.10. User isolation at API layer
 
-AIEA API РґРѕР»Р¶РµРЅ СЃРѕС…СЂР°РЅСЏС‚СЊ user ownership РїСЂРё СЂР°Р±РѕС‚Рµ СЃ:
+AIEA API должен сохранять user ownership при работе с:
 
 - hypotheses;
 - experiments;
@@ -6053,13 +6053,13 @@ AIEA API РґРѕР»Р¶РµРЅ СЃРѕС…СЂР°РЅСЏС‚СЊ user ow
 - audit;
 - comparison.
 
-A8/E11 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ underlying identity isolation, РЅРѕ РїРѕР»РЅС‹Р№ HTTP-layer isolation audit РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+A8/E11 подтверждают underlying identity isolation, но полный HTTP-layer isolation audit не выполнен.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 34.11. API mutation safety
 
-Mutation endpoints РЅРµ РґРѕР»Р¶РЅС‹ РїРѕР·РІРѕР»СЏС‚СЊ:
+Mutation endpoints не должны позволять:
 
 - direct strategy overwrite;
 - permission escalation;
@@ -6068,26 +6068,26 @@ Mutation endpoints РЅРµ РґРѕР»Р¶РЅС‹ РїРѕР·РІРѕР»С
 - risk approval bypass;
 - execution bypass.
 
-Internal promotion controls СѓР¶Рµ Р·Р°С‰РёС‰РµРЅС‹.
+Internal promotion controls уже защищены.
 
-**Status:** `TEST VERIFIED` РґР»СЏ internal mutation boundaries.
+**Status:** `TEST VERIFIED` для internal mutation boundaries.
 
 **Evidence:**
-- E1вЂ“E12.
+- E1–E12.
 
 ## 34.12. API observability / audit
 
-AI mutations РґРѕР»Р¶РЅС‹ РѕСЃС‚Р°РІР»СЏС‚СЊ audit trail.
+AI mutations должны оставлять audit trail.
 
-Promotion/rollback audit СѓР¶Рµ СЂРµР°Р»РёР·РѕРІР°РЅС‹.
+Promotion/rollback audit уже реализованы.
 
-РџРѕР»РЅС‹Р№ audit РІСЃРµС… AIEA HTTP mutations РїРѕРєР° РЅРµ РґРѕРєР°Р·Р°РЅ.
+Полный audit всех AIEA HTTP mutations пока не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 34.13. РС‚РѕРі
+## 34.13. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - FastAPI production infrastructure;
 - controlled internal promotion/rollback boundaries;
@@ -6095,9 +6095,9 @@ Promotion/rollback audit СѓР¶Рµ СЂРµР°Р»РёР·РѕРІР°РЅС
 - underlying identity isolation;
 - internal mutation safety.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
-- РїРѕР»РЅС‹Р№ AIEA REST API;
+- полный AIEA REST API;
 - read-only AI endpoints;
 - promotion HTTP API;
 - rollback HTTP API;
@@ -6106,20 +6106,20 @@ Promotion/rollback audit СѓР¶Рµ СЂРµР°Р»РёР·РѕРІР°РЅС
 - HTTP-layer user isolation;
 - complete API mutation audit coverage.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit Рё implementation mapping AIEA API surface.
+**Remaining:** отдельный factual audit и implementation mapping AIEA API surface.
 # 35. Dashboard
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 35.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 35.1. Каноническое требование
 
-Dashboard РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕС‚РґРµР»СЊРЅС‹Р№ СЂР°Р·РґРµР»:
+Dashboard должен иметь отдельный раздел:
 
 `AI EVOLUTION`
 
-РћРЅ РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ РѕС‚РґРµР»СЊРЅРѕ experimental Рё production СЂРµР·СѓР»СЊС‚Р°С‚С‹.
+Он должен показывать отдельно experimental и production результаты.
 
-РћР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ РєР°С‚РµРіРѕСЂРёРё:
+Обязательные категории:
 
 - current AI level;
 - active AI model;
@@ -6144,18 +6144,18 @@ Dashboard РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕС‚РґРµР»С
 - AI performance by symbol;
 - AI performance by LONG/SHORT.
 
-РќРµР»СЊР·СЏ РѕР±СЉРµРґРёРЅСЏС‚СЊ Paper / Shadow / Restricted Live / Full Live PnL Р±РµР· СЏРІРЅРѕРіРѕ СѓРєР°Р·Р°РЅРёСЏ source.
+Нельзя объединять Paper / Shadow / Restricted Live / Full Live PnL без явного указания source.
 
-## 35.2. Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‰Р°СЏ Dashboard infrastructure
+## 35.2. Фактически существующая Dashboard infrastructure
 
-Р’ РїСЂРѕРµРєС‚Рµ РѕР±РЅР°СЂСѓР¶РµРЅС‹:
+В проекте обнаружены:
 
 - `routers/dashboard.py`;
 - `templates/dashboard.html`;
 - `static/js/dashboard.js`;
 - dashboard-related API functionality.
 
-РћСЃРЅРѕРІРЅРѕРµ РїСЂРёР»РѕР¶РµРЅРёРµ РёСЃРїРѕР»СЊР·СѓРµС‚ FastAPI Рё РѕС‚РґРµР»СЊРЅС‹Р№ dashboard router.
+Основное приложение использует FastAPI и отдельный dashboard router.
 
 **Status:** `VERIFIED`
 
@@ -6166,21 +6166,21 @@ Dashboard РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕС‚РґРµР»С
 
 ## 35.3. Existing production dashboard
 
-Production dashboard СѓР¶Рµ СЃРѕРґРµСЂР¶РёС‚ С‚РѕСЂРіРѕРІС‹Рµ/portfolio views NEXUS.
+Production dashboard уже содержит торговые/portfolio views NEXUS.
 
-Р­С‚Рѕ РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕРј РїРѕР»РЅРѕС†РµРЅРЅРѕРіРѕ AI Evolution Dashboard.
+Это не является автоматически доказательством полноценного AI Evolution Dashboard.
 
-**Status:** `VERIFIED` РґР»СЏ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРіРѕ production UI.
+**Status:** `VERIFIED` для существующего production UI.
 
 ## 35.4. AI Evolution section
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ Dashboard section `AI EVOLUTION` СЃРѕ РІСЃРµРјРё РєР°РЅРѕРЅРёС‡РµСЃРєРёРјРё AI metrics РІ РїСЂРѕРІРµРґС‘РЅРЅРѕРј audit РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Отдельный полноценный Dashboard section `AI EVOLUTION` со всеми каноническими AI metrics в проведённом audit не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 35.5. Experiment visibility
 
-AI experiments РґРѕР»Р¶РЅС‹ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ СЃ:
+AI experiments должны отображаться с:
 
 - experiment identity;
 - strategy version;
@@ -6189,13 +6189,13 @@ AI experiments РґРѕР»Р¶РЅС‹ РѕС‚РѕР±СЂР°Р¶Р°С‚�
 - result;
 - timestamp.
 
-Backend experiment infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ РїРѕР»РЅС‹Р№ UI mapping РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Backend experiment infrastructure существует, но полный UI mapping не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.6. Strategy Version visibility
 
-Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ:
+Dashboard должен показывать:
 
 - strategy;
 - version;
@@ -6204,15 +6204,15 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ:
 - status;
 - validation state.
 
-Strategy Version backend infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Strategy Version backend infrastructure существует.
 
-РџРѕР»РЅС‹Р№ dashboard presentation РЅРµ РґРѕРєР°Р·Р°РЅ.
+Полный dashboard presentation не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.7. Performance separation
 
-Dashboard РґРѕР»Р¶РµРЅ СЏРІРЅРѕ СЂР°Р·РґРµР»СЏС‚СЊ:
+Dashboard должен явно разделять:
 
 - production;
 - AI Paper;
@@ -6221,17 +6221,17 @@ Dashboard РґРѕР»Р¶РµРЅ СЏРІРЅРѕ СЂР°Р·РґРµР»СЏ
 - AI Full Live;
 - Grid.
 
-РЎСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ comparison/source infrastructure РїРѕРґРґРµСЂР¶РёРІР°СЋС‚ source separation РЅР° backend level.
+Существующие comparison/source infrastructure поддерживают source separation на backend level.
 
-РџРѕР»РЅРѕРµ UI enforcement РЅРµ РїСЂРѕРІРµСЂРµРЅРѕ.
+Полное UI enforcement не проверено.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.8. AI vs Production
 
-Comparison Engine РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚ backend data РґР»СЏ AI vs production comparison.
+Comparison Engine предоставляет backend data для AI vs production comparison.
 
-РџРѕР»РЅС‹Р№ dashboard visualization СЌС‚РѕРіРѕ comparison РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный dashboard visualization этого comparison не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -6239,9 +6239,9 @@ Comparison Engine РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚ backend
 
 ## 35.9. Promotion / Rollback visualization
 
-Promotion Рё rollback backend audit infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Promotion и rollback backend audit infrastructure существует.
 
-UI РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ:
+UI отображение:
 
 - promotion history;
 - rollback history;
@@ -6249,29 +6249,29 @@ UI РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ:
 - permission level;
 - risk approval
 
-РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.
+отдельно не подтверждено.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.10. Hypothesis / Learning history
 
-Hypothesis and Memory infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Hypothesis and Memory infrastructure существует:
 
 - Hypothesis;
 - Lessons;
 - Experiments.
 
-РџРѕР»РЅС‹Р№ dashboard workflow РґР»СЏ:
+Полный dashboard workflow для:
 
-`Observation в†’ Hypothesis в†’ Experiment в†’ Lesson`
+`Observation → Hypothesis → Experiment → Lesson`
 
-РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.11. News/Event dashboard
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ:
+Канонически Dashboard должен показывать:
 
 - current high-impact events;
 - event context;
@@ -6279,45 +6279,45 @@ Hypothesis and Memory infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚
 - event direction / impact;
 - strategy behaviour around events.
 
-News/Event backend foundation СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ dashboard visualization РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+News/Event backend foundation существует, но полноценный dashboard visualization не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 35.12. Market regime analytics
 
-Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ AI performance РїРѕ:
+Dashboard должен показывать AI performance по:
 
 - market regime;
 - symbol;
 - LONG/SHORT.
 
-Comparison and research infrastructure СѓР¶Рµ СЃРѕРґРµСЂР¶РёС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ dimensions.
+Comparison and research infrastructure уже содержит соответствующие dimensions.
 
-РџРѕР»РЅРѕРµ UI РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РЅРµ РґРѕРєР°Р·Р°РЅРѕ.
+Полное UI представление не доказано.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.13. Trust / promotion state
 
-Dashboard РґРѕР»Р¶РµРЅ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ AI trust level Рё promotion state Р±РµР· РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё UI РѕР±РѕР№С‚Рё permission boundaries.
+Dashboard должен отображать AI trust level и promotion state без возможности UI обойти permission boundaries.
 
-Backend permission layer СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Backend permission layer существует.
 
-РџРѕР»РЅС‹Р№ UI security audit РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.
+Полный UI security audit отсутствует.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.14. Dashboard data isolation
 
-Multi-user AI data РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РёР·РѕР»РёСЂРѕРІР°РЅР°.
+Multi-user AI data должна быть изолирована.
 
-Underlying A8/E11 identity controls СЃСѓС‰РµСЃС‚РІСѓСЋС‚, РЅРѕ HTTP/dashboard-layer user isolation РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїСЂРѕРІРµСЂРµРЅР° РїРѕР»РЅРѕСЃС‚СЊСЋ.
+Underlying A8/E11 identity controls существуют, но HTTP/dashboard-layer user isolation отдельно не проверена полностью.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 35.15. Dashboard mutation safety
 
-Dashboard РЅРµ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚СЊ РѕР±С…РѕРґРёС‚СЊ:
+Dashboard не должен позволять обходить:
 
 - promotion gates;
 - risk approval;
@@ -6326,50 +6326,50 @@ Dashboard РЅРµ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»СЏС‚С�
 - kill switch;
 - production execution boundary.
 
-Internal backend controls СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Internal backend controls уже существуют.
 
-РџРѕР»РЅС‹Р№ UI negative-path audit РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+Полный UI negative-path audit не проведён.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 35.16. РС‚РѕРі
+## 35.16. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
-- СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ production Dashboard;
+- существующий production Dashboard;
 - FastAPI dashboard router;
 - dashboard template / JS;
 - backend comparison data;
 - backend promotion / rollback infrastructure;
 - AI research data sources.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
-- РѕС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ `AI EVOLUTION` UI;
-- РїРѕР»РЅС‹Р№ experiment/strategy/version views;
+- отдельный полноценный `AI EVOLUTION` UI;
+- полный experiment/strategy/version views;
 - source-separated PnL visualization;
 - complete AI vs Production visualization;
 - promotion/rollback UI;
 - learning/hypothesis history UI;
 - News/Event dashboard;
-- РїРѕР»РЅС‹Р№ regime/symbol/side AI analytics UI;
+- полный regime/symbol/side AI analytics UI;
 - dashboard-layer user isolation;
 - UI mutation security audit.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅС‹Р№ Dashboard audit/rework, РІРєР»СЋС‡Р°СЏ API contracts, UI data isolation Рё security.
-# 36. РљСЂРёС‚РµСЂРёРё РїРѕРІС‹С€РµРЅРёСЏ СЃС‚СЂР°С‚РµРіРёРё
+**Remaining:** отдельный полный Dashboard audit/rework, включая API contracts, UI data isolation и security.
+# 36. Критерии повышения стратегии
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 36.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 36.1. Каноническое требование
 
-РљР°Р¶РґС‹Р№ РїРµСЂРµС…РѕРґ РјРµР¶РґСѓ СЃС‚Р°РґРёСЏРјРё Promotion Pipeline РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ С„РѕСЂРјР°Р»СЊРЅС‹Рµ РєСЂРёС‚РµСЂРёРё.
+Каждый переход между стадиями Promotion Pipeline должен иметь формальные критерии.
 
-РњРёРЅРёРјР°Р»СЊРЅР°СЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ:
+Минимальная последовательность:
 
-`Paper в†’ Shadow в†’ Advisory в†’ Restricted Live в†’ Live`
+`Paper → Shadow → Advisory → Restricted Live → Live`
 
-РљСЂРёС‚РµСЂРёРё РґРѕР»Р¶РЅС‹ СѓС‡РёС‚С‹РІР°С‚СЊ РЅРµ С‚РѕР»СЊРєРѕ PnL, РЅРѕ С‚Р°РєР¶Рµ:
+Критерии должны учитывать не только PnL, но также:
 
 - statistical significance;
 - stability;
@@ -6381,11 +6381,11 @@ Internal backend controls СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС�
 - catastrophic risk;
 - News/Event behaviour.
 
-РџРѕСЂРѕРіРё РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РєРѕРЅС„РёРіСѓСЂР°С†РёРѕРЅРЅС‹РјРё Рё РЅРµРґРѕСЃС‚СѓРїРЅС‹РјРё РґР»СЏ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕРіРѕ РёР·РјРµРЅРµРЅРёСЏ AIEA.
+Пороги должны быть конфигурационными и недоступными для самостоятельного изменения AIEA.
 
-## 36.2. Paper в†’ Shadow
+## 36.2. Paper → Shadow
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РїСЂРёРјРµСЂ С‚СЂРµР±СѓРµС‚:
+Канонический пример требует:
 
 - minimum trades >= 100;
 - profit factor >= 1.20;
@@ -6396,11 +6396,11 @@ Internal backend controls СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС�
 
 **Status:** `PARTIALLY VERIFIED`
 
-Formal promotion gate СЃСѓС‰РµСЃС‚РІСѓРµС‚, РѕРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ РѕС‚РґРµР»СЊРЅС‹Р№ audit РІСЃРµС… РїРµСЂРµС‡РёСЃР»РµРЅРЅС‹С… quantitative thresholds РёРјРµРЅРЅРѕ РґР»СЏ СЌС‚РѕРіРѕ РїРµСЂРµС…РѕРґР° РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+Formal promotion gate существует, однако полный отдельный audit всех перечисленных quantitative thresholds именно для этого перехода не выполнен.
 
-## 36.3. Shadow в†’ Advisory
+## 36.3. Shadow → Advisory
 
-РўСЂРµР±СѓРµС‚СЃСЏ:
+Требуется:
 
 - minimum shadow trades >= 200;
 - stability across at least 2 regimes;
@@ -6408,11 +6408,11 @@ Formal promotion gate СЃСѓС‰РµСЃС‚РІСѓРµС‚, РѕРґРЅ�
 
 **Status:** `PARTIALLY VERIFIED`
 
-Shadow quality/stability infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ РїРѕР»РЅС‹Р№ formal gate РїРѕ РІСЃРµРј РїРµСЂРµС‡РёСЃР»РµРЅРЅС‹Рј СѓСЃР»РѕРІРёСЏРј РѕС‚РґРµР»СЊРЅРѕ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Shadow quality/stability infrastructure существует, но полный formal gate по всем перечисленным условиям отдельно не доказан.
 
-## 36.4. Advisory в†’ Restricted Live
+## 36.4. Advisory → Restricted Live
 
-РўСЂРµР±СѓРµС‚СЃСЏ:
+Требуется:
 
 - statistically significant edge;
 - positive shadow expectancy;
@@ -6422,13 +6422,13 @@ Shadow quality/stability infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС
 
 **Status:** `PARTIALLY VERIFIED`
 
-Promotion/risk/permission infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Promotion/risk/permission infrastructure существует.
 
-Restricted Live operational stage РїРѕРєР° disabled.
+Restricted Live operational stage пока disabled.
 
-## 36.5. Restricted Live в†’ Live
+## 36.5. Restricted Live → Live
 
-РўСЂРµР±СѓРµС‚СЃСЏ:
+Требуется:
 
 - minimum live sample;
 - drawdown within limit;
@@ -6437,15 +6437,15 @@ Restricted Live operational stage РїРѕРєР° disabled.
 
 **Status:** `NOT VERIFIED`
 
-Restricted Live Рё Full Live РѕС‚РєР»СЋС‡РµРЅС‹, РїРѕСЌС‚РѕРјСѓ runtime evidence РґР°РЅРЅРѕРіРѕ РїРµСЂРµС…РѕРґР° РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.
+Restricted Live и Full Live отключены, поэтому runtime evidence данного перехода отсутствует.
 
 ## 36.6. Promotion Gate enforcement
 
-Formal gates СѓР¶Рµ СЂРµР°Р»РёР·РѕРІР°РЅС‹ С‡РµСЂРµР·:
+Formal gates уже реализованы через:
 
 `services/ai_promotion_gates.py`
 
-Gate РїСЂРѕРІРµСЂСЏРµС‚ validation evidence Рё stage-specific result requirements.
+Gate проверяет validation evidence и stage-specific result requirements.
 
 **Status:** `TEST VERIFIED`
 
@@ -6459,7 +6459,7 @@ Gate РїСЂРѕРІРµСЂСЏРµС‚ validation evidence Рё stage-specif
 
 ## 36.7. Risk Approval
 
-Promotion РЅРµ РґРѕР»Р¶РµРЅ РїСЂРѕРёСЃС…РѕРґРёС‚СЊ Р±РµР· РѕР±СЏР·Р°С‚РµР»СЊРЅРѕРіРѕ risk approval.
+Promotion не должен происходить без обязательного risk approval.
 
 **Status:** `TEST VERIFIED`
 
@@ -6471,7 +6471,7 @@ Promotion РЅРµ РґРѕР»Р¶РµРЅ РїСЂРѕРёСЃС…РѕРґР�
 
 ## 36.8. Permission enforcement
 
-Promotion stage РґРѕР»Р¶РµРЅ СЃРѕРѕС‚РІРµС‚СЃС‚РІРѕРІР°С‚СЊ promotion level Рё permissions.
+Promotion stage должен соответствовать promotion level и permissions.
 
 **Status:** `TEST VERIFIED`
 
@@ -6484,7 +6484,7 @@ Promotion stage РґРѕР»Р¶РµРЅ СЃРѕРѕС‚РІРµС‚СЃС‚
 
 ## 36.9. Evidence binding
 
-Promotion criteria РґРѕР»Р¶РЅС‹ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ exact validation evidence РґР»СЏ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС…:
+Promotion criteria должны использовать exact validation evidence для соответствующих:
 
 - user;
 - experiment;
@@ -6498,16 +6498,16 @@ Promotion criteria РґРѕР»Р¶РЅС‹ РёСЃРїРѕР»СЊР·РѕР�
 
 ## 36.10. Risk limits / Promotion criteria immutability
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РёР·РјРµРЅСЏС‚СЊ:
+AIEA не должен самостоятельно изменять:
 
 - promotion thresholds;
 - risk limits;
 - required evidence;
 - permission mapping.
 
-Promotion/risk infrastructure РѕС‚РґРµР»РµРЅР° РѕС‚ AI research layer.
+Promotion/risk infrastructure отделена от AI research layer.
 
-**Status:** `TEST VERIFIED` РґР»СЏ permission/safety boundaries.
+**Status:** `TEST VERIFIED` для permission/safety boundaries.
 
 **Evidence:**
 - E5;
@@ -6517,32 +6517,32 @@ Promotion/risk infrastructure РѕС‚РґРµР»РµРЅР° РѕС‚ AI res
 
 ## 36.11. News/Event criteria
 
-Promotion criteria РґРѕР»Р¶РЅС‹ СѓС‡РёС‚С‹РІР°С‚СЊ News/Event behaviour С‚Р°Рј, РіРґРµ СЌС‚Рѕ СЂРµР»РµРІР°РЅС‚РЅРѕ.
+Promotion criteria должны учитывать News/Event behaviour там, где это релевантно.
 
-РџРѕР»РЅС‹Р№ News/Event-aware promotion gate РїРѕРєР° РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный News/Event-aware promotion gate пока не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 36.12. Automated quantitative gate coverage
 
-Р¤РѕСЂРјР°Р»СЊРЅС‹Рµ gates СЃСѓС‰РµСЃС‚РІСѓСЋС‚, РѕРґРЅР°РєРѕ РѕС‚РґРµР»СЊРЅР°СЏ exhaustive matrix, СЃРІСЏР·С‹РІР°СЋС‰Р°СЏ РєР°Р¶РґС‹Р№ promotion transition СЃРѕ РІСЃРµРјРё РєР°РЅРѕРЅРёС‡РµСЃРєРёРјРё quantitative criteria, РµС‰С‘ РЅРµ РїСЂРѕРІРµРґРµРЅР°.
+Формальные gates существуют, однако отдельная exhaustive matrix, связывающая каждый promotion transition со всеми каноническими quantitative criteria, ещё не проведена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 36.13. Current safety state
 
-Promotion infrastructure РЅРµ РІРєР»СЋС‡Р°РµС‚ unrestricted AI live trading.
+Promotion infrastructure не включает unrestricted AI live trading.
 
-РўРµРєСѓС‰РёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ:
+Текущие состояния:
 
 - Restricted Live = DISABLED;
 - Full Live = DISABLED.
 
 **Status:** `VERIFIED`
 
-## 36.14. РС‚РѕРі
+## 36.14. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - formal promotion gate infrastructure;
 - evidence binding;
@@ -6552,26 +6552,26 @@ Promotion infrastructure РЅРµ РІРєР»СЋС‡Р°РµС‚ unrestricte
 - blocked insufficient-data cases;
 - protection against AI self-modification of permissions/limits.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
-- complete quantitative criteria for Paper в†’ Shadow;
-- Shadow в†’ Advisory;
-- Advisory в†’ Restricted Live;
+- complete quantitative criteria for Paper → Shadow;
+- Shadow → Advisory;
+- Advisory → Restricted Live;
 - unified gate matrix.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
-- Restricted Live в†’ Live runtime criteria;
+- Restricted Live → Live runtime criteria;
 - complete News/Event-aware promotion criteria.
 
 **Remaining:** exhaustive audit promotion threshold matrix and future live-stage gates.
-# 37. Р“РµРЅРµСЂР°С†РёСЏ СЃС‚СЂР°С‚РµРіРёРё
+# 37. Генерация стратегии
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 37.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 37.1. Каноническое требование
 
-AIEA РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ СЃС‚СЂСѓРєС‚СѓСЂРёСЂРѕРІР°РЅРЅС‹Р№ research context РґР»СЏ РіРµРЅРµСЂР°С†РёРё РЅРѕРІРѕР№ СЃС‚СЂР°С‚РµРіРёРё:
+AIEA должен получать структурированный research context для генерации новой стратегии:
 
 - market_state;
 - market_regime;
@@ -6584,13 +6584,13 @@ AIEA РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ СЃС‚СЂС
 - News/Event context;
 - historical event behaviour.
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ РїСЂРѕРёР·РІРѕР»СЊРЅС‹Р№ РґРѕСЃС‚СѓРї Рє production filesystem РёР»Рё production execution.
+AIEA не должен получать произвольный доступ к production filesystem или production execution.
 
 ## 37.2. Generation environment
 
-Р“РµРЅРµСЂР°С†РёСЏ РґРѕР»Р¶РЅР° РїСЂРѕРёСЃС…РѕРґРёС‚СЊ РІ research / sandbox environment.
+Генерация должна происходить в research / sandbox environment.
 
-Generated strategy РЅРµ РїРѕР»СѓС‡Р°РµС‚ production permission Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Generated strategy не получает production permission автоматически.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -6601,7 +6601,7 @@ Generated strategy РЅРµ РїРѕР»СѓС‡Р°РµС‚ production permis
 
 ## 37.3. Unique strategy identity
 
-РљР°Р¶РґР°СЏ generated strategy РґРѕР»Р¶РЅР° СЃСЂР°Р·Сѓ РїРѕР»СѓС‡Р°С‚СЊ:
+Каждая generated strategy должна сразу получать:
 
 - unique strategy ID;
 - version;
@@ -6610,9 +6610,9 @@ Generated strategy РЅРµ РїРѕР»СѓС‡Р°РµС‚ production permis
 - validation state;
 - experiment ID.
 
-Strategy Version Рё experiment identity infrastructure СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Strategy Version и experiment identity infrastructure существуют.
 
-**Status:** `TEST VERIFIED` РґР»СЏ identity/linkage components.
+**Status:** `TEST VERIFIED` для identity/linkage components.
 
 **Evidence:**
 - `A9_HYPOTHESIS_OK`
@@ -6621,38 +6621,38 @@ Strategy Version Рё experiment identity infrastructure СЃСѓС‰РµСЃС
 
 ## 37.4. Generation context isolation
 
-Generation context РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃС„РѕСЂРјРёСЂРѕРІР°РЅ РёР· СЂР°Р·СЂРµС€С‘РЅРЅС‹С… research inputs.
+Generation context должен быть сформирован из разрешённых research inputs.
 
-Direct access Рє:
+Direct access к:
 
 - production filesystem;
 - exchange credentials;
 - execution interfaces;
 - unrestricted production database
 
-РЅРµ РґРѕРїСѓСЃРєР°РµС‚СЃСЏ.
+не допускается.
 
 **Status:** `PARTIALLY VERIFIED`
 
-Static validation Рё production safety boundaries СЃСѓС‰РµСЃС‚РІСѓСЋС‚, РЅРѕ РѕС‚РґРµР»СЊРЅС‹Р№ complete generation-context access audit РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+Static validation и production safety boundaries существуют, но отдельный complete generation-context access audit не выполнен.
 
 ## 37.5. Strategy Genome generation
 
-Generated strategy РґРѕР»Р¶РЅР° РёРјРµС‚СЊ machine-readable Genome.
+Generated strategy должна иметь machine-readable Genome.
 
-Static validation РїРѕРґРґРµСЂР¶РёРІР°РµС‚ Strategy Definition / Genome schema.
+Static validation поддерживает Strategy Definition / Genome schema.
 
-РџРѕР»РЅР°СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ РіРµРЅРµСЂР°С†РёСЏ Genome СЃР°РјРёРј AI РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Полная автоматическая генерация Genome самим AI не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 37.6. Hypothesis linkage
 
-Р“РµРЅРµСЂР°С†РёСЏ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РјРѕС‚РёРІРёСЂРѕРІР°РЅР° РєРѕРЅРєСЂРµС‚РЅРѕР№ hypothesis.
+Генерация должна быть мотивирована конкретной hypothesis.
 
-Р¤Р°РєС‚РёС‡РµСЃРєР°СЏ chain infrastructure:
+Фактическая chain infrastructure:
 
-`Knowledge Snapshot в†’ Hypothesis в†’ Experiment в†’ StrategyVersion`
+`Knowledge Snapshot → Hypothesis → Experiment → StrategyVersion`
 
 **Status:** `TEST VERIFIED`
 
@@ -6664,9 +6664,9 @@ Static validation РїРѕРґРґРµСЂР¶РёРІР°РµС‚ Strategy Def
 
 ## 37.7. Experiment linkage
 
-Generated strategy РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С‡Р°СЃС‚СЊСЋ reproducible experiment.
+Generated strategy должна быть частью reproducible experiment.
 
-Experiment model Рё engine СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Experiment model и engine существуют.
 
 **Status:** `TEST VERIFIED`
 
@@ -6674,7 +6674,7 @@ Experiment model Рё engine СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
 
 ## 37.8. Static validation before execution
 
-Generated strategy РґРѕР»Р¶РЅР° РїСЂРѕР№С‚Рё static validation РґРѕ downstream execution.
+Generated strategy должна пройти static validation до downstream execution.
 
 **Status:** `TEST VERIFIED`
 
@@ -6685,25 +6685,25 @@ Generated strategy РґРѕР»Р¶РЅР° РїСЂРѕР№С‚Рё static va
 
 ## 37.9. Sandbox execution
 
-Generated implementation РґРѕР»Р¶РЅР° РІС‹РїРѕР»РЅСЏС‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РІ РёР·РѕР»РёСЂРѕРІР°РЅРЅРѕРј sandbox.
+Generated implementation должна выполняться только в изолированном sandbox.
 
-РќР° С‚РµРєСѓС‰РµРј factual audit production-grade runtime sandbox РЅРµ РґРѕРєР°Р·Р°РЅ.
+На текущем factual audit production-grade runtime sandbox не доказан.
 
 **Status:** `NOT VERIFIED`
 
 ## 37.10. Validation lifecycle
 
-Generated strategy РґРѕР»Р¶РЅР° РїСЂРѕР№С‚Рё:
+Generated strategy должна пройти:
 
-`Static в†’ Backtest в†’ OOS в†’ Walk-Forward в†’ Paper в†’ Shadow в†’ Evaluation в†’ Promotion`
+`Static → Backtest → OOS → Walk-Forward → Paper → Shadow → Evaluation → Promotion`
 
-Validation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ automatic orchestration from generator through all stages РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Validation infrastructure существует, но automatic orchestration from generator through all stages не подтверждена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 37.11. Audit trail
 
-Generation context РґРѕР»Р¶РµРЅ С„РёРєСЃРёСЂРѕРІР°С‚СЊСЃСЏ РІРјРµСЃС‚Рµ СЃ:
+Generation context должен фиксироваться вместе с:
 
 - AI agent;
 - model;
@@ -6714,15 +6714,15 @@ Generation context РґРѕР»Р¶РµРЅ С„РёРєСЃРёСЂРѕРІР�
 - experiment;
 - strategy version.
 
-AI audit model Рё promotion audit СЃСѓС‰РµСЃС‚РІСѓСЋС‚, РЅРѕ РїРѕР»РЅС‹Р№ population audit РґР»СЏ generation actions РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.
+AI audit model и promotion audit существуют, но полный population audit для generation actions отсутствует.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 37.12. Production permission boundary
 
-Generated strategy РЅРµ РґРѕР»Р¶РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ production-ready.
+Generated strategy не должна автоматически становиться production-ready.
 
-Promotion С‚СЂРµР±СѓРµС‚СЃСЏ РїСЂРѕР№С‚Рё С‡РµСЂРµР·:
+Promotion требуется пройти через:
 
 - validation evidence;
 - formal gate;
@@ -6742,9 +6742,9 @@ Promotion С‚СЂРµР±СѓРµС‚СЃСЏ РїСЂРѕР№С‚Рё С�
 
 ## 37.13. Autonomous generator
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
-- РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ autonomous Strategy Generator service;
+- полноценный autonomous Strategy Generator service;
 - automatic context assembly;
 - automatic Genome generation;
 - automatic implementation generation;
@@ -6756,9 +6756,9 @@ Promotion С‚СЂРµР±СѓРµС‚СЃСЏ РїСЂРѕР№С‚Рё С�
 
 **Status:** `NOT VERIFIED`
 
-## 37.14. РС‚РѕРі
+## 37.14. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - strategy identity infrastructure;
 - hypothesis linkage;
@@ -6767,7 +6767,7 @@ Promotion С‚СЂРµР±СѓРµС‚СЃСЏ РїСЂРѕР№С‚Рё С�
 - downstream validation infrastructure;
 - production permission boundary.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
 - generation environment;
 - generation context isolation;
@@ -6775,28 +6775,28 @@ Promotion С‚СЂРµР±СѓРµС‚СЃСЏ РїСЂРѕР№С‚Рё С�
 - validation orchestration;
 - generation audit coverage.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ:
+Не подтверждён:
 
-- РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ autonomous Strategy Generator.
+- полноценный autonomous Strategy Generator.
 
-**Remaining:** factual audit autonomous generation engine Рё РµРіРѕ end-to-end lifecycle.
-# 38. РР·РјРµРЅРµРЅРёРµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… СЃС‚СЂР°С‚РµРіРёР№
+**Remaining:** factual audit autonomous generation engine и его end-to-end lifecycle.
+# 38. Изменение существующих стратегий
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 38.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 38.1. Каноническое требование
 
-AIEA РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїСЂРµРґР»Р°РіР°С‚СЊ РёР·РјРµРЅРµРЅРёСЏ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… СЃС‚СЂР°С‚РµРіРёР№ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· СЃРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ РІРµСЂСЃРёРё.
+AIEA должен иметь возможность предлагать изменения существующих стратегий только через создание новой версии.
 
-РЎСѓС‰РµСЃС‚РІСѓСЋС‰Р°СЏ РІРµСЂСЃРёСЏ РЅРµ РґРѕР»Р¶РЅР° РїРµСЂРµРїРёСЃС‹РІР°С‚СЊСЃСЏ.
+Существующая версия не должна переписываться.
 
-РљР°Р¶РґРѕРµ РёР·РјРµРЅРµРЅРёРµ РґРѕР»Р¶РЅРѕ РїСЂРѕС…РѕРґРёС‚СЊ С‚РѕС‚ Р¶Рµ controlled lifecycle, С‡С‚Рѕ Рё РЅРѕРІР°СЏ СЃС‚СЂР°С‚РµРіРёСЏ:
+Каждое изменение должно проходить тот же controlled lifecycle, что и новая стратегия:
 
-`Hypothesis в†’ New Version в†’ Experiment в†’ Validation в†’ Evaluation в†’ Promotion`
+`Hypothesis → New Version → Experiment → Validation → Evaluation → Promotion`
 
-## 38.2. Р”РѕРїСѓСЃС‚РёРјС‹Рµ С‚РёРїС‹ РёР·РјРµРЅРµРЅРёР№
+## 38.2. Допустимые типы изменений
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё РїСЂРµРґСѓСЃРјРѕС‚СЂРµРЅС‹:
+Канонически предусмотрены:
 
 - parameter change;
 - rule addition;
@@ -6814,18 +6814,18 @@ AIEA РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РІРѕР·РјРѕР¶РЅ
 - News/Event filter;
 - News/Event risk restriction.
 
-РџРѕР»РЅС‹Р№ implementation РІСЃРµС… РѕРїРµСЂР°С‚РѕСЂРѕРІ РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный implementation всех операторов отдельно не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 38.3. Parent version requirement
 
-РќРѕРІР°СЏ РёР·РјРµРЅС‘РЅРЅР°СЏ РІРµСЂСЃРёСЏ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°РЅР° СЃ РёСЃС…РѕРґРЅРѕР№:
+Новая изменённая версия должна быть связана с исходной:
 
 `parent_strategy`
 `parent_version`
 
-Genealogy infrastructure РїРѕРґРґРµСЂР¶РёРІР°РµС‚ parent linkage.
+Genealogy infrastructure поддерживает parent linkage.
 
 **Status:** `TEST VERIFIED`
 
@@ -6836,7 +6836,7 @@ Genealogy infrastructure РїРѕРґРґРµСЂР¶РёРІР°РµС‚ paren
 
 ## 38.4. Required change metadata
 
-Р”Р»СЏ РєР°Р¶РґРѕРіРѕ РёР·РјРµРЅРµРЅРёСЏ РґРѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ:
+Для каждого изменения должны сохраняться:
 
 - parent strategy;
 - parent version;
@@ -6847,28 +6847,28 @@ Genealogy infrastructure РїРѕРґРґРµСЂР¶РёРІР°РµС‚ paren
 - actual_effect;
 - validation_history.
 
-Strategy Version / Experiment / Hypothesis infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Strategy Version / Experiment / Hypothesis infrastructure существует.
 
-РџРѕР»РЅР°СЏ persistence РёРјРµРЅРЅРѕ change-level metadata РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Полная persistence именно change-level metadata отдельно не подтверждена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 38.5. Before / After Strategy Definition
 
-Р”РѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ:
+Должны сохраняться:
 
 `Genome_before`
 `Genome_after`
 
-С‡С‚РѕР±С‹ Р±С‹Р»Рѕ РІРѕР·РјРѕР¶РЅРѕ РѕРїСЂРµРґРµР»РёС‚СЊ С‚РѕС‡РЅРѕРµ РёР·РјРµРЅРµРЅРёРµ.
+чтобы было возможно определить точное изменение.
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ before/after Genome persistence РЅРµ РґРѕРєР°Р·Р°РЅ.
+Отдельный полноценный before/after Genome persistence не доказан.
 
 **Status:** `NOT VERIFIED`
 
 ## 38.6. Immutable parent
 
-РСЃС…РѕРґРЅР°СЏ version РґРѕР»Р¶РЅР° РѕСЃС‚Р°РІР°С‚СЊСЃСЏ РЅРµРёР·РјРµРЅРЅРѕР№ РїРѕСЃР»Рµ modification.
+Исходная version должна оставаться неизменной после modification.
 
 **Status:** `TEST VERIFIED`
 
@@ -6876,21 +6876,21 @@ Strategy Version / Experiment / Hypothesis infrastructure СЃСѓС‰РµСЃ�
 - `E8_PARENT_VERSION_PRESERVED_OK`
 - `E9_PARENT_PRESERVED_OK`
 
-## 38.7. Modification в†’ Experiment
+## 38.7. Modification → Experiment
 
-РљР°Р¶РґР°СЏ modification РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РїСЂРѕРІРµСЂРµРЅР° РѕС‚РґРµР»СЊРЅС‹Рј experiment.
+Каждая modification должна быть проверена отдельным experiment.
 
-**Status:** `TEST VERIFIED` РґР»СЏ identity infrastructure, РЅРѕ automatic modification-to-experiment orchestration РЅРµ РґРѕРєР°Р·Р°РЅР°.
+**Status:** `TEST VERIFIED` для identity infrastructure, но automatic modification-to-experiment orchestration не доказана.
 
 **Evidence:**
 - `A9_HYPOTHESIS_OK`
 - `A9_EXPERIMENT_STRATEGY_VERSION_OK`
 
-## 38.8. Modification в†’ Validation
+## 38.8. Modification → Validation
 
-РР·РјРµРЅС‘РЅРЅР°СЏ version РґРѕР»Р¶РЅР° РїСЂРѕР№С‚Рё validation Р·Р°РЅРѕРІРѕ.
+Изменённая version должна пройти validation заново.
 
-Validation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Validation infrastructure существует:
 
 - Static;
 - Backtest;
@@ -6899,13 +6899,13 @@ Validation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
 - Paper;
 - Shadow.
 
-**Status:** `TEST VERIFIED` РґР»СЏ validation boundary.
+**Status:** `TEST VERIFIED` для validation boundary.
 
 **Evidence:** BLOCK D + E2/E3.
 
 ## 38.9. Parent versus child comparison
 
-РќРµРѕР±С…РѕРґРёРјРѕ СЃСЂР°РІРЅРёРІР°С‚СЊ РЅРѕРІСѓСЋ version СЃ parent РїРѕ:
+Необходимо сравнивать новую version с parent по:
 
 - PnL;
 - win rate;
@@ -6918,15 +6918,15 @@ Validation infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
 - side;
 - source.
 
-Comparison infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Comparison infrastructure существует.
 
-РџРѕР»РЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ parent-vs-child evaluation lifecycle РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный автоматический parent-vs-child evaluation lifecycle отдельно не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 38.10. Promotion protection
 
-Modified strategy РЅРµ РґРѕР»Р¶РЅР° РїРѕР»СѓС‡Р°С‚СЊ production permissions Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Modified strategy не должна получать production permissions автоматически.
 
 **Status:** `TEST VERIFIED`
 
@@ -6940,18 +6940,18 @@ Modified strategy РЅРµ РґРѕР»Р¶РЅР° РїРѕР»СѓС‡Р°С�
 
 ## 38.11. News/Event modifications
 
-Р”РѕРїСѓСЃС‚РёРјС‹:
+Допустимы:
 
 - News/Event filter;
 - News/Event risk restriction.
 
-РџРѕР»РЅС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ event-aware modification cycle РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный автоматический event-aware modification cycle не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 38.12. Autonomous modification engine
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
 - automatic parent selection;
 - automatic modification operator selection;
@@ -6964,9 +6964,9 @@ Modified strategy РЅРµ РґРѕР»Р¶РЅР° РїРѕР»СѓС‡Р°С�
 
 **Status:** `NOT VERIFIED`
 
-## 38.13. РС‚РѕРі
+## 38.13. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - immutable Strategy Version;
 - parent genealogy;
@@ -6974,37 +6974,37 @@ Modified strategy РЅРµ РґРѕР»Р¶РЅР° РїРѕР»СѓС‡Р°С�
 - validation infrastructure;
 - production promotion boundary.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
 - change metadata;
 - parent-vs-child comparison.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
-- РїРѕР»РЅС‹Р№ РЅР°Р±РѕСЂ modification operators;
+- полный набор modification operators;
 - before/after Genome persistence;
 - autonomous modification engine;
 - automatic retest/evaluation;
 - News/Event modification lifecycle.
 
-**Remaining:** factual audit РїРѕР»РЅРѕРіРѕ automated Strategy Modification pipeline.
-# 39. Р“Р»Р°РІРЅС‹Р№ РїСЂРёРЅС†РёРї
+**Remaining:** factual audit полного automated Strategy Modification pipeline.
+# 39. Главный принцип
 
 **Status:** `VERIFIED`
 
-## 39.1. РљР°РЅРѕРЅРёС‡РµСЃРєР°СЏ РјРѕРґРµР»СЊ
+## 39.1. Каноническая модель
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СЂР°Р±РѕС‚Р°С‚СЊ РїРѕ РјРѕРґРµР»Рё:
+AIEA не должен работать по модели:
 
-`AI в†’ РїСЂРёРґСѓРјР°Р» в†’ СЃСЂР°Р·Сѓ С‚РѕСЂРіСѓРµС‚`
+`AI → придумал → сразу торгует`
 
-РљР°РЅРѕРЅРёС‡РµСЃРєР°СЏ РјРѕРґРµР»СЊ:
+Каноническая модель:
 
-`AI в†’ РіРёРїРѕС‚РµР·Р° в†’ СЌРєСЃРїРµСЂРёРјРµРЅС‚ в†’ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕ в†’ РІРµСЂСЃРёСЏ в†’ РЅР°Р±Р»СЋРґРµРЅРёРµ в†’ РѕРіСЂР°РЅРёС‡РµРЅРЅРѕРµ РїСЂРёРјРµРЅРµРЅРёРµ в†’ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ в†’ СЂР°СЃС€РёСЂРµРЅРёРµ РїРѕР»РЅРѕРјРѕС‡РёР№`
+`AI → гипотеза → эксперимент → доказательство → версия → наблюдение → ограниченное применение → подтверждение → расширение полномочий`
 
 ## 39.2. Separation of concerns
 
-NEXUS РґРѕР»Р¶РµРЅ СЂР°Р·РґРµР»СЏС‚СЊ:
+NEXUS должен разделять:
 
 - Strategy Decision Engine;
 - Grid Engine;
@@ -7013,7 +7013,7 @@ NEXUS РґРѕР»Р¶РµРЅ СЂР°Р·РґРµР»СЏС‚СЊ:
 - Execution;
 - Exchange.
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ Р·Р°РјРµРЅСЏС‚СЊ Strategy Decision Engine РёР»Рё Grid Engine.
+AIEA не должен заменять Strategy Decision Engine или Grid Engine.
 
 **Status:** `VERIFIED`
 
@@ -7024,7 +7024,7 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ Р·Р°РјРµРЅСЏС‚СЊ Strateg
 
 ## 39.3. Human-controlled boundaries
 
-Р§РµР»РѕРІРµРє СЃРѕС…СЂР°РЅСЏРµС‚ РєРѕРЅС‚СЂРѕР»СЊ РЅР°Рґ:
+Человек сохраняет контроль над:
 
 - risk boundaries;
 - promotion levels;
@@ -7034,7 +7034,7 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ Р·Р°РјРµРЅСЏС‚СЊ Strateg
 - production security;
 - permitted data sources.
 
-AI РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЂР°СЃС€РёСЂСЏС‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅС‹Рµ РїРѕР»РЅРѕРјРѕС‡РёСЏ.
+AI не должен самостоятельно расширять собственные полномочия.
 
 **Status:** `TEST VERIFIED`
 
@@ -7047,9 +7047,9 @@ AI РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚Рµ�
 
 ## 39.4. Controlled promotion
 
-AI strategy РґРѕР»Р¶РЅР° РїСЂРѕР№С‚Рё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅСѓСЋ validation / promotion pipeline.
+AI strategy должна пройти последовательную validation / promotion pipeline.
 
-РџСЂРѕРїСѓСЃРє СЃС‚Р°РґРёР№ Р·Р°РїСЂРµС‰С‘РЅ.
+Пропуск стадий запрещён.
 
 **Status:** `TEST VERIFIED`
 
@@ -7063,17 +7063,17 @@ AI strategy РґРѕР»Р¶РЅР° РїСЂРѕР№С‚Рё РїРѕСЃР»
 
 ## 39.5. Production execution boundary
 
-AI РЅРµ РґРѕР»Р¶РµРЅ РЅР°РїСЂСЏРјСѓСЋ РІС‹РїРѕР»РЅСЏС‚СЊ exchange orders.
+AI не должен напрямую выполнять exchange orders.
 
-Production execution РїСЂРѕС…РѕРґРёС‚ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРјСѓСЋ С†РµРїРѕС‡РєСѓ:
+Production execution проходит контролируемую цепочку:
 
-`SignalAgent в†’ StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary в†’ BaseExchangeClient`
+`SignalAgent → StrategyDecisionEngine → AIRiskAgent → ExecutionAgent → ExecutionBoundary → BaseExchangeClient`
 
 **Status:** `VERIFIED`
 
 ## 39.6. Research-first operation
 
-Knowledge, Hypothesis, Experiment, Validation, Memory Рё Comparison РґРѕР»Р¶РЅС‹ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ research/controlled layers РґРѕ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ promotion requirements.
+Knowledge, Hypothesis, Experiment, Validation, Memory и Comparison должны оставаться research/controlled layers до прохождения promotion requirements.
 
 **Status:** `VERIFIED / TEST VERIFIED`
 
@@ -7081,13 +7081,13 @@ Knowledge, Hypothesis, Experiment, Validation, Memory Рё Comparison РґРѕР
 - B1/B2/B3/B4;
 - D6_8;
 - E10/E12;
-- F.1вЂ“F.9.
+- F.1–F.9.
 
 ## 39.7. Version immutability
 
-Strategy evolution РґРѕР»Р¶РЅР° РїСЂРѕРёСЃС…РѕРґРёС‚СЊ С‡РµСЂРµР· РЅРѕРІС‹Рµ versions.
+Strategy evolution должна происходить через новые versions.
 
-Existing versions РЅРµ РїРµСЂРµРїРёСЃС‹РІР°СЋС‚СЃСЏ.
+Existing versions не переписываются.
 
 **Status:** `TEST VERIFIED`
 
@@ -7097,23 +7097,23 @@ Existing versions РЅРµ РїРµСЂРµРїРёСЃС‹РІР°СЋС‚С�
 
 ## 39.8. Auditability
 
-РљР»СЋС‡РµРІС‹Рµ РґРµР№СЃС‚РІРёСЏ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРјС‹РјРё С‡РµСЂРµР·:
+Ключевые действия должны быть восстанавливаемыми через:
 
-`context в†’ observation в†’ hypothesis в†’ strategy version в†’ experiment в†’ validation в†’ promotion в†’ result`
+`context → observation → hypothesis → strategy version → experiment → validation → promotion → result`
 
-Promotion and rollback audit СѓР¶Рµ РѕР±РµСЃРїРµС‡РёРІР°СЋС‚ Р·РЅР°С‡РёС‚РµР»СЊРЅСѓСЋ С‡Р°СЃС‚СЊ СЌС‚РѕР№ traceability.
+Promotion and rollback audit уже обеспечивают значительную часть этой traceability.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 39.9. News/Event constraint
 
-News/Event Intelligence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рј market-context source, Р° РЅРµ РјРµС…Р°РЅРёР·РјРѕРј РѕР±С…РѕРґР° risk/promotion controls.
+News/Event Intelligence должна быть дополнительным market-context source, а не механизмом обхода risk/promotion controls.
 
-**Status:** `VERIFIED` РґР»СЏ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕРіРѕ constraint; full News/Event implementation РѕСЃС‚Р°С‘С‚СЃСЏ РЅРµР·Р°РІРµСЂС€С‘РЅРЅРѕР№.
+**Status:** `VERIFIED` для архитектурного constraint; full News/Event implementation остаётся незавершённой.
 
-## 39.10. РС‚РѕРі
+## 39.10. Итог
 
-РђСЂС…РёС‚РµРєС‚СѓСЂРЅС‹Р№ РїСЂРёРЅС†РёРї С„Р°РєС‚РёС‡РµСЃРєРё СЃРѕР±Р»СЋРґР°РµС‚СЃСЏ РІ С‚РµРєСѓС‰РµР№ СЂРµР°Р»РёР·Р°С†РёРё:
+Архитектурный принцип фактически соблюдается в текущей реализации:
 
 - research-first;
 - versioned evolution;
@@ -7126,14 +7126,14 @@ News/Event Intelligence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РґРѕРї
 
 **Final status:** `VERIFIED`
 
-**Remaining:** СЂР°СЃС€РёСЂРµРЅРёРµ AIEA capability РЅРµ РґРѕР»Р¶РЅРѕ РЅР°СЂСѓС€Р°С‚СЊ СЌС‚РѕС‚ РїСЂРёРЅС†РёРї; РЅРѕРІС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РґРѕР»Р¶РЅС‹ РїСЂРѕС…РѕРґРёС‚СЊ С‚РѕС‚ Р¶Рµ FACT в†’ CHECK в†’ EVIDENCE в†’ AUDIT С†РёРєР».
-# 40. Р­С‚Р°РїС‹ СЂРµР°Р»РёР·Р°С†РёРё
+**Remaining:** расширение AIEA capability не должно нарушать этот принцип; новые компоненты должны проходить тот же FACT → CHECK → EVIDENCE → AUDIT цикл.
+# 40. Этапы реализации
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 40.1. Р­С‚Р°Рї A вЂ” Foundation
+## 40.1. Этап A — Foundation
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё РІРєР»СЋС‡Р°РµС‚:
+Канонически включает:
 
 - AI Agent module;
 - DB schema;
@@ -7146,7 +7146,7 @@ News/Event Intelligence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РґРѕРї
 - event storage / market context integration;
 - identity / isolation.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РѕС‚РґРµР»СЊРЅС‹Рµ foundation components, РІРєР»СЋС‡Р°СЏ A8.
+Фактически подтверждены отдельные foundation components, включая A8.
 
 **Status:** `IN PROGRESS`
 
@@ -7156,9 +7156,9 @@ News/Event Intelligence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РґРѕРї
 - B4 memory;
 - AI database models/migrations.
 
-## 40.2. Р­С‚Р°Рї B вЂ” Research
+## 40.2. Этап B — Research
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё РІРєР»СЋС‡Р°РµС‚:
+Канонически включает:
 
 - historical analysis;
 - hypothesis generation;
@@ -7167,14 +7167,14 @@ News/Event Intelligence РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РґРѕРї
 - News/Event correlation;
 - regime/event-dependent research.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Фактически подтверждены:
 
 - B1 Data Quality / Historical Analysis;
 - B2 Hypothesis Research;
 - B3 Strategy Evaluation;
 - B4 AI Memory.
 
-B.5 News/Event Correlation РѕСЃС‚Р°С‘С‚СЃСЏ active.
+B.5 News/Event Correlation остаётся active.
 
 **Status:** `IN PROGRESS`
 
@@ -7185,9 +7185,9 @@ B.5 News/Event Correlation РѕСЃС‚Р°С‘С‚СЃСЏ active.
 - B4;
 - current B.5 track.
 
-## 40.3. Р­С‚Р°Рї C вЂ” Strategy Generation
+## 40.3. Этап C — Strategy Generation
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё РІРєР»СЋС‡Р°РµС‚:
+Канонически включает:
 
 - new strategy generation;
 - existing strategy modification;
@@ -7196,13 +7196,13 @@ B.5 News/Event Correlation РѕСЃС‚Р°С‘С‚СЃСЏ active.
 - sandbox execution;
 - static security validation.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Strategy Version / Genome validation components, РЅРѕ autonomous generation Рё modification engines РїРѕР»РЅРѕСЃС‚СЊСЋ РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹.
+Фактически существуют Strategy Version / Genome validation components, но autonomous generation и modification engines полностью не подтверждены.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 40.4. Р­С‚Р°Рї D вЂ” Validation
+## 40.4. Этап D — Validation
 
-Р’РєР»СЋС‡Р°РµС‚:
+Включает:
 
 - Static Validation;
 - Backtest;
@@ -7214,9 +7214,9 @@ B.5 News/Event Correlation РѕСЃС‚Р°С‘С‚СЃСЏ active.
 - evidence;
 - production isolation.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С‘РЅ:
+Фактически завершён:
 
-`D.1вЂ“D.6.8`
+`D.1–D.6.8`
 
 Final evidence:
 
@@ -7224,17 +7224,17 @@ Final evidence:
 
 **Status:** `DONE + TEST VERIFIED`
 
-## 40.5. Р­С‚Р°Рї E вЂ” Paper Trading
+## 40.5. Этап E — Paper Trading
 
-Paper infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё validation pipeline РёСЃРїРѕР»СЊР·СѓРµС‚ paper stage.
+Paper infrastructure существует и validation pipeline использует paper stage.
 
-**Status:** `TEST VERIFIED` РєР°Рє validation capability.
+**Status:** `TEST VERIFIED` как validation capability.
 
-РџРѕР»РЅС‹Р№ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Р№ long-running production-like Paper operating lifecycle РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный самостоятельный long-running production-like Paper operating lifecycle отдельно не подтверждён.
 
-## 40.6. Р­С‚Р°Рї F вЂ” Shadow Trading
+## 40.6. Этап F — Shadow Trading
 
-Shadow infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Shadow infrastructure существует:
 
 - shadow decisions;
 - outcome accumulation;
@@ -7249,11 +7249,11 @@ Current safety:
 
 **Status:** `TEST VERIFIED / IN PROGRESS`
 
-Shadow data accumulation РїСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ.
+Shadow data accumulation продолжается.
 
-## 40.7. Р­С‚Р°Рї G вЂ” Advisory
+## 40.7. Этап G — Advisory
 
-Advisory infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚, РѕРґРЅР°РєРѕ С‚РµРєСѓС‰Р°СЏ policy:
+Advisory infrastructure существует, однако текущая policy:
 
 `OBSERVE_ONLY`
 
@@ -7271,9 +7271,9 @@ Advisory:
 - `services/ai_shadow_advisory_influence_policy.py`;
 - current production safety state.
 
-## 40.8. Р­С‚Р°Рї H вЂ” Restricted Live
+## 40.8. Этап H — Restricted Live
 
-Restricted Live operational contour РЅРµ СЂР°Р·СЂРµС€С‘РЅ.
+Restricted Live operational contour не разрешён.
 
 Required controls:
 
@@ -7289,11 +7289,11 @@ Required controls:
 
 **Status:** `DISABLED / NOT VERIFIED`
 
-## 40.9. Р­С‚Р°Рї I вЂ” Full Live
+## 40.9. Этап I — Full Live
 
-Full Live С‚СЂРµР±СѓРµС‚ РґРѕРєР°Р·Р°РЅРЅРѕР№ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СѓСЃС‚РѕР№С‡РёРІРѕСЃС‚Рё Рё Р·Р°РІРµСЂС€РµРЅРёСЏ РїСЂРµРґС‹РґСѓС‰РёС… controlled stages.
+Full Live требует доказанной статистической устойчивости и завершения предыдущих controlled stages.
 
-РўРµРєСѓС‰РёР№ state:
+Текущий state:
 
 `Full Live = DISABLED`
 
@@ -7301,9 +7301,9 @@ Full Live С‚СЂРµР±СѓРµС‚ РґРѕРєР°Р·Р°РЅРЅРѕР�
 
 ## 40.10. Stage dependencies
 
-Stages РґРѕР»Р¶РЅС‹ РІС‹РїРѕР»РЅСЏС‚СЊСЃСЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ.
+Stages должны выполняться последовательно.
 
-Promotion State Machine Рё Formal Gates Р·Р°РїСЂРµС‰Р°СЋС‚ РїСЂРѕРёР·РІРѕР»СЊРЅС‹Р№ РїРµСЂРµС…РѕРґ С‡РµСЂРµР· stages.
+Promotion State Machine и Formal Gates запрещают произвольный переход через stages.
 
 **Status:** `TEST VERIFIED`
 
@@ -7316,9 +7316,9 @@ Promotion State Machine Рё Formal Gates Р·Р°РїСЂРµС‰Р°СЋС‚
 
 ## 40.11. Production safety across stages
 
-РќРё РѕРґРёРЅ СЌС‚Р°Рї СЃР°Рј РїРѕ СЃРµР±Рµ РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРѕР»СѓС‡Р°С‚СЊ production execution authority.
+Ни один этап сам по себе не должен автоматически получать production execution authority.
 
-Production boundary СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ С‡РµСЂРµР·:
+Production boundary сохраняется через:
 
 - RiskAgent;
 - ExecutionAgent;
@@ -7332,85 +7332,85 @@ Production boundary СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ С‡РµСЂ
 
 ## 40.12. Current overall stage position
 
-Р¤Р°РєС‚РёС‡РµСЃРєРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїСЂРѕРµРєС‚Р°:
+Фактическое состояние проекта:
 
-- Foundation вЂ” active;
-- Research вЂ” active;
-- Strategy Evolution вЂ” partially implemented;
-- Validation вЂ” completed;
-- Paper вЂ” implemented as validation capability;
-- Shadow вЂ” active;
-- Advisory вЂ” observe-only;
-- Restricted Live вЂ” disabled;
-- Full Live вЂ” disabled.
+- Foundation — active;
+- Research — active;
+- Strategy Evolution — partially implemented;
+- Validation — completed;
+- Paper — implemented as validation capability;
+- Shadow — active;
+- Advisory — observe-only;
+- Restricted Live — disabled;
+- Full Live — disabled.
 
-**Status:** `VERIFIED` РєР°Рє С‚РµРєСѓС‰Р°СЏ consolidated state.
+**Status:** `VERIFIED` как текущая consolidated state.
 
-## 40.13. РС‚РѕРі
+## 40.13. Итог
 
-РџРѕР»РЅРѕСЃС‚СЊСЋ Р·Р°РєСЂС‹С‚:
+Полностью закрыт:
 
-- Р­С‚Р°Рї D / Validation.
+- Этап D / Validation.
 
-РђРєС‚РёРІРЅС‹:
+Активны:
 
 - A / Foundation;
 - B / Research;
 - F / Shadow.
 
-Р§Р°СЃС‚РёС‡РЅРѕ СЂРµР°Р»РёР·РѕРІР°РЅ:
+Частично реализован:
 
 - C / Strategy Generation.
 
-РљРѕРЅС‚СЂРѕР»РёСЂСѓРµРјРѕ РѕС‚РєР»СЋС‡РµРЅС‹:
+Контролируемо отключены:
 
 - G / Advisory operational influence;
 - H / Restricted Live;
 - I / Full Live.
 
-**Remaining:** Р·Р°РІРµСЂС€РµРЅРёРµ Foundation/Research/Strategy Evolution Рё С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ РґРѕРєР°Р·Р°РЅРЅРѕРіРѕ prerequisite вЂ” controlled progression Рє СЃР»РµРґСѓСЋС‰РёРј operational stages.
-# 41. РљСЂРёС‚РµСЂРёР№ РіРѕС‚РѕРІРЅРѕСЃС‚Рё РїРµСЂРІРѕР№ РІРµСЂСЃРёРё AIEA
+**Remaining:** завершение Foundation/Research/Strategy Evolution и только после доказанного prerequisite — controlled progression к следующим operational stages.
+# 41. Критерий готовности первой версии AIEA
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 41.1. РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РєСЂРёС‚РµСЂРёР№
+## 41.1. Канонический критерий
 
-РџРµСЂРІР°СЏ production-ready РІРµСЂСЃРёСЏ AIEA СЃС‡РёС‚Р°РµС‚СЃСЏ Р·Р°РІРµСЂС€С‘РЅРЅРѕР№ С‚РѕР»СЊРєРѕ РµСЃР»Рё РІС‹РїРѕР»РЅРµРЅС‹ РІСЃРµ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ СѓСЃР»РѕРІРёСЏ:
+Первая production-ready версия AIEA считается завершённой только если выполнены все обязательные условия:
 
-1. AI Р°РЅР°Р»РёР·РёСЂСѓРµС‚ РёСЃС‚РѕСЂРёС‡РµСЃРєРёРµ СЃРґРµР»РєРё NEXUS.
-2. AI С„РѕСЂРјРёСЂСѓРµС‚ РїСЂРѕРІРµСЂСЏРµРјС‹Рµ РіРёРїРѕС‚РµР·С‹.
-3. AI СЃРѕР·РґР°С‘С‚ РЅРѕРІС‹Рµ РІРµСЂСЃРёРё СЃС‚СЂР°С‚РµРіРёР№.
-4. РќРѕРІР°СЏ СЃС‚СЂР°С‚РµРіРёСЏ Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІ sandbox/research environment.
-5. РЎСѓС‰РµСЃС‚РІСѓРµС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ Backtest.
-6. РЎСѓС‰РµСЃС‚РІСѓРµС‚ OOS Validation.
-7. РЎСѓС‰РµСЃС‚РІСѓРµС‚ Walk-Forward Validation.
-8. РЎСѓС‰РµСЃС‚РІСѓРµС‚ Paper Trading.
-9. РЎСѓС‰РµСЃС‚РІСѓРµС‚ Shadow Trading.
-10. Р РµР·СѓР»СЊС‚Р°С‚С‹ СЃРѕС…СЂР°РЅСЏСЋС‚СЃСЏ РІ Р‘Р”.
+1. AI анализирует исторические сделки NEXUS.
+2. AI формирует проверяемые гипотезы.
+3. AI создаёт новые версии стратегий.
+4. Новая стратегия запускается только в sandbox/research environment.
+5. Существует автоматический Backtest.
+6. Существует OOS Validation.
+7. Существует Walk-Forward Validation.
+8. Существует Paper Trading.
+9. Существует Shadow Trading.
+10. Результаты сохраняются в БД.
 11. Strategy Versions immutable.
-12. РЎСѓС‰РµСЃС‚РІСѓРµС‚ Promotion / Rollback.
-13. AIEA РЅРµ РёРјРµРµС‚ РїСЂСЏРјРѕРіРѕ РґРѕСЃС‚СѓРїР° Рє ExecutionAgent.
-14. AIEA РЅРµ РёРјРµРµС‚ РїСЂСЏРјРѕРіРѕ РґРѕСЃС‚СѓРїР° Рє BingX.
-15. РЎСѓС‰РµСЃС‚РІСѓРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ AI risk budget.
-16. РЎСѓС‰РµСЃС‚РІСѓРµС‚ AI kill switch.
-17. РЎСѓС‰РµСЃС‚РІСѓРµС‚ РїРѕР»РЅС‹Р№ audit trail.
-18. РЎСѓС‰РµСЃС‚РІСѓРµС‚ AI vs Strategy Engine comparison.
-19. Production trades РѕРґРЅРѕР·РЅР°С‡РЅРѕ РјР°СЂРєРёСЂСѓСЋС‚СЃСЏ trade_source.
-20. AI РјРѕР¶РµС‚ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЃС„РѕСЂРјРёСЂРѕРІР°С‚СЊ Рё РїСЂРѕРІРµСЂРёС‚СЊ РЅРѕРІСѓСЋ hypothesis.
-21. AI РЅРµ РјРѕР¶РµС‚ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РїРѕРІС‹СЃРёС‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅС‹Р№ access level.
-22. РўРѕР»СЊРєРѕ РґРѕРєР°Р·Р°РЅРЅР°СЏ СЃС‚СЂР°С‚РµРіРёСЏ РјРѕР¶РµС‚ РїРµСЂРµР№С‚Рё РЅР° СЃР»РµРґСѓСЋС‰РёР№ promotion level.
-23. News & Event Intelligence РёРЅС‚РµРіСЂРёСЂРѕРІР°РЅ РІ market context.
-24. РСЃС‚РѕСЂРёС‡РµСЃРєРёР№ News/Event context РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ research/validation РїСЂРё РЅР°Р»РёС‡РёРё РґР°РЅРЅС‹С….
-25. РЎСѓС‰РµСЃС‚РІСѓСЋС‚ РѕС‚РґРµР»СЊРЅС‹Рµ News/Event influence metrics.
-26. News/Event Risk controls РЅРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РѕС‚РєР»СЋС‡РµРЅС‹ AIEA.
-27. Experimental trade sources РѕС‚РґРµР»РµРЅС‹ РѕС‚ production.
-28. Strategy genealogy РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРјР°.
-29. Р”Р»СЏ РєР°Р¶РґРѕРіРѕ AI decision СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ AI model version.
-30. Promotion criteria Рё risk limits РЅРµРґРѕСЃС‚СѓРїРЅС‹ РґР»СЏ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕРіРѕ РёР·РјРµРЅРµРЅРёСЏ AIEA.
+12. Существует Promotion / Rollback.
+13. AIEA не имеет прямого доступа к ExecutionAgent.
+14. AIEA не имеет прямого доступа к BingX.
+15. Существует отдельный AI risk budget.
+16. Существует AI kill switch.
+17. Существует полный audit trail.
+18. Существует AI vs Strategy Engine comparison.
+19. Production trades однозначно маркируются trade_source.
+20. AI может самостоятельно сформировать и проверить новую hypothesis.
+21. AI не может самостоятельно повысить собственный access level.
+22. Только доказанная стратегия может перейти на следующий promotion level.
+23. News & Event Intelligence интегрирован в market context.
+24. Исторический News/Event context используется в research/validation при наличии данных.
+25. Существуют отдельные News/Event influence metrics.
+26. News/Event Risk controls не могут быть отключены AIEA.
+27. Experimental trade sources отделены от production.
+28. Strategy genealogy восстанавливаема.
+29. Для каждого AI decision сохраняется AI model version.
+30. Promotion criteria и risk limits недоступны для самостоятельного изменения AIEA.
 
-## 41.2. РСЃС‚РѕСЂРёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР·
+## 41.2. Исторический анализ
 
-B1 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ research infrastructure РґР»СЏ historical data analysis.
+B1 подтверждает research infrastructure для historical data analysis.
 
 **Status:** `TEST VERIFIED`
 
@@ -7418,7 +7418,7 @@ B1 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ research infrastructure Р
 
 ## 41.3. Hypothesis generation
 
-B2 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ structured hypotheses Рё РѕР±СЏР·Р°С‚РµР»СЊРЅРѕСЃС‚СЊ РґР°Р»СЊРЅРµР№С€РµР№ validation.
+B2 подтверждает формирование structured hypotheses и обязательность дальнейшей validation.
 
 **Status:** `TEST VERIFIED`
 
@@ -7429,7 +7429,7 @@ B2 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ С„РѕСЂРјРёСЂ�
 
 ## 41.4. Strategy Versioning
 
-Strategy Version infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё СЃРІСЏР·Р°РЅР° СЃ hypothesis / experiment.
+Strategy Version infrastructure существует и связана с hypothesis / experiment.
 
 **Status:** `TEST VERIFIED`
 
@@ -7439,7 +7439,7 @@ Strategy Version infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё
 
 ## 41.5. Validation pipeline
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Фактически подтверждены:
 
 - Static Validation;
 - Backtest;
@@ -7454,7 +7454,7 @@ Strategy Version infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё
 
 ## 41.6. Database persistence
 
-AI-related models Рё migrations СЃСѓС‰РµСЃС‚РІСѓСЋС‚ РґР»СЏ:
+AI-related models и migrations существуют для:
 
 - agents;
 - hypotheses;
@@ -7472,11 +7472,11 @@ AI-related models Рё migrations СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Р
 
 **Status:** `TEST VERIFIED / PARTIALLY VERIFIED`
 
-РќРµ РІСЃРµ required lifecycle states РёРјРµСЋС‚ РѕС‚РґРµР»СЊРЅСѓСЋ persistence model.
+Не все required lifecycle states имеют отдельную persistence model.
 
 ## 41.7. Immutable versions / genealogy
 
-Strategy versions Рё genealogy Р·Р°С‰РёС‰РµРЅС‹.
+Strategy versions и genealogy защищены.
 
 **Status:** `TEST VERIFIED`
 
@@ -7488,15 +7488,15 @@ Strategy versions Рё genealogy Р·Р°С‰РёС‰РµРЅС‹.
 
 ## 41.8. Promotion / Rollback
 
-E.1вЂ“E.12 РїРѕР»РЅРѕСЃС‚СЊСЋ СЂРµР°Р»РёР·РѕРІР°РЅС‹ Рё РёРЅС‚РµРіСЂР°С†РёРѕРЅРЅРѕ РїСЂРѕРІРµСЂРµРЅС‹.
+E.1–E.12 полностью реализованы и интеграционно проверены.
 
 **Status:** `DONE + TEST VERIFIED`
 
 ## 41.9. Execution isolation
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РїСЂСЏРјРѕРіРѕ execution authority.
+AIEA не должен иметь прямого execution authority.
 
-Production execution РїСЂРѕС…РѕРґРёС‚ С‡РµСЂРµР· controlled boundary.
+Production execution проходит через controlled boundary.
 
 **Status:** `TEST VERIFIED`
 
@@ -7508,53 +7508,53 @@ Production execution РїСЂРѕС…РѕРґРёС‚ С‡РµСЂРµР· co
 
 ## 41.10. AI risk budget
 
-РўСЂРµР±СѓРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Р№ AI risk budget РґР»СЏ Restricted Live.
+Требуется отдельный AI risk budget для Restricted Live.
 
-Dedicated operational AI risk-budget layer РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Dedicated operational AI risk-budget layer не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 41.11. AI kill switch
 
-Dedicated `AI_LIVE_KILL_SWITCH` Рё РїРѕР»РЅС‹Р№ AI lifecycle flag set РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹.
+Dedicated `AI_LIVE_KILL_SWITCH` и полный AI lifecycle flag set не подтверждены.
 
 **Status:** `NOT VERIFIED`
 
 ## 41.12. Audit trail
 
-AI audit / promotion / rollback infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+AI audit / promotion / rollback infrastructure существует.
 
-РџРѕР»РЅРѕРµ РїРѕРєСЂС‹С‚РёРµ РєР°Р¶РґРѕРіРѕ AI decision model/version/prompt/input snapshot РѕС‚РґРµР»СЊРЅРѕ РЅРµ Р·Р°РІРµСЂС€РµРЅРѕ.
+Полное покрытие каждого AI decision model/version/prompt/input snapshot отдельно не завершено.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 41.13. AI vs Strategy Engine
 
-Comparison Engine F.1вЂ“F.9 СЂРµР°Р»РёР·РѕРІР°РЅ Рё reviewed.
+Comparison Engine F.1–F.9 реализован и reviewed.
 
 **Status:** `DONE + TEST VERIFIED`
 
 ## 41.14. trade_source separation
 
-Production and experimental sources СЂР°Р·РґРµР»РµРЅС‹.
+Production and experimental sources разделены.
 
 **Status:** `TEST VERIFIED`
 
 ## 41.15. Autonomous hypothesis lifecycle
 
-Hypothesis research pipeline СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Hypothesis research pipeline существует.
 
-РџРѕР»РЅС‹Р№ autonomous loop:
+Полный autonomous loop:
 
-`observe в†’ hypothesize в†’ experiment в†’ validate в†’ learn`
+`observe → hypothesize → experiment → validate → learn`
 
-РЅРµ РїРѕР»РЅРѕСЃС‚СЊСЋ Р°РІС‚РѕРјР°С‚РёР·РёСЂРѕРІР°РЅ Рё РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ end-to-end.
+не полностью автоматизирован и не подтверждён end-to-end.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 41.16. Self-promotion protection
 
-Permission escalation Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
+Permission escalation блокируется.
 
 **Status:** `TEST VERIFIED`
 
@@ -7564,78 +7564,78 @@ Permission escalation Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
 
 ## 41.17. News/Event Intelligence
 
-News/Event foundation СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ РїРѕР»РЅС‹Р№ ingestion в†’ historical context в†’ research в†’ validation в†’ influence metrics lifecycle РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+News/Event foundation существует, но полный ingestion → historical context → research → validation → influence metrics lifecycle не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 41.18. Genealogy
 
-Strategy genealogy infrastructure РїРѕРґС‚РІРµСЂР¶РґРµРЅР° E8/E9.
+Strategy genealogy infrastructure подтверждена E8/E9.
 
 **Status:** `TEST VERIFIED`
 
 ## 41.19. AI model version traceability
 
-AI audit model СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ exhaustive population proof model/version fields РґР»СЏ РєР°Р¶РґРѕРіРѕ AI action РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.
+AI audit model существует, но exhaustive population proof model/version fields для каждого AI action отсутствует.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 41.20. Promotion criteria / risk limits immutability
 
-Promotion permission Рё risk approval boundaries Р·Р°С‰РёС‰РµРЅС‹.
+Promotion permission и risk approval boundaries защищены.
 
-РџРѕР»РЅС‹Р№ audit configuration mutation protection РѕС‚РґРµР»СЊРЅРѕ РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Полный audit configuration mutation protection отдельно не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 41.21. Overall readiness
 
-РџРµСЂРІР°СЏ РІРµСЂСЃРёСЏ AIEA **РЅРµ СЃС‡РёС‚Р°РµС‚СЃСЏ РїРѕР»РЅРѕСЃС‚СЊСЋ production-ready** РЅР° С‚РµРєСѓС‰РµРј СЌС‚Р°РїРµ.
+Первая версия AIEA **не считается полностью production-ready** на текущем этапе.
 
-РџСЂРёС‡РёРЅС‹:
+Причины:
 
-- autonomous Strategy Generation РЅРµ РґРѕРєР°Р·Р°РЅР° РїРѕР»РЅРѕСЃС‚СЊСЋ;
-- autonomous Strategy Modification РЅРµ РґРѕРєР°Р·Р°РЅР° РїРѕР»РЅРѕСЃС‚СЊСЋ;
-- runtime sandbox РЅРµ РґРѕРєР°Р·Р°РЅ;
-- dedicated AI risk budget РЅРµ РґРѕРєР°Р·Р°РЅ;
-- dedicated AI kill switch РЅРµ РґРѕРєР°Р·Р°РЅ;
-- РїРѕР»РЅС‹Р№ API РЅРµ РґРѕРєР°Р·Р°РЅ;
-- РїРѕР»РЅС‹Р№ Dashboard РЅРµ РґРѕРєР°Р·Р°РЅ;
-- News/Event Intelligence РЅРµ Р·Р°РІРµСЂС€С‘РЅ;
-- Restricted Live / Full Live РѕС‚РєР»СЋС‡РµРЅС‹;
-- РїРѕР»РЅС‹Р№ end-to-end autonomous learning cycle РЅРµ РґРѕРєР°Р·Р°РЅ.
+- autonomous Strategy Generation не доказана полностью;
+- autonomous Strategy Modification не доказана полностью;
+- runtime sandbox не доказан;
+- dedicated AI risk budget не доказан;
+- dedicated AI kill switch не доказан;
+- полный API не доказан;
+- полный Dashboard не доказан;
+- News/Event Intelligence не завершён;
+- Restricted Live / Full Live отключены;
+- полный end-to-end autonomous learning cycle не доказан.
 
 **Final Status:** `PARTIALLY VERIFIED`
 
-**Remaining:** Р·Р°РєСЂС‹С‚РёРµ РІСЃРµС… РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… readiness gaps РїРµСЂРµРґ Р»СЋР±С‹Рј РїРµСЂРµС…РѕРґРѕРј Рє operational AI live.
-# 42. РС‚РѕРіРѕРІР°СЏ РєРѕРЅС†РµРїС†РёСЏ
+**Remaining:** закрытие всех обязательных readiness gaps перед любым переходом к operational AI live.
+# 42. Итоговая концепция
 
 **Status:** `VERIFIED`
 
-## 42.1. РљР°РЅРѕРЅРёС‡РµСЃРєР°СЏ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅР°СЏ РёРґРµСЏ
+## 42.1. Каноническая архитектурная идея
 
-NEXUS СЏРІР»СЏРµС‚СЃСЏ СЌРІРѕР»СЋС†РёРѕРЅРёСЂСѓСЋС‰РµР№ С‚РѕСЂРіРѕРІРѕ-РёСЃСЃР»РµРґРѕРІР°С‚РµР»СЊСЃРєРѕР№ РїР»Р°С‚С„РѕСЂРјРѕР№, РІ РєРѕС‚РѕСЂРѕР№:
+NEXUS является эволюционирующей торгово-исследовательской платформой, в которой:
 
-- Strategy Decision Engine РѕС‚РІРµС‡Р°РµС‚ Р·Р° production strategy decisions;
-- Grid Engine СЏРІР»СЏРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј С‚РѕСЂРіРѕРІС‹Рј РєРѕРЅС‚СѓСЂРѕРј;
-- AIEA РѕС‚РІРµС‡Р°РµС‚ Р·Р° research, discovery, hypothesis, strategy evolution Рё validation;
-- Risk Engine / RiskAgent РєРѕРЅС‚СЂРѕР»РёСЂСѓРµС‚ СЂРёСЃРє;
-- ExecutionAgent РєРѕРЅС‚СЂРѕР»РёСЂСѓРµС‚ execution;
-- Exchange СЏРІР»СЏРµС‚СЃСЏ РІРЅРµС€РЅРёРј execution destination.
+- Strategy Decision Engine отвечает за production strategy decisions;
+- Grid Engine является отдельным торговым контуром;
+- AIEA отвечает за research, discovery, hypothesis, strategy evolution и validation;
+- Risk Engine / RiskAgent контролирует риск;
+- ExecutionAgent контролирует execution;
+- Exchange является внешним execution destination.
 
 ## 42.2. AIEA lifecycle
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ lifecycle:
+Канонический lifecycle:
 
-`Research в†’ Hypothesis в†’ Strategy Version в†’ Experiment в†’ Validation в†’ Comparison в†’ Controlled Promotion в†’ Production Observation в†’ Learning`
+`Research → Hypothesis → Strategy Version → Experiment → Validation → Comparison → Controlled Promotion → Production Observation → Learning`
 
-AIEA РЅРµ РїРѕР»СѓС‡Р°РµС‚ production authority Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+AIEA не получает production authority автоматически.
 
 **Status:** `VERIFIED`
 
 ## 42.3. Human control
 
-Р§РµР»РѕРІРµРє СЃРѕС…СЂР°РЅСЏРµС‚ РєРѕРЅС‚СЂРѕР»СЊ РЅР°Рґ:
+Человек сохраняет контроль над:
 
 - risk boundaries;
 - promotion criteria;
@@ -7644,7 +7644,7 @@ AIEA РЅРµ РїРѕР»СѓС‡Р°РµС‚ production authority Р°РІС
 - kill switch;
 - production security.
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЂР°СЃС€РёСЂСЏС‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅС‹Рµ РїРѕР»РЅРѕРјРѕС‡РёСЏ.
+AIEA не должен самостоятельно расширять собственные полномочия.
 
 **Status:** `TEST VERIFIED`
 
@@ -7656,21 +7656,21 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚Р�
 
 ## 42.4. Production execution boundary
 
-AI-related research Рё promotion РЅРµ Р·Р°РјРµРЅСЏСЋС‚ production execution chain.
+AI-related research и promotion не заменяют production execution chain.
 
-РџРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Р№ production boundary:
+Подтверждённый production boundary:
 
-`SignalAgent в†’ StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary в†’ BaseExchangeClient`
+`SignalAgent → StrategyDecisionEngine → AIRiskAgent → ExecutionAgent → ExecutionBoundary → BaseExchangeClient`
 
 **Status:** `VERIFIED`
 
 ## 42.5. Versioned evolution
 
-Strategy evolution РїСЂРѕРёСЃС…РѕРґРёС‚ С‡РµСЂРµР· РЅРѕРІС‹Рµ Strategy Versions.
+Strategy evolution происходит через новые Strategy Versions.
 
-Parent versions СЃРѕС…СЂР°РЅСЏСЋС‚СЃСЏ.
+Parent versions сохраняются.
 
-Genealogy РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРјРѕР№.
+Genealogy должна быть восстанавливаемой.
 
 **Status:** `TEST VERIFIED`
 
@@ -7680,9 +7680,9 @@ Genealogy РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РІРѕСЃСЃС‚Р°�
 
 ## 42.6. Validation-first principle
 
-Strategy РЅРµ РґРѕР»Р¶РЅР° РїРѕРїР°РґР°С‚СЊ РІ СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚Р°РґРёСЋ С‚РѕР»СЊРєРѕ РёР·-Р·Р° РІС‹СЃРѕРєРѕРіРѕ PnL РїСЂРµРґС‹РґСѓС‰РµРіРѕ С‚РµСЃС‚Р°.
+Strategy не должна попадать в следующую стадию только из-за высокого PnL предыдущего теста.
 
-РћР±СЏР·Р°С‚РµР»СЊРЅС‹ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ validation evidence Рё formal promotion gates.
+Обязательны соответствующие validation evidence и formal promotion gates.
 
 **Status:** `TEST VERIFIED`
 
@@ -7694,11 +7694,11 @@ Strategy РЅРµ РґРѕР»Р¶РЅР° РїРѕРїР°РґР°С‚СЊ Р�
 
 ## 42.7. Research / Production separation
 
-Experimental sources Рё production sources РґРѕР»Р¶РЅС‹ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ СЂР°Р·РґРµР»СЊРЅС‹РјРё.
+Experimental sources и production sources должны оставаться раздельными.
 
-Comparison Observation РЅРµ СЏРІР»СЏРµС‚СЃСЏ Trade.
+Comparison Observation не является Trade.
 
-AI Paper / Shadow / Live РЅРµ РґРѕР»Р¶РЅС‹ СЃРјРµС€РёРІР°С‚СЊСЃСЏ СЃ production statistics.
+AI Paper / Shadow / Live не должны смешиваться с production statistics.
 
 **Status:** `TEST VERIFIED`
 
@@ -7709,29 +7709,29 @@ AI Paper / Shadow / Live РЅРµ РґРѕР»Р¶РЅС‹ СЃРјРµС€Р�
 
 ## 42.8. News/Event Intelligence
 
-News/Event Intelligence СЏРІР»СЏРµС‚СЃСЏ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Рј market-context РєРѕРЅС‚СѓСЂРѕРј.
+News/Event Intelligence является самостоятельным market-context контуром.
 
-РћРЅ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ:
+Он должен быть связан с:
 
-`event в†’ market в†’ regime в†’ strategy в†’ outcome`
+`event → market → regime → strategy → outcome`
 
-Рё РЅРµ РёРјРµРµС‚ РїСЂР°РІР° РѕР±С…РѕРґРёС‚СЊ risk / execution controls.
+и не имеет права обходить risk / execution controls.
 
-РџРѕР»РЅР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ News/Event Intelligence РѕСЃС‚Р°С‘С‚СЃСЏ РЅРµР·Р°РІРµСЂС€С‘РЅРЅРѕР№.
+Полная реализация News/Event Intelligence остаётся незавершённой.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 42.9. Dynamic Opportunity Discovery
 
-NEXUS РґРѕР»Р¶РµРЅ РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ Dynamic Market Universe / Opportunity Discovery, Р° РЅРµ РѕРіСЂР°РЅРёС‡РёРІР°С‚СЊ research С‚РѕР»СЊРєРѕ С„РёРєСЃРёСЂРѕРІР°РЅРЅС‹Рј СЂСѓС‡РЅС‹Рј СЃРїРёСЃРєРѕРј symbols.
+NEXUS должен поддерживать Dynamic Market Universe / Opportunity Discovery, а не ограничивать research только фиксированным ручным списком symbols.
 
-Р­С‚РѕС‚ РєРѕРЅС‚СѓСЂ С‚СЂРµР±СѓРµС‚ РѕС‚РґРµР»СЊРЅРѕРіРѕ factual audit.
+Этот контур требует отдельного factual audit.
 
 **Status:** `NOT VERIFIED`
 
 ## 42.10. Safety model
 
-AIEA РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ:
+AIEA должен оставаться:
 
 - fail-closed;
 - isolated;
@@ -7740,13 +7740,13 @@ AIEA РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ:
 - permission-controlled;
 - risk-bounded.
 
-РўРµРєСѓС‰РёР№ production safety state СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ.
+Текущий production safety state сохраняется.
 
 **Status:** `VERIFIED`
 
 ## 42.11. Current architectural position
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Фактически подтверждено:
 
 - Foundation isolation partially/actively evolving;
 - Research infrastructure active;
@@ -7757,11 +7757,11 @@ AIEA РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ:
 - Restricted Live disabled;
 - Full Live disabled.
 
-## 42.12. РС‚РѕРі
+## 42.12. Итог
 
-РђСЂС…РёС‚РµРєС‚СѓСЂРЅР°СЏ РєРѕРЅС†РµРїС†РёСЏ NEXUS РїРѕРґС‚РІРµСЂР¶РґР°РµС‚СЃСЏ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ СЃРёСЃС‚РµРјРѕР№ Рё СѓР¶Рµ СЂРµР°Р»РёР·РѕРІР°РЅРЅС‹РјРё safety/validation/promotion boundaries.
+Архитектурная концепция NEXUS подтверждается существующей системой и уже реализованными safety/validation/promotion boundaries.
 
-РџСЂРё СЌС‚РѕРј РїРѕР»РЅС‹Р№ AIEA evolutionary lifecycle РµС‰С‘ РЅРµ СЃС‡РёС‚Р°РµС‚СЃСЏ Р·Р°РІРµСЂС€С‘РЅРЅС‹Рј, РїРѕСЃРєРѕР»СЊРєСѓ РѕСЃС‚Р°СЋС‚СЃСЏ:
+При этом полный AIEA evolutionary lifecycle ещё не считается завершённым, поскольку остаются:
 
 - autonomous generation;
 - autonomous modification;
@@ -7774,46 +7774,46 @@ AIEA РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ:
 - Dynamic Opportunity Discovery;
 - complete Learning Loop.
 
-**Final status:** `VERIFIED` РєР°Рє Р°СЂС…РёС‚РµРєС‚СѓСЂРЅР°СЏ РєРѕРЅС†РµРїС†РёСЏ, `NOT DONE` РєР°Рє РїРѕР»РЅС‹Р№ РєРѕРЅРµС‡РЅС‹Р№ implementation state.
+**Final status:** `VERIFIED` как архитектурная концепция, `NOT DONE` как полный конечный implementation state.
 
-**Remaining:** Р°СѓРґРёС‚ Рё СЂРµР°Р»РёР·Р°С†РёСЏ РѕСЃС‚Р°РІС€РёС…СЃСЏ Р°СЂС…РёС‚РµРєС‚СѓСЂРЅС‹С… РєРѕРЅС‚СѓСЂРѕРІ Р±РµР· РЅР°СЂСѓС€РµРЅРёСЏ established safety boundaries.
+**Remaining:** аудит и реализация оставшихся архитектурных контуров без нарушения established safety boundaries.
 ## 43. NEWS & EVENT INTELLIGENCE
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 43.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 43.1. Каноническое назначение
 
-News & Event Intelligence СЏРІР»СЏРµС‚СЃСЏ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Рј РёСЃС‚РѕС‡РЅРёРєРѕРј market context РґР»СЏ NEXUS Рё AIEA.
+News & Event Intelligence является самостоятельным источником market context для NEXUS и AIEA.
 
-РЎРёСЃС‚РµРјР° РґРѕР»Р¶РЅР°:
+Система должна:
 
-- РїРѕР»СѓС‡Р°С‚СЊ Рё РЅРѕСЂРјР°Р»РёР·РѕРІР°С‚СЊ news/events;
-- РѕРїСЂРµРґРµР»СЏС‚СЊ event type;
-- С…СЂР°РЅРёС‚СЊ source;
-- С„РёРєСЃРёСЂРѕРІР°С‚СЊ publication time;
-- РѕРїСЂРµРґРµР»СЏС‚СЊ affected symbols / market scope;
-- РѕРїСЂРµРґРµР»СЏС‚СЊ expected direction;
-- РѕРїСЂРµРґРµР»СЏС‚СЊ actual direction;
-- РѕС†РµРЅРёРІР°С‚СЊ impact;
-- РѕРїСЂРµРґРµР»СЏС‚СЊ risk window;
-- СЃРІСЏР·С‹РІР°С‚СЊ event СЃ market;
-- СЃРІСЏР·С‹РІР°С‚СЊ event СЃ market regime;
-- СЃРІСЏР·С‹РІР°С‚СЊ event СЃ strategy;
-- СЃРІСЏР·С‹РІР°С‚СЊ event СЃ outcome;
-- СЃРѕС…СЂР°РЅСЏС‚СЊ РёСЃС‚РѕСЂРёС‡РµСЃРєРёР№ event context.
+- получать и нормализовать news/events;
+- определять event type;
+- хранить source;
+- фиксировать publication time;
+- определять affected symbols / market scope;
+- определять expected direction;
+- определять actual direction;
+- оценивать impact;
+- определять risk window;
+- связывать event с market;
+- связывать event с market regime;
+- связывать event с strategy;
+- связывать event с outcome;
+- сохранять исторический event context.
 
 ## 43.2. Event model
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `models/ai_news_event.py`
 
-РўР°РєР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Также существует:
 
 - `services/ai_news_event_service.py`;
 - `services/ai_news_ingestion.py`.
 
-РњРёРЅРёРјР°Р»СЊРЅР°СЏ event structure Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕ РїСЂРµРґСѓСЃРјР°С‚СЂРёРІР°РµС‚:
+Минимальная event structure архитектурно предусматривает:
 
 - event_id;
 - event_type;
@@ -7834,9 +7834,9 @@ News & Event Intelligence СЏРІР»СЏРµС‚СЃСЏ СЃР°РјРѕСЃ
 
 ## 43.3. Event normalization
 
-News/Event context РёРјРµРµС‚ normalization layer.
+News/Event context имеет normalization layer.
 
-Comparison Engine СѓР¶Рµ СѓРјРµРµС‚ РїСЂРёРЅРёРјР°С‚СЊ normalized News/Event context.
+Comparison Engine уже умеет принимать normalized News/Event context.
 
 **Status:** `TEST VERIFIED`
 
@@ -7846,9 +7846,9 @@ Comparison Engine СѓР¶Рµ СѓРјРµРµС‚ РїСЂРёРЅРёРјР�
 
 ## 43.4. Symbol / scope matching
 
-Event context РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ РєРѕРЅРєСЂРµС‚РЅС‹РјРё symbols РёР»Рё broader market scope.
+Event context должен быть связан с конкретными symbols или broader market scope.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРёР№ comparison context layer РїРѕРґРґРµСЂР¶РёРІР°РµС‚ symbol/scope matching.
+Фактический comparison context layer поддерживает symbol/scope matching.
 
 **Status:** `TEST VERIFIED`
 
@@ -7856,35 +7856,35 @@ Event context РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°Р
 
 ## 43.5. News/Event ingestion
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РѕР±РЅР°СЂСѓР¶РµРЅ:
+Фактически обнаружен:
 
 `services/ai_news_ingestion.py`
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ production-grade ingestion lifecycle СЃ СЂРµР°Р»СЊРЅС‹РјРё external source adapters РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Однако полный production-grade ingestion lifecycle с реальными external source adapters не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 43.6. External source adapters
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЂРµР°Р»РёР·РѕРІР°РЅ РІРЅРµС€РЅРёР№ RSS/Atom provider:
+Фактически реализован внешний RSS/Atom provider:
 
 - `services/ai_news_rss_provider.py`;
 - `RSSNewsProvider`;
-- default feeds РґР»СЏ CoinDesk / Cointelegraph;
+- default feeds для CoinDesk / Cointelegraph;
 - RSS 2.0 / Atom parsing;
 - deterministic event identity;
 - symbol extraction;
 - time / symbol / limit filtering;
 - failure isolation per feed;
-- research-only ingestion Р±РµР· trading side effects.
+- research-only ingestion без trading side effects.
 
-РћС‚РґРµР»СЊРЅРѕ СЃСѓС‰РµСЃС‚РІСѓРµС‚ periodic ingestion runner:
+Отдельно существует periodic ingestion runner:
 
 - `services/ai_news_poller.py`.
 
-РџРѕР·РёС‚РёРІРЅС‹Р№ provider E2E РїРѕРґС‚РІРµСЂР¶РґС‘РЅ РІ live `nexus-app`.
+Позитивный provider E2E подтверждён в live `nexus-app`.
 
-**Status:** `TEST VERIFIED` РґР»СЏ RSS/Atom adapter.
+**Status:** `TEST VERIFIED` для RSS/Atom adapter.
 
 **Evidence:**
 
@@ -7901,11 +7901,11 @@ Event context РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°Р
 - `B5_RSS_PROVIDER_E2E_OK`
 - `B5_RSS_FAILURE_ISOLATION_E2E_OK`
 
-**Remaining:** РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ provider types / source coverage РјРѕРіСѓС‚ РґРѕР±Р°РІР»СЏС‚СЊСЃСЏ РѕС‚РґРµР»СЊРЅРѕ; РѕС‚СЃСѓС‚СЃС‚РІРёРµ РґСЂСѓРіРёС… provider classes РЅРµ РѕС‚РјРµРЅСЏРµС‚ РїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Р№ RSS/Atom adapter.
+**Remaining:** дополнительные provider types / source coverage могут добавляться отдельно; отсутствие других provider classes не отменяет подтверждённый RSS/Atom adapter.
 
 ## 43.7. Event storage
 
-AI News Event model СЃСѓС‰РµСЃС‚РІСѓРµС‚, Р° migrations РґР»СЏ event store РѕР±РЅР°СЂСѓР¶РµРЅС‹.
+AI News Event model существует, а migrations для event store обнаружены.
 
 **Status:** `TEST VERIFIED / PARTIALLY VERIFIED`
 
@@ -7916,20 +7916,20 @@ AI News Event model СЃСѓС‰РµСЃС‚РІСѓРµС‚, Р° migrations
   - `c2d8e4f1a607_b5_1_news_event_store.py`;
   - `d41e7c92b5f0_b5_1_news_event_schema_fix.py`.
 
-РџРѕР»РЅР°СЏ runtime verification ingestion в†’ persistence РµС‰С‘ РЅРµ Р·Р°РІРµСЂС€РµРЅР°.
+Полная runtime verification ingestion → persistence ещё не завершена.
 
 ## 43.8. Historical event backfill
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё С‚СЂРµР±СѓРµС‚СЃСЏ РёСЃС‚РѕСЂРёС‡РµСЃРєРёР№ event context.
+Канонически требуется исторический event context.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ backfill-relevant primitives:
+Фактически подтверждены backfill-relevant primitives:
 
-- `AINewsProvider.fetch()` РїРѕРґРґРµСЂР¶РёРІР°РµС‚ `since`, `until`, `symbols`, `limit`;
-- `AINewsIngestionAdapter.ingest()` РїРµСЂРµРґР°С‘С‚ time-range parameters provider-Сѓ;
-- `StaticTestNewsProvider` РїРѕРґРґРµСЂР¶РёРІР°РµС‚ deterministic time-range filtering;
-- `RSSNewsProvider` РїРѕРґРґРµСЂР¶РёРІР°РµС‚ `since/until` filtering;
-- RSS provider time filtering РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ E2E;
-- ingestion deduplication РїРѕР·РІРѕР»СЏРµС‚ Р±РµР·РѕРїР°СЃРЅРѕ РїРѕРІС‚РѕСЂСЏС‚СЊ overlapping fetch windows.
+- `AINewsProvider.fetch()` поддерживает `since`, `until`, `symbols`, `limit`;
+- `AINewsIngestionAdapter.ingest()` передаёт time-range parameters provider-у;
+- `StaticTestNewsProvider` поддерживает deterministic time-range filtering;
+- `RSSNewsProvider` поддерживает `since/until` filtering;
+- RSS provider time filtering подтверждено E2E;
+- ingestion deduplication позволяет безопасно повторять overlapping fetch windows.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -7940,33 +7940,33 @@ AI News Event model СЃСѓС‰РµСЃС‚РІСѓРµС‚, Р° migrations
 - `B5_RSS_TIME_FILTER_OK`
 - `B5_RSS_INGESTION_DEDUP_OK`
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Не подтверждены:
 
-- РѕС‚РґРµР»СЊРЅС‹Р№ historical backfill orchestrator;
-- historical source СЃ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕР№ РіР»СѓР±РёРЅРѕР№ РёСЃС‚РѕСЂРёРё;
+- отдельный historical backfill orchestrator;
+- historical source с достаточной глубиной истории;
 - pagination/cursor traversal;
 - batch window traversal;
 - resumable checkpoint/state;
 - dedicated historical backfill E2E;
-- guaranteed retrieval РїРѕР»РЅРѕРіРѕ requested historical range.
+- guaranteed retrieval полного requested historical range.
 
-РўРµРєСѓС‰РёР№ RSS provider СЏРІР»СЏРµС‚СЃСЏ РѕРіСЂР°РЅРёС‡РµРЅРЅС‹Рј external feed adapter Рё СЃР°Рј РїРѕ СЃРµР±Рµ РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚ РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ historical backfill lifecycle.
+Текущий RSS provider является ограниченным external feed adapter и сам по себе не доказывает полноценный historical backfill lifecycle.
 
-**Current blocker:** РІ live project audit РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅ historical-capable News/Event provider/API СЃ РіР°СЂР°РЅС‚РёСЂРѕРІР°РЅРЅРѕР№ РіР»СѓР±РёРЅРѕР№ РёСЃС‚РѕСЂРёРё, pagination/cursor РёР»Рё archive access.
+**Current blocker:** в live project audit не обнаружен historical-capable News/Event provider/API с гарантированной глубиной истории, pagination/cursor или archive access.
 
-РџСЂРѕРІРµСЂРµРЅС‹ current code/config paths; РѕР±РЅР°СЂСѓР¶РµРЅ С‚РѕР»СЊРєРѕ RSS/Atom source layer. РћС‚РґРµР»СЊРЅС‹Рµ NewsAPI / CryptoPanic / GDELT / EventRegistry / Finnhub / Messari-like historical adapters Рё СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰Р°СЏ runtime configuration РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅС‹.
+Проверены current code/config paths; обнаружен только RSS/Atom source layer. Отдельные NewsAPI / CryptoPanic / GDELT / EventRegistry / Finnhub / Messari-like historical adapters и соответствующая runtime configuration не обнаружены.
 
-Р”Рѕ РІС‹Р±РѕСЂР° Рё Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕРіРѕ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЏ historical data source РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ backfill orchestrator СЂРµР°Р»РёР·РѕРІС‹РІР°С‚СЊ РЅРµР»СЊР·СЏ.
+До выбора и архитектурного согласования historical data source полноценный backfill orchestrator реализовывать нельзя.
 
 ## 43.9. Event deduplication
 
-РћРґРёРЅР°РєРѕРІС‹Рµ / РїРѕРІС‚РѕСЂРЅС‹Рµ events РґРѕР»Р¶РЅС‹ РґРµРґСѓРїР»РёС†РёСЂРѕРІР°С‚СЊСЃСЏ.
+Одинаковые / повторные events должны дедуплицироваться.
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Фактически подтверждены:
 
 - deterministic event identity;
-- duplicate suppression РЅР° ingestion path;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ РїРѕРІС‚РѕСЂРЅРѕР№ DB row РґР»СЏ РѕРґРёРЅР°РєРѕРІРѕРіРѕ event;
+- duplicate suppression на ingestion path;
+- отсутствие повторной DB row для одинакового event;
 - unique event ID preservation;
 - RSS provider ingestion deduplication.
 
@@ -7980,33 +7980,33 @@ AI News Event model СЃСѓС‰РµСЃС‚РІСѓРµС‚, Р° migrations
 - `B5_DEDUP_UNIQUE_EVENT_ID_OK`
 - `B5_RSS_INGESTION_DEDUP_OK`
 
-## 43.10. Event в†’ market linkage
+## 43.10. Event → market linkage
 
-Event РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ market context.
+Event должен быть связан с market context.
 
-РџРѕР»РЅС‹Р№ independent event в†’ market persistence/linkage lifecycle РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный independent event → market persistence/linkage lifecycle не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
-## 43.11. Event в†’ regime linkage
+## 43.11. Event → regime linkage
 
-Event РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ market regime.
+Event должен быть связан с market regime.
 
-Comparison layer СЃРїРѕСЃРѕР±РµРЅ РїРѕС‚СЂРµР±Р»СЏС‚СЊ regime context, РЅРѕ РїРѕР»РЅС‹Р№ persistent event в†’ regime linkage РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
-
-**Status:** `PARTIALLY VERIFIED`
-
-## 43.12. Event в†’ strategy linkage
-
-Event РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ РїРѕРІРµРґРµРЅРёРµРј Strategy Version.
-
-РџРѕР»РЅС‹Р№ research lifecycle event в†’ strategy РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Comparison layer способен потреблять regime context, но полный persistent event → regime linkage не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 43.13. Event в†’ outcome linkage
+## 43.12. Event → strategy linkage
 
-РќРµРѕР±С…РѕРґРёРјРѕ Р°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊ:
+Event должен быть связан с поведением Strategy Version.
+
+Полный research lifecycle event → strategy не завершён.
+
+**Status:** `PARTIALLY VERIFIED`
+
+## 43.13. Event → outcome linkage
+
+Необходимо анализировать:
 
 - outcome before event;
 - outcome during event;
@@ -8014,15 +8014,15 @@ Event РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРІСЏР·Р°РЅ СЃ 
 - strategy degradation;
 - strategy improvement.
 
-РџРѕР»РЅС‹Р№ outcome-linkage engine РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный outcome-linkage engine не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 43.14. B.5 News / Event Correlation
 
-B.5 Р±Р°Р·РѕРІС‹Р№ ingestion / dedup / RSS failure isolation / News-Event correlation scope Р·Р°РІРµСЂС€С‘РЅ Рё РїРѕРґС‚РІРµСЂР¶РґС‘РЅ end-to-end.
+B.5 базовый ingestion / dedup / RSS failure isolation / News-Event correlation scope завершён и подтверждён end-to-end.
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Подтверждено:
 
 - canonical News/Event ingestion;
 - RSS/Atom provider;
@@ -8031,7 +8031,7 @@ B.5 Р±Р°Р·РѕРІС‹Р№ ingestion / dedup / RSS failure isolation / N
 - symbol/global scope correlation;
 - comparison context propagation;
 - immutable comparison records;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ production execution authority.
+- отсутствие production execution authority.
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -8046,15 +8046,15 @@ Broader News/Event Intelligence remains open outside completed B.5 scope.
 
 ## 43.15. News/Event-aware research
 
-Knowledge / Research РґРѕР»Р¶РЅС‹ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ historical event context РїСЂРё РЅР°Р»РёС‡РёРё РґР°РЅРЅС‹С….
+Knowledge / Research должны использовать historical event context при наличии данных.
 
-РџРѕР»РЅР°СЏ РёРЅС‚РµРіСЂР°С†РёСЏ РІ research cycle РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Полная интеграция в research cycle не подтверждена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 43.16. News/Event-aware validation
 
-Validation РґРѕР»Р¶РЅР° СѓС‡РёС‚С‹РІР°С‚СЊ event context РІ:
+Validation должна учитывать event context в:
 
 - Backtest;
 - OOS;
@@ -8062,13 +8062,13 @@ Validation РґРѕР»Р¶РЅР° СѓС‡РёС‚С‹РІР°С‚СЊ eve
 - Paper;
 - Shadow.
 
-РџРѕР»РЅС‹Р№ event-aware validation pipeline РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Полный event-aware validation pipeline не завершён.
 
 **Status:** `NOT VERIFIED`
 
 ## 43.17. News/Event metrics
 
-Р”РѕР»Р¶РЅС‹ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РѕС‚РґРµР»СЊРЅС‹Рµ РјРµС‚СЂРёРєРё:
+Должны существовать отдельные метрики:
 
 - impact by event type;
 - strategy performance around events;
@@ -8077,41 +8077,41 @@ Validation РґРѕР»Р¶РЅР° СѓС‡РёС‚С‹РІР°С‚СЊ eve
 - recovery;
 - event-specific risk.
 
-РћС‚РґРµР»СЊРЅС‹Р№ РїРѕР»РЅС‹Р№ News/Event metrics framework РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Отдельный полный News/Event metrics framework не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 43.18. News/Event risk controls
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ News/Event Risk restrictions Рё РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РѕС‚РєР»СЋС‡Р°С‚СЊ News/Event Risk controls.
+AIEA не должен обходить News/Event Risk restrictions и не должен самостоятельно отключать News/Event Risk controls.
 
-**Status:** `VERIFIED` РєР°Рє Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕРµ РѕРіСЂР°РЅРёС‡РµРЅРёРµ.
+**Status:** `VERIFIED` как архитектурное ограничение.
 
 ## 43.19. Comparison integration
 
-Comparison Engine РёРјРµРµС‚ News/Event context consumer:
+Comparison Engine имеет News/Event context consumer:
 
 `services/ai_comparison_news_context.py`
 
-Р­С‚Рѕ РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ integration РЅР° СѓСЂРѕРІРЅРµ comparison context, РЅРѕ РЅРµ complete News/Event Intelligence.
+Это подтверждает integration на уровне comparison context, но не complete News/Event Intelligence.
 
 **Status:** `TEST VERIFIED`
 
 ## 43.20. Production isolation
 
-News/Event Intelligence СЏРІР»СЏРµС‚СЃСЏ research/context layer Рё РЅРµ РґРѕР»Р¶РµРЅ:
+News/Event Intelligence является research/context layer и не должен:
 
-- РѕС‚РїСЂР°РІР»СЏС‚СЊ orders;
+- отправлять orders;
 - bypass RiskAgent;
 - bypass ExecutionAgent;
-- РёР·РјРµРЅСЏС‚СЊ production risk limits;
-- СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ promotion strategy.
+- изменять production risk limits;
+- самостоятельно promotion strategy.
 
 **Status:** `VERIFIED`
 
-## 43.21. РС‚РѕРі
+## 43.21. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - News/Event model foundation;
 - event normalization;
@@ -8121,40 +8121,40 @@ News/Event Intelligence СЏРІР»СЏРµС‚СЃСЏ research/context layer
 - research-only B.5 boundary;
 - production isolation.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
 - ingestion service;
-- event в†’ regime linkage;
-- event в†’ strategy linkage;
+- event → regime linkage;
+- event → strategy linkage;
 - research integration.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
 - external source adapters;
 - historical backfill;
 - deduplication;
-- event в†’ market persistent linkage;
-- event в†’ outcome linkage;
+- event → market persistent linkage;
+- event → outcome linkage;
 - event-aware validation;
 - event influence metrics;
 - complete production-grade News/Event pipeline.
 
-**Remaining:** Р·Р°РІРµСЂС€РµРЅРёРµ factual audit Рё РґР°Р»СЊРЅРµР№С€Р°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ РїРѕР»РЅРѕРіРѕ News & Event Intelligence РєРѕРЅС‚СѓСЂР°.
+**Remaining:** завершение factual audit и дальнейшая реализация полного News & Event Intelligence контура.
 ## 44. DYNAMIC MARKET UNIVERSE / OPPORTUNITY DISCOVERY
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 44.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 44.1. Каноническое назначение
 
-NEXUS РЅРµ РґРѕР»Р¶РµРЅ РѕРіСЂР°РЅРёС‡РёРІР°С‚СЊ market analysis С‚РѕР»СЊРєРѕ С„РёРєСЃРёСЂРѕРІР°РЅРЅС‹Рј СЂСѓС‡РЅС‹Рј СЃРїРёСЃРєРѕРј СЃРёРјРІРѕР»РѕРІ.
+NEXUS не должен ограничивать market analysis только фиксированным ручным списком символов.
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ РєРѕРЅС‚СѓСЂ:
+Канонический контур:
 
-`Full USDT Perpetual Universe в†’ Market Scanner в†’ Liquidity / Volume / Volatility Filters в†’ Market Regime / Session в†’ Strategy Engine в†’ AIEA Evidence / Trust в†’ Dynamic Opportunity Pool в†’ RiskAgent в†’ Execution`
+`Full USDT Perpetual Universe → Market Scanner → Liquidity / Volume / Volatility Filters → Market Regime / Session → Strategy Engine → AIEA Evidence / Trust → Dynamic Opportunity Pool → RiskAgent → Execution`
 
 ## 44.2. Market infrastructure
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚:
+Фактически существуют:
 
 - `market/models.py`;
 - `market/scanner.py`;
@@ -8168,139 +8168,139 @@ NEXUS РЅРµ РґРѕР»Р¶РµРЅ РѕРіСЂР°РЅРёС‡РёРІР�
 
 ## 44.3. Market Scanner
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РѕР±РЅР°СЂСѓР¶РµРЅ:
+Фактически обнаружен:
 
 `market/scanner.py`
 
-Scanner СЏРІР»СЏРµС‚СЃСЏ РѕСЃРЅРѕРІРѕР№ РґР»СЏ РґР°Р»СЊРЅРµР№С€РµРіРѕ dynamic-universe analysis.
+Scanner является основой для дальнейшего dynamic-universe analysis.
 
 **Status:** `VERIFIED`
 
 ## 44.4. Exchange universe discovery
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё С‚СЂРµР±СѓРµС‚СЃСЏ РїРѕР»СѓС‡РµРЅРёРµ РґРѕСЃС‚СѓРїРЅРѕРіРѕ USDT perpetual universe РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ СЃ exchange, Р° РЅРµ С‚РѕР»СЊРєРѕ РёР· СЂСѓС‡РЅРѕРіРѕ СЃРїРёСЃРєР°.
+Канонически требуется получение доступного USDT perpetual universe непосредственно с exchange, а не только из ручного списка.
 
-Exchange / BingX infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚, РѕРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ factual proof:
+Exchange / BingX infrastructure существует, однако полный factual proof:
 
-`exchange instruments в†’ normalized universe в†’ scanner`
+`exchange instruments → normalized universe → scanner`
 
-end-to-end РѕС‚РґРµР»СЊРЅРѕ РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+end-to-end отдельно не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.5. Liquidity filtering
 
-Dynamic universe РґРѕР»Р¶РµРЅ РїСЂРёРјРµРЅСЏС‚СЊ liquidity filters.
+Dynamic universe должен применять liquidity filters.
 
-Р’ market/scanner infrastructure РµСЃС‚СЊ market-selection logic, РѕРґРЅР°РєРѕ complete production-grade liquidity policy Рё threshold audit РЅРµ Р·Р°РІРµСЂС€РµРЅС‹.
+В market/scanner infrastructure есть market-selection logic, однако complete production-grade liquidity policy и threshold audit не завершены.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.6. Volume filtering
 
-Volume РґРѕР»Р¶РµРЅ СѓС‡РёС‚С‹РІР°С‚СЊСЃСЏ РїСЂРё С„РѕСЂРјРёСЂРѕРІР°РЅРёРё opportunity universe.
+Volume должен учитываться при формировании opportunity universe.
 
-Market data infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Market data infrastructure существует.
 
-РџРѕР»РЅС‹Р№ unified volume ranking / filtering policy РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный unified volume ranking / filtering policy отдельно не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.7. Volatility filtering
 
-Volatility СЏРІР»СЏРµС‚СЃСЏ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рј С„Р°РєС‚РѕСЂРѕРј market selection.
+Volatility является обязательным фактором market selection.
 
-Market regime infrastructure Рё indicator utilities СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Market regime infrastructure и indicator utilities существуют.
 
-РћС‚РґРµР»СЊРЅС‹Р№ complete volatility threshold policy РґР»СЏ dynamic universe РЅРµ РґРѕРєР°Р·Р°РЅ.
+Отдельный complete volatility threshold policy для dynamic universe не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.8. Spread / execution quality
 
-Dynamic universe РґРѕР»Р¶РµРЅ СѓС‡РёС‚С‹РІР°С‚СЊ trading quality:
+Dynamic universe должен учитывать trading quality:
 
 - spread;
 - liquidity;
 - executable market conditions.
 
-РџРѕР»РЅС‹Р№ spread/execution-quality filter РґР»СЏ universe discovery РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный spread/execution-quality filter для universe discovery отдельно не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 44.9. Market regime integration
 
-Market regime infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Market regime infrastructure существует:
 
 - `agents/market_regime_agent.py`;
 - strategy `regime_detector`;
 - `services/market_state_builder.py`.
 
-Regime РґРѕР»Р¶РµРЅ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РєР°Рє С‡Р°СЃС‚СЊ opportunity selection context.
+Regime должен использоваться как часть opportunity selection context.
 
-**Status:** `VERIFIED` РґР»СЏ regime infrastructure; `PARTIALLY VERIFIED` РґР»СЏ full universe-selection integration.
+**Status:** `VERIFIED` для regime infrastructure; `PARTIALLY VERIFIED` для full universe-selection integration.
 
 ## 44.10. Session / temporal context
 
-Dynamic opportunity selection РґРѕР»Р¶РЅР° СѓС‡РёС‚С‹РІР°С‚СЊ session/time context.
+Dynamic opportunity selection должна учитывать session/time context.
 
-РћР±С‰РёР№ temporal analysis СЃСѓС‰РµСЃС‚РІСѓРµС‚ РІ research/strategy layers, РЅРѕ РѕС‚РґРµР»СЊРЅС‹Р№ universe-selection session policy РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Общий temporal analysis существует в research/strategy layers, но отдельный universe-selection session policy не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 44.11. TOP-50 ranking
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё:
+Канонически:
 
-`Full Universe в†’ Market Score в†’ TOP-50`
+`Full Universe → Market Score → TOP-50`
 
-TOP-50 РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚РѕРј ranking РІСЃРµРіРѕ РґРѕРїСѓСЃС‚РёРјРѕРіРѕ universe, Р° РЅРµ Р¶С‘СЃС‚РєРёРј РѕРіСЂР°РЅРёС‡РµРЅРёРµРј market analysis.
+TOP-50 должен быть результатом ranking всего допустимого universe, а не жёстким ограничением market analysis.
 
-РћС‚РґРµР»СЊРЅС‹Р№ exhaustive end-to-end TOP-50 ranking proof РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Отдельный exhaustive end-to-end TOP-50 ranking proof не завершён.
 
 **Status:** `NOT VERIFIED`
 
 ## 44.12. Dynamic Opportunity Pool
 
-РџРѕСЃР»Рµ TOP-50 РґРѕР»Р¶РµРЅ С„РѕСЂРјРёСЂРѕРІР°С‚СЊСЃСЏ dynamic opportunity pool, РёР· РєРѕС‚РѕСЂРѕРіРѕ Strategy Engine / AIEA РІС‹Р±РёСЂР°СЋС‚ Р°РєС‚СѓР°Р»СЊРЅС‹Рµ opportunities.
+После TOP-50 должен формироваться dynamic opportunity pool, из которого Strategy Engine / AIEA выбирают актуальные opportunities.
 
-РћС‚РґРµР»СЊРЅР°СЏ persistent / runtime opportunity-pool СЃСѓС‰РЅРѕСЃС‚СЊ РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Отдельная persistent / runtime opportunity-pool сущность не подтверждена.
 
 **Status:** `NOT VERIFIED`
 
 ## 44.13. Strategy Engine integration
 
-Strategy Decision Engine СѓР¶Рµ РїРѕР»СѓС‡Р°РµС‚ market context Рё РІС‹Р±РёСЂР°РµС‚ strategy.
+Strategy Decision Engine уже получает market context и выбирает strategy.
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ:
+Однако полный путь:
 
-`Dynamic Opportunity Pool в†’ Strategy Decision Engine`
+`Dynamic Opportunity Pool → Strategy Decision Engine`
 
-РєР°Рє РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ runtime gate РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+как обязательный runtime gate отдельно не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.14. AIEA evidence / trust integration
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРёР№ dynamic universe РґРѕР»Р¶РµРЅ СѓС‡РёС‚С‹РІР°С‚СЊ:
+Канонический dynamic universe должен учитывать:
 
 - AIEA evidence;
 - AI trust level;
 - strategy validation state.
 
-Promotion / trust infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Promotion / trust infrastructure существует.
 
-РџРѕР»РЅР°СЏ runtime РёРЅС‚РµРіСЂР°С†РёСЏ СЌС‚РёС… РґР°РЅРЅС‹С… РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РІ opportunity ranking РЅРµ РґРѕРєР°Р·Р°РЅР°.
+Полная runtime интеграция этих данных непосредственно в opportunity ranking не доказана.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.15. RiskAgent boundary
 
-РџРѕСЃР»Рµ candidate / opportunity selection РґРѕР»Р¶РµРЅ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ:
+После candidate / opportunity selection должен сохраняться:
 
-`в†’ RiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary`
+`→ RiskAgent → ExecutionAgent → ExecutionBoundary`
 
-Production execution boundary СѓР¶Рµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Production execution boundary уже подтверждён.
 
 **Status:** `VERIFIED`
 
@@ -8311,15 +8311,15 @@ Production execution boundary СѓР¶Рµ РїРѕРґС‚РІРµСЂР¶Рґ
 
 ## 44.16. Manual symbol list
 
-Р¤РёРєСЃРёСЂРѕРІР°РЅРЅС‹Р№ symbol list РјРѕР¶РµС‚ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ РєРѕРЅС„РёРіСѓСЂР°С†РёРѕРЅРЅС‹Рј СЌР»РµРјРµРЅС‚РѕРј, РЅРѕ РЅРµ РґРѕР»Р¶РµРЅ РѕРіСЂР°РЅРёС‡РёРІР°С‚СЊ РїРѕР»РЅС‹Р№ market analysis.
+Фиксированный symbol list может оставаться конфигурационным элементом, но не должен ограничивать полный market analysis.
 
-РћС‚РґРµР»СЊРЅС‹Р№ exhaustive proof С‚РѕРіРѕ, С‡С‚Рѕ manual list РїРѕР»РЅРѕСЃС‚СЊСЋ РїРµСЂРµСЃС‚Р°Р» Р±С‹С‚СЊ universe ceiling, РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+Отдельный exhaustive proof того, что manual list полностью перестал быть universe ceiling, не проведён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.17. Data quality
 
-Dynamic universe РґРѕР»Р¶РµРЅ РёСЃРєР»СЋС‡Р°С‚СЊ:
+Dynamic universe должен исключать:
 
 - invalid market data;
 - incomplete symbols;
@@ -8327,15 +8327,15 @@ Dynamic universe РґРѕР»Р¶РµРЅ РёСЃРєР»СЋС‡Р°С‚СЊ
 - unusable liquidity;
 - invalid execution conditions.
 
-Data quality infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Data quality infrastructure существует.
 
-РџРѕР»РЅС‹Р№ universe-level fail-closed audit РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Полный universe-level fail-closed audit не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 44.18. Multi-symbol isolation
 
-Backtest / comparison / research infrastructure СѓР¶Рµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ multi-symbol analysis.
+Backtest / comparison / research infrastructure уже поддерживает multi-symbol analysis.
 
 **Status:** `TEST VERIFIED`
 
@@ -8346,17 +8346,17 @@ Backtest / comparison / research infrastructure СѓР¶Рµ РїРѕРґРґР�
 
 ## 44.19. Production safety
 
-Dynamic Market Universe РЅРµ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚СЊ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Р№ execution authority.
+Dynamic Market Universe не должен предоставлять самостоятельный execution authority.
 
-Final execution boundary РѕСЃС‚Р°С‘С‚СЃСЏ:
+Final execution boundary остаётся:
 
-`RiskAgent в†’ ExecutionAgent в†’ ExecutionBoundary`
+`RiskAgent → ExecutionAgent → ExecutionBoundary`
 
 **Status:** `VERIFIED`
 
-## 44.20. РС‚РѕРі
+## 44.20. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - market/scanner infrastructure;
 - market data infrastructure;
@@ -8364,7 +8364,7 @@ Final execution boundary РѕСЃС‚Р°С‘С‚СЃСЏ:
 - multi-symbol research/validation;
 - final Risk/Execution boundary.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Частично подтверждены:
 
 - full exchange universe discovery;
 - liquidity filtering;
@@ -8376,29 +8376,29 @@ Final execution boundary РѕСЃС‚Р°С‘С‚СЃСЏ:
 - manual-list non-limiting behaviour;
 - universe-level data quality.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
 - spread/execution-quality filtering;
 - session-aware universe policy;
 - TOP-50 global ranking;
 - Dynamic Opportunity Pool;
-- РїРѕР»РЅС‹Р№ end-to-end runtime:
+- полный end-to-end runtime:
 
-`Full Universe в†’ Scanner в†’ Filters в†’ TOP-50 в†’ Opportunity Pool в†’ Strategy в†’ AIEA в†’ Risk в†’ Execution`.
+`Full Universe → Scanner → Filters → TOP-50 → Opportunity Pool → Strategy → AIEA → Risk → Execution`.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ factual audit Dynamic Market Universe / Opportunity Discovery runtime pipeline.
+**Remaining:** отдельный factual audit Dynamic Market Universe / Opportunity Discovery runtime pipeline.
 ## 45. PRODUCTION SAFETY
 
 **Status:** `TEST VERIFIED / PARTIALLY VERIFIED`
 
-## 45.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 45.1. Каноническое назначение
 
-Production Safety РґРѕР»Р¶РµРЅ РѕР±РµСЃРїРµС‡РёРІР°С‚СЊ:
+Production Safety должен обеспечивать:
 
-- РЅРµРІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїСЂСЏРјРѕРіРѕ AI execution;
-- РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ RiskAgent;
-- РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Р№ ExecutionAgent;
-- ExecutionBoundary РїРµСЂРµРґ exchange;
+- невозможность прямого AI execution;
+- обязательный RiskAgent;
+- обязательный ExecutionAgent;
+- ExecutionBoundary перед exchange;
 - AI permission checks;
 - promotion-stage checks;
 - risk approval;
@@ -8411,25 +8411,25 @@ Production Safety РґРѕР»Р¶РµРЅ РѕР±РµСЃРїРµС‡РёРІ
 
 ## 45.2. ExecutionBoundary
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/execution_boundary.py`
 
-РћРЅ СЏРІР»СЏРµС‚СЃСЏ РєР°РЅРѕРЅРёС‡РµСЃРєРѕР№ С‚РµС…РЅРёС‡РµСЃРєРѕР№ РіСЂР°РЅРёС†РµР№ РїРµСЂРµРґ exchange execution.
+Он является канонической технической границей перед exchange execution.
 
 **Status:** `VERIFIED`
 
 **Evidence:**
 - production execution audit;
-- `BaseExchangeClient.place_order()` РІС‹Р·С‹РІР°РµС‚СЃСЏ С‡РµСЂРµР· boundary.
+- `BaseExchangeClient.place_order()` вызывается через boundary.
 
 ## 45.3. AIProductionSafetyService
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+Фактически существует:
 
 `services/ai_production_safety.py`
 
-Safety layer РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РґРѕ exchange execution Рё РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ СЂР°Р·РјРµС‰Р°С‚СЊ orders.
+Safety layer выполняется до exchange execution и не должен самостоятельно размещать orders.
 
 **Status:** `TEST VERIFIED`
 
@@ -8439,21 +8439,21 @@ Safety layer РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РґРѕ exchange ex
 
 ## 45.4. Global trading kill-switch
 
-Execution path РїСЂРѕРІРµСЂСЏРµС‚:
+Execution path проверяет:
 
 `allow_new_order()`
 
-РґРѕ С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ exchange order.
+до фактического exchange order.
 
 **Status:** `VERIFIED`
 
 ## 45.5. RiskAgent boundary
 
-Production flow С‚СЂРµР±СѓРµС‚:
+Production flow требует:
 
-`StrategyDecisionEngine в†’ AIRiskAgent в†’ ExecutionAgent`
+`StrategyDecisionEngine → AIRiskAgent → ExecutionAgent`
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ RiskAgent.
+AIEA не должен обходить RiskAgent.
 
 **Status:** `TEST VERIFIED`
 
@@ -8464,7 +8464,7 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ РѕР±С…РѕРґРёС‚СЊ RiskAg
 
 ## 45.6. ExecutionAgent boundary
 
-Production order РїСЂРѕС…РѕРґРёС‚ С‡РµСЂРµР· `ExecutionAgent` РїРµСЂРµРґ `ExecutionBoundary`.
+Production order проходит через `ExecutionAgent` перед `ExecutionBoundary`.
 
 **Status:** `VERIFIED`
 
@@ -8474,7 +8474,7 @@ Production order РїСЂРѕС…РѕРґРёС‚ С‡РµСЂРµР· `Execu
 
 ## 45.7. Promotion permission check
 
-AI promotion execution РґРѕР»Р¶РµРЅ СЃРѕРѕС‚РІРµС‚СЃС‚РІРѕРІР°С‚СЊ:
+AI promotion execution должен соответствовать:
 
 - valid promotion stage;
 - valid permission;
@@ -8492,7 +8492,7 @@ AI promotion execution РґРѕР»Р¶РµРЅ СЃРѕРѕС‚РІРµС‚С
 
 ## 45.8. Production strategy isolation
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ Р·Р°РјРµРЅРёС‚СЊ production strategy.
+AIEA не должен самостоятельно заменить production strategy.
 
 Promotion is controlled mutation boundary.
 
@@ -8506,7 +8506,7 @@ Promotion is controlled mutation boundary.
 
 ## 45.9. Protection validation
 
-РџРѕСЃР»Рµ РѕС‚РєСЂС‹С‚РёСЏ production position РїСЂРѕРІРµСЂСЏСЋС‚СЃСЏ СЂРµР°Р»СЊРЅС‹Рµ Р°РєС‚РёРІРЅС‹Рµ SL/TP orders С‡РµСЂРµР· `get_open_orders()`.
+После открытия production position проверяются реальные активные SL/TP orders через `get_open_orders()`.
 
 **Status:** `VERIFIED`
 
@@ -8515,7 +8515,7 @@ Promotion is controlled mutation boundary.
 
 ## 45.10. Protection fail-safe
 
-Р•СЃР»Рё SL/TP РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹, Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ market close СЃ:
+Если SL/TP не подтверждены, запускается market close с:
 
 `close_reason="PROTECTION_FAILSAFE"`
 
@@ -8525,11 +8525,11 @@ Promotion is controlled mutation boundary.
 
 Rollback:
 
-- РёСЃРїРѕР»СЊР·СѓРµС‚ genealogy;
-- СЃРѕС…СЂР°РЅСЏРµС‚ parent;
-- РѕС‚Р·С‹РІР°РµС‚ permissions;
-- СЃРѕС…СЂР°РЅСЏРµС‚ history;
-- СЃРѕР·РґР°С‘С‚ audit.
+- использует genealogy;
+- сохраняет parent;
+- отзывает permissions;
+- сохраняет history;
+- создаёт audit.
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -8539,7 +8539,7 @@ Rollback:
 
 ## 45.12. Multi-user production isolation
 
-A8/E11 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ cross-user isolation РґР»СЏ AI identity/evidence/promotion chains.
+A8/E11 подтверждают cross-user isolation для AI identity/evidence/promotion chains.
 
 **Status:** `TEST VERIFIED`
 
@@ -8549,7 +8549,7 @@ A8/E11 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ cross-user isolation �
 
 ## 45.13. Current live restrictions
 
-РўРµРєСѓС‰РёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ:
+Текущие состояния:
 
 - `Strategy Decision Engine = SHADOW-ONLY`;
 - `Advisory = OBSERVE_ONLY`;
@@ -8560,7 +8560,7 @@ A8/E11 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ cross-user isolation �
 
 ## 45.14. AI direct exchange access
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РїСЂСЏРјРѕРіРѕ execution access Рє BingX.
+AIEA не должен иметь прямого execution access к BingX.
 
 **Status:** `TEST VERIFIED`
 
@@ -8571,9 +8571,9 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РїСЂСЏРјР�
 
 ## 45.15. Production safety versus dedicated AI controls
 
-РЈР¶Рµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РѕР±С‰РёРµ production safety boundaries.
+Уже подтверждены общие production safety boundaries.
 
-РќРµ Р·Р°РєСЂС‹С‚С‹ РїРѕР»РЅРѕСЃС‚СЊСЋ dedicated AIEA controls:
+Не закрыты полностью dedicated AIEA controls:
 
 - `AI_LIVE_KILL_SWITCH`;
 - dedicated AI risk budget;
@@ -8585,9 +8585,9 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РїСЂСЏРјР�
 
 ## 45.16. Fail-closed principle
 
-РќРµР±РµР·РѕРїР°СЃРЅРѕРµ AI request РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РЅР°РІР»РёРІР°С‚СЊСЃСЏ РґРѕ `place_order()`.
+Небезопасное AI request должен останавливаться до `place_order()`.
 
-E10 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
+E10 подтверждает:
 
 - missing risk approval blocked;
 - non-live stage blocked;
@@ -8599,15 +8599,15 @@ E10 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
 
 ## 45.17. Production safety audit coverage
 
-Production safety РїРѕРєСЂС‹РІР°РµС‚ РѕСЃРЅРѕРІРЅС‹Рµ currently active production boundaries.
+Production safety покрывает основные currently active production boundaries.
 
-РџРѕР»РЅС‹Р№ negative-path audit РІСЃРµС… Р±СѓРґСѓС‰РёС… AI Live paths РЅРµРІРѕР·РјРѕР¶РµРЅ РґРѕ РёС… controlled activation Рё РїРѕСЌС‚РѕРјСѓ РѕСЃС‚Р°С‘С‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕР№ future verification task.
+Полный negative-path audit всех будущих AI Live paths невозможен до их controlled activation и поэтому остаётся отдельной future verification task.
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 45.18. РС‚РѕРі
+## 45.18. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - ExecutionBoundary;
 - AIProductionSafetyService;
@@ -8623,7 +8623,7 @@ Production safety РїРѕРєСЂС‹РІР°РµС‚ РѕСЃРЅРѕРІР�
 - current live-disabled state;
 - fail-closed execution.
 
-РќРµ Р·Р°РєСЂС‹С‚С‹:
+Не закрыты:
 
 - dedicated AI live risk budget;
 - dedicated AI kill switch;
@@ -8636,9 +8636,9 @@ Production safety РїРѕРєСЂС‹РІР°РµС‚ РѕСЃРЅРѕРІР�
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 46.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ
+## 46.1. Каноническое назначение
 
-Application / Production Security РґРѕР»Р¶РЅР° РѕР±РµСЃРїРµС‡РёРІР°С‚СЊ:
+Application / Production Security должна обеспечивать:
 
 - secrets protection;
 - API credential protection;
@@ -8654,38 +8654,38 @@ Application / Production Security РґРѕР»Р¶РЅР° РѕР±РµСЃРї�
 
 ## 46.2. Authentication infrastructure
 
-Р’ РїСЂРѕРµРєС‚Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚:
+В проекте существуют:
 
 - `routers/auth.py`;
 - `models/user.py`;
 - authentication-related application logic;
 - login / register templates.
 
-FastAPI application СЃРѕРґРµСЂР¶РёС‚ authentication routes.
+FastAPI application содержит authentication routes.
 
-**Status:** `VERIFIED` РґР»СЏ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ authentication infrastructure.
+**Status:** `VERIFIED` для существования authentication infrastructure.
 
-**Remaining:** РїРѕР»РЅРѕС†РµРЅРЅС‹Р№ security audit authentication implementation.
+**Remaining:** полноценный security audit authentication implementation.
 
 ## 46.3. Authorization
 
-Production API РґРѕР»Р¶РµРЅ СЂР°Р·Р»РёС‡Р°С‚СЊ СѓСЂРѕРІРЅРё РґРѕСЃС‚СѓРїР° Рё Р·Р°РїСЂРµС‰Р°С‚СЊ unauthorized mutations.
+Production API должен различать уровни доступа и запрещать unauthorized mutations.
 
-Promotion infrastructure РёРјРµРµС‚ СЃРѕР±СЃС‚РІРµРЅРЅС‹Рµ permission policies.
+Promotion infrastructure имеет собственные permission policies.
 
-РћС‚РґРµР»СЊРЅР°СЏ exhaustive authorization matrix РІСЃРµРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ РЅРµ РїСЂРѕРІРµРґРµРЅР°.
+Отдельная exhaustive authorization matrix всего приложения не проведена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 46.4. Multi-user isolation
 
-A8/E11 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ AI identity isolation РјРµР¶РґСѓ users.
+A8/E11 подтверждают AI identity isolation между users.
 
-**Status:** `TEST VERIFIED` РґР»СЏ AIEA identity / promotion scope.
+**Status:** `TEST VERIFIED` для AIEA identity / promotion scope.
 
-РћРґРЅР°РєРѕ РїРѕР»РЅР°СЏ application-wide isolation РґР»СЏ РІСЃРµС… routers / database queries РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Однако полная application-wide isolation для всех routers / database queries не подтверждена.
 
-**Status:** `PARTIALLY VERIFIED` РґР»СЏ РѕР±С‰РµРіРѕ application scope.
+**Status:** `PARTIALLY VERIFIED` для общего application scope.
 
 **Evidence:**
 - A8;
@@ -8693,43 +8693,43 @@ A8/E11 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ AI identity isolation 
 
 ## 46.5. Secrets handling
 
-Р’ repository РѕР±РЅР°СЂСѓР¶РµРЅ:
+В repository обнаружен:
 
 `.env`
 
-РќР°Р»РёС‡РёРµ environment-based configuration РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚ РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ secrets lifecycle.
+Наличие environment-based configuration не доказывает корректность secrets lifecycle.
 
-РўСЂРµР±СѓСЋС‚СЃСЏ:
+Требуются:
 
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ credentials РІ source;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ secrets РІ logs;
-- Р±РµР·РѕРїР°СЃРЅР°СЏ runtime injection;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ secrets РІ AI sandbox;
+- отсутствие credentials в source;
+- отсутствие secrets в logs;
+- безопасная runtime injection;
+- отсутствие secrets в AI sandbox;
 - rotation / revocation procedure.
 
 **Status:** `NOT VERIFIED`
 
 ## 46.6. API credential protection
 
-Exchange credentials РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РЅРµРґРѕСЃС‚СѓРїРЅС‹ AIEA research / sandbox components.
+Exchange credentials должны быть недоступны AIEA research / sandbox components.
 
-Production execution РёСЃРїРѕР»СЊР·СѓРµС‚ exchange client layer.
+Production execution использует exchange client layer.
 
-РћРґРЅР°РєРѕ РѕС‚РґРµР»СЊРЅС‹Р№ exhaustive credential-isolation audit РґР»СЏ РІСЃРµС… services РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Однако отдельный exhaustive credential-isolation audit для всех services не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 46.7. Log redaction
 
-РђРєС‚РёРІРЅС‹Рµ exchange credential leakage paths РїСЂРѕРІРµСЂРµРЅС‹ Рё РѕС‡РёС‰РµРЅС‹.
+Активные exchange credential leakage paths проверены и очищены.
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅРѕ РѕС‚СЃСѓС‚СЃС‚РІРёРµ СЂР°РЅРµРµ РЅР°Р№РґРµРЅРЅС‹С… sensitive outputs РІ:
+Подтверждено отсутствие ранее найденных sensitive outputs в:
 
 - `services/exchange_service.py`;
 - `routers/exchanges.py`;
 - `clients/bingx.py`.
 
-**Status:** `TEST VERIFIED` РґР»СЏ С‚РµРєСѓС‰РµРіРѕ exchange logging scope.
+**Status:** `TEST VERIFIED` для текущего exchange logging scope.
 
 **Evidence:**
 
@@ -8737,11 +8737,11 @@ Production execution РёСЃРїРѕР»СЊР·СѓРµС‚ exchange client l
 - `SECRET_REDACTION_NEGATIVE_GREP_OK`
 - `SECRET_REDACTION_CRYPTO_TEST_OK`
 
-**Remaining:** application-wide exhaustive log-redaction audit РІРЅРµ С‚РµРєСѓС‰РµРіРѕ exchange scope.
+**Remaining:** application-wide exhaustive log-redaction audit вне текущего exchange scope.
 
 ## 46.8. Production execution protection
 
-Production execution РёРјРµРµС‚:
+Production execution имеет:
 
 - `ExecutionBoundary`;
 - `AIProductionSafetyService`;
@@ -8758,7 +8758,7 @@ Production execution РёРјРµРµС‚:
 
 ## 46.9. AI-generated code isolation
 
-Static validator СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ runtime sandbox РїРѕР»РЅРѕСЃС‚СЊСЋ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Static validator существует, но runtime sandbox полностью не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
@@ -8768,9 +8768,9 @@ Static validator СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅРѕ runtime s
 
 ## 46.10. Database security
 
-Database models Рё identity constraints СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Database models и identity constraints существуют.
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ security audit:
+Однако полный security audit:
 
 - credentials;
 - least privilege;
@@ -8779,13 +8779,13 @@ Database models Рё identity constraints СЃСѓС‰РµСЃС‚РІСѓСЋ
 - migration permissions;
 - direct mutation paths
 
-РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 46.11. Secure configuration
 
-Production configuration РґРѕР»Р¶РЅР° РїСЂРµРґРѕС‚РІСЂР°С‰Р°С‚СЊ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕРµ РёР·РјРµРЅРµРЅРёРµ AI:
+Production configuration должна предотвращать самостоятельное изменение AI:
 
 - risk limits;
 - promotion thresholds;
@@ -8793,20 +8793,20 @@ Production configuration РґРѕР»Р¶РЅР° РїСЂРµРґРѕС‚РІ�
 - account settings;
 - exchange credentials.
 
-Promotion and safety services Р·Р°С‰РёС‰Р°СЋС‚ Р·РЅР°С‡РёС‚РµР»СЊРЅСѓСЋ С‡Р°СЃС‚СЊ runtime policy.
+Promotion and safety services защищают значительную часть runtime policy.
 
-РџРѕР»РЅР°СЏ configuration mutation audit РЅРµ Р·Р°РІРµСЂС€РµРЅР°.
+Полная configuration mutation audit не завершена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 46.12. AI permission containment
 
-AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ:
+AIEA не должен самостоятельно:
 
-- РїРѕРІС‹С€Р°С‚СЊ trust;
-- РїРѕРІС‹С€Р°С‚СЊ promotion level;
-- РјРµРЅСЏС‚СЊ risk limits;
-- РјРµРЅСЏС‚СЊ account settings;
+- повышать trust;
+- повышать promotion level;
+- менять risk limits;
+- менять account settings;
 - bypass RiskAgent;
 - bypass ExecutionAgent;
 - directly call exchange execution.
@@ -8822,19 +8822,19 @@ AIEA РЅРµ РґРѕР»Р¶РµРЅ СЃР°РјРѕСЃС‚РѕСЏС‚Р�
 
 ## 46.13. Audit logging
 
-AI audit infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚:
+AI audit infrastructure существует:
 
 `models/ai_audit_log.py`
 
-Promotion/rollback audit С‚Р°РєР¶Рµ СЂРµР°Р»РёР·РѕРІР°РЅС‹.
+Promotion/rollback audit также реализованы.
 
 **Status:** `TEST VERIFIED / PARTIALLY VERIFIED`
 
-РџРѕР»РЅРѕРµ coverage РІСЃРµС… application security events РЅРµ РґРѕРєР°Р·Р°РЅРѕ.
+Полное coverage всех application security events не доказано.
 
 ## 46.14. Dependency / supply-chain security
 
-Production security РґРѕР»Р¶РЅР° СѓС‡РёС‚С‹РІР°С‚СЊ:
+Production security должна учитывать:
 
 - pinned/controlled dependencies;
 - vulnerability scanning;
@@ -8842,15 +8842,15 @@ Production security РґРѕР»Р¶РЅР° СѓС‡РёС‚С‹РІР°С�
 - image provenance;
 - package update policy.
 
-РћС‚РґРµР»СЊРЅС‹Р№ dependency/image security audit РІ С‚РµРєСѓС‰РµРј РїСЂРѕРµРєС‚Рµ РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+Отдельный dependency/image security audit в текущем проекте не выполнен.
 
 **Status:** `NOT VERIFIED`
 
 ## 46.15. Container / host security
 
-Docker infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Docker infrastructure существует.
 
-РџРѕР»РЅС‹Р№ audit:
+Полный audit:
 
 - container privileges;
 - filesystem mounts;
@@ -8859,42 +8859,42 @@ Docker infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
 - network isolation;
 - secret exposure
 
-РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+не проведён.
 
 **Status:** `NOT VERIFIED`
 
 ## 46.16. Network security
 
-Production application РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р·Р°С‰РёС‰РµРЅР° РЅР° network boundary.
+Production application должна быть защищена на network boundary.
 
-Р’ repository РѕР±РЅР°СЂСѓР¶РµРЅ `nginx/` Рё `nginx.conf`, РЅРѕ complete deployment/network-security audit РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+В repository обнаружен `nginx/` и `nginx.conf`, но complete deployment/network-security audit отдельно не проведён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 46.17. Security testing
 
-РЎСѓС‰РµСЃС‚РІСѓСЋС‚ application tests:
+Существуют application tests:
 
 - `tests/test_auth.py`;
 - `tests/test_crypto.py`;
 - A8/E10/E11/E12 security/isolation tests.
 
-**Status:** `TEST VERIFIED` РґР»СЏ РѕС‚РґРµР»СЊРЅС‹С… security scopes.
+**Status:** `TEST VERIFIED` для отдельных security scopes.
 
-Complete application-wide security test suite РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚/РЅРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°.
+Complete application-wide security test suite отсутствует/не подтверждена.
 
 ## 46.18. Production secret leakage
 
-Р Р°РЅРµРµ РЅР°Р№РґРµРЅРЅС‹Рµ active exchange credential leakage paths СѓСЃС‚СЂР°РЅРµРЅС‹ Рё РїСЂРѕРІРµСЂРµРЅС‹.
+Ранее найденные active exchange credential leakage paths устранены и проверены.
 
-РџСЂРѕРІРµСЂРµРЅС‹:
+Проверены:
 
 - decrypted API credential debug output;
 - exchange request API-key prefix output;
 - BingX request headers / signed URL debug output;
 - BingX raw response debug output.
 
-**Status:** `TEST VERIFIED` РґР»СЏ С‚РµРєСѓС‰РµРіРѕ exchange credential logging scope.
+**Status:** `TEST VERIFIED` для текущего exchange credential logging scope.
 
 **Evidence:**
 
@@ -8902,33 +8902,33 @@ Complete application-wide security test suite РѕС‚СЃСѓС‚СЃС‚Р�
 - `SECRET_REDACTION_NEGATIVE_GREP_OK`
 - `SECRET_REDACTION_CRYPTO_TEST_OK`
 
-Permanent requirement СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ: credentials, secrets, signatures Рё signed request material РЅРµ РґРѕР»Р¶РЅС‹ СЃРµСЂРёР°Р»РёР·РѕРІР°С‚СЊСЃСЏ РІ production logs.
+Permanent requirement сохраняется: credentials, secrets, signatures и signed request material не должны сериализоваться в production logs.
 
 ## 46.19. Incident / key rotation readiness
 
-Production security РґРѕР»Р¶РЅР° РёРјРµС‚СЊ controlled:
+Production security должна иметь controlled:
 
 - credential revocation;
 - key rotation;
 - compromised-secret response;
 - incident audit.
 
-РџРѕР»РЅС‹Р№ operational procedure РІ С‚РµРєСѓС‰РµРј Audit РЅРµ РґРѕРєР°Р·Р°РЅ.
+Полный operational procedure в текущем Audit не доказан.
 
 **Status:** `NOT VERIFIED`
 
-## 46.20. РС‚РѕРі
+## 46.20. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹ С‡Р°СЃС‚РёС‡РЅРѕ/Р»РѕРєР°Р»СЊРЅРѕ:
+Подтверждены частично/локально:
 
 - authentication infrastructure;
 - AIEA identity isolation;
 - production execution safety;
 - AI permission containment;
 - AI audit infrastructure;
-- РѕС‚РґРµР»СЊРЅС‹Рµ security tests.
+- отдельные security tests.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
 - secrets lifecycle;
 - exchange credential isolation;
@@ -8940,16 +8940,16 @@ Production security РґРѕР»Р¶РЅР° РёРјРµС‚СЊ controlled:
 - incident/key rotation procedures;
 - application-wide security regression suite.
 
-**Remaining:** РїРѕР»РЅС‹Р№ Application / Production Security audit СЃ negative-path РїСЂРѕРІРµСЂРєР°РјРё Рё РѕС‚РґРµР»СЊРЅС‹Рј evidence РїРѕ РєР°Р¶РґРѕРјСѓ security control.
+**Remaining:** полный Application / Production Security audit с negative-path проверками и отдельным evidence по каждому security control.
 ## 47. FULL DASHBOARD REWORK
 
 **Status:** `PARTIALLY VERIFIED`
 
-## 47.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 47.1. Каноническое требование
 
-Dashboard РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРѕР»РЅРѕСЃС‚СЊСЋ РїРµСЂРµСЂР°Р±РѕС‚Р°РЅ РєР°Рє РµРґРёРЅС‹Р№ observability/control surface NEXUS.
+Dashboard должен быть полностью переработан как единый observability/control surface NEXUS.
 
-РћРЅ РґРѕР»Р¶РµРЅ РѕР±РµСЃРїРµС‡РёРІР°С‚СЊ РѕС‚РґРµР»СЊРЅРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ:
+Он должен обеспечивать отдельное представление:
 
 - Production;
 - Grid;
@@ -8965,11 +8965,11 @@ Dashboard РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРѕР»РЅРѕСЃС
 - Dynamic Market Universe;
 - Security / Audit.
 
-Dashboard РЅРµ РґРѕР»Р¶РµРЅ СЃРјРµС€РёРІР°С‚СЊ experimental Рё production state.
+Dashboard не должен смешивать experimental и production state.
 
 ## 47.2. Existing dashboard infrastructure
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚:
+Фактически существуют:
 
 - `routers/dashboard.py`;
 - `templates/dashboard.html`;
@@ -8980,9 +8980,9 @@ Dashboard РЅРµ РґРѕР»Р¶РµРЅ СЃРјРµС€РёРІР°С‚С
 
 ## 47.3. AI Evolution dashboard
 
-РљР°РЅРѕРЅРёС‡РµСЃРєРё С‚СЂРµР±СѓРµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Р№ AI Evolution surface.
+Канонически требуется отдельный AI Evolution surface.
 
-РћРЅ РґРѕР»Р¶РµРЅ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ:
+Он должен отображать:
 
 - AI trust level;
 - active model;
@@ -8999,13 +8999,13 @@ Dashboard РЅРµ РґРѕР»Р¶РµРЅ СЃРјРµС€РёРІР°С‚С
 - News/Event;
 - AI performance.
 
-РџРѕР»РЅС‹Р№ dedicated AI Evolution UI РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный dedicated AI Evolution UI не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 47.4. Production / Experimental separation
 
-Dashboard РґРѕР»Р¶РµРЅ СЏРІРЅРѕ СЂР°Р·РґРµР»СЏС‚СЊ:
+Dashboard должен явно разделять:
 
 - production trades;
 - Grid;
@@ -9015,15 +9015,15 @@ Dashboard РґРѕР»Р¶РµРЅ СЏРІРЅРѕ СЂР°Р·РґРµР»СЏ
 - Manual;
 - comparison-only participants.
 
-Backend trade_source/comparison separation СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Backend trade_source/comparison separation существует.
 
-РџРѕР»РЅРѕРµ UI enforcement РЅРµ РґРѕРєР°Р·Р°РЅРѕ.
+Полное UI enforcement не доказано.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 47.5. Validation observability
 
-Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ:
+Dashboard должен показывать:
 
 - validation stage;
 - dataset;
@@ -9034,15 +9034,15 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ:
 - degradation;
 - sufficiency.
 
-Validation backend infrastructure СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+Validation backend infrastructure существует.
 
-UI mapping РїРѕР»РЅРѕРіРѕ validation evidence РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+UI mapping полного validation evidence не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 47.6. Promotion observability
 
-Dashboard РґРѕР»Р¶РµРЅ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ:
+Dashboard должен отображать:
 
 - current promotion stage;
 - promotion level;
@@ -9052,15 +9052,15 @@ Dashboard РґРѕР»Р¶РµРЅ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ:
 - approval metadata;
 - rollback status.
 
-Promotion backend СЂРµР°Р»РёР·РѕРІР°РЅ E.1вЂ“E.12.
+Promotion backend реализован E.1–E.12.
 
-РџРѕР»РЅС‹Р№ UI РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅРµ РґРѕРєР°Р·Р°РЅ.
+Полный UI отображения не доказан.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 47.7. News/Event observability
 
-Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ:
+Dashboard должен показывать:
 
 - high-impact events;
 - source;
@@ -9072,15 +9072,15 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ:
 - strategy response;
 - outcome.
 
-News/Event backend foundation СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+News/Event backend foundation существует.
 
-РџРѕР»РЅС‹Р№ dashboard presentation РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный dashboard presentation не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 47.8. Dynamic Market Universe observability
 
-Dashboard РґРѕР»Р¶РµРЅ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ:
+Dashboard должен отображать:
 
 - discovered universe;
 - filters;
@@ -9091,13 +9091,13 @@ Dashboard РґРѕР»Р¶РµРЅ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ:
 - rejected opportunities;
 - reasons for rejection.
 
-Dynamic Market Universe dashboard surface РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Dynamic Market Universe dashboard surface не подтверждён.
 
 **Status:** `NOT VERIFIED`
 
 ## 47.9. Security / audit observability
 
-Dashboard РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚СЊ controlled visibility into:
+Dashboard должен предоставлять controlled visibility into:
 
 - AI audit;
 - promotion audit;
@@ -9106,23 +9106,23 @@ Dashboard РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏ
 - kill-switch events;
 - permission changes.
 
-AI/promotion audit backend СЃСѓС‰РµСЃС‚РІСѓРµС‚.
+AI/promotion audit backend существует.
 
-РџРѕР»РЅС‹Р№ secure audit UI РЅРµ РїРѕРґС‚РІРµСЂР¶РґС‘РЅ.
+Полный secure audit UI не подтверждён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 47.10. Multi-user dashboard isolation
 
-Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ С‚РѕР»СЊРєРѕ СЂР°Р·СЂРµС€С‘РЅРЅС‹Рµ РґР°РЅРЅС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ objects.
+Dashboard должен показывать только разрешённые данным пользователю objects.
 
-A8/E11 underlying identity isolation РїРѕРґС‚РІРµСЂР¶РґРµРЅР°, РЅРѕ full dashboard-layer authorization РѕС‚РґРµР»СЊРЅРѕ РЅРµ РїСЂРѕРІРµСЂРµРЅР°.
+A8/E11 underlying identity isolation подтверждена, но full dashboard-layer authorization отдельно не проверена.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 47.11. Mutation safety
 
-Dashboard controls РЅРµ РґРѕР»Р¶РЅС‹ РѕР±С…РѕРґРёС‚СЊ backend:
+Dashboard controls не должны обходить backend:
 
 - RiskAgent;
 - Promotion Gates;
@@ -9131,17 +9131,17 @@ Dashboard controls РЅРµ РґРѕР»Р¶РЅС‹ РѕР±С…РѕРґРё�
 - Rollback Integrity;
 - Kill Switch.
 
-Backend controls СЃСѓС‰РµСЃС‚РІСѓСЋС‚.
+Backend controls существуют.
 
-РџРѕР»РЅС‹Р№ UI negative-path test РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+Полный UI negative-path test не выполнен.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 47.12. State consistency
 
-Dashboard РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ state РёР· canonical backend sources, Р° РЅРµ РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅСѓСЋ РєРѕРЅРєСѓСЂРёСЂСѓСЋС‰СѓСЋ state machine.
+Dashboard должен получать state из canonical backend sources, а не поддерживать собственную конкурирующую state machine.
 
-Р­С‚Рѕ РѕСЃРѕР±РµРЅРЅРѕ РІР°Р¶РЅРѕ РґР»СЏ:
+Это особенно важно для:
 
 - promotion stage;
 - permission;
@@ -9149,13 +9149,13 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ state Рё
 - experiment status;
 - AI trust level.
 
-РђСЂС…РёС‚РµРєС‚СѓСЂРЅРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ Р·Р°С„РёРєСЃРёСЂРѕРІР°РЅРѕ, РЅРѕ complete consistency audit РЅРµ РІС‹РїРѕР»РЅРµРЅ.
+Архитектурное требование зафиксировано, но complete consistency audit не выполнен.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 47.13. Full rework scope
 
-РџРѕР»РЅР°СЏ РїРµСЂРµСЂР°Р±РѕС‚РєР° РґРѕР»Р¶РЅР° РІРєР»СЋС‡Р°С‚СЊ РєР°Рє РјРёРЅРёРјСѓРј:
+Полная переработка должна включать как минимум:
 
 1. Information architecture;
 2. AI Evolution section;
@@ -9172,9 +9172,9 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ state Рё
 
 **Status:** `NOT VERIFIED`
 
-## 47.14. РС‚РѕРі
+## 47.14. Итог
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - existing dashboard infrastructure;
 - backend data sources;
@@ -9182,7 +9182,7 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ state Рё
 - comparison backend;
 - validation backend.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅС‹ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждены полностью:
 
 - complete AI Evolution Dashboard;
 - full source-separated observability;
@@ -9195,14 +9195,14 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ state Рё
 - full UI mutation safety;
 - full dashboard rework.
 
-**Remaining:** РѕС‚РґРµР»СЊРЅС‹Р№ full Dashboard audit + redesign + implementation + UI security verification.
+**Remaining:** отдельный full Dashboard audit + redesign + implementation + UI security verification.
 ## 48. MULTI-USER / ISOLATION
 
 **Status:** `TEST VERIFIED / PARTIALLY VERIFIED`
 
-## 48.1. РљР°РЅРѕРЅРёС‡РµСЃРєРѕРµ С‚СЂРµР±РѕРІР°РЅРёРµ
+## 48.1. Каноническое требование
 
-Р’СЃРµ user-owned AI objects РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РёР·РѕР»РёСЂРѕРІР°РЅС‹ РјРµР¶РґСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё:
+Все user-owned AI objects должны быть изолированы между пользователями:
 
 - AI Agent;
 - Knowledge Snapshot;
@@ -9217,13 +9217,13 @@ Dashboard РґРѕР»Р¶РµРЅ РїРѕР»СѓС‡Р°С‚СЊ state Рё
 - Comparison data;
 - News/Event research data.
 
-Cross-user object substitution Рё mutation РґРѕР»Р¶РЅС‹ Р±Р»РѕРєРёСЂРѕРІР°С‚СЊСЃСЏ.
+Cross-user object substitution и mutation должны блокироваться.
 
 ## 48.2. A8 identity isolation
 
-A8 СЏРІР»СЏРµС‚СЃСЏ С„Р°РєС‚РёС‡РµСЃРєРё РїРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рј foundation isolation layer.
+A8 является фактически подтверждённым foundation isolation layer.
 
-РџСЂРѕРІРµСЂРµРЅС‹:
+Проверены:
 
 - `A8_TWO_IDENTITY_CHAINS_CREATED_OK`;
 - `A8_SAME_USER_CHAINS_OK`;
@@ -9239,7 +9239,7 @@ A8 СЏРІР»СЏРµС‚СЃСЏ С„Р°РєС‚РёС‡РµСЃРєРё
 
 ## 48.3. Hypothesis isolation
 
-Hypothesis РґРѕР»Р¶РЅР° РїСЂРёРЅР°РґР»РµР¶Р°С‚СЊ РїСЂР°РІРёР»СЊРЅРѕРјСѓ user Рё РЅРµ РјРѕР¶РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ cross-user.
+Hypothesis должна принадлежать правильному user и не может использоваться cross-user.
 
 **Status:** `TEST VERIFIED`
 
@@ -9249,9 +9249,9 @@ Hypothesis РґРѕР»Р¶РЅР° РїСЂРёРЅР°РґР»РµР¶Р°С�
 
 ## 48.4. Strategy Version isolation
 
-Strategy Version РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°РЅР° СЃ РєРѕСЂСЂРµРєС‚РЅС‹Рј user / hypothesis / experiment.
+Strategy Version должна быть связана с корректным user / hypothesis / experiment.
 
-Cross-user Strategy Version substitution Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
+Cross-user Strategy Version substitution блокируется.
 
 **Status:** `TEST VERIFIED`
 
@@ -9260,9 +9260,9 @@ Cross-user Strategy Version substitution Р±Р»РѕРєРёСЂСѓРµС‚С
 
 ## 48.5. Experiment isolation
 
-Experiment РґРѕР»Р¶РµРЅ РїСЂРёРЅР°РґР»РµР¶Р°С‚СЊ РїСЂР°РІРёР»СЊРЅРѕР№ identity chain.
+Experiment должен принадлежать правильной identity chain.
 
-Cross-user experiment tampering Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
+Cross-user experiment tampering блокируется.
 
 **Status:** `TEST VERIFIED`
 
@@ -9272,7 +9272,7 @@ Cross-user experiment tampering Р±Р»РѕРєРёСЂСѓРµС‚СЃСЏ.
 
 ## 48.6. Validation Evidence isolation
 
-Evidence РґРѕР»Р¶РЅР° СЃРѕРІРїР°РґР°С‚СЊ РїРѕ:
+Evidence должна совпадать по:
 
 - user;
 - experiment;
@@ -9290,9 +9290,9 @@ Cross-user evidence blocked.
 
 ## 48.7. Promotion isolation
 
-Promotion РґРѕР»Р¶РµРЅ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚Сѓ Р¶Рµ identity chain.
+Promotion должен использовать ту же identity chain.
 
-Cross-user version / hypothesis / evidence substitution РґРѕР»Р¶РЅР° Р±Р»РѕРєРёСЂРѕРІР°С‚СЊСЃСЏ.
+Cross-user version / hypothesis / evidence substitution должна блокироваться.
 
 **Status:** `TEST VERIFIED`
 
@@ -9302,7 +9302,7 @@ Cross-user version / hypothesis / evidence substitution РґРѕР»Р¶РЅР°
 
 ## 48.8. Risk Approval isolation
 
-Risk approval РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°РЅР° СЃ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРј:
+Risk approval должна быть связана с соответствующим:
 
 - user;
 - experiment;
@@ -9310,7 +9310,7 @@ Risk approval РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃРІСЏР·Р°Р
 - hypothesis;
 - target stage.
 
-Cross-experiment / cross-identity approval РґРѕР»Р¶РµРЅ Р±Р»РѕРєРёСЂРѕРІР°С‚СЊСЃСЏ.
+Cross-experiment / cross-identity approval должен блокироваться.
 
 **Status:** `TEST VERIFIED`
 
@@ -9320,7 +9320,7 @@ Cross-experiment / cross-identity approval РґРѕР»Р¶РµРЅ Р±Р»Рѕ
 
 ## 48.9. Memory isolation
 
-AI Memory РґРѕР»Р¶РЅР° Р±С‹С‚СЊ user-scoped.
+AI Memory должна быть user-scoped.
 
 **Status:** `TEST VERIFIED`
 
@@ -9330,59 +9330,59 @@ AI Memory РґРѕР»Р¶РЅР° Р±С‹С‚СЊ user-scoped.
 
 ## 48.10. Audit isolation
 
-Audit records РґРѕР»Р¶РЅС‹ СЃРѕРѕС‚РІРµС‚СЃС‚РІРѕРІР°С‚СЊ identity chain Рё РЅРµ РїРѕР·РІРѕР»СЏС‚СЊ cross-user mutation.
+Audit records должны соответствовать identity chain и не позволять cross-user mutation.
 
-Promotion audit snapshots СѓР¶Рµ identity-bound.
+Promotion audit snapshots уже identity-bound.
 
 **Status:** `TEST VERIFIED / PARTIALLY VERIFIED`
 
-РџРѕР»РЅС‹Р№ application-wide audit isolation РЅРµ РїСЂРѕРІРµСЂРµРЅ.
+Полный application-wide audit isolation не проверен.
 
 ## 48.11. Comparison isolation
 
-Comparison observations/results РґРѕР»Р¶РЅС‹ СЃРѕС…СЂР°РЅСЏС‚СЊ participant and identity semantics.
+Comparison observations/results должны сохранять participant and identity semantics.
 
-BLOCK F review РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ source/identity separation.
+BLOCK F review подтверждает source/identity separation.
 
-РџРѕР»РЅС‹Р№ cross-user comparison isolation РѕС‚РґРµР»СЊРЅРѕ РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Полный cross-user comparison isolation отдельно не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 48.12. News/Event isolation
 
-User-specific News/Event research data, РµСЃР»Рё С‚Р°РєР°СЏ РїСЂРёРІСЏР·РєР° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ, РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РёР·РѕР»РёСЂРѕРІР°РЅР°.
+User-specific News/Event research data, если такая привязка используется, должна быть изолирована.
 
-РџРѕР»РЅС‹Р№ user-scoped event research audit РїРѕРєР° РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+Полный user-scoped event research audit пока не проведён.
 
 **Status:** `NOT VERIFIED`
 
 ## 48.13. API-layer isolation
 
-Underlying database/service isolation РїРѕРґС‚РІРµСЂР¶РґРµРЅР° РґР»СЏ A8/E11 scopes.
+Underlying database/service isolation подтверждена для A8/E11 scopes.
 
-РћРґРЅР°РєРѕ РїРѕР»РЅС‹Р№ HTTP/API audit РІСЃРµС… user-facing routes РЅРµ РїСЂРѕРІРµРґС‘РЅ.
+Однако полный HTTP/API audit всех user-facing routes не проведён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 48.14. Dashboard isolation
 
-Dashboard РґРѕР»Р¶РµРЅ РїРѕРєР°Р·С‹РІР°С‚СЊ С‚РѕР»СЊРєРѕ СЂР°Р·СЂРµС€С‘РЅРЅС‹Рµ С‚РµРєСѓС‰РµРјСѓ user objects.
+Dashboard должен показывать только разрешённые текущему user objects.
 
-A8 РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё dashboard-layer isolation.
+A8 не доказывает автоматически dashboard-layer isolation.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 48.15. Database query isolation
 
-Р’СЃРµ user-scoped queries РґРѕР»Р¶РЅС‹ С‚СЂРµР±РѕРІР°С‚СЊ РєРѕСЂСЂРµРєС‚РЅС‹Р№ user identity context.
+Все user-scoped queries должны требовать корректный user identity context.
 
-РћС‚РґРµР»СЊРЅС‹Р№ exhaustive audit РІСЃРµС… AI-related query paths РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Отдельный exhaustive audit всех AI-related query paths не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 48.16. Cross-user mutation protection
 
-РќРµР»СЊР·СЏ РїРѕР·РІРѕР»СЏС‚СЊ:
+Нельзя позволять:
 
 - strategy substitution;
 - experiment tampering;
@@ -9391,21 +9391,21 @@ A8 РЅРµ РґРѕРєР°Р·С‹РІР°РµС‚ Р°РІС‚РѕРјР°
 - promotion mutation;
 - memory leakage.
 
-A8/E11/E5/E6/E10 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ critical boundaries.
+A8/E11/E5/E6/E10 подтверждают соответствующие critical boundaries.
 
 **Status:** `TEST VERIFIED`
 
 ## 48.17. Production isolation
 
-Cross-user isolation РґРѕР»Р¶РЅР° СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ Р±РµР· РІР»РёСЏРЅРёСЏ РЅР° production strategy / execution.
+Cross-user isolation должна сохраняться без влияния на production strategy / execution.
 
-A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production isolation.
+A8/E10/E11/E12 подтверждают production isolation.
 
 **Status:** `TEST VERIFIED`
 
-## 48.18. РС‚РѕРі
+## 48.18. Итог
 
-РџРѕР»РЅРѕСЃС‚СЊСЋ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ С‚РµСЃС‚Р°РјРё:
+Полностью подтверждено тестами:
 
 - A8 identity chains;
 - cross-user snapshot protection;
@@ -9417,7 +9417,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - memory isolation;
 - production isolation.
 
-Р§Р°СЃС‚РёС‡РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ:
+Частично подтверждено:
 
 - audit isolation;
 - comparison isolation;
@@ -9425,7 +9425,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - Dashboard isolation;
 - database query isolation.
 
-РќРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ РїРѕР»РЅРѕСЃС‚СЊСЋ:
+Не подтверждено полностью:
 
 - News/Event user-scoped isolation;
 - application-wide exhaustive multi-user isolation.
@@ -9435,41 +9435,41 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 **Status:** `IN PROGRESS`
 
-## 49.1. РќР°Р·РЅР°С‡РµРЅРёРµ
+## 49.1. Назначение
 
-Р­С‚РѕС‚ СЂР°Р·РґРµР» СЃРѕРґРµСЂР¶РёС‚ С‚РѕР»СЊРєРѕ С‚Рµ С‚РµС…РЅРёС‡РµСЃРєРёРµ РїСЂРѕР±Р»РµРјС‹ Рё follow-up items, РєРѕС‚РѕСЂС‹Рµ:
+Этот раздел содержит только те технические проблемы и follow-up items, которые:
 
-- РѕР±РЅР°СЂСѓР¶РµРЅС‹ С„Р°РєС‚РёС‡РµСЃРєРёРј Р°СѓРґРёС‚РѕРј;
-- РЅРµ СЏРІР»СЏСЋС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рј Р°СЂС…РёС‚РµРєС‚СѓСЂРЅС‹Рј СЂР°Р·РґРµР»РѕРј;
-- С‚СЂРµР±СѓСЋС‚ РѕС‚РґРµР»СЊРЅРѕРіРѕ С‚РµС…РЅРёС‡РµСЃРєРѕРіРѕ СЂРµС€РµРЅРёСЏ;
-- РЅРµ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РїРѕС‚РµСЂСЏРЅС‹ РјРµР¶РґСѓ СЂР°Р±РѕС‡РёРјРё РёС‚РµСЂР°С†РёСЏРјРё.
+- обнаружены фактическим аудитом;
+- не являются отдельным обязательным архитектурным разделом;
+- требуют отдельного технического решения;
+- не должны быть потеряны между рабочими итерациями.
 
-РђСЂС…РёС‚РµРєС‚СѓСЂРЅС‹Рµ Р·Р°РґР°С‡Рё РґРѕР»Р¶РЅС‹ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… СЂР°Р·РґРµР»Р°С… Audit.
+Архитектурные задачи должны оставаться в соответствующих разделах Audit.
 
 ## 49.2. Documentation debt
 
-РќРµРѕР±С…РѕРґРёРјРѕ РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ:
+Необходимо поддерживать:
 
-- РµРґРёРЅС‹Р№ `NEXUS_PROJECT_AUDIT.md` РєР°Рє Р¶РёРІСѓСЋ canonical state point;
-- Р°РєС‚СѓР°Р»СЊРЅС‹Р№ evidence mapping;
-- РѕРґРёРЅ primary NEXT STEP;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ РїСЂРѕС‚РёРІРѕСЂРµС‡РёР№ РјРµР¶РґСѓ status records.
+- единый `NEXUS_PROJECT_AUDIT.md` как живую canonical state point;
+- актуальный evidence mapping;
+- один primary NEXT STEP;
+- отсутствие противоречий между status records.
 
 **Status:** `IN PROGRESS`
 
 ## 49.3. Evidence mapping debt
 
-РќРµРѕР±С…РѕРґРёРјРѕ РґРѕРІРµСЃС‚Рё РґРѕ Р·Р°РІРµСЂС€РµРЅРёСЏ:
+Необходимо довести до завершения:
 
-- per-item evidence mapping РґР»СЏ РІСЃРµС… Р°СЂС…РёС‚РµРєС‚СѓСЂРЅС‹С… sections;
-- explicit evidence РґР»СЏ РєР°Р¶РґРѕРіРѕ `DONE`/`VERIFIED` РїСѓРЅРєС‚Р°;
-- distinction РјРµР¶РґСѓ code existence Рё behavioural proof.
+- per-item evidence mapping для всех архитектурных sections;
+- explicit evidence для каждого `DONE`/`VERIFIED` пункта;
+- distinction между code existence и behavioural proof.
 
 **Status:** `IN PROGRESS`
 
 ## 49.4. Registry lifecycle debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - exhaustive status transition matrix;
 - direct mutation negative-path audit;
@@ -9479,10 +9479,10 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.5. Learning Loop debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - cycle identity;
-- automatic lesson в†’ modification feedback;
+- automatic lesson → modification feedback;
 - automatic retest;
 - full autonomous learning cycle audit.
 
@@ -9490,7 +9490,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.6. News/Event debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - external source adapters;
 - historical backfill;
@@ -9500,7 +9500,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - validation integration;
 - influence metrics.
 
-РћСЃРЅРѕРІРЅР°СЏ tracking section:
+Основная tracking section:
 
 `43. NEWS & EVENT INTELLIGENCE`
 
@@ -9508,7 +9508,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.7. Dynamic Universe debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - complete exchange universe discovery;
 - normalized scanner input;
@@ -9518,7 +9518,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - dynamic opportunity pool;
 - end-to-end runtime integration.
 
-РћСЃРЅРѕРІРЅР°СЏ tracking section:
+Основная tracking section:
 
 `44. DYNAMIC MARKET UNIVERSE / OPPORTUNITY DISCOVERY`
 
@@ -9526,7 +9526,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.8. Sandbox security debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - runtime sandbox;
 - CPU/memory/time limits;
@@ -9536,15 +9536,15 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - database isolation;
 - Docker socket protection.
 
-РћСЃРЅРѕРІРЅР°СЏ tracking section:
+Основная tracking section:
 
-`30. Р‘РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ AI-generated Code`
+`30. Безопасность AI-generated Code`
 
 **Status:** `OPEN`
 
 ## 49.9. AI Live control debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - dedicated AI risk budget;
 - Restricted Live limits;
@@ -9552,7 +9552,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - AI Live activation state;
 - live degradation triggers.
 
-РћСЃРЅРѕРІРЅС‹Рµ tracking sections:
+Основные tracking sections:
 
 `17. Restricted Live`
 `28. Kill Switch`
@@ -9562,14 +9562,14 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.10. API debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - complete AIEA API;
 - authorization matrix;
 - user isolation at HTTP layer;
 - mutation audit coverage.
 
-РћСЃРЅРѕРІРЅР°СЏ tracking section:
+Основная tracking section:
 
 `34. API`
 
@@ -9577,7 +9577,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.11. Dashboard debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - full AI Evolution UI;
 - source-separated observability;
@@ -9587,7 +9587,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - security controls;
 - dashboard-layer isolation.
 
-РћСЃРЅРѕРІРЅР°СЏ tracking section:
+Основная tracking section:
 
 `47. FULL DASHBOARD REWORK`
 
@@ -9595,7 +9595,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.12. Application security debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ:
+Остаётся:
 
 - secrets lifecycle;
 - log redaction audit;
@@ -9604,7 +9604,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - key rotation / incident procedure;
 - application-wide security regression suite.
 
-РћСЃРЅРѕРІРЅР°СЏ tracking section:
+Основная tracking section:
 
 `46. APPLICATION / PRODUCTION SECURITY`
 
@@ -9612,24 +9612,24 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.13. Metadata propagation debt
 
-РћСЃС‚Р°С‘С‚СЃСЏ РѕС‚РґРµР»СЊРЅР°СЏ runtime verification РґР»СЏ:
+Остаётся отдельная runtime verification для:
 
 - `ai_experiment_id`;
 - `ai_decision_id`;
 - strategy version;
 - trade_source
 
-С‡РµСЂРµР· СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ lifecycle paths.
+через соответствующие lifecycle paths.
 
-РћСЃРЅРѕРІРЅР°СЏ tracking section:
+Основная tracking section:
 
-`32. РЎРІСЏР·СЊ СЃ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ РјРѕРґРµР»СЊСЋ NEXUS`
+`32. Связь с существующей моделью NEXUS`
 
 **Status:** `OPEN`
 
 ## 49.14. Time / timezone debt
 
-РћР±РЅР°СЂСѓР¶РµРЅ РѕР±С‰РёР№ follow-up:
+Обнаружен общий follow-up:
 
 - UTC normalization;
 - explicit timeframe/timezone semantics;
@@ -9639,7 +9639,7 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.15. Statistical sufficiency debt
 
-Р”Рѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ research/comparison results РґР»СЏ promotion РґРѕР»Р¶РЅС‹ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ:
+До использования research/comparison results для promotion должны существовать:
 
 - minimum sample guards;
 - insufficient-data handling;
@@ -9647,13 +9647,13 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 - degradation checks;
 - robustness checks.
 
-РќРµРєРѕС‚РѕСЂС‹Рµ guards СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‚, РЅРѕ РѕР±С‰РёР№ cross-stage policy audit РµС‰С‘ РЅРµ Р·Р°РІРµСЂС€С‘РЅ.
+Некоторые guards уже существуют, но общий cross-stage policy audit ещё не завершён.
 
 **Status:** `PARTIALLY VERIFIED`
 
 ## 49.16. Source isolation debt
 
-Р”РѕР»Р¶РЅРѕ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ Р·Р°РїСЂРµС‰С‘РЅРЅС‹Рј implicit aggregation РјРµР¶РґСѓ:
+Должно оставаться запрещённым implicit aggregation между:
 
 - REAL;
 - GRID;
@@ -9667,17 +9667,17 @@ A8/E10/E11/E12 РїРѕРґС‚РІРµСЂР¶РґР°СЋС‚ production iso
 
 ## 49.17. Technical debt rule
 
-Technical debt РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ СЃР»РµРґСѓСЋС‰РёРј implementation step.
+Technical debt не должен автоматически становиться следующим implementation step.
 
-РџРµСЂРµРґ РЅР°С‡Р°Р»РѕРј СЂР°Р±РѕС‚С‹ РєР°Р¶РґС‹Р№ item РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ:
+Перед началом работы каждый item должен быть:
 
-`FACT в†’ CHECK в†’ EVIDENCE в†’ AUDIT в†’ STATUS`
+`FACT → CHECK → EVIDENCE → AUDIT → STATUS`
 
-РџРѕСЃР»Рµ С‡РµРіРѕ РІС‹Р±РёСЂР°РµС‚СЃСЏ РѕРґРёРЅ primary next step.
+После чего выбирается один primary next step.
 
-## 49.18. РС‚РѕРі
+## 49.18. Итог
 
-Р“Р»Р°РІРЅС‹Рµ РѕС‚РєСЂС‹С‚С‹Рµ С‚РµС…РЅРёС‡РµСЃРєРёРµ РЅР°РїСЂР°РІР»РµРЅРёСЏ:
+Главные открытые технические направления:
 
 - Registry lifecycle;
 - Learning Loop;
@@ -9692,14 +9692,14 @@ Technical debt РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С‚�
 - timezone hardening;
 - statistical sufficiency.
 
-РђСЂС…РёС‚РµРєС‚СѓСЂРЅС‹Рµ Р·Р°РґР°С‡Рё СѓР¶Рµ Р·Р°РєСЂРµРїР»РµРЅС‹ РІ sections 1вЂ“48 Рё РЅРµ РґРѕР»Р¶РЅС‹ РґСѓР±Р»РёСЂРѕРІР°С‚СЊСЃСЏ Р·РґРµСЃСЊ РєР°Рє РЅРµР·Р°РІРёСЃРёРјС‹Рµ РїР»Р°РЅС‹.
+Архитектурные задачи уже закреплены в sections 1–48 и не должны дублироваться здесь как независимые планы.
 
-**Remaining:** РїРѕРґРґРµСЂР¶РёРІР°С‚СЊ СЌС‚РѕС‚ СЂР°Р·РґРµР» РєР°Рє РёРЅРґРµРєСЃ РЅРµР·Р°РєСЂС‹С‚С‹С… С‚РµС…РЅРёС‡РµСЃРєРёС… РґРѕР»РіРѕРІ Рё СѓРґР°Р»СЏС‚СЊ item РѕС‚СЃСЋРґР° С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ РµРіРѕ С„Р°РєС‚РёС‡РµСЃРєРѕРіРѕ Р·Р°РєСЂС‹С‚РёСЏ РІ РѕСЃРЅРѕРІРЅРѕРј СЂР°Р·РґРµР»Рµ.
+**Remaining:** поддерживать этот раздел как индекс незакрытых технических долгов и удалять item отсюда только после его фактического закрытия в основном разделе.
 ## 50. VERIFIED EVIDENCE INDEX
 
 **Status:** `VERIFIED`
 
-Р­С‚РѕС‚ СЂР°Р·РґРµР» СЏРІР»СЏРµС‚СЃСЏ РёРЅРґРµРєСЃРѕРј СѓР¶Рµ РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ evidence. РћРЅ РЅРµ Р·Р°РјРµРЅСЏРµС‚ РїРѕРґСЂРѕР±РЅС‹Рµ audit sections.
+Этот раздел является индексом уже полученного evidence. Он не заменяет подробные audit sections.
 
 ## 50.1. Foundation / Isolation
 
@@ -9734,7 +9734,7 @@ Technical debt РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С‚�
 
 | Area | Evidence | Status |
 |---|---|---|
-| D | D.1вЂ“D.6.8 completed | DONE |
+| D | D.1–D.6.8 completed | DONE |
 | D | `D6_8_BLOCK_D_FULL_COMPILE_OK` | TEST VERIFIED |
 
 ## 50.4. Promotion
@@ -9793,7 +9793,7 @@ Technical debt РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С‚�
 
 | Area | Evidence | Status |
 |---|---|---|
-| F | F.1вЂ“F.9 completed + reviewed | DONE + REVIEWED |
+| F | F.1–F.9 completed + reviewed | DONE + REVIEWED |
 | F | F-REVIEW-1 | TEST VERIFIED |
 | F | F-REVIEW-2 | TEST VERIFIED |
 | F | F-REVIEW-3 | TEST VERIFIED |
@@ -9821,13 +9821,13 @@ Presence of an evidence marker alone does not prove unrelated requirements.
 
 **Status:** `OPEN`
 
-Р­С‚РѕС‚ СЂР°Р·РґРµР» СЃРѕРґРµСЂР¶РёС‚ С‚РѕР»СЊРєРѕ С„Р°РєС‚РёС‡РµСЃРєРё РЅРµР·Р°РІРµСЂС€С‘РЅРЅС‹Рµ Р»РёР±Рѕ РµС‰С‘ РЅРµ РїРѕР»РЅРѕСЃС‚СЊСЋ РґРѕРєР°Р·Р°РЅРЅС‹Рµ РЅР°РїСЂР°РІР»РµРЅРёСЏ.
+Этот раздел содержит только фактически незавершённые либо ещё не полностью доказанные направления.
 
-## 51.1. A9 вЂ” Foundation / Isolation
+## 51.1. A9 — Foundation / Isolation
 
 **Status:** `TEST VERIFIED / DONE`
 
-A9 Foundation / Isolation scope С„Р°РєС‚РёС‡РµСЃРєРё Р·Р°РІРµСЂС€С‘РЅ Рё РїРѕРґС‚РІРµСЂР¶РґС‘РЅ end-to-end С‚РµСЃС‚РѕРј.
+A9 Foundation / Isolation scope фактически завершён и подтверждён end-to-end тестом.
 
 Verified evidence:
 
@@ -9844,22 +9844,22 @@ Verified evidence:
 - `A9_FOUNDATION_E2E_OK`
 - `A9_CLEANUP_OK`
 
-A9 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
+A9 подтверждает:
 
 - AI agent availability;
 - Knowledge Snapshot creation;
-- Snapshot в†’ Hypothesis linkage;
-- Hypothesis в†’ Experiment linkage;
-- Experiment в†’ Strategy Version linkage;
+- Snapshot → Hypothesis linkage;
+- Hypothesis → Experiment linkage;
+- Experiment → Strategy Version linkage;
 - Validation Evidence creation and verification;
 - Promotion audit linkage;
 - trade-source integrity audit;
 - production safety blocking;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ production mutation;
+- отсутствие production mutation;
 - persistence/reload identity integrity;
 - cleanup.
 
-РЎР»РµРґСѓСЋС‰РёР№ Foundation scope РґРѕР»Р¶РµРЅ РЅР°С‡РёРЅР°С‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ РѕС‚РґРµР»СЊРЅРѕРіРѕ mapping СЃР»РµРґСѓСЋС‰РµРіРѕ Master Plan item.
+Следующий Foundation scope должен начинаться только после отдельного mapping следующего Master Plan item.
 
 **Evidence:** `tests/aiea/test_a9_foundation_e2e.py`
 
@@ -9867,28 +9867,28 @@ A9 РїРѕРґС‚РІРµСЂР¶РґР°РµС‚:
 
 **Note:** test emitted a non-fatal `DeprecationWarning` for `datetime.utcnow()`.
 
-## 51.2. B.5 вЂ” News / Event Correlation
+## 51.2. B.5 — News / Event Correlation
 
 **Status:** `IN PROGRESS / RESEARCH-ONLY`
 
-РџСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ:
+Продолжается:
 
-- event в†’ market;
-- event в†’ regime;
-- event в†’ strategy;
-- event в†’ outcome;
+- event → market;
+- event → regime;
+- event → strategy;
+- event → outcome;
 - evidence / linkage integrity.
 
-B.5 РЅРµ РёРјРµРµС‚ production execution authority.
+B.5 не имеет production execution authority.
 
 ## 51.3. News & Event Intelligence
 
 **Status:** `PARTIALLY VERIFIED`
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅС‹:
+Подтверждены:
 
 - RSS/Atom external source adapter;
-- canonical ingestion в†’ persistence;
+- canonical ingestion → persistence;
 - deterministic deduplication;
 - provider failure isolation;
 - News/Event normalization/correlation;
@@ -9901,20 +9901,20 @@ Evidence:
 - `B5_RSS_FAILURE_ISOLATION_E2E_OK`
 - `B5_NEWS_CORRELATION_E2E_OK`
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - historical backfill;
-- event в†’ market persistent linkage beyond comparison context;
-- event в†’ outcome lifecycle;
+- event → market persistent linkage beyond comparison context;
+- event → outcome lifecycle;
 - news-aware validation;
 - influence metrics;
 - broader external source coverage if required.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `43`.
+Основная section: `43`.
 
 ## 51.4. Dynamic Market Universe
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - full exchange universe discovery;
 - complete filtering policy;
@@ -9924,11 +9924,11 @@ Evidence:
 - dynamic opportunity pool;
 - end-to-end runtime integration.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `44`.
+Основная section: `44`.
 
 ## 51.5. Sandbox Security
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - runtime isolation;
 - resource limits;
@@ -9938,11 +9938,11 @@ Evidence:
 - database isolation;
 - Docker socket protection.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `30`.
+Основная section: `30`.
 
 ## 51.6. Application / Production Security
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - secrets lifecycle;
 - log redaction;
@@ -9953,11 +9953,11 @@ Evidence:
 - incident response;
 - application-wide regression testing.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `46`.
+Основная section: `46`.
 
 ## 51.7. Dedicated AI Live Controls
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - dedicated AI risk budget;
 - dedicated AI kill switch;
@@ -9965,11 +9965,11 @@ Evidence:
 - AI Live activation state machine;
 - live degradation triggers.
 
-РћСЃРЅРѕРІРЅС‹Рµ sections: `17`, `28`, `45`.
+Основные sections: `17`, `28`, `45`.
 
 ## 51.8. API
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - complete AIEA API surface;
 - API authorization matrix;
@@ -9977,11 +9977,11 @@ Evidence:
 - complete mutation audit;
 - dedicated kill-switch endpoint.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `34`.
+Основная section: `34`.
 
 ## 51.9. Dashboard
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - complete AI Evolution UI;
 - source-separated observability;
@@ -9992,11 +9992,11 @@ Evidence:
 - security/audit UI;
 - dashboard-layer isolation.
 
-РћСЃРЅРѕРІРЅС‹Рµ sections: `35`, `47`.
+Основные sections: `35`, `47`.
 
 ## 51.10. Strategy Generation / Modification
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - autonomous Strategy Generator;
 - autonomous Strategy Modifier;
@@ -10006,65 +10006,65 @@ Evidence:
 - automatic validation orchestration;
 - automatic retest/evaluation.
 
-РћСЃРЅРѕРІРЅС‹Рµ sections: `24вЂ“26`, `37вЂ“38`.
+Основные sections: `24–26`, `37–38`.
 
 ## 51.11. Learning Loop
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - cycle identity;
-- lesson в†’ modification feedback;
+- lesson → modification feedback;
 - automatic retest;
 - full autonomous learning cycle;
 - News/Event-aware learning.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `22`.
+Основная section: `22`.
 
 ## 51.12. Audit completeness
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - exhaustive AI action audit;
 - complete model/prompt version population;
 - universal immutability proof;
 - application-wide audit coverage.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `29`.
+Основная section: `29`.
 
 ## 51.13. Metadata propagation
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - full runtime `ai_experiment_id` propagation;
 - full runtime `ai_decision_id` propagation;
 - complete AI Live traceability.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `32`.
+Основная section: `32`.
 
 ## 51.14. Statistical / temporal hardening
 
-РћС‚РєСЂС‹С‚С‹:
+Открыты:
 
 - complete statistical sufficiency matrix;
 - universal degradation policy;
 - UTC/timezone hardening;
 - cross-stage significance rules.
 
-РћСЃРЅРѕРІРЅР°СЏ section: `49`.
+Основная section: `49`.
 
 ## 51.15. Important constraint
 
-РќР°Р»РёС‡РёРµ open items РЅРµ РѕР·РЅР°С‡Р°РµС‚ failure РїСЂРѕРµРєС‚Р°.
+Наличие open items не означает failure проекта.
 
-РћРЅРё РґРѕР»Р¶РЅС‹ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ РѕС‚РєСЂС‹С‚С‹РјРё РґРѕ РїРѕР»СѓС‡РµРЅРёСЏ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ:
+Они должны оставаться открытыми до получения соответствующего:
 
-`FACT в†’ CHECK в†’ EVIDENCE в†’ AUDIT в†’ STATUS`
+`FACT → CHECK → EVIDENCE → AUDIT → STATUS`
 
-Рё РЅРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ Р·Р°РєСЂС‹С‚С‹ С‚РѕР»СЊРєРѕ РЅР°Р»РёС‡РёРµРј РєРѕРґР°.
+и не могут быть закрыты только наличием кода.
 
 ## 51.16. Production blockers
 
-РљСЂРёС‚РёС‡РµСЃРєРёРµ operational blockers РґРѕ Р»СЋР±РѕРіРѕ AI live activation:
+Критические operational blockers до любого AI live activation:
 
 - dedicated AI risk budget;
 - dedicated AI kill switch;
@@ -10077,43 +10077,43 @@ Evidence:
 
 **Production safety:** Restricted Live and Full Live remain disabled.
 
-## 51.17. Production Protection Regression вЂ” 2026-08-28
+## 51.17. Production Protection Regression — 2026-08-28
 
 ### FACT
 
-Р’ РїРµСЂРёРѕРґ `2026-08-28 12:29:30вЂ“12:32:07 UTC` РїРѕР·РёС†РёРё `7131вЂ“7141` Р±С‹Р»Рё СѓСЃРїРµС€РЅРѕ РѕС‚РєСЂС‹С‚С‹, РЅРѕ РѕСЃС‚Р°Р»РёСЃСЊ Р±РµР· Р°РєС‚РёРІРЅС‹С… SL/TP РЅР° BingX.
+В период `2026-08-28 12:29:30–12:32:07 UTC` позиции `7131–7141` были успешно открыты, но остались без активных SL/TP на BingX.
 
 ### CHECK
 
-РџСЂРѕРІРµСЂРµРЅР° С†РµРїРѕС‡РєР°:
+Проверена цепочка:
 
-`ExecutionAgent в†’ set_stop_loss_take_profit() в†’ BingX в†’ Protection Fail-Safe в†’ Emergency Close в†’ PositionAgent Recovery`
+`ExecutionAgent → set_stop_loss_take_profit() → BingX → Protection Fail-Safe → Emergency Close → PositionAgent Recovery`
 
-РўР°РєР¶Рµ РїСЂРѕРІРµСЂРµРЅР° РІСЂРµРјРµРЅРЅР°СЏ РіСЂР°РЅРёС†Р° РёР·РјРµРЅРµРЅРёСЏ `clients/bingx.py`.
+Также проверена временная граница изменения `clients/bingx.py`.
 
 ### EVIDENCE
 
-1. Protection patch РёР·РјРµРЅРёР» BingX SL/TP payload:
+1. Protection patch изменил BingX SL/TP payload:
 
-`quantity` Р±С‹Р» СѓРґР°Р»С‘РЅ Рё Р·Р°РјРµРЅС‘РЅ РЅР° `closePosition=true`.
+`quantity` был удалён и заменён на `closePosition=true`.
 
-2. BingX РґР»СЏ РЅРѕРІС‹С… protection requests РІРѕР·РІСЂР°С‰Р°Р»:
+2. BingX для новых protection requests возвращал:
 
-`109400 вЂ” parameter quantity or stopPrice is must`
+`109400 — parameter quantity or stopPrice is must`
 
-3. `ExecutionAgent` РєРѕСЂСЂРµРєС‚РЅРѕ РѕР±РЅР°СЂСѓР¶РёРІР°Р» protection failure:
+3. `ExecutionAgent` корректно обнаруживал protection failure:
 
 `[PROTECTION_FAILSAFE] ... closing unprotected position`
 
-4. Emergency close С‡РµСЂРµР· Hedge Mode РїРµСЂРµРґР°РІР°Р» `reduceOnly=true`, Рё BingX РІРѕР·РІСЂР°С‰Р°Р»:
+4. Emergency close через Hedge Mode передавал `reduceOnly=true`, и BingX возвращал:
 
 `In the Hedge mode, the 'ReduceOnly' field can not be filled.`
 
-5. РџРѕСЃР»Рµ СЌС‚РѕРіРѕ РїРѕР·РёС†РёРё РѕСЃС‚Р°РІР°Р»РёСЃСЊ OPEN Рё РїРµСЂРµС…РѕРґРёР»Рё РІ `PROTECTION_RECOVERY`.
+5. После этого позиции оставались OPEN и переходили в `PROTECTION_RECOVERY`.
 
-6. Recovery РїРѕРІС‚РѕСЂСЏР» РЅРµРІР°Р»РёРґРЅС‹Рµ protection requests, РїРѕСЃР»Рµ С‡РµРіРѕ BingX РЅР°С‡Р°Р» РІРѕР·РІСЂР°С‰Р°С‚СЊ `109429` РєР°Рє СЃР»РµРґСЃС‚РІРёРµ РїРѕРІС‚РѕСЂРЅС‹С… `109400`.
+6. Recovery повторял невалидные protection requests, после чего BingX начал возвращать `109429` как следствие повторных `109400`.
 
-7. Production contract smoke test РїРѕСЃР»Рµ РёСЃРїСЂР°РІР»РµРЅРёСЏ РїСЂРѕР№РґРµРЅ:
+7. Production contract smoke test после исправления пройден:
 
 - `SL_CONTRACT_OK`
 - `TP_CONTRACT_OK`
@@ -10123,14 +10123,14 @@ Evidence:
 
 ### AUDIT
 
-Р”РѕРєР°Р·Р°РЅРѕ, С‡С‚Рѕ С‚РµРєСѓС‰Р°СЏ Р°РІР°СЂРёСЏ Р±С‹Р»Р° РІС‹Р·РІР°РЅР° СЂРµРіСЂРµСЃСЃРёРµР№ РІ protection/close contract, Р° РЅРµ SMC strategy logic.
+Доказано, что текущая авария была вызвана регрессией в protection/close contract, а не SMC strategy logic.
 
-РСЃРїСЂР°РІР»РµРЅРёСЏ:
+Исправления:
 
-- SL/TP СЃРЅРѕРІР° РїРµСЂРµРґР°СЋС‚ `quantity`;
-- `closePosition=true` СѓРґР°Р»С‘РЅ РёР· protection path;
-- Hedge Mode emergency close РїРµСЂРµРІРµРґС‘РЅ РЅР° `reduce_only=False`;
-- `ExecutionAgent` Р±РѕР»СЊС€Рµ РЅРµ С‚СЂРµР±СѓРµС‚ `closePosition=true` РїСЂРё protection verification.
+- SL/TP снова передают `quantity`;
+- `closePosition=true` удалён из protection path;
+- Hedge Mode emergency close переведён на `reduce_only=False`;
+- `ExecutionAgent` больше не требует `closePosition=true` при protection verification.
 
 ### STATUS
 
@@ -10155,20 +10155,20 @@ Current known state:
 
 ### GAP
 
-РќРµ РІС‹РїРѕР»РЅРµРЅ post-fix runtime validation РЅР° РЅРѕРІРѕР№ С‚РµСЃС‚РѕРІРѕР№ РїРѕР·РёС†РёРё СЃ С„Р°РєС‚РёС‡РµСЃРєРёРј РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµРј:
+Не выполнен post-fix runtime validation на новой тестовой позиции с фактическим подтверждением:
 
-`OPEN в†’ SL ACTIVE в†’ TP ACTIVE в†’ CLOSE`
+`OPEN → SL ACTIVE → TP ACTIVE → CLOSE`
 
-РќРµРѕР±С…РѕРґРёРјРѕ С‚Р°РєР¶Рµ РѕС‚РґРµР»СЊРЅРѕ РїРѕРґС‚РІРµСЂРґРёС‚СЊ emergency-close path СЂРµР°Р»СЊРЅС‹Рј exchange response.
+Необходимо также отдельно подтвердить emergency-close path реальным exchange response.
 
 ### NEXT STEP
 
-Р”Рѕ Р·Р°РїСѓСЃРєР° production trading:
+До запуска production trading:
 
-1. РІС‹РїРѕР»РЅРёС‚СЊ СЃС‚Р°С‚РёС‡РµСЃРєРёР№ scan РІСЃРµС… protection/close paths;
-2. РІС‹РїРѕР»РЅРёС‚СЊ controlled runtime validation РЅР° BingX Demo;
-3. РїРѕРґС‚РІРµСЂРґРёС‚СЊ `PROTECTION_OK` Рё РѕС‚СЃСѓС‚СЃС‚РІРёРµ `109400/109429`;
-4. С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ СЌС‚РѕРіРѕ СЂР°СЃСЃРјР°С‚СЂРёРІР°С‚СЊ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РѕР±С‹С‡РЅРѕРіРѕ Р·Р°РїСѓСЃРєР°.
+1. выполнить статический scan всех protection/close paths;
+2. выполнить controlled runtime validation на BingX Demo;
+3. подтвердить `PROTECTION_OK` и отсутствие `109400/109429`;
+4. только после этого рассматривать восстановление обычного запуска.
 
 
 ## 52. NEXT STEP
@@ -10177,7 +10177,7 @@ Current known state:
 
 ### 52.1. Current completed state
 
-**A9 вЂ” Foundation / Isolation**
+**A9 — Foundation / Isolation**
 
 Status:
 
@@ -10187,7 +10187,7 @@ Runtime evidence:
 
 - `A9_FOUNDATION_E2E_OK`
 
-**B.5 вЂ” News / Event Correlation**
+**B.5 — News / Event Correlation**
 
 Status:
 
@@ -10221,7 +10221,7 @@ The next implementation item must be selected exclusively from unresolved items 
 
 Before implementation:
 
-`FACT в†’ CHECK в†’ EVIDENCE в†’ AUDIT в†’ STATUS в†’ NEXT STEP`
+`FACT → CHECK → EVIDENCE → AUDIT → STATUS → NEXT STEP`
 
 ### 52.4. Single primary next step
 
@@ -10231,17 +10231,17 @@ No implementation change is authorized until that item is identified from the li
 
 ### 52.5. Canonical working point
 
-`ONE PROJECT в†’ ONE LIVE AUDIT в†’ ONE CURRENT STATE в†’ ONE NEXT STEP`
+`ONE PROJECT → ONE LIVE AUDIT → ONE CURRENT STATE → ONE NEXT STEP`
 
 **A9: TEST VERIFIED / DONE**
 
 **B.5: TEST VERIFIED / DONE**
 
-**PRIMARY NEXT STEP: NEXT UNCOMPLETED AUDIT ITEM вЂ” FACTUAL MAPPING**
+**PRIMARY NEXT STEP: NEXT UNCOMPLETED AUDIT ITEM — FACTUAL MAPPING**
 
 **PRODUCTION: SAFE / LIVE AI DISABLED**
 
-## 51.18. Protection Regression Final Closeout вЂ” 2026-08-28
+## 51.18. Protection Regression Final Closeout — 2026-08-28
 
 ### FACT
 
@@ -10282,7 +10282,7 @@ Both regressions were removed.
 
 ### GAP
 
-Final DB в†” BingX reconciliation must confirm zero unprotected regular OPEN positions.
+Final DB ↔ BingX reconciliation must confirm zero unprotected regular OPEN positions.
 
 GRID protection remains a separate policy and is not treated as a regular protection regression.
 
@@ -10292,27 +10292,27 @@ Resume work from the canonical project plan only after final reconciliation.
 
 Production trading remains disabled for this session.
 
-## 51.19. B.5 News/Event Ingestion E2E вЂ” 2026-08-29
+## 51.19. B.5 News/Event Ingestion E2E — 2026-08-29
 
 ### FACT
 
-B.5 News/Event ingestion path СЂРµР°Р»РёР·РѕРІР°РЅ Рё РїСЂРѕРІРµСЂРµРЅ end-to-end РЅР° deterministic research-only provider.
+B.5 News/Event ingestion path реализован и проверен end-to-end на deterministic research-only provider.
 
-Р¦РµРїРѕС‡РєР°:
+Цепочка:
 
-`StaticTestNewsProvider в†’ AINewsIngestionAdapter в†’ AINewsEventService в†’ PostgreSQL ai_news_events`
+`StaticTestNewsProvider → AINewsIngestionAdapter → AINewsEventService → PostgreSQL ai_news_events`
 
 ### CHECK
 
-РџСЂРѕРІРµСЂРµРЅРѕ:
+Проверено:
 
 - provider item construction;
-- provider в†’ ingestion adapter conversion;
+- provider → ingestion adapter conversion;
 - canonical event creation;
-- persistence РІ `ai_news_events`;
-- РїРѕРІС‚РѕСЂРЅРѕРµ С‡С‚РµРЅРёРµ persisted event;
-- СЃРѕС…СЂР°РЅРµРЅРёРµ РєР»СЋС‡РµРІС‹С… event fields;
-- РѕС‚СЃСѓС‚СЃС‚РІРёРµ production execution path.
+- persistence в `ai_news_events`;
+- повторное чтение persisted event;
+- сохранение ключевых event fields;
+- отсутствие production execution path.
 
 ### EVIDENCE
 
@@ -10330,11 +10330,11 @@ Runtime evidence:
 
 ### AUDIT
 
-РџРѕРґС‚РІРµСЂР¶РґРµРЅ С„Р°РєС‚РёС‡РµСЃРєРёР№ ingestion в†’ persistence lifecycle РґР»СЏ canonical News/Event model.
+Подтвержден фактический ingestion → persistence lifecycle для canonical News/Event model.
 
-Р­С‚Рѕ Р·Р°РєСЂС‹РІР°РµС‚ С‚РµС…РЅРёС‡РµСЃРєСѓСЋ С‡Р°СЃС‚СЊ Р±Р°Р·РѕРІРѕРіРѕ ingestion lifecycle РґР»СЏ deterministic provider.
+Это закрывает техническую часть базового ingestion lifecycle для deterministic provider.
 
-Р­С‚Рѕ **РЅРµ** РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ РЅР°Р»РёС‡РёРµ production-grade external source adapters, historical backfill, deduplication РёР»Рё complete event correlation.
+Это **не** подтверждает наличие production-grade external source adapters, historical backfill, deduplication или complete event correlation.
 
 ### STATUS
 
@@ -10342,29 +10342,29 @@ Runtime evidence:
 
 ### GAP
 
-РћСЃС‚Р°СЋС‚СЃСЏ:
+Остаются:
 
 - external source adapters;
 - historical event backfill;
 - deduplication;
-- event в†’ market persistent linkage;
-- event в†’ outcome linkage;
+- event → market persistent linkage;
+- event → outcome linkage;
 - event-aware validation;
 - News/Event influence metrics.
 
 ### NEXT STEP
 
-РЎР»РµРґСѓСЋС‰РёР№ B.5 implementation step:
+Следующий B.5 implementation step:
 
 `43.6 External source adapters`
 
-РўСЂРµР±СѓРµС‚СЃСЏ factual audit СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… provider integrations Рё, РїСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё production-ready adapter, СЃРѕР·РґР°РЅРёРµ research-only adapter contract Р±РµР· execution authority.
+Требуется factual audit существующих provider integrations и, при отсутствии production-ready adapter, создание research-only adapter contract без execution authority.
 
 
-## B5 вЂ” News / Event Correlation вЂ” COMPLETED
+## B5 — News / Event Correlation — COMPLETED
 
 ### FACT
-B5 СЂРµР°Р»РёР·СѓРµС‚ РёР·РѕР»РёСЂРѕРІР°РЅРЅС‹Р№ News/Event Р°РЅР°Р»РёС‚РёС‡РµСЃРєРёР№ РєРѕРЅС‚СѓСЂ РґР»СЏ AIEA:
+B5 реализует изолированный News/Event аналитический контур для AIEA:
 - RSS/news provider failure isolation;
 - canonical News Event ingestion;
 - deterministic normalization/deduplication;
@@ -10372,7 +10372,7 @@ B5 СЂРµР°Р»РёР·СѓРµС‚ РёР·РѕР»РёСЂРѕРІР°Р�
 - impact classification;
 - propagation of News/Event context into immutable comparison records.
 
-Production-РєРѕРЅС‚СѓСЂ News/Event РЅРµ РёРјРµРµС‚ С‚РѕСЂРіРѕРІС‹С… side effects Рё РЅРµ РІС‹Р·С‹РІР°РµС‚ RiskAgent, ExecutionAgent РёР»Рё СЂР°Р·РјРµС‰РµРЅРёРµ РѕСЂРґРµСЂРѕРІ.
+Production-контур News/Event не имеет торговых side effects и не вызывает RiskAgent, ExecutionAgent или размещение ордеров.
 
 ### CHECK
 1. RSS HTTP failure does not terminate ingestion of healthy feeds.
@@ -10424,7 +10424,7 @@ Evidence:
 - `B5_NEWS_CORRELATION_E2E_OK`
 
 ### STATUS
-**B5 вЂ” COMPLETED / E2E VALIDATED**
+**B5 — COMPLETED / E2E VALIDATED**
 
 RSS failure isolation and News/Event correlation are both positively validated.
 
@@ -10445,11 +10445,11 @@ Before implementing the next item:
 2. inspect existing production implementation;
 3. identify existing tests/evidence;
 4. avoid duplicating already validated B5 functionality;
-5. record the next FACT в†’ CHECK в†’ EVIDENCE в†’ STATUS в†’ GAP в†’ NEXT STEP cycle in this audit.
+5. record the next FACT → CHECK → EVIDENCE → STATUS → GAP → NEXT STEP cycle in this audit.
 
 
 ---
-### Р‘Р»РѕРє A9: Foundation E2E
+### Блок A9: Foundation E2E
 - **Status**: TEST VERIFIED / DONE
 - **Date**: 2026-08-29 10:54
 - **Evidence Tag**: A9_FOUNDATION_E2E_OK
@@ -10457,7 +10457,7 @@ Before implementing the next item:
 - **Result**: All 12/12 foundation checks passed. Production safety isolation confirmed.
 
 ---
-### Р‘Р»РѕРє B.5: News / Event Correlation
+### Блок B.5: News / Event Correlation
 - **Status**: TEST VERIFIED / DONE
 - **Date**: 2026-08-30 09:00
 - **Evidence Tag**: B5_NEWS_EVENT_CORRELATION_OK
@@ -10545,7 +10545,7 @@ Before implementing the next item:
 - **Result**: AIPaperTradingService and AIPaperResultAggregationService structure verified.
 
 ---
-### Р‘Р»РѕРє D / РћР±С‰РёР№ С‚РµСЃС‚ СЂРµРїРѕР·РёС‚РѕСЂРёСЏ
+### Блок D / Общий тест репозитория
 - **Status**: TEST VERIFIED / DONE
 - **Date**: 2026-08-30 10:55
 - **Evidence Tag**: FULL_SUITE_10_PASSED_OK
@@ -10553,7 +10553,7 @@ Before implementing the next item:
 - **Result**: All 10 core validation and execution tests passed successfully.
 
 ---
-### Р‘Р»РѕРє B.5: News & Event Ingestion
+### Блок B.5: News & Event Ingestion
 - **Status**: TEST VERIFIED / DONE
 - **Date**: 2026-08-30 11:00
 - **Evidence Tag**: B5_NEWS_INGESTION_OK
@@ -10624,7 +10624,7 @@ Before implementing the next item:
 - **Command**: docker compose exec -e PYTHONPATH=/app app python tests/aiea/test_a9_foundation_e2e.py
 - **Result**: All checks passed (Agent, snapshot, hypothesis, experiment, validation evidence, promotion audit, trade source integrity, production safety blocked, no production mutation, chain reloaded, cleanup).
 
-## 43.8.1. Historical News Source Architecture Decision вЂ” 2026-08-30
+## 43.8.1. Historical News Source Architecture Decision — 2026-08-30
 
 **Decision:** APPROVED
 
@@ -10638,7 +10638,7 @@ Role:
 
 Allowed path:
 
-`Event Registry в†’ HistoricalNewsProvider в†’ AINewsIngestionAdapter в†’ AINewsEvent в†’ research / comparison`
+`Event Registry → HistoricalNewsProvider → AINewsIngestionAdapter → AINewsEvent → research / comparison`
 
 Forbidden boundaries:
 
@@ -10655,7 +10655,7 @@ Existing `AINewsProvider` / `AINewsIngestionAdapter` architecture remains canoni
 **Evidence:** explicit user architecture approval on 2026-08-30.
 
 
-### 43.8.2. Event Registry HistoricalNewsProvider вЂ” 2026-08-30
+### 43.8.2. Event Registry HistoricalNewsProvider — 2026-08-30
 
 **Status:** `TEST VERIFIED / PARTIAL IMPLEMENTATION`
 
@@ -10663,7 +10663,7 @@ Implemented:
 
 - `services/ai_news_event_registry_provider.py`
 - `HistoricalNewsProvider(AINewsProvider)`
-- Event Registry article в†’ `AINewsProviderItem` mapping
+- Event Registry article → `AINewsProviderItem` mapping
 - deterministic `event_id`
 - `since / until / symbols / limit`
 - research-only provider boundary
@@ -10687,7 +10687,7 @@ Not yet verified:
 - historical backfill E2E.
 
 
-### 43.8.3. Event Registry Pagination вЂ” 2026-08-30
+### 43.8.3. Event Registry Pagination — 2026-08-30
 
 **Status:** `TEST VERIFIED`
 
@@ -10714,7 +10714,7 @@ Remaining for full Historical Event Backfill:
 - historical backfill E2E.
 
 
-### 43.8.4. Historical Backfill Window Traversal вЂ” 2026-08-30
+### 43.8.4. Historical Backfill Window Traversal — 2026-08-30
 
 **Status:** `TEST VERIFIED`
 
@@ -10735,7 +10735,7 @@ Evidence:
 
 Verified example:
 
-`2026-08-01 в†’ 2026-08-08 в†’ 2026-08-15 в†’ 2026-08-16`
+`2026-08-01 → 2026-08-08 → 2026-08-15 → 2026-08-16`
 
 Remaining for full Historical Event Backfill:
 
@@ -10744,18 +10744,18 @@ Remaining for full Historical Event Backfill:
 - historical backfill E2E against external source.
 
 
-### 43.8.5. Historical Backfill Checkpoint Audit вЂ” 2026-08-30
+### 43.8.5. Historical Backfill Checkpoint Audit — 2026-08-30
 
 **Status:** `NOT IMPLEMENTED / FACTUALLY VERIFIED`
 
-РџСЂРѕРІРµРґС‘РЅ РїРѕРёСЃРє persistent checkpoint/resume mechanisms РІ:
+Проведён поиск persistent checkpoint/resume mechanisms в:
 
 - `models/`
 - `services/`
 - `migrations/`
 - `tests/`
 
-Existing reusable patterns РґР»СЏ:
+Existing reusable patterns для:
 
 - checkpoint;
 - resume;
@@ -10764,16 +10764,16 @@ Existing reusable patterns РґР»СЏ:
 - high-water mark;
 - progress state
 
-РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅС‹.
+не обнаружены.
 
-РЎР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ, С‚РµРєСѓС‰РёР№ `HistoricalNewsBackfillService` РїРѕСЃР»Рµ process restart РЅРµ РёРјРµРµС‚ persistent state РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ СЃ РїРѕСЃР»РµРґРЅРµРіРѕ СѓСЃРїРµС€РЅРѕ Р·Р°РІРµСЂС€С‘РЅРЅРѕРіРѕ historical window.
+Следовательно, текущий `HistoricalNewsBackfillService` после process restart не имеет persistent state для продолжения с последнего успешно завершённого historical window.
 
 **Evidence:** repository-wide checkpoint/resume search returned no matches.
 
 **Next required capability:** dedicated RESEARCH-ONLY persistent backfill checkpoint state.
 
 
-### 43.8.6. Historical Backfill Persistent Job Architecture вЂ” 2026-08-30
+### 43.8.6. Historical Backfill Persistent Job Architecture — 2026-08-30
 
 **Decision:** `APPROVED`
 
@@ -10847,11 +10847,11 @@ Canonical resume semantics:
 Allowed path:
 
 `AIHistoricalNewsBackfillJob`
-в†’ `HistoricalNewsBackfillService`
-в†’ `HistoricalNewsProvider`
-в†’ `AINewsIngestionAdapter`
-в†’ `AINewsEvent`
-в†’ research / comparison
+→ `HistoricalNewsBackfillService`
+→ `HistoricalNewsProvider`
+→ `AINewsIngestionAdapter`
+→ `AINewsEvent`
+→ research / comparison
 
 Forbidden:
 
@@ -10866,7 +10866,7 @@ Forbidden:
 **Evidence:** explicit user architecture approval on 2026-08-30.
 
 
-### 43.8.7. Alembic Branch Conflict Root Cause вЂ” 2026-08-30
+### 43.8.7. Alembic Branch Conflict Root Cause — 2026-08-30
 
 **Status:** `FACTUALLY VERIFIED / RECONCILIATION NOT IMPLEMENTED`
 
@@ -10878,13 +10878,13 @@ Alembic has two heads:
 Branch structure:
 
 `b9bcf06be00e`
-в†’ `c2d8e4f1a607`
-в†’ `d41e7c92b5f0`
+→ `c2d8e4f1a607`
+→ `d41e7c92b5f0`
 
 and separately:
 
 `b9bcf06be00e`
-в†’ `b5f1e2d3c4a5`
+→ `b5f1e2d3c4a5`
 
 Runtime PostgreSQL schema for `ai_news_events` matches the
 `c2d8e4f1a607 -> d41e7c92b5f0` branch.
@@ -10906,7 +10906,7 @@ attempt to recreate `ai_news_events`.
 No Alembic merge/stamp/rewrite has been performed.
 
 
-### 43.8.8. Alembic Branch Reconciliation вЂ” 2026-08-30
+### 43.8.8. Alembic Branch Reconciliation — 2026-08-30
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -10921,8 +10921,8 @@ Previous heads:
 Verified runtime DB schema matched canonical branch:
 
 `b9bcf06be00e`
-в†’ `c2d8e4f1a607`
-в†’ `d41e7c92b5f0`
+→ `c2d8e4f1a607`
+→ `d41e7c92b5f0`
 
 Reconciliation:
 
@@ -10937,8 +10937,8 @@ Reconciliation:
 
 Final Alembic state:
 
-- `alembic current` в†’ `448779a2137c (head) (mergepoint)`
-- `alembic heads` в†’ `448779a2137c (head)`
+- `alembic current` → `448779a2137c (head) (mergepoint)`
+- `alembic heads` → `448779a2137c (head)`
 
 No duplicate `ai_news_events` migration DDL was executed.
 
@@ -10950,7 +10950,7 @@ Evidence tags:
 - `ALEMBIC_SINGLE_HEAD_OK`
 
 
-### 43.8.9. Historical News Backfill Persistent Job вЂ” 2026-08-30
+### 43.8.9. Historical News Backfill Persistent Job — 2026-08-30
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -10994,8 +10994,8 @@ maps to PostgreSQL column:
 Alembic history was preserved:
 
 `448779a2137c`
-в†’ `4ae2c29f0b1b` (applied empty migration)
-в†’ `f81e68355381` (corrective table creation migration)
+→ `4ae2c29f0b1b` (applied empty migration)
+→ `f81e68355381` (corrective table creation migration)
 
 No applied migration history was rewritten.
 
@@ -11028,7 +11028,7 @@ Production safety boundaries remain unchanged:
 No RiskAgent bypass, ExecutionAgent access, exchange access, or live permission mutation was introduced.
 
 
-### 43.8.10. Historical Backfill Transaction Ownership вЂ” 2026-08-30
+### 43.8.10. Historical Backfill Transaction Ownership — 2026-08-30
 
 **Status:** `ARCHITECTURE APPROVED / IMPLEMENTATION NOT VERIFIED`
 
@@ -11043,21 +11043,21 @@ Transaction boundary:
 Canonical success flow:
 
 `BEGIN`
-в†’ set `current_window_start`
-в†’ set `current_window_end`
-в†’ ingest News/Event rows
-в†’ update progress counters
-в†’ set `processed_until = effective_end`
-в†’ increment `windows_completed`
-в†’ `COMMIT`
+→ set `current_window_start`
+→ set `current_window_end`
+→ ingest News/Event rows
+→ update progress counters
+→ set `processed_until = effective_end`
+→ increment `windows_completed`
+→ `COMMIT`
 
 Canonical failure flow:
 
 provider/ingestion/persistence failure
-в†’ `ROLLBACK`
-в†’ News/Event rows from failed window are not committed
-в†’ `processed_until` does not advance
-в†’ incomplete window is safe to replay after restart
+→ `ROLLBACK`
+→ News/Event rows from failed window are not committed
+→ `processed_until` does not advance
+→ incomplete window is safe to replay after restart
 
 Canonical resume rule:
 
@@ -11098,7 +11098,7 @@ Production safety boundaries remain unchanged:
 No RiskAgent, ExecutionAgent, exchange execution, or live permission path is introduced.
 
 
-### 43.8.11. Structured News Ingestion Result Contract вЂ” 2026-08-30
+### 43.8.11. Structured News Ingestion Result Contract — 2026-08-30
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -11114,9 +11114,9 @@ Fields:
 
 Canonical semantics:
 
-- provider item observed в†’ `fetched += 1`
-- newly persisted News/Event row в†’ `persisted += 1`
-- duplicate `event_id` skipped в†’ `duplicates_skipped += 1`
+- provider item observed → `fetched += 1`
+- newly persisted News/Event row → `persisted += 1`
+- duplicate `event_id` skipped → `duplicates_skipped += 1`
 
 Verified invariant for current ingestion path:
 
@@ -11148,7 +11148,7 @@ Container runtime import of `AINewsIngestionResult` was also verified.
 Production safety boundaries remain unchanged.
 
 
-### 43.8.12. Historical Backfill Persistent Lifecycle Verification вЂ” 2026-08-31
+### 43.8.12. Historical Backfill Persistent Lifecycle Verification — 2026-08-31
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -11158,10 +11158,10 @@ architecture approved in section `43.8.10`.
 Canonical runtime path verified:
 
 `AIHistoricalNewsBackfillJob`
-в†’ `HistoricalNewsBackfillService`
-в†’ `AINewsIngestionAdapter`
-в†’ `AINewsEvent`
-в†’ persistent checkpoint/counters
+→ `HistoricalNewsBackfillService`
+→ `AINewsIngestionAdapter`
+→ `AINewsEvent`
+→ persistent checkpoint/counters
 
 Verified transaction invariant:
 
@@ -11219,7 +11219,7 @@ Evidence tag:
 `HISTORICAL_BACKFILL_PERSISTENT_LIFECYCLE_E2E_OK`
 
 
-### 43.8.13. Historical Backfill Restart/Resume Verification вЂ” 2026-08-31
+### 43.8.13. Historical Backfill Restart/Resume Verification — 2026-08-31
 
 **Status:** `TEST VERIFIED / DONE`
 
@@ -11270,17 +11270,17 @@ Evidence tag:
 `HISTORICAL_BACKFILL_RESTART_RESUME_E2E_OK`
 
 
-### 43.8.14. Event Registry Real API Integration Security Contract вЂ” 2026-08-31
+### 43.8.14. Event Registry Real API Integration Security Contract — 2026-08-31
 
 **Status:** `ARCHITECTURE APPROVED / IMPLEMENTATION NOT VERIFIED`
 
 Explicit architecture approval received for canonical RESEARCH-ONLY wiring:
 
 `EVENT_REGISTRY_API_KEY`
-в†’ `Settings`
-в†’ `HistoricalNewsProvider factory`
-в†’ `HistoricalNewsProvider`
-в†’ `HistoricalNewsBackfillService`
+→ `Settings`
+→ `HistoricalNewsProvider factory`
+→ `HistoricalNewsProvider`
+→ `HistoricalNewsBackfillService`
 
 Approved security boundaries:
 
@@ -11322,16 +11322,16 @@ Production safety state remains unchanged:
 - AI direct exchange access: BLOCKED
 
 
-### 43.8.15. Event Registry Config/Factory Security Verification вЂ” 2026-08-31
+### 43.8.15. Event Registry Config/Factory Security Verification — 2026-08-31
 
 **Status:** `TEST VERIFIED / DONE`
 
 Implemented and verified canonical RESEARCH-ONLY configuration wiring:
 
 `EVENT_REGISTRY_API_KEY`
-в†’ `Settings.event_registry_api_key`
-в†’ `create_event_registry_historical_provider(...)`
-в†’ `HistoricalNewsProvider`
+→ `Settings.event_registry_api_key`
+→ `create_event_registry_historical_provider(...)`
+→ `HistoricalNewsProvider`
 
 Verified behavior:
 
@@ -11381,7 +11381,7 @@ Evidence tag:
 `EVENT_REGISTRY_CONFIG_FACTORY_SECURITY_E2E_OK`
 
 
-### 43.8.16. Event Registry Real API Credential Availability вЂ” 2026-08-31
+### 43.8.16. Event Registry Real API Credential Availability — 2026-08-31
 
 **Status:** `BLOCKED / NOT VERIFIED`
 
@@ -11410,7 +11410,7 @@ Evidence tag:
 `EVENT_REGISTRY_REAL_API_BLOCKED_NO_CREDENTIAL`
 
 
-### 43.10. Whale / On-chain / Exchange Flow Intelligence Architecture вЂ” 2026-08-31
+### 43.10. Whale / On-chain / Exchange Flow Intelligence Architecture — 2026-08-31
 
 **Status:** `ARCHITECTURE APPROVED / IMPLEMENTATION NOT VERIFIED`
 
@@ -11427,11 +11427,11 @@ This capability MUST NOT be merged into:
 Canonical responsibility:
 
 `Whale / On-chain Sources`
-в†’ `Normalization`
-в†’ `WhaleFlowEvent`
-в†’ `Correlation with Market State`
-в†’ `Research / Validation`
-в†’ `Market Context`
+→ `Normalization`
+→ `WhaleFlowEvent`
+→ `Correlation with Market State`
+→ `Research / Validation`
+→ `Market Context`
 
 Primary analytical scope:
 
@@ -11459,8 +11459,8 @@ Example analytical chain:
 + `Market State`
 + `Derivatives Context`
 + `News/Event Context`
-в†’ `Research Evidence`
-в†’ `Strategy Decision Context`
+→ `Research Evidence`
+→ `Strategy Decision Context`
 
 Production authority is explicitly forbidden for this layer.
 
@@ -11507,7 +11507,7 @@ Evidence tag:
 `WHALE_ONCHAIN_INTELLIGENCE_ARCHITECTURE_APPROVED`
 
 
-### 43.10.1. Open-Source / GitHub Reference-First Engineering Policy вЂ” 2026-08-31
+### 43.10.1. Open-Source / GitHub Reference-First Engineering Policy — 2026-08-31
 
 **Status:** `ARCHITECTURE / ENGINEERING POLICY APPROVED`
 
@@ -11518,14 +11518,14 @@ before implementation where relevant mature solutions exist.
 Canonical workflow:
 
 `New Capability`
-в†’ `GitHub / Open-Source Research`
-в†’ `Compare Candidate Implementations`
-в†’ `License / Security / Maintenance Audit`
-в†’ `Extract Proven Architectural Patterns`
-в†’ `Adapt to NEXUS Boundaries`
-в†’ `Implement Clean NEXUS-Native Version`
-в†’ `Tests / Runtime Evidence`
-в†’ `Audit`
+→ `GitHub / Open-Source Research`
+→ `Compare Candidate Implementations`
+→ `License / Security / Maintenance Audit`
+→ `Extract Proven Architectural Patterns`
+→ `Adapt to NEXUS Boundaries`
+→ `Implement Clean NEXUS-Native Version`
+→ `Tests / Runtime Evidence`
+→ `Audit`
 
 Rules:
 
@@ -11580,13 +11580,13 @@ Evidence tag:
 
 ### 52.1. Canonical objective
 
-NEXUS Strategy Layer РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃРёСЃС‚РµРјРЅРѕ РјРѕРґРµСЂРЅРёР·РёСЂРѕРІР°РЅ РЅР° РѕСЃРЅРѕРІРµ Р»СѓС‡С€РёС…
-РїСЂРѕРІРµСЂРµРЅРЅС‹С… open-source / GitHub implementations Рё research patterns,
-Р‘Р•Р— Р·Р°РјРµРЅС‹ РѕСЃРЅРѕРІРЅРѕР№ Р°СЂС…РёС‚РµРєС‚СѓСЂС‹ NEXUS.
+NEXUS Strategy Layer должен быть системно модернизирован на основе лучших
+проверенных open-source / GitHub implementations и research patterns,
+БЕЗ замены основной архитектуры NEXUS.
 
-NEXUS РЅРµ Р·Р°РјРµРЅСЏРµС‚СЃСЏ СЃС‚РѕСЂРѕРЅРЅРёРј С‚РѕСЂРіРѕРІС‹Рј framework.
+NEXUS не заменяется сторонним торговым framework.
 
-GitHub / open-source РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РєР°Рє:
+GitHub / open-source используются как:
 
 - architecture references;
 - algorithm references;
@@ -11595,25 +11595,25 @@ GitHub / open-source РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РєР°�
 - backtesting methodology references;
 - reliability references.
 
-Р’СЃРµ РїРѕР»РµР·РЅС‹Рµ СЂРµС€РµРЅРёСЏ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ Р°РґР°РїС‚РёСЂРѕРІР°РЅС‹ РєР°Рє NEXUS-native components.
+Все полезные решения должны быть адаптированы как NEXUS-native components.
 
 Canonical workflow:
 
 `Current NEXUS Strategy`
-в†’ `GitHub / Open-Source Research`
-в†’ `Candidate Comparison`
-в†’ `License / Security / Maintenance Review`
-в†’ `Extract Proven Patterns`
-в†’ `NEXUS-native Adaptation`
-в†’ `Backtest`
-в†’ `OOS`
-в†’ `Walk-Forward`
-в†’ `Shadow`
-в†’ `Audit Evidence`
+→ `GitHub / Open-Source Research`
+→ `Candidate Comparison`
+→ `License / Security / Maintenance Review`
+→ `Extract Proven Patterns`
+→ `NEXUS-native Adaptation`
+→ `Backtest`
+→ `OOS`
+→ `Walk-Forward`
+→ `Shadow`
+→ `Audit Evidence`
 
 ### 52.2. Current Strategy Registry scope
 
-РўРµРєСѓС‰РёР№ Strategy Registry СЃРѕРґРµСЂР¶РёС‚:
+Текущий Strategy Registry содержит:
 
 1. `trend_pullback`
 2. `smc`
@@ -11633,11 +11633,11 @@ Canonical workflow:
 16. `volatility_expansion`
 17. `grid_combo`
 
-РќРё РѕРґРЅР° СЃС‚СЂР°С‚РµРіРёСЏ РЅРµ СѓРґР°Р»СЏРµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
+Ни одна стратегия не удаляется автоматически.
 
 ### 52.3. Mandatory Strategy Benchmark Matrix
 
-Р”Р»СЏ РєР°Р¶РґРѕР№ СЃС‚СЂР°С‚РµРіРёРё РЅРµРѕР±С…РѕРґРёРјРѕ СЃСЂР°РІРЅРёС‚СЊ:
+Для каждой стратегии необходимо сравнить:
 
 `NEXUS current implementation`
 vs
@@ -11645,7 +11645,7 @@ vs
 vs
 `second-best relevant reference`
 
-РџРѕ РµРґРёРЅС‹Рј РєСЂРёС‚РµСЂРёСЏРј:
+По единым критериям:
 
 - signal logic;
 - market structure;
@@ -11670,7 +11670,7 @@ vs
 - crypto perpetual suitability;
 - NEXUS architectural compatibility.
 
-РС‚РѕРіРѕРІС‹Р№ research status РєР°Р¶РґРѕР№ СЃС‚СЂР°С‚РµРіРёРё:
+Итоговый research status каждой стратегии:
 
 - `KEEP`
 - `IMPROVE`
@@ -11679,12 +11679,12 @@ vs
 - `RESEARCH ONLY`
 - `REMOVE FROM DIRECT COMPETITION`
 
-Р­С‚Рё СЃС‚Р°С‚СѓСЃС‹ СЏРІР»СЏСЋС‚СЃСЏ research recommendations Рё РќР• СЏРІР»СЏСЋС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
-СЂР°Р·СЂРµС€С‘РЅРЅС‹РјРё production changes.
+Эти статусы являются research recommendations и НЕ являются автоматически
+разрешёнными production changes.
 
 ### 52.4. Strategy family research
 
-Р Р°Р·СЂРµС€РµРЅРѕ РёСЃСЃР»РµРґРѕРІР°С‚СЊ logical family organization:
+Разрешено исследовать logical family organization:
 
 #### SMC FAMILY
 
@@ -11722,70 +11722,70 @@ vs
 
 #### GRID
 
-Grid РѕСЃС‚Р°С‘С‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј specialized contour Рё РЅРµ РґРѕР»Р¶РµРЅ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
-РІРѕР·РІСЂР°С‰Р°С‚СЊСЃСЏ РІ РѕР±С‰РёР№ StrategyDecisionEngine.
+Grid остаётся отдельным specialized contour и не должен автоматически
+возвращаться в общий StrategyDecisionEngine.
 
-Р›СЋР±РѕРµ С„Р°РєС‚РёС‡РµСЃРєРѕРµ РёР·РјРµРЅРµРЅРёРµ family architecture С‚СЂРµР±СѓРµС‚ РѕС‚РґРµР»СЊРЅРѕРіРѕ
-architecture approval РїРѕСЃР»Рµ evidence.
+Любое фактическое изменение family architecture требует отдельного
+architecture approval после evidence.
 
 ### 52.5. Current SMC architecture finding
 
-Р¤Р°РєС‚РёС‡РµСЃРєРё РѕР±РЅР°СЂСѓР¶РµРЅРѕ:
+Фактически обнаружено:
 
-- unified `SMCStrategy` СЃСѓС‰РµСЃС‚РІСѓРµС‚;
-- `SMCStrategy` Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅР°;
-- SMC РёРјРµРµС‚ РѕС‚РґРµР»СЊРЅС‹Р№ DecisionEngine scorer;
+- unified `SMCStrategy` существует;
+- `SMCStrategy` зарегистрирована;
+- SMC имеет отдельный DecisionEngine scorer;
 - `liquidity_sweep`;
 - `order_block`;
 - `fair_value_gap`
 
-РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ СЃСѓС‰РµСЃС‚РІСѓСЋС‚ РєР°Рє independent strategy candidates.
+одновременно существуют как independent strategy candidates.
 
-Decision Engine РІС‹Р±РёСЂР°РµС‚ highest-scoring eligible candidate.
+Decision Engine выбирает highest-scoring eligible candidate.
 
-Р’ РёСЃСЃР»РµРґРѕРІР°РЅРЅРѕР№ РЅРµРґР°РІРЅРµР№ trade sample unified `smc` РЅРµ РЅР°Р±Р»СЋРґР°Р»Р°СЃСЊ
-РєР°Рє selected real-trade strategy, РїСЂРё СЌС‚РѕРј РѕС‚РґРµР»СЊРЅС‹Рµ SMC-derived strategies
-СѓС‡Р°СЃС‚РІРѕРІР°Р»Рё РІ СЂРµР°Р»СЊРЅС‹С… СЃРґРµР»РєР°С….
+В исследованной недавней trade sample unified `smc` не наблюдалась
+как selected real-trade strategy, при этом отдельные SMC-derived strategies
+участвовали в реальных сделках.
 
-РўСЂРµР±СѓРµС‚СЃСЏ РёСЃСЃР»РµРґРѕРІР°С‚СЊ:
+Требуется исследовать:
 
 `SMC`
 vs
 `Liquidity Sweep / OB / FVG as independent strategies`
 
-Рё РїСЂРѕРІРµСЂРёС‚СЊ, РґРѕР»Р¶РЅС‹ Р»Рё РѕС‚РґРµР»СЊРЅС‹Рµ SMC concepts СЃС‚Р°С‚СЊ evidence/features
-РІРЅСѓС‚СЂРё SMC family РІРјРµСЃС‚Рѕ РїСЂСЏРјРѕР№ РєРѕРЅРєСѓСЂРµРЅС†РёРё.
+и проверить, должны ли отдельные SMC concepts стать evidence/features
+внутри SMC family вместо прямой конкуренции.
 
 **Status:** `ROOT-CAUSE CANDIDATE / NOT YET IMPLEMENTATION APPROVED`
 
 ### 52.6. SMC scoring review requirement
 
-SMC evidence РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕРІРµСЂРёС‚СЊ РєР°Рє РіСЂСѓРїРїС‹:
+SMC evidence необходимо проверить как группы:
 
 `Structure = BOS OR CHoCH`
 
 `POI = Order Block OR FVG`
 
-Р° РЅРµ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃС‡РёС‚Р°С‚СЊ Р°Р»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Рµ СЃРѕР±С‹С‚РёСЏ РЅРµР·Р°РІРёСЃРёРјС‹РјРё
-РѕР±СЏР·Р°С‚РµР»СЊРЅС‹РјРё confirmations.
+а не автоматически считать альтернативные события независимыми
+обязательными confirmations.
 
-РўСЂРµР±СѓРµС‚СЃСЏ factual comparison actual DecisionEngine scores РґРѕ РёР·РјРµРЅРµРЅРёСЏ РєРѕРґР°.
+Требуется factual comparison actual DecisionEngine scores до изменения кода.
 
 ### 52.7. Regime Detector review
 
-РўРµРєСѓС‰РёР№ Strategy-layer RegimeDetector РёСЃРїРѕР»СЊР·СѓРµС‚:
+Текущий Strategy-layer RegimeDetector использует:
 
 - `TREND_UP`
 - `TREND_DOWN`
 - `SIDEWAYS`
 - `VOLATILE`
 
-Current implementation РїСЂРѕРІРµСЂСЏРµС‚ high volatility РґРѕ trend classification.
+Current implementation проверяет high volatility до trend classification.
 
-Trading audit РїРѕРєР°Р·Р°Р», С‡С‚Рѕ `VOLATILE` Р±С‹Р» РЅР°РёР±РѕР»РµРµ СѓР±С‹С‚РѕС‡РЅС‹Рј regime
-РІ РёСЃСЃР»РµРґРѕРІР°РЅРЅРѕР№ recent sample.
+Trading audit показал, что `VOLATILE` был наиболее убыточным regime
+в исследованной recent sample.
 
-РўСЂРµР±СѓРµС‚СЃСЏ GitHub/research comparison regime models, РІРєР»СЋС‡Р°СЏ:
+Требуется GitHub/research comparison regime models, включая:
 
 - ATR percentile;
 - realized volatility;
@@ -11793,15 +11793,15 @@ Trading audit РїРѕРєР°Р·Р°Р», С‡С‚Рѕ `VOLATILE` Р±С‹�
 - Choppiness;
 - EMA structure;
 - trend strength;
-- directional regime Г— volatility regime.
+- directional regime × volatility regime.
 
-РќРµ РјРµРЅСЏС‚СЊ RegimeDetector Р±РµР· РѕС‚РґРµР»СЊРЅРѕРіРѕ evidence / architecture approval.
+Не менять RegimeDetector без отдельного evidence / architecture approval.
 
 ### 52.8. Current trading evidence
 
-Recent real trade sample РїРѕРєР°Р·Р°Р» РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Р№ aggregate result.
+Recent real trade sample показал отрицательный aggregate result.
 
-РћСЃРѕР±РµРЅРЅРѕ РїСЂРѕР±Р»РµРјРЅС‹РјРё РІ РёСЃСЃР»РµРґРѕРІР°РЅРЅРѕР№ РІС‹Р±РѕСЂРєРµ РІС‹РіР»СЏРґРµР»Рё:
+Особенно проблемными в исследованной выборке выглядели:
 
 - `volatility_expansion`;
 - `fair_value_gap`;
@@ -11809,10 +11809,10 @@ Recent real trade sample РїРѕРєР°Р·Р°Р» РѕС‚СЂРёС†Р°
 - `order_block`;
 - `trend_pullback`.
 
-`mean_reversion` РїРѕРєР°Р·Р°Р» РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ РІ РЅРµР±РѕР»СЊС€РѕР№ РІС‹Р±РѕСЂРєРµ,
-РЅРѕ sample РЅРµРґРѕСЃС‚Р°С‚РѕС‡РµРЅ РґР»СЏ VERIFIED edge.
+`mean_reversion` показал положительный результат в небольшой выборке,
+но sample недостаточен для VERIFIED edge.
 
-РўР°РєР¶Рµ РѕР±РЅР°СЂСѓР¶РµРЅС‹ observability gaps:
+Также обнаружены observability gaps:
 
 - commission values frequently `0`;
 - funding values frequently `0`;
@@ -11820,26 +11820,26 @@ Recent real trade sample РїРѕРєР°Р·Р°Р» РѕС‚СЂРёС†Р°
 - `ai_experiment_id` empty;
 - `ai_decision_id` empty.
 
-Р­С‚Рё gaps РґРѕР»Р¶РЅС‹ СѓС‡РёС‚С‹РІР°С‚СЊСЃСЏ РґРѕ СЃРµСЂСЊС‘Р·РЅС‹С… РІС‹РІРѕРґРѕРІ Рѕ strategy edge.
+Эти gaps должны учитываться до серьёзных выводов о strategy edge.
 
 ### 52.9. Validation requirements
 
-РќРё РѕРґРЅР° РјРѕРґРµСЂРЅРёР·РёСЂРѕРІР°РЅРЅР°СЏ СЃС‚СЂР°С‚РµРіРёСЏ РЅРµ СЃС‡РёС‚Р°РµС‚СЃСЏ СѓР»СѓС‡С€РµРЅРЅРѕР№ С‚РѕР»СЊРєРѕ
-РїРѕ historical total PnL.
+Ни одна модернизированная стратегия не считается улучшенной только
+по historical total PnL.
 
-РњРёРЅРёРјР°Р»СЊРЅС‹Р№ validation lifecycle:
+Минимальный validation lifecycle:
 
 `Unit Tests`
-в†’ `Deterministic Backtest`
-в†’ `Lookahead Safety`
-в†’ `OOS`
-в†’ `Walk-Forward`
-в†’ `Regime / Symbol / Side Breakdown`
-в†’ `Shadow`
-в†’ `Comparison`
-в†’ `Audit`
+→ `Deterministic Backtest`
+→ `Lookahead Safety`
+→ `OOS`
+→ `Walk-Forward`
+→ `Regime / Symbol / Side Breakdown`
+→ `Shadow`
+→ `Comparison`
+→ `Audit`
 
-РњРёРЅРёРјР°Р»СЊРЅС‹Рµ metrics:
+Минимальные metrics:
 
 - trades;
 - win rate;
@@ -11859,13 +11859,13 @@ Recent real trade sample РїРѕРєР°Р·Р°Р» РѕС‚СЂРёС†Р°
 - funding;
 - slippage.
 
-РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅС‹Р№ sample:
+Недостаточный sample:
 
 `NOT VERIFIED`
 
 ### 52.10. GitHub / source safety
 
-Р”Р»СЏ РєР°Р¶РґРѕРіРѕ reference С„РёРєСЃРёСЂРѕРІР°С‚СЊ:
+Для каждого reference фиксировать:
 
 - repository;
 - commit/tag where relevant;
@@ -11877,13 +11877,13 @@ Recent real trade sample РїРѕРєР°Р·Р°Р» РѕС‚СЂРёС†Р°
 - copied code: YES/NO;
 - adapted concept: YES/NO.
 
-Р—Р°РїСЂРµС‰РµРЅРѕ blindly copy external repositories.
+Запрещено blindly copy external repositories.
 
-License compatibility РґРѕР»Р¶РЅР° РїСЂРѕРІРµСЂСЏС‚СЊСЃСЏ РґРѕ РїРµСЂРµРЅРѕСЃР° РєРѕРґР°.
+License compatibility должна проверяться до переноса кода.
 
 ### 52.11. Production boundaries
 
-Strategy modernization РќР• РёР·РјРµРЅСЏРµС‚ С‚РµРєСѓС‰РёР№ production safety state:
+Strategy modernization НЕ изменяет текущий production safety state:
 
 - Strategy Decision Engine: `SHADOW-ONLY`
 - Advisory: `OBSERVE_ONLY`
@@ -11891,7 +11891,7 @@ Strategy modernization РќР• РёР·РјРµРЅСЏРµС‚ С‚РµРє
 - Full Live: `DISABLED`
 - AI direct exchange access: `BLOCKED`
 
-Р—Р°РїСЂРµС‰РµРЅРѕ РІ СЂР°РјРєР°С… СЌС‚РѕРіРѕ track:
+Запрещено в рамках этого track:
 
 - bypass RiskAgent;
 - bypass ExecutionAgent;
@@ -11901,15 +11901,15 @@ Strategy modernization РќР• РёР·РјРµРЅСЏРµС‚ С‚РµРє
 
 ### 52.12. First deliverable
 
-РџРµСЂРІС‹Р№ deliverable РґР°РЅРЅРѕРіРѕ track:
+Первый deliverable данного track:
 
 `NEXUS_STRATEGY_GITHUB_BENCHMARK`
 
-РћРЅ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ РІСЃРµ 17 СЃС‚СЂР°С‚РµРіРёР№ Рё РјРёРЅРёРјСѓРј:
+Он должен содержать все 17 стратегий и минимум:
 
 | Strategy | Current NEXUS Logic | Best Reference | Second Reference | Main Gap | Proposed Status | Evidence |
 
-РўР°РєР¶Рµ:
+Также:
 
 - Top architectural findings;
 - Highest-risk current strategies;
@@ -11918,11 +11918,11 @@ Strategy modernization РќР• РёР·РјРµРЅСЏРµС‚ С‚РµРє
 - Validation gaps;
 - ONE recommended first implementation target.
 
-РќР° СЌС‚РѕРј СЌС‚Р°РїРµ РјР°СЃСЃРѕРІС‹Рµ strategy patches Р·Р°РїСЂРµС‰РµРЅС‹.
+На этом этапе массовые strategy patches запрещены.
 
 ### 52.13. Implementation order
 
-РџРѕСЃР»Рµ benchmark РІС‹Р±СЂР°С‚СЊ С‚РѕР»СЊРєРѕ РћР”РРќ РїРµСЂРІС‹Р№ implementation target РїРѕ:
+После benchmark выбрать только ОДИН первый implementation target по:
 
 1. current loss contribution;
 2. architectural impact;
@@ -11930,15 +11930,15 @@ Strategy modernization РќР• РёР·РјРµРЅСЏРµС‚ С‚РµРє
 4. objective validation feasibility;
 5. regression risk.
 
-РџРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ:
+После изменения:
 
 `CHECK`
-в†’ `CODE`
-в†’ `TEST`
-в†’ `BACKTEST`
-в†’ `OOS / WALK-FORWARD`
-в†’ `SHADOW`
-в†’ `AUDIT`
+→ `CODE`
+→ `TEST`
+→ `BACKTEST`
+→ `OOS / WALK-FORWARD`
+→ `SHADOW`
+→ `AUDIT`
 
 ### 52.14. Evidence tag
 
@@ -11959,7 +11959,7 @@ Create factual:
 for all 17 current StrategyRegistry strategies before any strategy code changes.
 
 
-### 52.x. Statistical Arbitrage V2 вЂ” Statistical Runtime Foundation вЂ” 2026-08-31
+### 52.x. Statistical Arbitrage V2 — Statistical Runtime Foundation — 2026-08-31
 
 #### FACT
 
@@ -12001,14 +12001,14 @@ Runtime versions verified:
 
 Required statistical primitives imported successfully:
 
-- Engle-Granger (`coint`) вЂ” OK
-- ADF (`adfuller`) вЂ” OK
-- KPSS (`kpss`) вЂ” OK
-- Johansen (`coint_johansen`) вЂ” OK
+- Engle-Granger (`coint`) — OK
+- ADF (`adfuller`) — OK
+- KPSS (`kpss`) — OK
+- Johansen (`coint_johansen`) — OK
 
 Post-rebuild application state:
 
-- `nexus-app` вЂ” `running healthy`
+- `nexus-app` — `running healthy`
 
 Evidence tag:
 
@@ -12032,11 +12032,11 @@ It does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12046,7 +12046,7 @@ Implement and test the first isolated Statistical Arbitrage V2 analytical core:
 
 without modifying DecisionEngine, RiskAgent, ExecutionAgent, or live execution boundaries.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Cointegration / Stationarity Core вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Cointegration / Stationarity Core — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12072,20 +12072,20 @@ No integration with StrategyDecisionEngine, RiskAgent, ExecutionAgent, or live e
 
 Compilation:
 
-- core `py_compile` вЂ” PASS
-- test file `py_compile` вЂ” PASS
+- core `py_compile` — PASS
+- test file `py_compile` — PASS
 
 Lint:
 
-- `flake8 strategies/stat_arb` вЂ” PASS
+- `flake8 strategies/stat_arb` — PASS
 
 Targeted deterministic tests:
 
-- cointegrated synthetic pair вЂ” PASS
-- independent random walks вЂ” PASS
-- non-finite input fail-closed вЂ” PASS
-- insufficient samples fail-closed вЂ” PASS
-- constant series fail-closed вЂ” PASS
+- cointegrated synthetic pair — PASS
+- independent random walks — PASS
+- non-finite input fail-closed — PASS
+- insufficient samples fail-closed — PASS
+- constant series fail-closed — PASS
 
 Pytest result:
 
@@ -12116,11 +12116,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12130,7 +12130,7 @@ Implement and test isolated StatArb V2 pair-screening layer:
 
 without modifying DecisionEngine, RiskAgent, ExecutionAgent, or live execution boundaries.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Johansen / FDR Screening вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Johansen / FDR Screening — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12154,23 +12154,23 @@ No integration with StrategyDecisionEngine, RiskAgent, ExecutionAgent, or live e
 
 Compilation:
 
-- `py_compile` вЂ” PASS
+- `py_compile` — PASS
 - `COMPILE_RC=0`
 
 Lint:
 
-- `flake8 strategies/stat_arb/screening.py` вЂ” PASS
+- `flake8 strategies/stat_arb/screening.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted deterministic tests:
 
-- Johansen confirms synthetic cointegrated pair вЂ” PASS
-- Johansen rejects independent random walks вЂ” PASS
-- Johansen non-finite input fail-closed вЂ” PASS
-- BH-FDR significant hypothesis selection вЂ” PASS
-- BH-FDR order preservation вЂ” PASS
-- BH-FDR invalid values fail-closed вЂ” PASS
-- BH-FDR invalid alpha fail-closed вЂ” PASS
+- Johansen confirms synthetic cointegrated pair — PASS
+- Johansen rejects independent random walks — PASS
+- Johansen non-finite input fail-closed — PASS
+- BH-FDR significant hypothesis selection — PASS
+- BH-FDR order preservation — PASS
+- BH-FDR invalid values fail-closed — PASS
+- BH-FDR invalid alpha fail-closed — PASS
 
 Pytest result:
 
@@ -12196,11 +12196,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12210,7 +12210,7 @@ Implement and test isolated Statistical Arbitrage V2 dynamic hedge estimation:
 
 without modifying DecisionEngine, RiskAgent, ExecutionAgent, or live execution boundaries.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Dynamic Kalman Hedge Ratio вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Dynamic Kalman Hedge Ratio — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12237,23 +12237,23 @@ No integration with StrategyDecisionEngine, RiskAgent, ExecutionAgent, or live e
 
 Compilation:
 
-- `py_compile` вЂ” PASS
+- `py_compile` — PASS
 - `COMPILE_RC=0`
 
 Lint:
 
-- `flake8 strategies/stat_arb/kalman.py` вЂ” PASS
+- `flake8 strategies/stat_arb/kalman.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted deterministic tests:
 
-- constant known beta recovery вЂ” PASS
-- slowly changing beta tracking вЂ” PASS
-- causal / no-lookahead prefix equivalence вЂ” PASS
-- finite covariance/output path вЂ” PASS
-- non-finite input fail-closed вЂ” PASS
-- insufficient samples fail-closed вЂ” PASS
-- invalid variance fail-closed вЂ” PASS
+- constant known beta recovery — PASS
+- slowly changing beta tracking — PASS
+- causal / no-lookahead prefix equivalence — PASS
+- finite covariance/output path — PASS
+- non-finite input fail-closed — PASS
+- insufficient samples fail-closed — PASS
+- invalid variance fail-closed — PASS
 
 Pytest result:
 
@@ -12278,11 +12278,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12292,7 +12292,7 @@ Implement and test isolated StatArb V2:
 
 without modifying DecisionEngine, RiskAgent, ExecutionAgent, or live execution boundaries.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Hedge Stability / Causal Signal Layer вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Hedge Stability / Causal Signal Layer — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12320,23 +12320,23 @@ No integration with StrategyDecisionEngine, RiskAgent, ExecutionAgent, or live e
 
 Compilation:
 
-- signal module / tests `py_compile` вЂ” PASS
+- signal module / tests `py_compile` — PASS
 
 Lint:
 
-- `flake8 strategies/stat_arb/signals.py` вЂ” PASS
+- `flake8 strategies/stat_arb/signals.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted deterministic tests:
 
-- stable beta path accepted вЂ” PASS
-- abrupt beta instability rejected вЂ” PASS
-- z-score uses prior history only вЂ” PASS
-- future shocks do not alter past signals вЂ” PASS
-- deterministic entry / exit signals вЂ” PASS
-- unstable beta gates valid z-score to HOLD вЂ” PASS
-- zero-variance history fails closed to HOLD вЂ” PASS
-- non-finite input fails closed вЂ” PASS
+- stable beta path accepted — PASS
+- abrupt beta instability rejected — PASS
+- z-score uses prior history only — PASS
+- future shocks do not alter past signals — PASS
+- deterministic entry / exit signals — PASS
+- unstable beta gates valid z-score to HOLD — PASS
+- zero-variance history fails closed to HOLD — PASS
+- non-finite input fails closed — PASS
 
 Pytest result:
 
@@ -12361,11 +12361,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12375,7 +12375,7 @@ Implement and test isolated StatArb V2:
 
 without modifying DecisionEngine, RiskAgent, ExecutionAgent, or live execution boundaries.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Pair Economics / Local Guard вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Pair Economics / Local Guard — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12416,28 +12416,28 @@ No integration with StrategyDecisionEngine, RiskAgent, ExecutionAgent, or live e
 
 Lint:
 
-- `flake8 economics.py guards.py` вЂ” PASS
+- `flake8 economics.py guards.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted deterministic tests:
 
 Pair economics:
 
-- both legs / both trade sides cost aggregation вЂ” PASS
-- positive funding LONG pays / SHORT receives вЂ” PASS
-- negative funding LONG receives / SHORT pays вЂ” PASS
-- unequal notionals preserve signed funding вЂ” PASS
-- invalid input fail-closed вЂ” PASS
+- both legs / both trade sides cost aggregation — PASS
+- positive funding LONG pays / SHORT receives — PASS
+- negative funding LONG receives / SHORT pays — PASS
+- unequal notionals preserve signed funding — PASS
+- invalid input fail-closed — PASS
 
 Local guard:
 
-- valid pair allowed вЂ” PASS
-- unstable hedge blocked вЂ” PASS
-- relation breakdown blocked вЂ” PASS
-- extreme residual blocked вЂ” PASS
-- cost destroying expected edge blocked вЂ” PASS
-- material edge over cost allowed вЂ” PASS
-- incomplete economics fail-closed вЂ” PASS
+- valid pair allowed — PASS
+- unstable hedge blocked — PASS
+- relation breakdown blocked — PASS
+- extreme residual blocked — PASS
+- cost destroying expected edge blocked — PASS
+- material edge over cost allowed — PASS
+- incomplete economics fail-closed — PASS
 
 Pytest result:
 
@@ -12462,11 +12462,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12476,7 +12476,7 @@ Assemble and test one isolated StatArb V2 research pipeline that composes the al
 
 without modifying DecisionEngine, RiskAgent, ExecutionAgent, or live execution boundaries.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Integrated Research Pipeline вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Integrated Research Pipeline — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12506,16 +12506,16 @@ No StrategyDecisionEngine, RiskAgent, ExecutionAgent, ExecutionBoundary, or exch
 
 Lint:
 
-- `flake8 strategies/stat_arb/pipeline.py` вЂ” PASS
+- `flake8 strategies/stat_arb/pipeline.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted integration tests:
 
-- FDR-rejected pair rejected before downstream analysis вЂ” PASS
-- non-cointegrated pair rejected вЂ” PASS
-- valid pair reaches Johansen / diagnostics / Kalman / signal layer вЂ” PASS
-- invalid input fails closed вЂ” PASS
-- no entry candidate does not invoke economics / guard вЂ” PASS
+- FDR-rejected pair rejected before downstream analysis — PASS
+- non-cointegrated pair rejected — PASS
+- valid pair reaches Johansen / diagnostics / Kalman / signal layer — PASS
+- invalid input fails closed — PASS
+- no entry candidate does not invoke economics / guard — PASS
 
 Pytest result:
 
@@ -12548,11 +12548,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12564,7 +12564,7 @@ Primary candidate:
 
 It must provide an economic edge estimate in the same quote-currency units used by pair economics and must be validated without future-data leakage.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Causal Expected-Edge Estimator вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Causal Expected-Edge Estimator — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12594,19 +12594,19 @@ No StrategyDecisionEngine, RiskAgent, ExecutionAgent, ExecutionBoundary, or exch
 
 Lint:
 
-- `flake8 strategies/stat_arb/edge.py` вЂ” PASS
+- `flake8 strategies/stat_arb/edge.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted deterministic tests:
 
-- one half-life forecasts half convergence вЂ” PASS
-- expected edge returned in quote currency вЂ” PASS
-- default horizon equals one half-life вЂ” PASS
-- equilibrium uses prior history only вЂ” PASS
-- future values do not change prefix estimate вЂ” PASS
-- hedge-notional mismatch fails closed вЂ” PASS
-- non-positive beta fails closed вЂ” PASS
-- non-finite input fails closed вЂ” PASS
+- one half-life forecasts half convergence — PASS
+- expected edge returned in quote currency — PASS
+- default horizon equals one half-life — PASS
+- equilibrium uses prior history only — PASS
+- future values do not change prefix estimate — PASS
+- hedge-notional mismatch fails closed — PASS
+- non-positive beta fails closed — PASS
+- non-finite input fails closed — PASS
 
 Pytest result:
 
@@ -12631,11 +12631,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12645,7 +12645,7 @@ Integrate the verified causal expected-edge estimator into the isolated StatArb 
 
 without modifying DecisionEngine, RiskAgent, ExecutionAgent, or live execution boundaries.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Expected Edge Pipeline Integration вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Expected Edge Pipeline Integration — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12677,19 +12677,19 @@ No StrategyDecisionEngine, RiskAgent, ExecutionAgent, ExecutionBoundary, or exch
 
 Lint:
 
-- `flake8 strategies/stat_arb/pipeline.py` вЂ” PASS
+- `flake8 strategies/stat_arb/pipeline.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted integration tests:
 
-- FDR-rejected pair rejected early вЂ” PASS
-- non-cointegrated pair rejected вЂ” PASS
-- valid pair reaches signal layer вЂ” PASS
-- invalid input fails closed вЂ” PASS
-- no entry candidate skips economics / guard вЂ” PASS
-- valid entry runs edge -> costs -> guard and becomes eligible вЂ” PASS
-- costs destroying edge produce `COST_EXCEEDS_EDGE` and `HOLD` вЂ” PASS
-- hedge-notional mismatch produces `EDGE_INVALID` and `HOLD` вЂ” PASS
+- FDR-rejected pair rejected early — PASS
+- non-cointegrated pair rejected — PASS
+- valid pair reaches signal layer — PASS
+- invalid input fails closed — PASS
+- no entry candidate skips economics / guard — PASS
+- valid entry runs edge -> costs -> guard and becomes eligible — PASS
+- costs destroying edge produce `COST_EXCEEDS_EDGE` and `HOLD` — PASS
+- hedge-notional mismatch produces `EDGE_INVALID` and `HOLD` — PASS
 
 Pytest result:
 
@@ -12721,11 +12721,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12733,7 +12733,7 @@ Implement and verify isolated hedge-ratio-based pair sizing for StatArb V2 so th
 
 No DecisionEngine / RiskAgent / ExecutionAgent / live integration.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Hedge-Ratio Pair Sizing вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Hedge-Ratio Pair Sizing — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12767,20 +12767,20 @@ No account balance lookup, risk-percent sizing, leverage sizing, exchange roundi
 
 Lint:
 
-- `flake8 strategies/stat_arb/sizing.py` вЂ” PASS
+- `flake8 strategies/stat_arb/sizing.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted deterministic tests:
 
-- quantity hedge ratio preserved вЂ” PASS
-- exact gross-notional budget preserved вЂ” PASS
-- edge-estimator notional contract matched вЂ” PASS
-- sizing scales linearly with gross notional вЂ” PASS
-- large raw-price beta preserves budget вЂ” PASS
-- non-positive beta fails closed вЂ” PASS
-- non-positive gross notional fails closed вЂ” PASS
-- invalid price fails closed вЂ” PASS
-- non-finite input fails closed вЂ” PASS
+- quantity hedge ratio preserved — PASS
+- exact gross-notional budget preserved — PASS
+- edge-estimator notional contract matched — PASS
+- sizing scales linearly with gross notional — PASS
+- large raw-price beta preserves budget — PASS
+- non-positive beta fails closed — PASS
+- non-positive gross notional fails closed — PASS
+- invalid price fails closed — PASS
+- non-finite input fails closed — PASS
 
 Pytest result:
 
@@ -12805,11 +12805,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12817,7 +12817,7 @@ Integrate verified hedge-ratio pair sizing into the isolated StatArb V2 research
 
 No DecisionEngine / RiskAgent / ExecutionAgent / live integration.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Sizing Pipeline Integration вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Sizing Pipeline Integration — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12849,19 +12849,19 @@ No DecisionEngine, RiskAgent, ExecutionAgent, ExecutionBoundary, or exchange int
 
 Lint:
 
-- `flake8 strategies/stat_arb/pipeline.py` вЂ” PASS
+- `flake8 strategies/stat_arb/pipeline.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted integration tests:
 
-- FDR rejection вЂ” PASS
-- non-cointegrated pair rejection вЂ” PASS
-- valid pair reaches signal layer вЂ” PASS
-- invalid input fails closed вЂ” PASS
-- no-entry candidate skips economics / guard вЂ” PASS
-- valid entry runs sizing -> edge -> costs -> guard вЂ” PASS
-- excessive costs produce `COST_EXCEEDS_EDGE` and `HOLD` вЂ” PASS
-- invalid gross notional produces `SIZING_INVALID` and `HOLD` вЂ” PASS
+- FDR rejection — PASS
+- non-cointegrated pair rejection — PASS
+- valid pair reaches signal layer — PASS
+- invalid input fails closed — PASS
+- no-entry candidate skips economics / guard — PASS
+- valid entry runs sizing -> edge -> costs -> guard — PASS
+- excessive costs produce `COST_EXCEEDS_EDGE` and `HOLD` — PASS
+- invalid gross notional produces `SIZING_INVALID` and `HOLD` — PASS
 
 Pytest result:
 
@@ -12891,11 +12891,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -12903,7 +12903,7 @@ Implement and verify walk-forward / out-of-sample validation for the complete St
 
 No DecisionEngine / RiskAgent / ExecutionAgent / live integration.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Walk-Forward / OOS Validation вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Walk-Forward / OOS Validation — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -12939,16 +12939,16 @@ No DecisionEngine, RiskAgent, ExecutionAgent, ExecutionBoundary, or exchange int
 
 Lint:
 
-- `flake8 strategies/stat_arb/walk_forward.py` вЂ” PASS
+- `flake8 strategies/stat_arb/walk_forward.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted OOS tests:
 
-- non-overlapping walk-forward test folds вЂ” PASS
-- cointegrated pair produces causal OOS points вЂ” PASS
-- future shock does not alter prior fold decisions вЂ” PASS
-- non-cointegrated pair fails structural windows вЂ” PASS
-- invalid input fails closed вЂ” PASS
+- non-overlapping walk-forward test folds — PASS
+- cointegrated pair produces causal OOS points — PASS
+- future shock does not alter prior fold decisions — PASS
+- non-cointegrated pair fails structural windows — PASS
+- invalid input fails closed — PASS
 
 Pytest result:
 
@@ -12998,11 +12998,11 @@ This stage does NOT yet implement:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
@@ -13010,7 +13010,7 @@ Decide whether a dedicated StatArb V2 research trade-lifecycle evaluator is requ
 
 No production boundary changes.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Trade Lifecycle State Contract вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Trade Lifecycle State Contract — 2026-09-01
 
 #### ARCHITECTURE DECISION
 
@@ -13053,17 +13053,17 @@ Evidence tag:
 
 Production boundaries remain unchanged:
 
-- Strategy Decision Engine вЂ” `SHADOW-ONLY`
-- Advisory вЂ” `OBSERVE_ONLY`
-- Restricted Live вЂ” `DISABLED`
-- Full Live вЂ” `DISABLED`
-- AI direct exchange access вЂ” `BLOCKED`
+- Strategy Decision Engine — `SHADOW-ONLY`
+- Advisory — `OBSERVE_ONLY`
+- Restricted Live — `DISABLED`
+- Full Live — `DISABLED`
+- AI direct exchange access — `BLOCKED`
 
 #### NEXT STEP
 
 Implement isolated StatArb V2 research trade-lifecycle evaluator and standalone tests using the approved state contract and canonical NEXUS backtest metrics.
 
-### 52.x. Statistical Arbitrage V2 вЂ” Realized Trade Lifecycle вЂ” 2026-09-01
+### 52.x. Statistical Arbitrage V2 — Realized Trade Lifecycle — 2026-09-01
 
 #### IMPLEMENTED
 
@@ -13106,17 +13106,17 @@ ExecutionBoundary, or BingX integration was changed.
 
 Lint:
 
-- `flake8 strategies/stat_arb/trade_lifecycle.py` вЂ” PASS
+- `flake8 strategies/stat_arb/trade_lifecycle.py` — PASS
 - `FLAKE8_RC=0`
 
 Targeted tests:
 
-- next-open entry/exit pair PnL вЂ” PASS
-- repeated same-direction signal does not pyramid вЂ” PASS
-- opposite signal closes without immediate reversal вЂ” PASS
-- open pair closes at final CLOSE вЂ” PASS
-- canonical fees/slippage/funding integrity вЂ” PASS
-- invalid series fails closed вЂ” PASS
+- next-open entry/exit pair PnL — PASS
+- repeated same-direction signal does not pyramid — PASS
+- opposite signal closes without immediate reversal — PASS
+- open pair closes at final CLOSE — PASS
+- canonical fees/slippage/funding integrity — PASS
+- invalid series fails closed — PASS
 
 Pytest:
 
@@ -13159,9 +13159,9 @@ preserving the existing StrategyRegistry / DecisionEngine contract.
 
 Do not enable or modify production execution in this step.
 
-## 53. NEXUS TRADING CORE V2 / SYSTEM MODERNIZATION ROADMAP вЂ” 2026-09-01
+## 53. NEXUS TRADING CORE V2 / SYSTEM MODERNIZATION ROADMAP — 2026-09-01
 
-### 53.1. FACT вЂ” Current verified state
+### 53.1. FACT — Current verified state
 
 The current NEXUS system contains two architectural generations:
 
@@ -13203,19 +13203,19 @@ NEXUS Trading Core V2.
 Target runtime architecture:
 
 Market Data
-в†’ Market Intelligence
-в†’ Strategy
-в†’ TradeIntent
-в†’ Portfolio Target
-в†’ Risk Engine
-в†’ ExecutionPlan
-в†’ ExecutionCoordinator
-в†’ ExecutionBoundary
-в†’ Exchange
-в†’ Order / Fill Events
-в†’ Reconciliation
-в†’ Position / Order Ledger
-в†’ PnL / Scorecard / AIEA Feedback
+→ Market Intelligence
+→ Strategy
+→ TradeIntent
+→ Portfolio Target
+→ Risk Engine
+→ ExecutionPlan
+→ ExecutionCoordinator
+→ ExecutionBoundary
+→ Exchange
+→ Order / Fill Events
+→ Reconciliation
+→ Position / Order Ledger
+→ PnL / Scorecard / AIEA Feedback
 
 Existing single-leg strategies remain supported through compatibility
 adapters.
@@ -13289,7 +13289,7 @@ This roadmap does NOT authorize:
 The existing ordinary STRATEGY_ENGINE execution route remains a
 separate legacy production path and must be migrated explicitly.
 
-### 53.5. Phase 0 вЂ” Current-state reconciliation
+### 53.5. Phase 0 — Current-state reconciliation
 
 Objective:
 
@@ -13306,7 +13306,7 @@ Evidence gate:
 
 `NEXUS_CURRENT_STATE_RECONCILED_OK`
 
-### 53.6. Phase 1 вЂ” TradeIntent contracts
+### 53.6. Phase 1 — TradeIntent contracts
 
 Objective:
 
@@ -13341,7 +13341,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_TRADE_INTENT_CONTRACT_OK`
 
-### 53.7. Phase 2 вЂ” Order / Position Ledger V2
+### 53.7. Phase 2 — Order / Position Ledger V2
 
 Objective:
 
@@ -13372,7 +13372,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_LEDGER_OK`
 
-### 53.8. Phase 3 вЂ” Exchange Reconciliation Engine
+### 53.8. Phase 3 — Exchange Reconciliation Engine
 
 Objective:
 
@@ -13396,7 +13396,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_RECONCILIATION_OK`
 
-### 53.9. Phase 4 вЂ” Execution Coordinator V2
+### 53.9. Phase 4 — Execution Coordinator V2
 
 Canonical states:
 
@@ -13429,7 +13429,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_EXECUTION_COORDINATOR_OK`
 
-### 53.10. Phase 5 вЂ” Pair-native execution
+### 53.10. Phase 5 — Pair-native execution
 
 Objective:
 
@@ -13452,7 +13452,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_PAIR_EXECUTION_OK`
 
-### 53.11. Phase 6 вЂ” Portfolio / Risk Engine V2
+### 53.11. Phase 6 — Portfolio / Risk Engine V2
 
 Objective:
 
@@ -13481,7 +13481,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_PORTFOLIO_RISK_OK`
 
-### 53.12. Phase 7 вЂ” Strategy Contract V2
+### 53.12. Phase 7 — Strategy Contract V2
 
 Objective:
 
@@ -13502,7 +13502,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_STRATEGY_CONTRACT_OK`
 
-### 53.13. Phase 8 вЂ” Orchestrator refactor
+### 53.13. Phase 8 — Orchestrator refactor
 
 Objective:
 
@@ -13526,7 +13526,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_ORCHESTRATOR_REFACTOR_OK`
 
-### 53.14. Phase 9 вЂ” Backtest / live contract parity
+### 53.14. Phase 9 — Backtest / live contract parity
 
 Objective:
 
@@ -13547,7 +13547,7 @@ Evidence gate:
 
 `TRADING_CORE_V2_BACKTEST_LIVE_PARITY_OK`
 
-### 53.15. Phase 10 вЂ” StatArb V2 canonical integration
+### 53.15. Phase 10 — StatArb V2 canonical integration
 
 Objective:
 
@@ -13571,7 +13571,7 @@ Evidence gate:
 
 `STAT_ARB_V2_CANONICAL_INTEGRATION_OK`
 
-### 53.16. Phase 11 вЂ” StatArb V2 BingX DEMO E2E
+### 53.16. Phase 11 — StatArb V2 BingX DEMO E2E
 
 Objective:
 
@@ -13597,7 +13597,7 @@ Evidence gate:
 
 `STAT_ARB_V2_BINGX_DEMO_PAIR_E2E_OK`
 
-### 53.17. Phase 12 вЂ” Research Gate V2
+### 53.17. Phase 12 — Research Gate V2
 
 Objective:
 
@@ -13633,7 +13633,7 @@ Evidence gate:
 
 `NEXUS_RESEARCH_GATE_V2_OK`
 
-### 53.18. Phase 13 вЂ” Lookahead / recursive hardening
+### 53.18. Phase 13 — Lookahead / recursive hardening
 
 Objective:
 
@@ -13652,7 +13652,7 @@ Evidence gate:
 
 `NEXUS_LOOKAHEAD_RECURSIVE_VALIDATION_OK`
 
-### 53.19. Phase 14 вЂ” Dynamic Market Universe V2
+### 53.19. Phase 14 — Dynamic Market Universe V2
 
 Objective:
 
@@ -13688,7 +13688,7 @@ Evidence gate:
 
 `NEXUS_DYNAMIC_MARKET_UNIVERSE_V2_OK`
 
-### 53.20. Phase 15 вЂ” Market Intelligence V2
+### 53.20. Phase 15 — Market Intelligence V2
 
 Objective:
 
@@ -13710,7 +13710,7 @@ Evidence gate:
 
 `NEXUS_MARKET_INTELLIGENCE_V2_OK`
 
-### 53.21. Phase 16 вЂ” Advanced regime research
+### 53.21. Phase 16 — Advanced regime research
 
 Research candidates:
 
@@ -13733,7 +13733,7 @@ Evidence gate:
 
 `NEXUS_ADVANCED_REGIME_RESEARCH_OK`
 
-### 53.22. Phase 17 вЂ” Research acceleration
+### 53.22. Phase 17 — Research acceleration
 
 Objective:
 
@@ -13759,7 +13759,7 @@ Evidence gate:
 
 `NEXUS_RESEARCH_ACCELERATION_OK`
 
-### 53.23. Phase 18 вЂ” Adaptive ML / FreqAI patterns
+### 53.23. Phase 18 — Adaptive ML / FreqAI patterns
 
 Objective:
 
@@ -13782,7 +13782,7 @@ Evidence gate:
 
 `NEXUS_ADAPTIVE_ML_V2_OK`
 
-### 53.24. Phase 19 вЂ” Forecast foundation-model research
+### 53.24. Phase 19 — Forecast foundation-model research
 
 Candidate references:
 
@@ -13802,7 +13802,7 @@ Evidence gate:
 
 `NEXUS_FORECAST_MODEL_RESEARCH_OK`
 
-### 53.25. Phase 20 вЂ” Existing strategy modernization
+### 53.25. Phase 20 — Existing strategy modernization
 
 Current strategy registry remains canonical until individual
 modernization evidence exists.
@@ -13832,7 +13832,7 @@ VERY HIGH legacy gap.
 
 Each modernization receives its own evidence tag.
 
-### 53.26. Phase 21 вЂ” Funding / basis arbitrage
+### 53.26. Phase 21 — Funding / basis arbitrage
 
 Prerequisites:
 
@@ -13854,7 +13854,7 @@ Candidate capabilities:
 
 No implementation before prerequisites are verified.
 
-### 53.27. Phase 22 вЂ” Generalized spread / basket strategies
+### 53.27. Phase 22 — Generalized spread / basket strategies
 
 Prerequisites:
 
@@ -13871,7 +13871,7 @@ Candidate capabilities:
 - hedge integrity monitoring;
 - basket-level PnL attribution.
 
-### 53.28. Phase 23 вЂ” Microstructure / Liquidity V2
+### 53.28. Phase 23 — Microstructure / Liquidity V2
 
 Reference patterns:
 
@@ -13896,7 +13896,7 @@ Evidence gate:
 
 `NEXUS_MICROSTRUCTURE_V2_OK`
 
-### 53.29. Phase 24 вЂ” AIEA Strategy Generation V2
+### 53.29. Phase 24 — AIEA Strategy Generation V2
 
 Objective:
 
@@ -13919,7 +13919,7 @@ Evidence gate:
 
 `AIEA_STRATEGY_GENERATION_V2_OK`
 
-### 53.30. Phase 25 вЂ” Learning Loop V2
+### 53.30. Phase 25 — Learning Loop V2
 
 Objective:
 
@@ -13940,7 +13940,7 @@ Evidence gate:
 
 `AIEA_LEARNING_LOOP_V2_OK`
 
-### 53.31. Phase 26 вЂ” Strategy Registry Lifecycle V2
+### 53.31. Phase 26 — Strategy Registry Lifecycle V2
 
 Required states:
 
@@ -13965,7 +13965,7 @@ Evidence gate:
 
 `NEXUS_STRATEGY_REGISTRY_LIFECYCLE_V2_OK`
 
-### 53.32. Phase 27 вЂ” Unified Production Safety V2
+### 53.32. Phase 27 — Unified Production Safety V2
 
 Objective:
 
@@ -13994,7 +13994,7 @@ Evidence gate:
 
 `NEXUS_PRODUCTION_SAFETY_V2_OK`
 
-### 53.33. Phase 28 вЂ” Application / Infrastructure Security
+### 53.33. Phase 28 — Application / Infrastructure Security
 
 Required review:
 
@@ -14014,7 +14014,7 @@ Evidence gate:
 
 `NEXUS_APPLICATION_SECURITY_CLOSEOUT_OK`
 
-### 53.34. Phase 29 вЂ” Multi-user hardening
+### 53.34. Phase 29 — Multi-user hardening
 
 Required negative verification:
 
@@ -14029,7 +14029,7 @@ Evidence gate:
 
 `NEXUS_MULTI_USER_HARDENING_OK`
 
-### 53.35. Phase 30 вЂ” API V2
+### 53.35. Phase 30 — API V2
 
 Expose controlled interfaces for:
 
@@ -14054,7 +14054,7 @@ Evidence gate:
 
 `NEXUS_API_V2_OK`
 
-### 53.36. Phase 31 вЂ” Dashboard V2
+### 53.36. Phase 31 — Dashboard V2
 
 Priority:
 
@@ -14078,7 +14078,7 @@ Evidence gate:
 
 `NEXUS_DASHBOARD_V2_OK`
 
-### 53.37. Phase 32 вЂ” Observability / SRE
+### 53.37. Phase 32 — Observability / SRE
 
 Required telemetry:
 
@@ -14098,7 +14098,7 @@ Evidence gate:
 
 `NEXUS_OBSERVABILITY_SRE_OK`
 
-### 53.38. Phase 33 вЂ” CI / CD Quality Gate
+### 53.38. Phase 33 — CI / CD Quality Gate
 
 Mandatory CI scope:
 
@@ -14120,7 +14120,7 @@ Evidence gate:
 
 `NEXUS_CICD_QUALITY_GATE_OK`
 
-### 53.39. Phase 34 вЂ” Audit / Evidence Closeout
+### 53.39. Phase 34 — Audit / Evidence Closeout
 
 Objective:
 
@@ -14139,7 +14139,7 @@ Evidence gate:
 
 `NEXUS_AUDIT_CLOSEOUT_OK`
 
-### 53.40. Phase 35 вЂ” Restricted Live Architecture Review
+### 53.40. Phase 35 — Restricted Live Architecture Review
 
 This phase is NOT authorized by this roadmap.
 
@@ -14153,13 +14153,13 @@ Separate requirements:
 - monitoring;
 - explicit user approval.
 
-### 53.41. Phase 36 вЂ” Restricted Live
+### 53.41. Phase 36 — Restricted Live
 
 DISABLED.
 
 Separate explicit user authorization required.
 
-### 53.42. Phase 37 вЂ” Full Live
+### 53.42. Phase 37 — Full Live
 
 DISABLED.
 
@@ -14167,7 +14167,7 @@ Separate explicit user authorization required.
 
 ### 53.43. Major milestones
 
-M1 вЂ” TRADING CORE V2 FOUNDATION
+M1 — TRADING CORE V2 FOUNDATION
 
 - TradeIntent;
 - Ledger;
@@ -14175,18 +14175,18 @@ M1 вЂ” TRADING CORE V2 FOUNDATION
 - ExecutionCoordinator;
 - Portfolio Risk.
 
-M2 вЂ” FIRST PAIR-NATIVE STRATEGY
+M2 — FIRST PAIR-NATIVE STRATEGY
 
 - StatArb V2 canonical integration;
 - pair-native BingX DEMO E2E.
 
-M3 вЂ” RESEARCH / AIEA V2
+M3 — RESEARCH / AIEA V2
 
 - Research Gate V2;
 - lookahead / recursive hardening;
 - research acceleration.
 
-M4 вЂ” MARKET INTELLIGENCE V2
+M4 — MARKET INTELLIGENCE V2
 
 - Dynamic Universe;
 - Liquidity;
@@ -14194,7 +14194,7 @@ M4 вЂ” MARKET INTELLIGENCE V2
 - Transition detection;
 - Forecast candidates.
 
-M5 вЂ” PRODUCTION READINESS
+M5 — PRODUCTION READINESS
 
 - unified production safety;
 - security;
@@ -14209,11 +14209,11 @@ M5 вЂ” PRODUCTION READINESS
 Strict execution order:
 
 FACT
-в†’ CHECK
-в†’ EVIDENCE
-в†’ AUDIT
-в†’ STATUS
-в†’ ONE NEXT STEP.
+→ CHECK
+→ EVIDENCE
+→ AUDIT
+→ STATUS
+→ ONE NEXT STEP.
 
 Only one primary implementation step may be active at a time.
 
@@ -14222,21 +14222,21 @@ technical reason.
 
 ### 53.45. CURRENT STATUS
 
-`NEXUS_SYSTEM_MODERNIZATION_ROADMAP вЂ” ARCHITECTURE DEFINED`
+`NEXUS_SYSTEM_MODERNIZATION_ROADMAP — ARCHITECTURE DEFINED`
 
-`NEXUS_TRADING_CORE_V2 вЂ” NOT IMPLEMENTED`
+`NEXUS_TRADING_CORE_V2 — NOT IMPLEMENTED`
 
-`STAT_ARB_V2_RESEARCH_STACK вЂ” TEST VERIFIED / DONE`
+`STAT_ARB_V2_RESEARCH_STACK — TEST VERIFIED / DONE`
 
-`STAT_ARB_V2_PRODUCTION_REPLACEMENT вЂ” NOT YET IMPLEMENTED`
+`STAT_ARB_V2_PRODUCTION_REPLACEMENT — NOT YET IMPLEMENTED`
 
-`PAIR_NATIVE_EXECUTION вЂ” NOT IMPLEMENTED`
+`PAIR_NATIVE_EXECUTION — NOT IMPLEMENTED`
 
-`NEXUS_RESEARCH_GATE_V2 вЂ” PLANNED`
+`NEXUS_RESEARCH_GATE_V2 — PLANNED`
 
-`NEXUS_MARKET_INTELLIGENCE_V2 вЂ” PLANNED`
+`NEXUS_MARKET_INTELLIGENCE_V2 — PLANNED`
 
-`NEXUS_ADAPTIVE_ML_V2 вЂ” PLANNED`
+`NEXUS_ADAPTIVE_ML_V2 — PLANNED`
 
 Production permissions remain unchanged.
 
@@ -14268,7 +14268,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_GAP_AUDIT_OK`
 
-## 54. NEXUS FRONTEND / CONTROL PLANE V2 вЂ” 2026-09-01
+## 54. NEXUS FRONTEND / CONTROL PLANE V2 — 2026-09-01
 
 ### 54.1. Canonical objective
 
@@ -14289,10 +14289,10 @@ Every major Trading Core V2 capability must be developed together with:
 Canonical rule:
 
 BACKEND CONTRACT
-в†’ API CONTRACT
-в†’ FRONTEND CONTRACT
-в†’ EVIDENCE
-в†’ AUDIT
+→ API CONTRACT
+→ FRONTEND CONTRACT
+→ EVIDENCE
+→ AUDIT
 
 Frontend and backend evolve in the same modernization phase.
 
@@ -14473,43 +14473,43 @@ Evidence gate:
 Trading Core V2 phases must include frontend/API work as follows:
 
 Phase 1 TradeIntent
-в†’ Intent API / DTO
-в†’ frontend intent visibility
+→ Intent API / DTO
+→ frontend intent visibility
 
 Phase 2 Ledger
-в†’ ledger API
-в†’ order / position ownership UI
+→ ledger API
+→ order / position ownership UI
 
 Phase 3 Reconciliation
-в†’ reconciliation API
-в†’ operations console
+→ reconciliation API
+→ operations console
 
 Phase 4 ExecutionCoordinator
-в†’ execution event API
-в†’ execution state monitor
+→ execution event API
+→ execution state monitor
 
 Phase 5 PairExecution
-в†’ pair API
-в†’ pair trading operations UI
+→ pair API
+→ pair trading operations UI
 
 Phase 6 PortfolioRisk
-в†’ risk API
-в†’ portfolio / risk UI
+→ risk API
+→ portfolio / risk UI
 
 Phase 7 StrategyContract
-в†’ strategy capability API
-в†’ Strategy Center
+→ strategy capability API
+→ Strategy Center
 
 Phase 8 Orchestrator
-в†’ runtime health API
-в†’ trading command center
+→ runtime health API
+→ trading command center
 
 Phase 9 Backtest / Live parity
-в†’ comparison API
-в†’ research/runtime comparison UI
+→ comparison API
+→ research/runtime comparison UI
 
 Phase 10 StatArb V2 integration
-в†’ StatArb V2 pair UI enabled
+→ StatArb V2 pair UI enabled
 
 This rule prevents backend and frontend architecture from diverging.
 
@@ -14528,7 +14528,7 @@ API and frontend contracts are mandatory throughout Trading Core V2.
 
 ### 54.12. Major frontend milestones
 
-M1A вЂ” CONTROL PLANE FOUNDATION
+M1A — CONTROL PLANE FOUNDATION
 
 - frontend architecture;
 - auth/session;
@@ -14536,7 +14536,7 @@ M1A вЂ” CONTROL PLANE FOUNDATION
 - trading command center;
 - basic intent / execution visibility.
 
-M2A вЂ” PAIR OPERATIONS
+M2A — PAIR OPERATIONS
 
 - StatArb pair lifecycle;
 - pair legs;
@@ -14545,7 +14545,7 @@ M2A вЂ” PAIR OPERATIONS
 - recovery;
 - pair PnL.
 
-M3A вЂ” RESEARCH / INTELLIGENCE
+M3A — RESEARCH / INTELLIGENCE
 
 - Research Gate;
 - OOS / walk-forward;
@@ -14553,7 +14553,7 @@ M3A вЂ” RESEARCH / INTELLIGENCE
 - Dynamic Universe;
 - Market Intelligence.
 
-M4A вЂ” PRODUCTION OPERATIONS
+M4A — PRODUCTION OPERATIONS
 
 - reconciliation;
 - production permissions;
@@ -14563,13 +14563,13 @@ M4A вЂ” PRODUCTION OPERATIONS
 
 ### 54.13. CURRENT STATUS
 
-`NEXUS_FRONTEND_CONTROL_PLANE_V2 вЂ” ARCHITECTURE DEFINED`
+`NEXUS_FRONTEND_CONTROL_PLANE_V2 — ARCHITECTURE DEFINED`
 
-`NEXUS_CONTROL_PLANE_FOUNDATION вЂ” NOT IMPLEMENTED`
+`NEXUS_CONTROL_PLANE_FOUNDATION — NOT IMPLEMENTED`
 
-`NEXUS_PAIR_TRADING_UI вЂ” NOT IMPLEMENTED`
+`NEXUS_PAIR_TRADING_UI — NOT IMPLEMENTED`
 
-`NEXUS_RECONCILIATION_CONSOLE вЂ” NOT IMPLEMENTED`
+`NEXUS_RECONCILIATION_CONSOLE — NOT IMPLEMENTED`
 
 Frontend development is now a mandatory companion of Trading Core V2.
 
@@ -14593,7 +14593,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_FULLSTACK_GAP_AUDIT_OK`
 
-## 55. NEXUS VENUE / INSTRUMENT ABSTRACTION V2 вЂ” 2026-09-01
+## 55. NEXUS VENUE / INSTRUMENT ABSTRACTION V2 — 2026-09-01
 
 ### 55.1. Canonical objective
 
@@ -14627,14 +14627,14 @@ No new live venue is authorized by this architecture decision alone.
 Target execution path:
 
 Strategy
-в†’ TradeIntent
-в†’ InstrumentId
-в†’ VenueId / AccountId
-в†’ Portfolio Risk
-в†’ ExecutionPlan
-в†’ ExecutionCoordinator
-в†’ VenueAdapter
-в†’ External Venue / Broker
+→ TradeIntent
+→ InstrumentId
+→ VenueId / AccountId
+→ Portfolio Risk
+→ ExecutionPlan
+→ ExecutionCoordinator
+→ VenueAdapter
+→ External Venue / Broker
 
 Venue-specific logic must remain behind adapter boundaries.
 
@@ -14856,17 +14856,17 @@ Pair / basket UI must support different venue IDs for different legs.
 Trading Core V2 implementation order is extended to include:
 
 TradeIntent
-в†’ Instrument Model
-в†’ VenueAdapter Contract
-в†’ Ledger
-в†’ Reconciliation
-в†’ ExecutionCoordinator
-в†’ Pair / MultiVenue Execution
-в†’ Portfolio Risk
-в†’ Strategy Contract
-в†’ Orchestrator
-в†’ Backtest / Live Parity
-в†’ StatArb V2 integration
+→ Instrument Model
+→ VenueAdapter Contract
+→ Ledger
+→ Reconciliation
+→ ExecutionCoordinator
+→ Pair / MultiVenue Execution
+→ Portfolio Risk
+→ Strategy Contract
+→ Orchestrator
+→ Backtest / Live Parity
+→ StatArb V2 integration
 
 Existing roadmap phases remain historically valid.
 
@@ -14939,15 +14939,15 @@ Every future venue integration requires separate:
 
 ### 55.15. CURRENT STATUS
 
-`NEXUS_VENUE_INSTRUMENT_ABSTRACTION_V2 вЂ” ARCHITECTURE DEFINED`
+`NEXUS_VENUE_INSTRUMENT_ABSTRACTION_V2 — ARCHITECTURE DEFINED`
 
-`MULTI_VENUE_EXECUTION вЂ” NOT IMPLEMENTED`
+`MULTI_VENUE_EXECUTION — NOT IMPLEMENTED`
 
-`MULTI_ASSET_TRADING вЂ” NOT IMPLEMENTED`
+`MULTI_ASSET_TRADING — NOT IMPLEMENTED`
 
-`CANONICAL_INSTRUMENT_MODEL вЂ” NOT IMPLEMENTED`
+`CANONICAL_INSTRUMENT_MODEL — NOT IMPLEMENTED`
 
-`CANONICAL_VENUE_ADAPTER вЂ” NOT IMPLEMENTED`
+`CANONICAL_VENUE_ADAPTER — NOT IMPLEMENTED`
 
 Existing BingX runtime remains unchanged.
 
@@ -14979,7 +14979,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_MULTI_VENUE_FULLSTACK_GAP_AUDIT_OK`
 
-## 56. Trading Core V2 Multi-Venue Full-Stack Gap Audit вЂ” 2026-09-01
+## 56. Trading Core V2 Multi-Venue Full-Stack Gap Audit — 2026-09-01
 
 ### 56.1. FACT
 
@@ -15248,9 +15248,9 @@ ExecutionBoundary concept is retained.
 Canonical invariant:
 
 NEW exposure
-в†’ production permission
-в†’ global kill switch
-в†’ VenueAdapter
+→ production permission
+→ global kill switch
+→ VenueAdapter
 
 Risk-reducing close/reduce operations must remain available when the
 global new-order kill switch is active.
@@ -15273,10 +15273,10 @@ It must stop owning:
 Target orchestration:
 
 Market Context
-в†’ Strategy
-в†’ TradeIntent
-в†’ TradingCoreService
-в†’ ExecutionOutcome
+→ Strategy
+→ TradeIntent
+→ TradingCoreService
+→ ExecutionOutcome
 
 ### 56.11. API / Frontend decision
 
@@ -15346,7 +15346,7 @@ Current execution permissions remain unchanged.
 
 ### 56.14. STATUS
 
-`TRADING_CORE_V2_MULTI_VENUE_FULLSTACK_GAP_AUDIT вЂ” TEST/ARCHITECTURE VERIFIED`
+`TRADING_CORE_V2_MULTI_VENUE_FULLSTACK_GAP_AUDIT — TEST/ARCHITECTURE VERIFIED`
 
 The audit establishes that NEXUS should evolve incrementally rather
 than through a clean-sheet rewrite.
@@ -15383,7 +15383,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_CANONICAL_DOMAIN_CONTRACT_DESIGN_OK`
 
-## 57. Trading Core V2 вЂ” Canonical Domain Contract Design вЂ” 2026-09-01
+## 57. Trading Core V2 — Canonical Domain Contract Design — 2026-09-01
 
 ### 57.1. CHECK
 
@@ -15427,10 +15427,10 @@ Trading Core domain contracts must NOT import:
 Dependency direction:
 
 Strategies / Risk / Execution / API adapters
-в†’ trading_core domain
+→ trading_core domain
 
 trading_core domain
-в†’ no infrastructure dependencies.
+→ no infrastructure dependencies.
 
 ### 57.3. Identity contracts
 
@@ -15607,7 +15607,7 @@ This phase must NOT modify:
 
 ### 57.8. STATUS
 
-`TRADING_CORE_V2_CANONICAL_DOMAIN_CONTRACT_DESIGN вЂ” ARCHITECTURE APPROVED`
+`TRADING_CORE_V2_CANONICAL_DOMAIN_CONTRACT_DESIGN — ARCHITECTURE APPROVED`
 
 Evidence tag:
 
@@ -15632,7 +15632,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_IDENTITY_CONTRACTS_OK`
 
-## 59. Trading Core V2 вЂ” TradeIntent Contracts вЂ” 2026-09-01
+## 59. Trading Core V2 — TradeIntent Contracts — 2026-09-01
 
 ### 59.1. IMPLEMENTED
 
@@ -15680,12 +15680,12 @@ semantics.
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Focused test scope:
 
@@ -15702,7 +15702,7 @@ No warnings remained in the final verification run.
 
 ### 59.5. STATUS
 
-`TRADING_CORE_V2_TRADE_INTENT_CONTRACTS вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_TRADE_INTENT_CONTRACTS — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -15726,7 +15726,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_VENUE_ADAPTER_CONTRACT_DESIGN_OK`
 
-## 60. Trading Core V2 вЂ” VenueAdapter Contract Design вЂ” 2026-09-01
+## 60. Trading Core V2 — VenueAdapter Contract Design — 2026-09-01
 
 ### 60.1. CHECK
 
@@ -15754,10 +15754,10 @@ existing exchange clients.
 Target layering:
 
 Trading Core
-в†’ VenueAdapter
-в†’ CryptoVenueAdapter
-в†’ BaseExchangeClient
-в†’ venue client
+→ VenueAdapter
+→ CryptoVenueAdapter
+→ BaseExchangeClient
+→ venue client
 
 Existing exchange clients are preserved.
 
@@ -15838,7 +15838,7 @@ operations remain distinct from new-exposure permissions.
 
 ### 60.7. STATUS
 
-`TRADING_CORE_V2_VENUE_ADAPTER_CONTRACT_DESIGN вЂ” ARCHITECTURE APPROVED`
+`TRADING_CORE_V2_VENUE_ADAPTER_CONTRACT_DESIGN — ARCHITECTURE APPROVED`
 
 Evidence tag:
 
@@ -15863,7 +15863,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_VENUE_ADAPTER_CONTRACTS_OK`
 
-## 61. Trading Core V2 вЂ” VenueAdapter Contracts вЂ” 2026-09-01
+## 61. Trading Core V2 — VenueAdapter Contracts — 2026-09-01
 
 ### 61.1. IMPLEMENTED
 
@@ -15924,12 +15924,12 @@ No production execution path was changed.
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Focused test scope:
 
@@ -15945,7 +15945,7 @@ Result:
 
 ### 61.5. STATUS
 
-`TRADING_CORE_V2_VENUE_ADAPTER_CONTRACTS вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_VENUE_ADAPTER_CONTRACTS — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -15979,7 +15979,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PERSISTENCE_CONTRACT_DESIGN_OK`
 
-## 62. Trading Core V2 вЂ” Execution Persistence Contract Design вЂ” 2026-09-01
+## 62. Trading Core V2 — Execution Persistence Contract Design — 2026-09-01
 
 ### 62.1. CHECK
 
@@ -16016,11 +16016,11 @@ Trading Core V2 introduces separate canonical tables:
 Canonical ownership chain:
 
 TradeIntent
-в†’ ExecutionPlan
-в†’ PositionGroup
-в†’ PositionLeg
-в†’ ExecutionOrder
-в†’ ExecutionFill
+→ ExecutionPlan
+→ PositionGroup
+→ PositionLeg
+→ ExecutionOrder
+→ ExecutionFill
 
 TradeIntent remains a pure domain contract in the current phase and is
 referenced through immutable `intent_id` lineage.
@@ -16174,19 +16174,19 @@ are not available.
 Canonical state separation:
 
 ExecutionPlan
-в†’ execution workflow state
+→ execution workflow state
 
 PositionGroup
-в†’ logical trade / pair / basket state
+→ logical trade / pair / basket state
 
 PositionLeg
-в†’ per-leg position state
+→ per-leg position state
 
 ExecutionOrder
-в†’ order lifecycle state
+→ order lifecycle state
 
 ExecutionFill
-в†’ immutable execution evidence
+→ immutable execution evidence
 
 Order state, fill evidence and position state must not be collapsed
 into one table.
@@ -16239,7 +16239,7 @@ Current production safety boundaries remain unchanged.
 
 ### 62.12. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PERSISTENCE_CONTRACT_DESIGN вЂ” ARCHITECTURE APPROVED`
+`TRADING_CORE_V2_EXECUTION_PERSISTENCE_CONTRACT_DESIGN — ARCHITECTURE APPROVED`
 
 Evidence tag:
 
@@ -16264,7 +16264,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PERSISTENCE_MIGRATION_DESIGN_OK`
 
-## 63. Trading Core V2 вЂ” Execution Persistence Migration Design вЂ” 2026-09-01
+## 63. Trading Core V2 — Execution Persistence Migration Design — 2026-09-01
 
 ### 63.1. CHECK
 
@@ -16352,22 +16352,22 @@ Required downgrade order is the exact reverse:
 Canonical uniqueness:
 
 `execution_plans.plan_id`
-в†’ UNIQUE
+→ UNIQUE
 
 `position_groups.group_id`
-в†’ UNIQUE
+→ UNIQUE
 
 `position_legs`
-в†’ UNIQUE(`position_group_id`, `leg_id`)
+→ UNIQUE(`position_group_id`, `leg_id`)
 
 `execution_orders.order_id`
-в†’ UNIQUE
+→ UNIQUE
 
 `execution_orders.client_order_id`
-в†’ UNIQUE
+→ UNIQUE
 
 `execution_fills.fill_id`
-в†’ UNIQUE
+→ UNIQUE
 
 Venue fill deduplication must not rely on a nullable global
 `venue_fill_id` UNIQUE constraint.
@@ -16447,7 +16447,7 @@ Current production safety boundaries remain unchanged.
 
 ### 63.9. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MIGRATION_DESIGN вЂ” ARCHITECTURE VERIFIED`
+`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MIGRATION_DESIGN — ARCHITECTURE VERIFIED`
 
 Evidence tag:
 
@@ -16478,7 +16478,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PERSISTENCE_MIGRATION_FILE_OK`
 
-## 64. Trading Core V2 вЂ” Execution Persistence Migration File вЂ” 2026-09-01
+## 64. Trading Core V2 — Execution Persistence Migration File — 2026-09-01
 
 ### 64.1. IMPLEMENTED
 
@@ -16489,7 +16489,7 @@ Created additive Alembic revision:
 Revision lineage:
 
 `f81e68355381`
-в†’
+→
 `aa3c49db572a`
 
 Created schema definitions for:
@@ -16507,22 +16507,22 @@ The migration has NOT been applied to the live PostgreSQL database.
 Verified table ownership chain:
 
 ExecutionPlan
-в†’ PositionGroup
-в†’ PositionLeg
-в†’ ExecutionOrder
-в†’ ExecutionFill
+→ PositionGroup
+→ PositionLeg
+→ ExecutionOrder
+→ ExecutionFill
 
 Verified foreign keys:
 
-- execution_plans.user_id в†’ users.id;
-- position_groups.execution_plan_id в†’ execution_plans.id;
-- position_groups.user_id в†’ users.id;
-- position_legs.position_group_id в†’ position_groups.id;
-- position_legs.account_id в†’ exchanges.id;
-- execution_orders.execution_plan_id в†’ execution_plans.id;
-- execution_orders.position_leg_id в†’ position_legs.id;
-- execution_orders.account_id в†’ exchanges.id;
-- execution_fills.execution_order_id в†’ execution_orders.id.
+- execution_plans.user_id → users.id;
+- position_groups.execution_plan_id → execution_plans.id;
+- position_groups.user_id → users.id;
+- position_legs.position_group_id → position_groups.id;
+- position_legs.account_id → exchanges.id;
+- execution_orders.execution_plan_id → execution_plans.id;
+- execution_orders.position_leg_id → position_legs.id;
+- execution_orders.account_id → exchanges.id;
+- execution_fills.execution_order_id → execution_orders.id.
 
 ### 64.3. VERIFIED UNIQUENESS
 
@@ -16552,12 +16552,12 @@ Verified lifecycle indexes for:
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Alembic head:
 
@@ -16605,7 +16605,7 @@ Current production safety boundaries remain unchanged.
 
 ### 64.8. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MIGRATION_FILE вЂ” TEST/STRUCTURE VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MIGRATION_FILE — TEST/STRUCTURE VERIFIED / DONE`
 
 Evidence tag:
 
@@ -16631,7 +16631,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PERSISTENCE_SCHEMA_OK`
 
-## 65. Trading Core V2 вЂ” Execution Persistence Schema вЂ” 2026-09-01
+## 65. Trading Core V2 — Execution Persistence Schema — 2026-09-01
 
 ### 65.1. APPLIED
 
@@ -16642,7 +16642,7 @@ Applied Alembic revision:
 Upgrade path:
 
 `f81e68355381`
-в†’
+→
 `aa3c49db572a`
 
 Post-apply Alembic state:
@@ -16665,15 +16665,15 @@ All tables are owned by `nexus_user`.
 
 Verified:
 
-- execution_plans.user_id в†’ users.id
-- position_groups.execution_plan_id в†’ execution_plans.id
-- position_groups.user_id в†’ users.id
-- position_legs.position_group_id в†’ position_groups.id
-- position_legs.account_id в†’ exchanges.id
-- execution_orders.execution_plan_id в†’ execution_plans.id
-- execution_orders.position_leg_id в†’ position_legs.id
-- execution_orders.account_id в†’ exchanges.id
-- execution_fills.execution_order_id в†’ execution_orders.id
+- execution_plans.user_id → users.id
+- position_groups.execution_plan_id → execution_plans.id
+- position_groups.user_id → users.id
+- position_legs.position_group_id → position_groups.id
+- position_legs.account_id → exchanges.id
+- execution_orders.execution_plan_id → execution_plans.id
+- execution_orders.position_leg_id → position_legs.id
+- execution_orders.account_id → exchanges.id
+- execution_fills.execution_order_id → execution_orders.id
 
 ### 65.4. VERIFIED UNIQUE CONSTRAINTS
 
@@ -16752,7 +16752,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 65.9. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PERSISTENCE_SCHEMA вЂ” TEST/SCHEMA VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_PERSISTENCE_SCHEMA — TEST/SCHEMA VERIFIED / DONE`
 
 Evidence tag:
 
@@ -16780,7 +16780,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PERSISTENCE_MODELS_OK`
 
-## 66. Trading Core V2 вЂ” Execution Persistence ORM Models вЂ” 2026-09-01
+## 66. Trading Core V2 — Execution Persistence ORM Models — 2026-09-01
 
 ### 66.1. IMPLEMENTED
 
@@ -16848,12 +16848,12 @@ All verification was then repeated from the beginning.
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Focused tests:
 
@@ -16892,7 +16892,7 @@ Legacy models remain operational.
 
 ### 66.6. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MODELS вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MODELS — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -16925,7 +16925,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_REPOSITORY_DESIGN_OK`
 
-## 67. Trading Core V2 вЂ” Execution Repository Design вЂ” 2026-09-01
+## 67. Trading Core V2 — Execution Repository Design — 2026-09-01
 
 ### 67.1. CHECKED CURRENT TRANSACTION PATTERNS
 
@@ -16981,10 +16981,10 @@ A single outer application/service transaction owns:
 This allows one Core V2 aggregate operation to persist atomically across:
 
 ExecutionPlan
-в†’ PositionGroup
-в†’ PositionLeg
-в†’ ExecutionOrder
-в†’ ExecutionFill
+→ PositionGroup
+→ PositionLeg
+→ ExecutionOrder
+→ ExecutionFill
 
 without partial repository-level commits.
 
@@ -17199,7 +17199,7 @@ Production safety boundaries remain unchanged.
 
 ### 67.15. STATUS
 
-`TRADING_CORE_V2_EXECUTION_REPOSITORY_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_REPOSITORY_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -17223,7 +17223,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_REPOSITORY_OK`
 
-## 68. Trading Core V2 вЂ” Execution Repository вЂ” 2026-09-01
+## 68. Trading Core V2 — Execution Repository — 2026-09-01
 
 ### 68.1. IMPLEMENTED
 
@@ -17299,12 +17299,12 @@ Focused tests verify:
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Focused tests:
 
@@ -17318,7 +17318,7 @@ Result:
 
 ### 68.6. STATUS
 
-`TRADING_CORE_V2_EXECUTION_REPOSITORY вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_REPOSITORY — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -17342,7 +17342,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE_DESIGN_OK`
 
-## 69. Trading Core V2 вЂ” Execution Application Service Design вЂ” 2026-09-01
+## 69. Trading Core V2 — Execution Application Service Design — 2026-09-01
 
 ### 69.1. CHECKED CURRENT APPLICATION TRANSACTION PATTERNS
 
@@ -17412,9 +17412,9 @@ but only through a separate approved architecture step.
 Canonical aggregate creation is one transaction:
 
 ExecutionPlan
-в†’ PositionGroup
-в†’ PositionLeg(s)
-в†’ optional initial ExecutionOrder(s)
+→ PositionGroup
+→ PositionLeg(s)
+→ optional initial ExecutionOrder(s)
 
 Required behavior:
 
@@ -17624,7 +17624,7 @@ Production boundaries remain unchanged.
 
 ### 69.17. STATUS
 
-`TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -17642,7 +17642,7 @@ Initial implementation scope:
 - aggregate create;
 - one commit on success;
 - rollback on failure;
-- IntegrityError rollback в†’ reread в†’ identity verify;
+- IntegrityError rollback → reread → identity verify;
 - focused transaction/idempotency tests.
 
 No venue, execution-agent, reconciliation or live runtime integration.
@@ -17651,7 +17651,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE_OK`
 
-## 70. Trading Core V2 вЂ” Execution Application Service вЂ” 2026-09-01
+## 70. Trading Core V2 — Execution Application Service — 2026-09-01
 
 ### 70.1. IMPLEMENTED
 
@@ -17698,11 +17698,11 @@ Identity mismatch fails closed.
 Verified concurrency/error contract:
 
 IntegrityError
-в†’ rollback
-в†’ reread canonical plan identity
-в†’ verify immutable identity
-в†’ verify persisted aggregate
-в†’ reuse only when equivalence is proven.
+→ rollback
+→ reread canonical plan identity
+→ verify immutable identity
+→ verify persisted aggregate
+→ reuse only when equivalence is proven.
 
 Queries are not performed against the failed transaction before rollback.
 
@@ -17737,12 +17737,12 @@ This phase is persistence orchestration only.
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Focused tests:
 
@@ -17756,7 +17756,7 @@ Result:
 
 ### 70.8. STATUS
 
-`TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -17783,7 +17783,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PLAN_CONTRACT_DESIGN_OK`
 
-## 71. Trading Core V2 вЂ” Execution Plan Contract Design вЂ” 2026-09-01
+## 71. Trading Core V2 — Execution Plan Contract Design — 2026-09-01
 
 ### 71.1. CHECKED EXISTING DOMAIN CONTRACTS
 
@@ -17811,12 +17811,12 @@ canonical domain execution-plan contract.
 Target flow:
 
 TradeIntent
-в†’ future PortfolioTarget / risk-approved target
-в†’ ExecutionPlan
-в†’ ExecutionLegPlan(s)
-в†’ ExecutionCoordinator
-в†’ VenueOrderRequest
-в†’ VenueAdapter
+→ future PortfolioTarget / risk-approved target
+→ ExecutionPlan
+→ ExecutionLegPlan(s)
+→ ExecutionCoordinator
+→ VenueOrderRequest
+→ VenueAdapter
 
 ExecutionPlan represents approved execution intent.
 
@@ -17990,9 +17990,9 @@ ExecutionPlan uses existing `TradeIntentShape`.
 
 Validation:
 
-- SINGLE_LEG в†’ exactly 1 leg;
-- PAIR в†’ exactly 2 legs;
-- BASKET в†’ at least 2 legs.
+- SINGLE_LEG → exactly 1 leg;
+- PAIR → exactly 2 legs;
+- BASKET → at least 2 legs.
 
 No new execution-shape enum is introduced.
 
@@ -18016,14 +18016,14 @@ matches the source TradeIntent / approved target.
 
 ExecutionLegPlan maps one-to-one into a future VenueOrderRequest:
 
-- client_order_id в†’ client_order_id;
-- account_id в†’ account_id;
-- instrument_id в†’ instrument_id;
-- TradeSide в†’ VenueOrderSide;
-- quantity в†’ quantity;
-- order_type в†’ order_type;
-- limit_price в†’ limit_price;
-- reduce_only в†’ reduce_only.
+- client_order_id → client_order_id;
+- account_id → account_id;
+- instrument_id → instrument_id;
+- TradeSide → VenueOrderSide;
+- quantity → quantity;
+- order_type → order_type;
+- limit_price → limit_price;
+- reduce_only → reduce_only.
 
 This mapping belongs to execution coordination/planning infrastructure.
 
@@ -18034,10 +18034,10 @@ The domain ExecutionPlan MUST NOT call VenueAdapter.
 ExecutionPlan domain data maps into verified persistence tables:
 
 ExecutionPlan
-в†’ execution_plans
+→ execution_plans
 
 ExecutionLegPlan
-в†’ PositionLeg + ExecutionOrder
+→ PositionLeg + ExecutionOrder
 
 Persistence mapping includes:
 
@@ -18101,9 +18101,9 @@ ExecutionPlan design does not invent that contract.
 Future work must define:
 
 TradeIntent
-в†’ PortfolioTarget
-в†’ PortfolioRisk
-в†’ ExecutionPlan
+→ PortfolioTarget
+→ PortfolioRisk
+→ ExecutionPlan
 
 as a separate canonical domain step.
 
@@ -18128,7 +18128,7 @@ Production boundaries remain unchanged.
 
 ### 71.20. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PLAN_CONTRACT_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_PLAN_CONTRACT_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -18154,7 +18154,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PLAN_CONTRACT_OK`
 
-## 72. Trading Core V2 вЂ” Execution Plan Contract вЂ” 2026-09-01
+## 72. Trading Core V2 — Execution Plan Contract — 2026-09-01
 
 ### 72.1. IMPLEMENTED
 
@@ -18271,12 +18271,12 @@ contract.
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Focused execution contract tests:
 
@@ -18317,7 +18317,7 @@ Production boundaries remain unchanged.
 
 ### 72.10. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PLAN_CONTRACT вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_PLAN_CONTRACT — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -18331,12 +18331,12 @@ later, VenueOrderRequest.
 
 Scope:
 
-- domain в†’ persistence mapping ownership;
-- ExecutionPlan в†’ PositionGroup / PositionLeg / ExecutionOrder mapping;
+- domain → persistence mapping ownership;
+- ExecutionPlan → PositionGroup / PositionLeg / ExecutionOrder mapping;
 - enum/value conversion;
 - Decimal preservation;
 - deterministic identity preservation;
-- TradeSide в†’ VenueOrderSide mapping boundary definition;
+- TradeSide → VenueOrderSide mapping boundary definition;
 - no VenueAdapter calls;
 - no execution coordinator integration yet.
 
@@ -18344,7 +18344,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PLAN_MAPPING_DESIGN_OK`
 
-## 73. Trading Core V2 вЂ” Execution Plan Mapping Design вЂ” 2026-09-01
+## 73. Trading Core V2 — Execution Plan Mapping Design — 2026-09-01
 
 ### 73.1. CHECKED CURRENT MAPPING PATTERNS
 
@@ -18376,12 +18376,12 @@ Two separate mapping boundaries are required.
 Boundary A:
 
 Domain ExecutionPlan
-в†’ Persistence application contract
+→ Persistence application contract
 
 Boundary B:
 
 ExecutionLegPlan
-в†’ VenueOrderRequest
+→ VenueOrderRequest
 
 These mappings MUST remain separate.
 
@@ -18389,7 +18389,7 @@ Persistence mapping MUST NOT depend on VenueAdapter.
 
 Venue-request mapping MUST NOT depend on SQLAlchemy models.
 
-### 73.3. DOMAIN в†’ PERSISTENCE MAPPER
+### 73.3. DOMAIN → PERSISTENCE MAPPER
 
 Canonical component:
 
@@ -18419,22 +18419,22 @@ It MUST NOT:
 
 It is a pure translation component.
 
-### 73.4. EXECUTION PLAN в†’ EXECUTION PLAN CREATE
+### 73.4. EXECUTION PLAN → EXECUTION PLAN CREATE
 
 Mapping:
 
 Domain ExecutionPlan.plan_id
-в†’ ExecutionPlanCreate.plan_id
+→ ExecutionPlanCreate.plan_id
 
 Domain ExecutionPlan.intent_id
-в†’ ExecutionPlanCreate.intent_id
+→ ExecutionPlanCreate.intent_id
 
 Domain ExecutionPlan.user_id
-в†’ ExecutionPlanCreate.user_id
+→ ExecutionPlanCreate.user_id
 
 No identity regeneration is allowed.
 
-### 73.5. EXECUTION PLAN в†’ POSITION GROUP CREATE
+### 73.5. EXECUTION PLAN → POSITION GROUP CREATE
 
 One immutable domain ExecutionPlan maps to one PositionGroupCreate.
 
@@ -18484,75 +18484,75 @@ Rules:
 A future PositionGroup domain contract may absorb this identity only
 through a separately approved contract change.
 
-### 73.7. EXECUTION LEG в†’ POSITION LEG CREATE
+### 73.7. EXECUTION LEG → POSITION LEG CREATE
 
 Each ExecutionLegPlan maps to one PositionLegCreate.
 
 Mapping:
 
 - leg_id
-  в†’ leg_id;
+  → leg_id;
 
 - account_id.value
-  в†’ account_id;
+  → account_id;
 
 - account_id.venue_id.value
-  в†’ venue_id;
+  → venue_id;
 
 - instrument_id.native_symbol
-  в†’ native_symbol;
+  → native_symbol;
 
 - instrument_id.instrument_type.value
-  в†’ instrument_type;
+  → instrument_type;
 
 - instrument_id.asset_class.value
-  в†’ asset_class;
+  → asset_class;
 
 - side.value
-  в†’ side;
+  → side;
 
 - quantity
-  в†’ target_quantity.
+  → target_quantity.
 
 Decimal quantity MUST remain Decimal.
 
 No float conversion is allowed in persistence mapping.
 
-### 73.8. EXECUTION LEG в†’ EXECUTION ORDER CREATE
+### 73.8. EXECUTION LEG → EXECUTION ORDER CREATE
 
 Each ExecutionLegPlan also maps to one ExecutionOrderCreate.
 
 Mapping:
 
 - order_id
-  в†’ order_id;
+  → order_id;
 
 - client_order_id
-  в†’ client_order_id;
+  → client_order_id;
 
 - account_id.value
-  в†’ account_id;
+  → account_id;
 
 - account_id.venue_id.value
-  в†’ venue_id;
+  → venue_id;
 
 - side.value
-  в†’ side;
+  → side;
 
 - order_type.value
-  в†’ order_type;
+  → order_type;
 
 - quantity
-  в†’ requested_quantity;
+  → requested_quantity;
 
 - limit_price
-  в†’ limit_price;
+  → limit_price;
 
 - reduce_only
-  в†’ reduce_only;
+  → reduce_only;
 
 - leg_id
-  в†’ leg_id.
+  → leg_id.
 
 Deterministic order/client-order identities are preserved exactly.
 
@@ -18578,19 +18578,19 @@ Domain-to-persistence scalar conversion uses enum `.value`.
 Examples:
 
 - TradeIntentShape.PAIR
-  в†’ `"PAIR"`;
+  → `"PAIR"`;
 
 - TradeSide.BUY
-  в†’ `"BUY"`;
+  → `"BUY"`;
 
 - VenueOrderType.MARKET
-  в†’ `"MARKET"`;
+  → `"MARKET"`;
 
 - InstrumentType.PERPETUAL
-  в†’ `"PERPETUAL"`;
+  → `"PERPETUAL"`;
 
 - AssetClass.CRYPTO
-  в†’ `"CRYPTO"`.
+  → `"CRYPTO"`.
 
 Persistence rows continue to store scalar strings.
 
@@ -18607,7 +18607,7 @@ Canonical responsibility:
 Target mapping:
 
 ExecutionLegPlan
-в†’ VenueOrderRequest
+→ VenueOrderRequest
 
 It MUST NOT import ORM models.
 
@@ -18616,7 +18616,7 @@ It MUST NOT call VenueAdapter.
 It only translates canonical execution data into venue-boundary request
 data.
 
-### 73.12. TRADE SIDE в†’ VENUE SIDE
+### 73.12. TRADE SIDE → VENUE SIDE
 
 TradeSide to VenueOrderSide conversion occurs only at the venue request
 mapping boundary.
@@ -18624,10 +18624,10 @@ mapping boundary.
 Canonical mapping:
 
 TradeSide.BUY
-в†’ VenueOrderSide.BUY
+→ VenueOrderSide.BUY
 
 TradeSide.SELL
-в†’ VenueOrderSide.SELL
+→ VenueOrderSide.SELL
 
 No string-based implicit conversion inside VenueAdapter implementations
 is required.
@@ -18640,7 +18640,7 @@ Domain ExecutionLegPlan uses Decimal.
 
 Current VenueOrderRequest uses float.
 
-Therefore Decimal в†’ float conversion, if still required by the current
+Therefore Decimal → float conversion, if still required by the current
 VenueOrderRequest contract, occurs only at the venue-request boundary.
 
 Persistence mapping MUST NOT perform this conversion.
@@ -18667,10 +18667,10 @@ fields.
 Target flow:
 
 ExecutionPlan
-в†’ ExecutionPersistenceMapper
-в†’ ExecutionAggregateCreate
-в†’ ExecutionApplicationService
-в†’ ExecutionRepository
+→ ExecutionPersistenceMapper
+→ ExecutionAggregateCreate
+→ ExecutionApplicationService
+→ ExecutionRepository
 
 This removes manual field copying from runtime/application callers.
 
@@ -18682,15 +18682,15 @@ step.
 Allowed:
 
 `services.execution_persistence_mapper`
-в†’ `trading_core.execution`
-в†’ application create DTO contracts
+→ `trading_core.execution`
+→ application create DTO contracts
 
 Forbidden:
 
 domain trading_core
-в†’ services
-в†’ models
-в†’ SQLAlchemy
+→ services
+→ models
+→ SQLAlchemy
 
 The dependency direction remains outward from pure domain into
 infrastructure mapping.
@@ -18713,7 +18713,7 @@ Production boundaries remain unchanged.
 
 ### 73.18. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PLAN_MAPPING_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_PLAN_MAPPING_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -18727,7 +18727,7 @@ Implement pure translation component:
 
 Scope:
 
-- ExecutionPlan в†’ ExecutionAggregateCreate;
+- ExecutionPlan → ExecutionAggregateCreate;
 - explicit deterministic group_id input;
 - Decimal preservation;
 - enum/value conversion;
@@ -18740,7 +18740,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_PERSISTENCE_MAPPER_OK`
 
-## 74. Trading Core V2 вЂ” Execution Persistence Mapper вЂ” 2026-09-01
+## 74. Trading Core V2 — Execution Persistence Mapper — 2026-09-01
 
 ### 74.1. IMPLEMENTED
 
@@ -18755,7 +18755,7 @@ Added focused tests:
 Implemented mapping:
 
 Domain `ExecutionPlan`
-в†’ `ExecutionAggregateCreate`
+→ `ExecutionAggregateCreate`
 
 ### 74.2. PLAN IDENTITY MAPPING VERIFIED
 
@@ -18859,12 +18859,12 @@ It is translation-only infrastructure.
 Ephemeral NEXUS application image verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 `python -m flake8`
-в†’ PASS
-в†’ exit 0
+→ PASS
+→ exit 0
 
 Focused mapper tests:
 
@@ -18905,7 +18905,7 @@ Production boundaries remain unchanged.
 
 ### 74.11. STATUS
 
-`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MAPPER вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_PERSISTENCE_MAPPER — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -18916,12 +18916,12 @@ Evidence tag:
 Design the separate canonical venue-request mapping boundary:
 
 ExecutionLegPlan
-в†’ VenueOrderRequest
+→ VenueOrderRequest
 
 Scope:
 
-- explicit TradeSide в†’ VenueOrderSide conversion;
-- Decimal в†’ current VenueOrderRequest numeric representation;
+- explicit TradeSide → VenueOrderSide conversion;
+- Decimal → current VenueOrderRequest numeric representation;
 - deterministic client_order_id preservation;
 - AccountId / InstrumentId preservation;
 - MARKET / LIMIT / reduce_only mapping;
@@ -18933,7 +18933,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_VENUE_REQUEST_MAPPING_DESIGN_OK`
 
-## 75. Trading Core V2 вЂ” Execution Venue Request Mapping Design вЂ” 2026-09-01
+## 75. Trading Core V2 — Execution Venue Request Mapping Design — 2026-09-01
 
 ### 75.1. CHECKED CURRENT VENUE REQUEST BOUNDARY
 
@@ -18984,7 +18984,7 @@ Target location:
 Responsibility:
 
 ExecutionLegPlan
-в†’ VenueOrderRequest
+→ VenueOrderRequest
 
 The mapper is translation-only.
 
@@ -19004,13 +19004,13 @@ It MUST NOT:
 Mapper preserves exactly:
 
 ExecutionLegPlan.client_order_id
-в†’ VenueOrderRequest.client_order_id
+→ VenueOrderRequest.client_order_id
 
 ExecutionLegPlan.account_id
-в†’ VenueOrderRequest.account_id
+→ VenueOrderRequest.account_id
 
 ExecutionLegPlan.instrument_id
-в†’ VenueOrderRequest.instrument_id
+→ VenueOrderRequest.instrument_id
 
 No identity regeneration, normalization or replacement is permitted.
 
@@ -19019,10 +19019,10 @@ No identity regeneration, normalization or replacement is permitted.
 Canonical side conversion occurs only in this boundary:
 
 TradeSide.BUY
-в†’ VenueOrderSide.BUY
+→ VenueOrderSide.BUY
 
 TradeSide.SELL
-в†’ VenueOrderSide.SELL
+→ VenueOrderSide.SELL
 
 Conversion MUST be explicit.
 
@@ -19038,7 +19038,7 @@ ExecutionLegPlan.order_type already uses canonical VenueOrderType.
 Therefore mapping is direct:
 
 ExecutionLegPlan.order_type
-в†’ VenueOrderRequest.order_type
+→ VenueOrderRequest.order_type
 
 No new MARKET/LIMIT enum is introduced.
 
@@ -19051,7 +19051,7 @@ Current VenueOrderRequest quantity contract is float.
 Therefore the current canonical conversion point is:
 
 Decimal
-в†’ float
+→ float
 
 inside ExecutionVenueRequestMapper only.
 
@@ -19080,7 +19080,7 @@ Current VenueOrderRequest.limit_price:
 Conversion:
 
 Decimal
-в†’ float
+→ float
 
 occurs only in ExecutionVenueRequestMapper.
 
@@ -19106,7 +19106,7 @@ Invalid domain objects fail closed rather than being repaired.
 ### 75.9. REDUCE-ONLY MAPPING
 
 ExecutionLegPlan.reduce_only
-в†’ VenueOrderRequest.reduce_only
+→ VenueOrderRequest.reduce_only
 
 The value is preserved exactly.
 
@@ -19132,12 +19132,12 @@ No cross-venue identity rewriting occurs.
 Cross-venue PAIR/BASKET execution remains represented as separate
 VenueOrderRequest objects per leg.
 
-### 75.11. ONE LEG в†’ ONE VENUE REQUEST
+### 75.11. ONE LEG → ONE VENUE REQUEST
 
 Initial canonical mapping cardinality:
 
 one ExecutionLegPlan
-в†’ one VenueOrderRequest
+→ one VenueOrderRequest
 
 ExecutionVenueRequestMapper does NOT:
 
@@ -19184,13 +19184,13 @@ It MUST NOT silently coerce arbitrary strings into canonical enums.
 Allowed dependency:
 
 services.execution_venue_request_mapper
-в†’ trading_core.execution
-в†’ trading_core.venue
+→ trading_core.execution
+→ trading_core.venue
 
 Forbidden dependency:
 
 trading_core
-в†’ services
+→ services
 
 Forbidden mapper dependencies:
 
@@ -19206,7 +19206,7 @@ Forbidden mapper dependencies:
 
 Current VenueOrderRequest uses float.
 
-This design treats Decimal в†’ float as an explicit compatibility boundary.
+This design treats Decimal → float as an explicit compatibility boundary.
 
 A future migration of VenueOrderRequest to Decimal may remove this
 conversion.
@@ -19233,7 +19233,7 @@ Production boundaries remain unchanged.
 
 ### 75.17. STATUS
 
-`TRADING_CORE_V2_EXECUTION_VENUE_REQUEST_MAPPING_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_VENUE_REQUEST_MAPPING_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -19247,9 +19247,9 @@ Implement pure translation component:
 
 Scope:
 
-- ExecutionLegPlan в†’ VenueOrderRequest;
-- explicit TradeSide в†’ VenueOrderSide;
-- Decimal в†’ float only at venue boundary;
+- ExecutionLegPlan → VenueOrderRequest;
+- explicit TradeSide → VenueOrderSide;
+- Decimal → float only at venue boundary;
 - identity preservation;
 - MARKET / LIMIT preservation;
 - reduce_only preservation;
@@ -19261,7 +19261,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_VENUE_REQUEST_MAPPER_OK`
 
-## 76. Trading Core V2 вЂ” Execution Venue Request Mapper вЂ” 2026-09-01
+## 76. Trading Core V2 — Execution Venue Request Mapper — 2026-09-01
 
 ### 76.1. IMPLEMENTED
 
@@ -19276,17 +19276,17 @@ Created focused tests:
 Implemented mapping:
 
 ExecutionLegPlan
-в†’ VenueOrderRequest
+→ VenueOrderRequest
 
 ### 76.2. SIDE MAPPING VERIFIED
 
 Explicit conversion verified:
 
 TradeSide.BUY
-в†’ VenueOrderSide.BUY
+→ VenueOrderSide.BUY
 
 TradeSide.SELL
-в†’ VenueOrderSide.SELL
+→ VenueOrderSide.SELL
 
 No implicit string conversion is delegated to VenueAdapter.
 
@@ -19305,10 +19305,10 @@ Mapper does not regenerate or replace execution identities.
 Verified venue-boundary conversion:
 
 Decimal quantity
-в†’ float quantity
+→ float quantity
 
 Decimal LIMIT price
-в†’ float LIMIT price
+→ float LIMIT price
 
 MARKET limit_price remains None.
 
@@ -19341,12 +19341,12 @@ ExecutionVenueRequestMapper does NOT:
 ### 76.7. EVIDENCE
 
 `python -m py_compile`
-в†’ PASS
-в†’ `py_compile_exit=0`
+→ PASS
+→ `py_compile_exit=0`
 
 `python -m flake8`
-в†’ PASS
-в†’ `flake8_exit=0`
+→ PASS
+→ `flake8_exit=0`
 
 Focused tests:
 
@@ -19384,7 +19384,7 @@ No VenueAdapter submit_order path was connected.
 
 ### 76.9. STATUS
 
-`TRADING_CORE_V2_EXECUTION_VENUE_REQUEST_MAPPER вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_VENUE_REQUEST_MAPPER — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -19422,7 +19422,7 @@ Target corrective evidence tag:
 
 `TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE_FULL_IDEMPOTENCY_OK`
 
-## 77. Trading Core V2 вЂ” Execution Application Service Full Idempotency Correction вЂ” 2026-09-01
+## 77. Trading Core V2 — Execution Application Service Full Idempotency Correction — 2026-09-01
 
 ### 77.1. CORRECTIVE ROOT CAUSE
 
@@ -19459,14 +19459,14 @@ Normal pre-existing-plan path now performs:
 Canonical behavior is now:
 
 existing plan
-в†’ verify plan identity
-в†’ verify exactly one PositionGroup
-в†’ verify PositionGroup immutable identity
-в†’ verify exact PositionLeg identity set
-в†’ verify each PositionLeg immutable identity
-в†’ verify exact ExecutionOrder identity set
-в†’ verify each ExecutionOrder immutable identity
-в†’ reuse existing aggregate only if equivalent.
+→ verify plan identity
+→ verify exactly one PositionGroup
+→ verify PositionGroup immutable identity
+→ verify exact PositionLeg identity set
+→ verify each PositionLeg immutable identity
+→ verify exact ExecutionOrder identity set
+→ verify each ExecutionOrder immutable identity
+→ reuse existing aggregate only if equivalent.
 
 ### 77.3. FAIL-CLOSED BEHAVIOR VERIFIED
 
@@ -19513,8 +19513,8 @@ not require rollback because no persistence mutation was started.
 IntegrityError recovery retains the existing:
 
 rollback
-в†’ reread
-в†’ full aggregate verification
+→ reread
+→ full aggregate verification
 
 behavior.
 
@@ -19523,14 +19523,14 @@ behavior.
 Syntax verification:
 
 `python -m py_compile`
-в†’ PASS
-в†’ `py_compile_exit=0`
+→ PASS
+→ `py_compile_exit=0`
 
 Style verification:
 
 `python -m flake8`
-в†’ PASS
-в†’ `flake8_exit=0`
+→ PASS
+→ `flake8_exit=0`
 
 Focused application-service tests:
 
@@ -19573,7 +19573,7 @@ Production permissions remain unchanged.
 
 ### 77.8. STATUS
 
-`TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE_FULL_IDEMPOTENCY вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_EXECUTION_APPLICATION_SERVICE_FULL_IDEMPOTENCY — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -19595,7 +19595,7 @@ one canonical next implementation/design step selected from the live
 Audit; no coordinator or live execution work is assumed until this
 check is complete.
 
-## 78. Trading Core V2 вЂ” Order / Position Ledger Design вЂ” 2026-09-01
+## 78. Trading Core V2 — Order / Position Ledger Design — 2026-09-01
 
 ### 78.1. CHECKED EXISTING LEDGER FOUNDATION
 
@@ -19766,8 +19766,8 @@ Ledger events provide immutable history.
 Canonical relationship:
 
 append immutable event
-в†’ validate transition
-в†’ update materialized state in same application transaction
+→ validate transition
+→ update materialized state in same application transaction
 
 Current-state mutation without corresponding Ledger V2 event is not
 allowed once the Ledger writer is integrated.
@@ -19807,8 +19807,8 @@ Recovery is not represented only as a mutable status string.
 Canonical recovery lifecycle must be auditable through events:
 
 RECOVERY_STARTED
-в†’ corrective/reconciliation events
-в†’ RECOVERY_COMPLETED
+→ corrective/reconciliation events
+→ RECOVERY_COMPLETED
 
 or terminal failure evidence.
 
@@ -19858,9 +19858,9 @@ separate approved architecture work.
 Strategy lineage remains anchored at:
 
 ExecutionPlan.intent_id
-в†’ PositionGroup.strategy
-в†’ PositionGroup.strategy_version
-в†’ PositionGroup.trade_source
+→ PositionGroup.strategy
+→ PositionGroup.strategy_version
+→ PositionGroup.trade_source
 
 Ledger events referencing a group/order/leg inherit and preserve this
 lineage through foreign-key ownership rather than duplicating mutable
@@ -19918,7 +19918,7 @@ It must not destructively rewrite historical ledger evidence.
 
 ### 78.19. STATUS
 
-`TRADING_CORE_V2_LEDGER_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -19947,7 +19947,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_EVENT_PERSISTENCE_DESIGN_OK`
 
-## 79. Trading Core V2 вЂ” Ledger Event Persistence Design вЂ” 2026-09-01
+## 79. Trading Core V2 — Ledger Event Persistence Design — 2026-09-01
 
 ### 79.1. CURRENT SCHEMA BASELINE
 
@@ -20048,19 +20048,19 @@ Every canonical Core V2 ledger event belongs to one execution plan.
 Nullable foreign keys:
 
 - `position_group_id`
-  в†’ `position_groups.id`;
+  → `position_groups.id`;
 
 - `position_leg_id`
-  в†’ `position_legs.id`;
+  → `position_legs.id`;
 
 - `execution_order_id`
-  в†’ `execution_orders.id`;
+  → `execution_orders.id`;
 
 - `execution_fill_id`
-  в†’ `execution_fills.id`;
+  → `execution_fills.id`;
 
 - `account_id`
-  в†’ `exchanges.id`.
+  → `exchanges.id`.
 
 Each receives an explicit index.
 
@@ -20311,7 +20311,7 @@ Production permissions remain unchanged.
 
 ### 79.21. STATUS
 
-`TRADING_CORE_V2_LEDGER_EVENT_PERSISTENCE_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_EVENT_PERSISTENCE_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -20339,7 +20339,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_EVENT_MIGRATION_FILE_OK`
 
-## 80. Trading Core V2 вЂ” Ledger Event Migration File вЂ” 2026-09-01
+## 80. Trading Core V2 — Ledger Event Migration File — 2026-09-01
 
 ### 80.1. IMPLEMENTED
 
@@ -20435,7 +20435,7 @@ Alembic heads output:
 Migration chain:
 
 `aa3c49db572a`
-в†’ `c6e91f7a2b34`
+→ `c6e91f7a2b34`
 
 No migration branch conflict was introduced.
 
@@ -20458,16 +20458,16 @@ plus required unique constraint, foreign keys and indexes.
 ### 80.9. STATIC VERIFICATION
 
 `python -m py_compile`
-в†’ PASS
-в†’ `py_compile_exit=0`
+→ PASS
+→ `py_compile_exit=0`
 
 `python -m flake8`
-в†’ PASS
-в†’ `flake8_exit=0`
+→ PASS
+→ `flake8_exit=0`
 
 `alembic heads`
-в†’ PASS
-в†’ `heads_exit=0`
+→ PASS
+→ `heads_exit=0`
 
 ### 80.10. DATABASE STATE
 
@@ -20497,7 +20497,7 @@ Production permissions remain unchanged.
 
 ### 80.12. STATUS
 
-`TRADING_CORE_V2_LEDGER_EVENT_MIGRATION_FILE вЂ” TEST/STRUCTURE VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_EVENT_MIGRATION_FILE — TEST/STRUCTURE VERIFIED / DONE`
 
 Evidence tag:
 
@@ -20520,7 +20520,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_EVENT_PREAPPLY_CHECK_OK`
 
-## 81. Trading Core V2 вЂ” Ledger Event Pre-Apply Check вЂ” 2026-09-01
+## 81. Trading Core V2 — Ledger Event Pre-Apply Check — 2026-09-01
 
 ### 81.1. DATABASE REVISION VERIFIED
 
@@ -20590,7 +20590,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 81.6. STATUS
 
-`TRADING_CORE_V2_LEDGER_EVENT_PREAPPLY_CHECK вЂ” VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_EVENT_PREAPPLY_CHECK — VERIFIED / DONE`
 
 Evidence tag:
 
@@ -20617,7 +20617,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_EVENT_SCHEMA_OK`
 
-## 82. Trading Core V2 вЂ” Ledger Event Schema Apply вЂ” 2026-09-01
+## 82. Trading Core V2 — Ledger Event Schema Apply — 2026-09-01
 
 ### 82.1. MIGRATION APPLIED
 
@@ -20680,13 +20680,13 @@ on:
 
 Verified foreign keys:
 
-- user_id в†’ users.id;
-- execution_plan_id в†’ execution_plans.id;
-- position_group_id в†’ position_groups.id;
-- position_leg_id в†’ position_legs.id;
-- execution_order_id в†’ execution_orders.id;
-- execution_fill_id в†’ execution_fills.id;
-- account_id в†’ exchanges.id.
+- user_id → users.id;
+- execution_plan_id → execution_plans.id;
+- position_group_id → position_groups.id;
+- position_leg_id → position_legs.id;
+- execution_order_id → execution_orders.id;
+- execution_fill_id → execution_fills.id;
+- account_id → exchanges.id.
 
 No ON DELETE CASCADE is present.
 
@@ -20743,7 +20743,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 82.11. STATUS
 
-`TRADING_CORE_V2_LEDGER_EVENT_SCHEMA вЂ” TEST/SCHEMA VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_EVENT_SCHEMA — TEST/SCHEMA VERIFIED / DONE`
 
 Evidence tag:
 
@@ -20770,7 +20770,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_EVENT_MODEL_OK`
 
-## 83. Trading Core V2 вЂ” Ledger Event ORM Model вЂ” 2026-09-01
+## 83. Trading Core V2 — Ledger Event ORM Model — 2026-09-01
 
 ### 83.1. IMPLEMENTED
 
@@ -20815,13 +20815,13 @@ Verified fields include:
 
 Verified ORM foreign keys:
 
-- user_id в†’ users.id;
-- execution_plan_id в†’ execution_plans.id;
-- position_group_id в†’ position_groups.id;
-- position_leg_id в†’ position_legs.id;
-- execution_order_id в†’ execution_orders.id;
-- execution_fill_id в†’ execution_fills.id;
-- account_id в†’ exchanges.id.
+- user_id → users.id;
+- execution_plan_id → execution_plans.id;
+- position_group_id → position_groups.id;
+- position_leg_id → position_legs.id;
+- execution_order_id → execution_orders.id;
+- execution_fill_id → execution_fills.id;
+- account_id → exchanges.id.
 
 ### 83.4. UNIQUE / INDEX CONTRACT
 
@@ -20883,12 +20883,12 @@ Result:
 ### 83.7. STATIC VERIFICATION
 
 `python -m py_compile`
-в†’ PASS
-в†’ `py_compile_exit=0`
+→ PASS
+→ `py_compile_exit=0`
 
 `python -m flake8`
-в†’ PASS
-в†’ `flake8_exit=0`
+→ PASS
+→ `flake8_exit=0`
 
 ### 83.8. TEST VERIFICATION
 
@@ -20922,7 +20922,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 83.10. STATUS
 
-`TRADING_CORE_V2_LEDGER_EVENT_MODEL вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_EVENT_MODEL — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -20958,7 +20958,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_EVENT_REPOSITORY_OK`
 
-## 84. Trading Core V2 вЂ” Ledger Event Repository вЂ” 2026-09-01
+## 84. Trading Core V2 — Ledger Event Repository — 2026-09-01
 
 ### 84.1. IMPLEMENTED
 
@@ -21045,12 +21045,12 @@ No Ledger repository method:
 ### 84.7. STATIC VERIFICATION
 
 `python -m py_compile`
-в†’ PASS
-в†’ `py_compile_exit=0`
+→ PASS
+→ `py_compile_exit=0`
 
 `python -m flake8`
-в†’ PASS
-в†’ `flake8_exit=0`
+→ PASS
+→ `flake8_exit=0`
 
 ### 84.8. TEST VERIFICATION
 
@@ -21091,7 +21091,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 84.10. STATUS
 
-`TRADING_CORE_V2_LEDGER_EVENT_REPOSITORY вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_EVENT_REPOSITORY — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -21113,7 +21113,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_APPLICATION_SERVICE_DESIGN_OK`
 
-## 85. Trading Core V2 вЂ” Ledger Application Service Design вЂ” 2026-09-01
+## 85. Trading Core V2 — Ledger Application Service Design — 2026-09-01
 
 ### 85.1. EXISTING APPLICATION BOUNDARY VERIFIED
 
@@ -21156,10 +21156,10 @@ ambiguous lifecycle authority.
 Canonical ownership remains:
 
 `ExecutionApplicationService`
-в†’ application transaction ownership
+→ application transaction ownership
 
 `ExecutionRepository`
-в†’ persistence-only / flush-only
+→ persistence-only / flush-only
 
 ### 85.3. LEDGER WRITE RESPONSIBILITY
 
@@ -21447,7 +21447,7 @@ Production permissions remain unchanged.
 
 ### 85.18. STATUS
 
-`TRADING_CORE_V2_LEDGER_APPLICATION_SERVICE_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_APPLICATION_SERVICE_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -21469,7 +21469,7 @@ Scope:
 - atomic Ledger append + materialized order-state mutation;
 - one commit on new successful transition;
 - rollback on failure;
-- IntegrityError rollback в†’ reread в†’ verify;
+- IntegrityError rollback → reread → verify;
 - focused tests;
 - existing ExecutionApplicationService regression;
 - no aggregate-create Ledger backfill yet;
@@ -21479,7 +21479,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_ORDER_TRANSITION_APPLICATION_OK`
 
-## 86. Trading Core V2 вЂ” Ledger Order Transition Application вЂ” 2026-09-01
+## 86. Trading Core V2 — Ledger Order Transition Application — 2026-09-01
 
 ### 86.1. IMPLEMENTED
 
@@ -21542,13 +21542,13 @@ No transaction ownership was moved into the repository.
 
 Initial supported canonical order lifecycle mappings are explicit:
 
-- ORDER_CREATED в†’ PENDING;
-- ORDER_SUBMITTED в†’ SUBMITTED;
-- ORDER_ACCEPTED в†’ ACCEPTED;
-- ORDER_PARTIALLY_FILLED в†’ PARTIALLY_FILLED;
-- ORDER_FILLED в†’ FILLED;
-- ORDER_REJECTED в†’ REJECTED;
-- ORDER_CANCELLED в†’ CANCELLED.
+- ORDER_CREATED → PENDING;
+- ORDER_SUBMITTED → SUBMITTED;
+- ORDER_ACCEPTED → ACCEPTED;
+- ORDER_PARTIALLY_FILLED → PARTIALLY_FILLED;
+- ORDER_FILLED → FILLED;
+- ORDER_REJECTED → REJECTED;
+- ORDER_CANCELLED → CANCELLED.
 
 Unsupported event types fail closed.
 
@@ -21564,8 +21564,8 @@ ExecutionOrder does not directly contain user_id.
 Canonical ownership is therefore proven through:
 
 ExecutionOrder.execution_plan_id
-в†’ ExecutionPlan.id
-в†’ ExecutionPlan.user_id.
+→ ExecutionPlan.id
+→ ExecutionPlan.user_id.
 
 The service loads the owning ExecutionPlan and requires:
 
@@ -21630,11 +21630,11 @@ be replayed against a different order.
 Concurrent deterministic event insertion is handled using:
 
 IntegrityError
-в†’ rollback
-в†’ reread event_id
-в†’ reread ExecutionOrder
-в†’ verify order lineage
-в†’ verify full immutable event identity.
+→ rollback
+→ reread event_id
+→ reread ExecutionOrder
+→ verify order lineage
+→ verify full immutable event identity.
 
 If the event does not exist after rollback:
 
@@ -21689,7 +21689,7 @@ Coverage includes:
 - user ownership conflict fail closed;
 - execution-plan lineage conflict fail closed;
 - event/status mismatch fail closed;
-- IntegrityError rollback в†’ reread в†’ replay verification;
+- IntegrityError rollback → reread → replay verification;
 - generic transition failure rollback.
 
 ### 86.13. APPLICATION REGRESSION
@@ -21726,12 +21726,12 @@ Covered:
 ### 86.15. STATIC VERIFICATION
 
 `python -m py_compile`
-в†’ PASS
-в†’ `py_compile_exit=0`
+→ PASS
+→ `py_compile_exit=0`
 
 `python -m flake8`
-в†’ PASS
-в†’ `flake8_exit=0`
+→ PASS
+→ `flake8_exit=0`
 
 ### 86.16. CURRENT LIMITS
 
@@ -21768,7 +21768,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 86.18. STATUS
 
-`TRADING_CORE_V2_LEDGER_ORDER_TRANSITION_APPLICATION вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_ORDER_TRANSITION_APPLICATION — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -21802,12 +21802,12 @@ one first unfinished Phase 2 Ledger requirement selected from live
 Audit evidence.
 
 
-## 87. Trading Core V2 вЂ” Phase 2 Ledger Gap Mapping вЂ” 2026-09-01
+## 87. Trading Core V2 — Phase 2 Ledger Gap Mapping — 2026-09-01
 
 ### 87.1. CANONICAL PHASE 2 REVIEW
 
 Re-checked canonical Phase 2 requirements from Section 53.7 against
-verified Ledger work in Sections 78вЂ“86.
+verified Ledger work in Sections 78–86.
 
 Verified foundation exists for:
 
@@ -21974,7 +21974,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 87.11. STATUS
 
-`TRADING_CORE_V2_PHASE2_LEDGER_GAP_MAPPING вЂ” VERIFIED / DONE`
+`TRADING_CORE_V2_PHASE2_LEDGER_GAP_MAPPING — VERIFIED / DONE`
 
 Evidence tag:
 
@@ -22002,7 +22002,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_FILL_INGESTION_DESIGN_OK`
 
-## 88. Trading Core V2 вЂ” Ledger Fill Ingestion Design вЂ” 2026-09-01
+## 88. Trading Core V2 — Ledger Fill Ingestion Design — 2026-09-01
 
 ### 88.1. EXISTING FOUNDATION VERIFIED
 
@@ -22185,7 +22185,7 @@ because replay/restart/race conditions can double count.
 Canonical aggregation after new fill persistence:
 
 load all persisted fills for the ExecutionOrder
-в†’ deterministic aggregate.
+→ deterministic aggregate.
 
 ### 88.10. ORDER FILLED QUANTITY
 
@@ -22436,11 +22436,11 @@ Unique fill/event identities may race.
 Required handling:
 
 IntegrityError
-в†’ rollback
-в†’ reread fill identity
-в†’ reread event identity
-в†’ reload order/leg lineage
-в†’ verify immutable equivalence.
+→ rollback
+→ reread fill identity
+→ reread event identity
+→ reload order/leg lineage
+→ verify immutable equivalence.
 
 Equivalent persisted race result:
 
@@ -22535,7 +22535,7 @@ Production permissions remain unchanged.
 
 ### 88.26. STATUS
 
-`TRADING_CORE_V2_LEDGER_FILL_INGESTION_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_FILL_INGESTION_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -22568,7 +22568,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LEDGER_FILL_INGESTION_APPLICATION_OK`
 
-## 89. Trading Core V2 вЂ” Ledger Fill Ingestion Application вЂ” 2026-09-02
+## 89. Trading Core V2 — Ledger Fill Ingestion Application — 2026-09-02
 
 ### 89.1. IMPLEMENTED
 
@@ -22595,17 +22595,17 @@ Repository remains persistence-only and flush-only.
 Verified new-fill path:
 
 request validation
-в†’ ExecutionPlan ownership
-в†’ ExecutionOrder lineage
-в†’ PositionLeg lookup
-в†’ fill/event replay checks
-в†’ ExecutionFill append
-в†’ deterministic persisted-fill aggregation
-в†’ FILL_RECORDED Ledger event
-в†’ ExecutionOrder materialized update
-в†’ PositionLeg entry-state update where applicable
-в†’ one commit
-в†’ refresh / return.
+→ ExecutionPlan ownership
+→ ExecutionOrder lineage
+→ PositionLeg lookup
+→ fill/event replay checks
+→ ExecutionFill append
+→ deterministic persisted-fill aggregation
+→ FILL_RECORDED Ledger event
+→ ExecutionOrder materialized update
+→ PositionLeg entry-state update where applicable
+→ one commit
+→ refresh / return.
 
 ### 89.3. DECIMAL AGGREGATION
 
@@ -22703,14 +22703,14 @@ Generic failure:
 IntegrityError race:
 
 rollback
-в†’ reread persisted fill
-в†’ reread Ledger event
-в†’ reload ExecutionOrder
-в†’ reload PositionLeg
-в†’ verify lineage
-в†’ verify immutable fill identity
-в†’ verify immutable Ledger identity
-в†’ idempotent return.
+→ reread persisted fill
+→ reread Ledger event
+→ reload ExecutionOrder
+→ reload PositionLeg
+→ verify lineage
+→ verify immutable fill identity
+→ verify immutable Ledger identity
+→ idempotent return.
 
 If persisted race evidence is incomplete, original IntegrityError is
 re-raised.
@@ -22741,7 +22741,7 @@ Verified:
 - immutable fill conflict fail closed;
 - order overfill rollback;
 - reduce-only leg-entry protection;
-- IntegrityError rollback в†’ reread в†’ replay verification;
+- IntegrityError rollback → reread → replay verification;
 - generic write failure rollback.
 
 ### 89.12. APPLICATION REGRESSION
@@ -22782,10 +22782,10 @@ Covered:
 ### 89.14. STATIC VERIFICATION
 
 `python -m py_compile`
-в†’ PASS
+→ PASS
 
 `python -m flake8`
-в†’ PASS
+→ PASS
 
 ### 89.15. CURRENT LIMITS
 
@@ -22817,7 +22817,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 89.17. STATUS
 
-`TRADING_CORE_V2_LEDGER_FILL_INGESTION_APPLICATION вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER_FILL_INGESTION_APPLICATION — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -22834,7 +22834,7 @@ before declaring:
 Do not begin Phase 3 Reconciliation until the Phase 2 Ledger gate is
 factually established.
 
-## 90. Trading Core V2 вЂ” PositionLeg Lifecycle Ledger Gap вЂ” 2026-09-02
+## 90. Trading Core V2 — PositionLeg Lifecycle Ledger Gap — 2026-09-02
 
 ### 90.1. FACTUAL CHECK
 
@@ -22945,7 +22945,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 90.8. STATUS
 
-`TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_GAP вЂ” VERIFIED / DONE`
+`TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_GAP — VERIFIED / DONE`
 
 Evidence tag:
 
@@ -22973,7 +22973,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_DESIGN_OK`
 
-## 91. Trading Core V2 вЂ” PositionLeg Lifecycle Ledger Design вЂ” 2026-09-02
+## 91. Trading Core V2 — PositionLeg Lifecycle Ledger Design — 2026-09-02
 
 ### 91.1. PURPOSE
 
@@ -23016,9 +23016,9 @@ No arbitrary implicit status transition is canonical.
 Before transition the service must verify:
 
 PositionLeg
-в†’ PositionGroup
-в†’ ExecutionPlan
-в†’ user ownership.
+→ PositionGroup
+→ ExecutionPlan
+→ user ownership.
 
 The requested execution_plan_id and user_id must match persisted
 ownership.
@@ -23051,12 +23051,12 @@ Conflicting immutable event identity fails closed.
 Canonical transition transaction:
 
 validate
-в†’ verify lineage / ownership
-в†’ verify current leg status
-в†’ check event_id
-в†’ append LEG_STATE_CHANGED
-в†’ update PositionLeg materialized status
-в†’ one commit.
+→ verify lineage / ownership
+→ verify current leg status
+→ check event_id
+→ append LEG_STATE_CHANGED
+→ update PositionLeg materialized status
+→ one commit.
 
 Failure rolls back both event and materialized state.
 
@@ -23124,7 +23124,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 91.12. STATUS
 
-`TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -23133,13 +23133,13 @@ Evidence tag:
 ### 91.13. PRIMARY NEXT STEP
 
 Implement and verify PositionLeg lifecycle Ledger integration for
-fill-triggered PENDING в†’ OPENING в†’ OPEN transitions.
+fill-triggered PENDING → OPENING → OPEN transitions.
 
 Target evidence tag:
 
 `TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_APPLICATION_OK`
 
-## 92. Trading Core V2 вЂ” PositionLeg Lifecycle Ledger Application вЂ” 2026-09-02
+## 92. Trading Core V2 — PositionLeg Lifecycle Ledger Application — 2026-09-02
 
 ### 92.1. IMPLEMENTED
 
@@ -23153,8 +23153,8 @@ Canonical lifecycle event:
 
 Current verified fill-triggered transitions:
 
-- PENDING в†’ OPENING;
-- OPENING в†’ OPEN.
+- PENDING → OPENING;
+- OPENING → OPEN.
 
 No lifecycle event is emitted when derived status is unchanged.
 
@@ -23165,11 +23165,11 @@ Reduce-only fill ingestion does not mutate PositionLeg entry lifecycle.
 For a fill-triggered PositionLeg transition the canonical transaction is:
 
 ExecutionFill
-в†’ FILL_RECORDED
-в†’ LEG_STATE_CHANGED
-в†’ ExecutionOrder materialized update
-в†’ PositionLeg materialized update
-в†’ one commit.
+→ FILL_RECORDED
+→ LEG_STATE_CHANGED
+→ ExecutionOrder materialized update
+→ PositionLeg materialized update
+→ one commit.
 
 Failure rolls back the transaction.
 
@@ -23231,8 +23231,8 @@ Result:
 
 Verified:
 
-- PENDING в†’ OPENING;
-- OPENING в†’ OPEN;
+- PENDING → OPENING;
+- OPENING → OPEN;
 - unchanged status does not emit lifecycle event;
 - reduce-only does not emit lifecycle event;
 - complete lifecycle IntegrityError replay;
@@ -23259,9 +23259,9 @@ No regression detected across:
 
 Static verification:
 
-`py_compile` вЂ” PASS
+`py_compile` — PASS
 
-`flake8` вЂ” PASS
+`flake8` — PASS
 
 ### 92.8. PRODUCTION SAFETY
 
@@ -23279,7 +23279,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 92.9. STATUS
 
-`TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_APPLICATION вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_POSITION_LEG_LIFECYCLE_APPLICATION — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -23292,7 +23292,7 @@ the first unfinished requirement before declaring:
 
 `TRADING_CORE_V2_LEDGER_OK`
 
-## 93. Trading Core V2 вЂ” PositionGroup Creation Ledger Design вЂ” 2026-09-02
+## 93. Trading Core V2 — PositionGroup Creation Ledger Design — 2026-09-02
 
 ### 93.1. FACT
 
@@ -23368,11 +23368,11 @@ Conflicting immutable event identity must fail closed.
 Canonical aggregate creation transaction:
 
 ExecutionPlan
-в†’ PositionGroup
-в†’ GROUP_CREATED
-в†’ PositionLeg(s)
-в†’ ExecutionOrder(s)
-в†’ one commit.
+→ PositionGroup
+→ GROUP_CREATED
+→ PositionLeg(s)
+→ ExecutionOrder(s)
+→ one commit.
 
 Any failure rolls back the aggregate and its GROUP_CREATED evidence.
 
@@ -23419,7 +23419,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 93.10. STATUS
 
-`TRADING_CORE_V2_POSITION_GROUP_CREATION_LEDGER_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_POSITION_GROUP_CREATION_LEDGER_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -23434,7 +23434,7 @@ Target evidence tag:
 
 `TRADING_CORE_V2_POSITION_GROUP_CREATION_LEDGER_APPLICATION_OK`
 
-## 94. Trading Core V2 вЂ” PositionGroup Creation Ledger Application вЂ” 2026-09-02
+## 94. Trading Core V2 — PositionGroup Creation Ledger Application — 2026-09-02
 
 ### 94.1. IMPLEMENTED
 
@@ -23451,11 +23451,11 @@ Canonical event:
 Verified canonical order:
 
 ExecutionPlan
-в†’ PositionGroup(PENDING)
-в†’ GROUP_CREATED
-в†’ PositionLeg(s)
-в†’ ExecutionOrder(s)
-в†’ one commit.
+→ PositionGroup(PENDING)
+→ GROUP_CREATED
+→ PositionLeg(s)
+→ ExecutionOrder(s)
+→ one commit.
 
 GROUP_CREATED is persisted in the same application-owned transaction
 as the materialized aggregate.
@@ -23498,11 +23498,11 @@ Validation fails closed when:
 Existing aggregate replay verifies:
 
 ExecutionPlan identity
-в†’ PositionGroup identity
-в†’ persisted GROUP_CREATED
-в†’ GROUP_CREATED immutable identity/payload
-в†’ PositionLeg identities
-в†’ ExecutionOrder identities.
+→ PositionGroup identity
+→ persisted GROUP_CREATED
+→ GROUP_CREATED immutable identity/payload
+→ PositionLeg identities
+→ ExecutionOrder identities.
 
 Missing GROUP_CREATED evidence fails closed.
 
@@ -23513,12 +23513,12 @@ Conflicting GROUP_CREATED identity/payload fails closed.
 Concurrent aggregate creation race is handled as:
 
 IntegrityError
-в†’ rollback
-в†’ reread persisted ExecutionPlan
-в†’ verify PositionGroup
-в†’ verify GROUP_CREATED
-в†’ verify legs/orders
-в†’ idempotent return.
+→ rollback
+→ reread persisted ExecutionPlan
+→ verify PositionGroup
+→ verify GROUP_CREATED
+→ verify legs/orders
+→ idempotent return.
 
 No second GROUP_CREATED event is appended during equivalent replay.
 
@@ -23561,9 +23561,9 @@ No regression detected across:
 
 Static verification:
 
-`py_compile` вЂ” PASS
+`py_compile` — PASS
 
-`flake8` вЂ” PASS
+`flake8` — PASS
 
 ### 94.9. PRODUCTION SAFETY
 
@@ -23581,7 +23581,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 94.10. STATUS
 
-`TRADING_CORE_V2_POSITION_GROUP_CREATION_LEDGER_APPLICATION вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_POSITION_GROUP_CREATION_LEDGER_APPLICATION — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -23601,7 +23601,7 @@ Do not declare:
 
 until the remaining Phase 2 requirements are factually verified.
 
-## 95. Trading Core V2 вЂ” PositionGroup State Lifecycle Boundary вЂ” 2026-09-02
+## 95. Trading Core V2 — PositionGroup State Lifecycle Boundary — 2026-09-02
 
 ### 95.1. FACTUAL CHECK
 
@@ -23614,7 +23614,7 @@ Repository primitive exists:
 Current repository behavior is persistence-only:
 
 group.status = status
-в†’ flush.
+→ flush.
 
 No application-level caller was found.
 
@@ -23681,8 +23681,8 @@ For current Phase 2 scope, PositionGroup lifecycle evidence is complete
 for facts that actually exist:
 
 PositionGroup creation
-в†’ PENDING
-в†’ GROUP_CREATED.
+→ PENDING
+→ GROUP_CREATED.
 
 There is currently no verified later materialized PositionGroup status
 transition requiring GROUP_STATE_CHANGED integration.
@@ -23708,7 +23708,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 95.7. STATUS
 
-`TRADING_CORE_V2_POSITION_GROUP_STATE_LIFECYCLE_BOUNDARY вЂ” VERIFIED / DONE`
+`TRADING_CORE_V2_POSITION_GROUP_STATE_LIFECYCLE_BOUNDARY — VERIFIED / DONE`
 
 Evidence tag:
 
@@ -23723,7 +23723,7 @@ Check the next unfinished Phase 2 Ledger requirement:
 Do not begin Phase 3 Reconciliation until the Phase 2 Ledger gate is
 factually established.
 
-## 96. Trading Core V2 вЂ” Recovery Lifecycle Boundary вЂ” 2026-09-02
+## 96. Trading Core V2 — Recovery Lifecycle Boundary — 2026-09-02
 
 ### 96.1. FACTUAL CHECK
 
@@ -23814,7 +23814,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 96.7. STATUS
 
-`TRADING_CORE_V2_RECOVERY_LIFECYCLE_BOUNDARY вЂ” VERIFIED / DONE`
+`TRADING_CORE_V2_RECOVERY_LIFECYCLE_BOUNDARY — VERIFIED / DONE`
 
 Evidence tag:
 
@@ -23829,7 +23829,7 @@ Check the next unfinished Phase 2 Ledger requirement:
 Do not begin Phase 3 Reconciliation until the Phase 2 Ledger gate is
 factually established.
 
-## 97. Trading Core V2 вЂ” Explicit Local / Venue Order State Design вЂ” 2026-09-02
+## 97. Trading Core V2 — Explicit Local / Venue Order State Design — 2026-09-02
 
 ### 97.1. FACT
 
@@ -23876,13 +23876,13 @@ Therefore this is a real Phase 2 Ledger persistence gap.
 ExecutionOrder must explicitly persist:
 
 `status`
-в†’ canonical local materialized state.
+→ canonical local materialized state.
 
 `venue_state`
-в†’ last-known observed VenueOrderState.
+→ last-known observed VenueOrderState.
 
 `venue_state_observed_at`
-в†’ timestamp at which the stored venue_state was observed.
+→ timestamp at which the stored venue_state was observed.
 
 `venue_order_id`
 remains the venue order identity.
@@ -23959,7 +23959,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 97.10. STATUS
 
-`TRADING_CORE_V2_LOCAL_VENUE_ORDER_STATE_DESIGN вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_LOCAL_VENUE_ORDER_STATE_DESIGN — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -23979,20 +23979,20 @@ Target evidence tag:
 
 `TRADING_CORE_V2_LOCAL_VENUE_ORDER_STATE_PERSISTENCE_OK`
 
-## 98. Trading Core V2 вЂ” Explicit Local / Venue Order State Persistence вЂ” 2026-09-02
+## 98. Trading Core V2 — Explicit Local / Venue Order State Persistence — 2026-09-02
 
 ### 98.1. IMPLEMENTED
 
 ExecutionOrder persistence now explicitly distinguishes:
 
 `status`
-в†’ canonical local materialized order state.
+→ canonical local materialized order state.
 
 `venue_state`
-в†’ last-known observed venue order state.
+→ last-known observed venue order state.
 
 `venue_state_observed_at`
-в†’ timestamp of the last-known venue-state observation.
+→ timestamp of the last-known venue-state observation.
 
 Existing:
 
@@ -24009,7 +24009,7 @@ Alembic migration:
 Revision chain:
 
 `c6e91f7a2b34`
-в†’ `d7f4b2a91c6e`
+→ `d7f4b2a91c6e`
 
 Migration applied successfully.
 
@@ -24077,9 +24077,9 @@ Execution model focused suite:
 
 Static checks:
 
-`py_compile` вЂ” PASS
+`py_compile` — PASS
 
-`flake8` вЂ” PASS
+`flake8` — PASS
 
 ### 98.7. REGRESSION EVIDENCE
 
@@ -24117,7 +24117,7 @@ AI direct exchange access remains BLOCKED.
 
 ### 98.9. STATUS
 
-`TRADING_CORE_V2_LOCAL_VENUE_ORDER_STATE_PERSISTENCE вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_LOCAL_VENUE_ORDER_STATE_PERSISTENCE — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -24135,7 +24135,7 @@ Do not declare:
 
 until restart/recovery safety is factually verified.
 
-## 99. Trading Core V2 вЂ” Ledger Phase 2 Final Gate вЂ” 2026-09-02
+## 99. Trading Core V2 — Ledger Phase 2 Final Gate — 2026-09-02
 
 ### 99.1. SCOPE CLOSED
 
@@ -24195,13 +24195,13 @@ Phase 2 does not emit fake recovery transitions.
 ExecutionOrder now persists independently:
 
 `status`
-в†’ canonical local materialized state.
+→ canonical local materialized state.
 
 `venue_state`
-в†’ last-known observed venue state.
+→ last-known observed venue state.
 
 `venue_state_observed_at`
-в†’ observation timestamp.
+→ observation timestamp.
 
 No synthetic venue state is inferred from local status.
 
@@ -24218,17 +24218,17 @@ Database verified at:
 Fresh-session PostgreSQL E2E verified:
 
 session #1
-в†’ persist aggregate
-в†’ commit
-в†’ session closes.
+→ persist aggregate
+→ commit
+→ session closes.
 
 session #2
-в†’ fresh ExecutionApplicationService
-в†’ same canonical request
-в†’ reread persisted aggregate
-в†’ verify immutable GROUP_CREATED evidence
-в†’ verify legs/orders
-в†’ no duplicate plans/groups/legs/orders/events.
+→ fresh ExecutionApplicationService
+→ same canonical request
+→ reread persisted aggregate
+→ verify immutable GROUP_CREATED evidence
+→ verify legs/orders
+→ no duplicate plans/groups/legs/orders/events.
 
 Focused restart E2E:
 
@@ -24296,7 +24296,7 @@ Strategy Decision Engine AI promotion path remains SHADOW-ONLY.
 
 ### 99.9. STATUS
 
-`TRADING_CORE_V2_LEDGER вЂ” TEST VERIFIED / DONE`
+`TRADING_CORE_V2_LEDGER — TEST VERIFIED / DONE`
 
 Evidence tag:
 
@@ -24304,7 +24304,7 @@ Evidence tag:
 
 ### 99.10. PHASE STATUS
 
-`PHASE 2 вЂ” ORDER / POSITION LEDGER V2 вЂ” DONE`
+`PHASE 2 — ORDER / POSITION LEDGER V2 — DONE`
 
 Canonical Phase 2 gate is CLOSED.
 
@@ -24326,7 +24326,7 @@ re-read the canonical Phase 3 requirements from this Audit and inspect
 existing venue query / order state retrieval capabilities before any
 implementation.
 
-## 100. Trading Core V2 вЂ” Multi-Venue Adapter Architecture / Capability Matrix Design вЂ” 2026-09-03
+## 100. Trading Core V2 — Multi-Venue Adapter Architecture / Capability Matrix Design — 2026-09-03
 
 ### 100.1. OBJECTIVE
 
@@ -24338,28 +24338,28 @@ and later duplicate that architecture for each additional exchange.
 Canonical target:
 
 exchange-specific transport
-в†’ venue-specific adapter
-в†’ NEXUS canonical venue contracts
-в†’ shared Reconciliation Engine.
+→ venue-specific adapter
+→ NEXUS canonical venue contracts
+→ shared Reconciliation Engine.
 
 ### 100.2. CANONICAL ARCHITECTURE
 
 Required boundary:
 
 BingXClient
-в†’ BingXVenueAdapter
+→ BingXVenueAdapter
 
 BinanceClient
-в†’ BinanceVenueAdapter
+→ BinanceVenueAdapter
 
 BybitClient
-в†’ BybitVenueAdapter
+→ BybitVenueAdapter
 
 OKXClient
-в†’ OKXVenueAdapter
+→ OKXVenueAdapter
 
 future exchange client
-в†’ corresponding VenueAdapter
+→ corresponding VenueAdapter
 
 All concrete adapters implement the same canonical:
 
@@ -24648,7 +24648,7 @@ separate approved policy explicitly authorizes any corrective action.
 
 ### 100.13. STATUS
 
-`TRADING_CORE_V2_MULTI_VENUE_ADAPTER_ARCHITECTURE вЂ” DESIGN VERIFIED / DONE`
+`TRADING_CORE_V2_MULTI_VENUE_ADAPTER_ARCHITECTURE — DESIGN VERIFIED / DONE`
 
 Evidence tag:
 
@@ -24669,7 +24669,7 @@ Target:
 
 `TRADING_CORE_V2_RECONCILIATION_OBSERVATION_CONTRACTS_OK`
 
-## NEXUS V2 Phase 0 вЂ” Architecture / Roadmap Transition вЂ” 2026-09-03
+## NEXUS V2 Phase 0 — Architecture / Roadmap Transition — 2026-09-03
 
 ### FACT
 
@@ -24739,7 +24739,7 @@ User explicitly approved:
 
 Therefore:
 
-`PLAN DEVIATION APPROVED вЂ” PUBLIC REPOSITORY`
+`PLAN DEVIATION APPROVED — PUBLIC REPOSITORY`
 
 Public repository safety requirement:
 
@@ -24763,7 +24763,7 @@ This status does not mean Phase 0 implementation is DONE.
 
 Gate:
 
-`NEXUS_V2_FOUNDATION_PLAN_OK вЂ” OPEN`
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
 
 ### GAP
 
@@ -24784,7 +24784,7 @@ Production remains unchanged.
 
 Live authority remains disabled according to NEXUS V2 production safety policy.
 
-## NEXUS V2 Phase 0 вЂ” Directory Baseline вЂ” 2026-09-03
+## NEXUS V2 Phase 0 — Directory Baseline — 2026-09-03
 
 ### FACT
 
@@ -24841,7 +24841,7 @@ Phase 0 remains **IN PROGRESS**.
 
 Gate:
 
-`NEXUS_V2_FOUNDATION_PLAN_OK вЂ” OPEN`
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
 
 Directory baseline is complete.
 
@@ -24853,7 +24853,7 @@ Establish the NEXUS V2 contracts and dependency-boundary policy before implement
 
 Production remains unchanged.
 
-## NEXUS V2 Phase 0 вЂ” Dependency Boundaries Policy вЂ” 2026-09-03
+## NEXUS V2 Phase 0 — Dependency Boundaries Policy — 2026-09-03
 
 ### FACT
 
@@ -24905,7 +24905,7 @@ Phase 0 remains **IN PROGRESS**.
 
 Gate:
 
-`NEXUS_V2_FOUNDATION_PLAN_OK вЂ” OPEN`
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
 
 Still open in Phase 0:
 
@@ -24920,7 +24920,7 @@ Publish the dependency-boundary policy commit and its Audit evidence, then proce
 
 Production remains unchanged.
 
-## NEXUS V2 Phase 0 вЂ” Dependency Policy GitHub Publication вЂ” 2026-09-03
+## NEXUS V2 Phase 0 — Dependency Policy GitHub Publication — 2026-09-03
 
 ### FACT
 
@@ -24957,7 +24957,7 @@ Phase 0 remains **IN PROGRESS**.
 
 Gate:
 
-`NEXUS_V2_FOUNDATION_PLAN_OK вЂ” OPEN`
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
 
 Remaining Phase 0 work includes:
 
@@ -24972,7 +24972,7 @@ Establish the NEXUS V2 CI skeleton without introducing production deployment aut
 
 Production remains unchanged.
 
-## NEXUS V2 Phase 0 вЂ” CI Baseline вЂ” 2026-09-03
+## NEXUS V2 Phase 0 — CI Baseline — 2026-09-03
 
 ### FACT
 
@@ -25022,7 +25022,7 @@ Phase 0 CI skeleton is locally verified.
 
 Gate remains:
 
-`NEXUS_V2_FOUNDATION_PLAN_OK вЂ” OPEN`
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
 
 Remaining Phase 0 work:
 
@@ -25036,7 +25036,7 @@ Publish the CI baseline and verify the GitHub Actions run.
 
 Production remains unchanged.
 
-## NEXUS V2 Phase 0 вЂ” Local Development Baseline вЂ” 2026-09-03
+## NEXUS V2 Phase 0 — Local Development Baseline — 2026-09-03
 
 ### FACT
 
@@ -25086,15 +25086,15 @@ The corrected Phase 0 GitHub Actions workflow for commit `f3449fc` passed on the
 
 Verified hosted steps:
 
-- `actions/checkout@v7` вЂ” PASS;
-- `actions/setup-python@v7` вЂ” PASS;
-- `python infra/github/repo_baseline_check.py` вЂ” PASS;
-- `git diff --check HEAD^ HEAD` вЂ” PASS.
+- `actions/checkout@v7` — PASS;
+- `actions/setup-python@v7` — PASS;
+- `python infra/github/repo_baseline_check.py` — PASS;
+- `git diff --check HEAD^ HEAD` — PASS.
 
 Evidence:
 
 - `GITHUB_ACTIONS_CI_RUN_OK`
-- `NEXUS_V2_CI_BASELINE вЂ” TEST VERIFIED`
+- `NEXUS_V2_CI_BASELINE — TEST VERIFIED`
 
 ### STATUS
 
@@ -25102,7 +25102,7 @@ Phase 0 remains **IN PROGRESS** pending final gate verification.
 
 Gate:
 
-`NEXUS_V2_FOUNDATION_PLAN_OK вЂ” OPEN`
+`NEXUS_V2_FOUNDATION_PLAN_OK — OPEN`
 
 ### NEXT STEP
 
@@ -25110,11 +25110,11 @@ Publish the local development baseline and run final Phase 0 verification agains
 
 Production remains unchanged.
 
-## NEXUS V2 Phase 0 вЂ” FOUNDATION GATE CLOSURE вЂ” 2026-09-03
+## NEXUS V2 Phase 0 — FOUNDATION GATE CLOSURE — 2026-09-03
 
 ### FACT
 
-NEXUS V2 Phase 0 вЂ” Architecture/repository foundation has completed its required implementation and verification scope.
+NEXUS V2 Phase 0 — Architecture/repository foundation has completed its required implementation and verification scope.
 
 Canonical Phase 0 foundation now includes:
 
@@ -25134,16 +25134,16 @@ Canonical Phase 0 foundation now includes:
 
 Verified against the Phase 0 Master Plan requirements:
 
-- repository bootstrap вЂ” VERIFIED;
-- canonical V2 directory baseline вЂ” VERIFIED;
-- dependency/contracts boundary policy вЂ” VERIFIED;
-- CI skeleton вЂ” TEST VERIFIED;
-- local/devcontainer environment вЂ” TEST VERIFIED;
-- repository baseline verification вЂ” TEST VERIFIED;
-- no production build/deploy authority introduced вЂ” VERIFIED;
-- production runtime unchanged вЂ” VERIFIED.
+- repository bootstrap — VERIFIED;
+- canonical V2 directory baseline — VERIFIED;
+- dependency/contracts boundary policy — VERIFIED;
+- CI skeleton — TEST VERIFIED;
+- local/devcontainer environment — TEST VERIFIED;
+- repository baseline verification — TEST VERIFIED;
+- no production build/deploy authority introduced — VERIFIED;
+- production runtime unchanged — VERIFIED.
 
-Functional Inventory remains the mandatory parity source for future legacy в†’ V2 migration.
+Functional Inventory remains the mandatory parity source for future legacy → V2 migration.
 
 No legacy implementation was copied wholesale into V2.
 
@@ -25170,11 +25170,11 @@ Final local verification:
 
 Final hosted GitHub Actions run for current main:
 
-- repository checkout вЂ” PASS;
-- Python setup вЂ” PASS;
-- repository baseline check вЂ” PASS;
-- local development baseline check вЂ” PASS;
-- Git whitespace check вЂ” PASS.
+- repository checkout — PASS;
+- Python setup — PASS;
+- repository baseline check — PASS;
+- local development baseline check — PASS;
+- Git whitespace check — PASS.
 
 Evidence:
 
@@ -25190,15 +25190,15 @@ Evidence:
 
 ### STATUS
 
-`Phase 0 вЂ” DONE / TEST VERIFIED`
+`Phase 0 — DONE / TEST VERIFIED`
 
 Gate:
 
-`NEXUS_V2_FOUNDATION_PLAN_OK вЂ” CLOSED`
+`NEXUS_V2_FOUNDATION_PLAN_OK — CLOSED`
 
 The project may proceed to:
 
-`Phase 1 вЂ” Shared contracts/testkit`
+`Phase 1 — Shared contracts/testkit`
 
 Production safety remains unchanged.
 
@@ -25208,7 +25208,7 @@ Begin Phase 1 with a FACT/CHECK of the canonical shared contracts and testkit re
 
 ---
 
-## 2026-09-05 вЂ” NEXUS V2 Product Architecture Additions
+## 2026-09-05 — NEXUS V2 Product Architecture Additions
 
 **Status:** DESIGN APPROVED / GIT VERIFIED
 
@@ -25220,8 +25220,8 @@ Approved architecture additions:
 
 Canonical documents updated:
 
-- `NEXUS_V2_MASTER_PLAN.md` в†’ v1.2-draft;
-- `NEXUS_V2_FUNCTIONAL_INVENTORY.md` в†’ v1.1-draft.
+- `NEXUS_V2_MASTER_PLAN.md` → v1.2-draft;
+- `NEXUS_V2_FUNCTIONAL_INVENTORY.md` → v1.1-draft.
 
 Git evidence:
 
@@ -25255,7 +25255,7 @@ Production safety remains:
 
 ---
 
-## 2026-09-05 вЂ” Phase 1 Canonical Identity Contracts
+## 2026-09-05 — Phase 1 Canonical Identity Contracts
 
 **Status:** TEST VERIFIED
 
@@ -25318,7 +25318,7 @@ Production safety remains:
 
 ---
 
-## 2026-09-05 вЂ” Phase 1 Numeric / Time Conventions
+## 2026-09-05 — Phase 1 Numeric / Time Conventions
 
 **Status:** TEST VERIFIED
 
@@ -25378,7 +25378,7 @@ Production safety remains:
 
 ---
 
-## 2026-09-05 вЂ” Phase 1 Typed Event Envelope
+## 2026-09-05 — Phase 1 Typed Event Envelope
 
 **Status:** TEST VERIFIED
 
@@ -25451,7 +25451,7 @@ Production safety remains:
 
 ---
 
-## 2026-09-05 вЂ” Phase 1 Error / Result Contracts
+## 2026-09-05 — Phase 1 Error / Result Contracts
 
 **Status:** TEST VERIFIED
 
@@ -25496,9 +25496,9 @@ Scope boundary:
 
 Canonical separation:
 
-- invariant/programming violation в†’ exception;
-- expected operational failure в†’ `Failure(ErrorInfo)`;
-- expected success в†’ `Success[T]`;
+- invariant/programming violation → exception;
+- expected operational failure → `Failure(ErrorInfo)`;
+- expected success → `Success[T]`;
 - HTTP/API representation remains adapter/API-layer responsibility.
 
 Verification evidence:
@@ -25525,7 +25525,7 @@ Production safety remains:
 
 ---
 
-## 2026-09-05 вЂ” Phase 1 Deterministic Clock / ID Providers
+## 2026-09-05 — Phase 1 Deterministic Clock / ID Providers
 
 **Status:** TEST VERIFIED
 
@@ -25607,7 +25607,7 @@ Production safety remains:
 
 ---
 
-## 2026-09-05 вЂ” Phase 1 Fake Venue Testkit
+## 2026-09-05 — Phase 1 Fake Venue Testkit
 
 **Status:** TEST VERIFIED
 
@@ -25675,7 +25675,7 @@ Production safety remains:
 
 ---
 
-## 2026-09-05 вЂ” Phase 1 Shared Contracts Gate Closure
+## 2026-09-05 — Phase 1 Shared Contracts Gate Closure
 
 **Status:** GIT PUBLISHED / HOSTED CI VERIFIED
 
@@ -25723,11 +25723,11 @@ layout/context metadata only; they do not execute trades or mutate Core state.
 
 ### STATUS
 
-`Phase 1 вЂ” DONE / TEST VERIFIED`
+`Phase 1 — DONE / TEST VERIFIED`
 
 Gate:
 
-`NEXUS_V2_SHARED_CONTRACTS_OK вЂ” CLOSED`
+`NEXUS_V2_SHARED_CONTRACTS_OK — CLOSED`
 
 Implementation commit `1473bf5` was pushed to `origin/main`; local `HEAD` and
 `origin/main` resolve to the same commit. The user confirmed the GitHub Actions
@@ -25735,10 +25735,10 @@ workflow for the published Phase 1 changes completed green.
 
 Hosted CI evidence:
 
-- repository baseline вЂ” PASS;
-- Phase 1 local development baseline вЂ” PASS;
-- shared contract suite вЂ” PASS;
-- Git whitespace check вЂ” PASS.
+- repository baseline — PASS;
+- Phase 1 local development baseline — PASS;
+- shared contract suite — PASS;
+- Git whitespace check — PASS.
 
 ### NEXT STEP
 
@@ -25747,9 +25747,9 @@ Phase 2 with a FACT/CHECK of the verified existing Core V2 foundation before
 migrating any TradeIntent, Venue, Ledger or execution contract.
 ---
 
-## 2026-09-05 вЂ” Phase 2 TradeIntent Migration
+## 2026-09-05 — Phase 2 TradeIntent Migration
 
-**Phase:** 2 вЂ” Import and harden existing Core V2 foundation
+**Phase:** 2 — Import and harden existing Core V2 foundation
 
 **Status:** TEST VERIFIED
 
@@ -25847,9 +25847,9 @@ The Phase 2 aggregate gate remains OPEN:
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
 ---
 
-## 2026-09-05 вЂ” Phase 2 Venue Order Contracts Migration
+## 2026-09-05 — Phase 2 Venue Order Contracts Migration
 
-**Phase:** 2 вЂ” Import and harden existing Core V2 foundation
+**Phase:** 2 — Import and harden existing Core V2 foundation
 
 **Status:** TEST VERIFIED
 
@@ -25939,12 +25939,12 @@ Production safety remains:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
-## 2026-09-05 вЂ” Phase 2 Canonical Order Types Domain Ownership
+## 2026-09-05 — Phase 2 Canonical Order Types Domain Ownership
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Scope:
 - corrected canonical ownership of generic order side/type semantics;
@@ -25989,12 +25989,12 @@ Aggregate Phase 2 gate remains OPEN:
 
 Primary next requirement:
 - migrate the verified immutable ExecutionPlan / ExecutionLegPlan domain contract using canonical Core Domain OrderType without domain -> port dependency.
-## 2026-09-05 вЂ” Phase 2 ExecutionPlan / ExecutionLegPlan migration
+## 2026-09-05 — Phase 2 ExecutionPlan / ExecutionLegPlan migration
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Scope:
 - migrated immutable ExecutionLegPlan domain contract;
@@ -26052,12 +26052,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 PositionGroup / PositionLeg V2 migration and hardening
+## 2026-09-05 — Phase 2 PositionGroup / PositionLeg V2 migration and hardening
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Legacy behavior preserved:
 - PositionGroup remains canonical owner of logical SINGLE_LEG / PAIR / BASKET position lifecycle;
@@ -26102,12 +26102,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 ExecutionOrder / ExecutionFill V2 migration and hardening
+## 2026-09-05 — Phase 2 ExecutionOrder / ExecutionFill V2 migration and hardening
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Legacy behavior preserved:
 - ExecutionOrder remains the canonical order lifecycle projection;
@@ -26165,12 +26165,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 Execution Ledger Domain migration and hardening
+## 2026-09-05 — Phase 2 Execution Ledger Domain migration and hardening
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Historical Ledger contract preserved:
 - ExecutionLedgerEvent is the canonical immutable execution/position lifecycle evidence contract;
@@ -26255,12 +26255,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 V2 Persistence Foundation
+## 2026-09-05 — Phase 2 V2 Persistence Foundation
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Purpose:
 - establish the infrastructure substrate required to migrate the historically verified durable Core V2 Ledger persistence without introducing persistence dependencies into Core Domain.
@@ -26327,12 +26327,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 Core V2 Persistence Model
+## 2026-09-05 — Phase 2 Core V2 Persistence Model
 
 Status: DESIGN APPROVED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Decision:
 - V2 persistence does not copy historical storage shape blindly;
@@ -26341,18 +26341,18 @@ Decision:
 
 Canonical identity rule:
 - Core business identities remain canonical;
-- ExecutionPlan в†’ plan_id;
-- PositionGroup в†’ group_id;
-- PositionLeg в†’ (group_id, leg_id);
-- ExecutionOrder в†’ order_id;
-- ExecutionFill в†’ fill_id;
-- venue request idempotency в†’ client_order_id;
-- AccountId в†’ (venue_id, account_value);
+- ExecutionPlan → plan_id;
+- PositionGroup → group_id;
+- PositionLeg → (group_id, leg_id);
+- ExecutionOrder → order_id;
+- ExecutionFill → fill_id;
+- venue request idempotency → client_order_id;
+- AccountId → (venue_id, account_value);
 - persistence MAY use internal BIGINT surrogate keys only as infrastructure details;
 - surrogate keys do not cross the Core boundary and do not define idempotency.
 
 Historical schema correction:
-- historical account_id в†’ exchanges.id semantics are explicitly NOT adopted as canonical V2 account identity;
+- historical account_id → exchanges.id semantics are explicitly NOT adopted as canonical V2 account identity;
 - legacy Integer PK/FK structure may be retained internally only where technically justified and must never replace canonical identifiers.
 
 Approved durable model:
@@ -26428,12 +26428,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 Ledger Canonical Identity Hardening
+## 2026-09-05 — Phase 2 Ledger Canonical Identity Hardening
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Scope:
 - harden ExecutionLedgerEvent account/venue identity to canonical shared contracts;
@@ -26487,12 +26487,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 Execution Plan ORM Slice
+## 2026-09-05 — Phase 2 Execution Plan ORM Slice
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Scope:
 - canonical persistence ORM for execution_plans;
@@ -26554,12 +26554,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 Persistence state_version design correction
+## 2026-09-05 — Phase 2 Persistence state_version design correction
 
 Status: DESIGN CORRECTED / FACT VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Fact:
 - state_version existed only in CORE_V2_PERSISTENCE_MODEL.md;
@@ -26600,12 +26600,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 PositionGroup / PositionLeg Persistence ORM Slice
+## 2026-09-05 — Phase 2 PositionGroup / PositionLeg Persistence ORM Slice
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Scope:
 - canonical persistence ORM for position_groups;
@@ -26696,12 +26696,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 Hosted CI project dependency bootstrap repair
+## 2026-09-05 — Phase 2 Hosted CI project dependency bootstrap repair
 
 Status: FIX VERIFIED LOCALLY / HOSTED CI PENDING
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Fact:
 - hosted CI workflow created a clean Python 3.13 environment;
@@ -26754,12 +26754,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 ExecutionOrder в†’ PositionLeg canonical ownership correction
+## 2026-09-05 — Phase 2 ExecutionOrder → PositionLeg canonical ownership correction
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Fact:
 - canonical PositionLeg identity is `(group_id, leg_id)`;
@@ -26769,7 +26769,7 @@ Fact:
 - therefore `plan_id + leg_id` alone could not prove canonical PositionLeg ownership.
 
 Historical verified behavior:
-- legacy/current historical Core maintained explicit ExecutionOrder в†’ PositionLeg ownership through persistence `position_leg_id`;
+- legacy/current historical Core maintained explicit ExecutionOrder → PositionLeg ownership through persistence `position_leg_id`;
 - fill-ingestion lineage checks required owning PositionLeg existence;
 - cross-plan / cross-leg ownership conflicts failed closed.
 
@@ -26779,8 +26779,8 @@ Correction:
 - canonical ExecutionOrder identity remains `order_id`;
 - canonical PositionLeg identity remains `(group_id, leg_id)`;
 - persistence design now requires:
-  - FK `plan_id в†’ execution_plans(plan_id)`;
-  - composite FK `(group_id, leg_id) в†’ position_legs(group_id, leg_id)`;
+  - FK `plan_id → execution_plans(plan_id)`;
+  - composite FK `(group_id, leg_id) → position_legs(group_id, leg_id)`;
 - no PositionGroup.plan_id uniqueness was invented;
 - no PositionLeg identity redesign was introduced.
 
@@ -26812,12 +26812,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 ExecutionOrder / ExecutionFill ORM persistence slice
+## 2026-09-05 — Phase 2 ExecutionOrder / ExecutionFill ORM persistence slice
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Implemented:
 - ExecutionOrderModel;
@@ -26826,7 +26826,7 @@ Implemented:
 
 ExecutionOrder persistence:
 - canonical `order_id` retained;
-- `plan_id в†’ execution_plans.plan_id`;
+- `plan_id → execution_plans.plan_id`;
 - canonical PositionLeg ownership through composite `(group_id, leg_id)`;
 - unique `order_id`;
 - unique `client_order_id`;
@@ -26842,7 +26842,7 @@ ExecutionOrder persistence:
 
 ExecutionFill persistence:
 - canonical `fill_id` independently unique;
-- `order_id в†’ execution_orders.order_id`;
+- `order_id → execution_orders.order_id`;
 - canonical user/venue/account ownership persisted;
 - venue fill dedup scoped by `(venue_id, account_value, venue_fill_id)`;
 - nullable `venue_fill_id` is not globally unique;
@@ -26898,12 +26898,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 ExecutionOrder group/plan referential-integrity correction
+## 2026-09-05 — Phase 2 ExecutionOrder group/plan referential-integrity correction
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Problem:
 - ExecutionOrder previously carried both `plan_id` and exact PositionLeg ownership
@@ -26959,12 +26959,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-05 вЂ” Phase 2 Core V2 root persistence migration file
+## 2026-09-05 — Phase 2 Core V2 root persistence migration file
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Implemented:
 - first Alembic revision in the new NEXUS V2 repository;
@@ -27026,12 +27026,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-06 вЂ” Phase 2 async Alembic online runner correction
+## 2026-09-06 — Phase 2 async Alembic online runner correction
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Problem:
 - persistence dependencies use SQLAlchemy async + `asyncpg`;
@@ -27073,12 +27073,12 @@ Evidence tag:
 Aggregate Phase 2 gate remains OPEN:
 
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
-## 2026-09-06 вЂ” Phase 2 Core V2 root persistence migration applied to local development PostgreSQL
+## 2026-09-06 — Phase 2 Core V2 root persistence migration applied to local development PostgreSQL
 
 Status: DONE / TEST VERIFIED
 
 Phase:
-- Phase 2 вЂ” Import and harden existing Core V2 foundation.
+- Phase 2 — Import and harden existing Core V2 foundation.
 
 Target:
 - PostgreSQL 17.11;
@@ -27108,11 +27108,11 @@ Post-apply verification:
 - all six canonical tables present;
 - Alembic current revision equals `4d6f7a8b9c01`;
 - exact ExecutionOrder ownership verified:
-  - `plan_id в†’ execution_plans(plan_id)`;
-  - `(group_id, plan_id) в†’ position_groups(group_id, plan_id)`;
-  - `(group_id, leg_id) в†’ position_legs(group_id, leg_id)`;
+  - `plan_id → execution_plans(plan_id)`;
+  - `(group_id, plan_id) → position_groups(group_id, plan_id)`;
+  - `(group_id, leg_id) → position_legs(group_id, leg_id)`;
 - ExecutionFill ownership:
-  - `order_id в†’ execution_orders(order_id)`;
+  - `order_id → execution_orders(order_id)`;
 - canonical UNIQUE/CHECK constraints verified;
 - canonical indexes verified;
 - post-apply schema-only backup exists.
@@ -27137,7 +27137,7 @@ Aggregate Phase 2 gate remains OPEN:
 `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
 ---
 
-## 2026-09-10 вЂ” Phase 1 EventEnvelope Typing Correction / Phase 2 Typed Execution Identities
+## 2026-09-10 — Phase 1 EventEnvelope Typing Correction / Phase 2 Typed Execution Identities
 
 **Phase:** Phase 1 revalidation + Phase 2 Core V2 foundation hardening
 
@@ -27184,10 +27184,10 @@ Local verification:
 
 - changed Python files flake8: PASS;
 - mypy across `packages/contracts`, `packages/testkit`,
-  `apps/core/domain`, `apps/core/ports`: PASS вЂ” 20 source files;
+  `apps/core/domain`, `apps/core/ports`: PASS — 20 source files;
 - compileall across contracts/testkit/Core: PASS;
-- Phase 1 focused suite: PASS вЂ” 153 tests;
-- full regression suite: PASS вЂ” 316 tests;
+- Phase 1 focused suite: PASS — 153 tests;
+- full regression suite: PASS — 316 tests;
 - `git diff --check`: PASS;
 - canonical execution identity raw-string Core guard: PASS;
 - persistence/schema paths untouched by the identity slice: PASS.
@@ -27209,16 +27209,16 @@ Master Plan requirement was silently changed.
 
 Phase 1 historical gate remains:
 
-`NEXUS_V2_SHARED_CONTRACTS_OK вЂ” CLOSED`
+`NEXUS_V2_SHARED_CONTRACTS_OK — CLOSED`
 
 The newly discovered EventEnvelope typing defect is corrected and locally
 TEST VERIFIED.
 
 Phase 2 remains:
 
-`Phase 2 вЂ” IN PROGRESS`
+`Phase 2 — IN PROGRESS`
 
-`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK вЂ” OPEN`
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK — OPEN`
 
 The current changeset is not yet GIT VERIFIED because it has not yet been
 committed, pushed and verified by hosted CI.
@@ -27238,9 +27238,9 @@ Publish this verified correction/hardening changeset and verify hosted CI
 before continuing Phase 2 gap analysis.
 ---
 
-## 2026-09-10 вЂ” Phase 2 Typed Identity Changeset Hosted CI Verification
+## 2026-09-10 — Phase 2 Typed Identity Changeset Hosted CI Verification
 
-**Phase:** 2 вЂ” Core V2 foundation
+**Phase:** 2 — Core V2 foundation
 
 **Status:** DONE / TEST VERIFIED / AUDIT VERIFIED / GIT VERIFIED
 
@@ -27277,11 +27277,11 @@ are now:
 
 Phase 1 historical gate remains closed:
 
-`NEXUS_V2_SHARED_CONTRACTS_OK вЂ” CLOSED`
+`NEXUS_V2_SHARED_CONTRACTS_OK — CLOSED`
 
 Phase 2 overall remains in progress:
 
-`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK вЂ” OPEN`
+`NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK — OPEN`
 
 This evidence closes only the typed identity / EventEnvelope correction
 changeset. It does not close the overall Phase 2 gate.
@@ -27299,7 +27299,7 @@ Production safety remains unchanged:
 
 Resume Phase 2 FACT/Audit/Inventory/code inspection and identify the first
 remaining mandatory capability gap before implementing additional Core code.
-## 2026-09-10 вЂ” Phase 2 Execution Ledger Repository
+## 2026-09-10 — Phase 2 Execution Ledger Repository
 
 ### FACT
 
@@ -27327,7 +27327,7 @@ PositionLeg lookup preserves canonical composite ownership:
 
 Deterministic Ledger ordering is:
 
-`occurred_at ASC в†’ id ASC`.
+`occurred_at ASC → id ASC`.
 
 ### BOUNDARY
 
@@ -27351,7 +27351,7 @@ Application transaction ownership remains outside the repository.
 Local verification:
 
 - flake8: PASS;
-- mypy: PASS вЂ” 2 source files;
+- mypy: PASS — 2 source files;
 - compileall: PASS;
 - focused Ledger persistence + repository: 16 passed;
 - full repository regression: 332 passed;
@@ -27383,15 +27383,15 @@ No production authority changed.
 
 Implement the Phase 2 atomic Ledger application-service boundary:
 
-`projection mutation + immutable Ledger append + flush в†’ one caller-owned transaction`
+`projection mutation + immutable Ledger append + flush → one caller-owned transaction`
 
 with deterministic event idempotency:
 
-- exact duplicate event в†’ idempotent result;
-- same `event_id` with conflicting immutable content в†’ fail closed.
+- exact duplicate event → idempotent result;
+- same `event_id` with conflicting immutable content → fail closed.
 
 No reconciliation, VenueAdapter or ExecutionCoordinator integration in this step.
-## 2026-09-10 вЂ” Phase 2 Execution Ledger Atomic Application Service
+## 2026-09-10 — Phase 2 Execution Ledger Atomic Application Service
 
 ### FACT
 
@@ -27403,7 +27403,7 @@ Implemented the persistence application boundary:
 
 Canonical persistence operation:
 
-`projection mutation в†’ immutable Ledger append/flush в†’ caller-owned transaction`
+`projection mutation → immutable Ledger append/flush → caller-owned transaction`
 
 The service does not commit or rollback.
 
@@ -27411,9 +27411,9 @@ The service does not commit or rollback.
 
 Deterministic event identity behavior:
 
-- new `event_id` в†’ projection mutation + Ledger append;
-- exact existing immutable event в†’ `DUPLICATE` and no repeated projection mutation;
-- same `event_id` with conflicting immutable content в†’ fail closed with `LedgerEventConflictError`.
+- new `event_id` → projection mutation + Ledger append;
+- exact existing immutable event → `DUPLICATE` and no repeated projection mutation;
+- same `event_id` with conflicting immutable content → fail closed with `LedgerEventConflictError`.
 
 Persistence surrogate `id` is excluded from immutable-content equivalence.
 
@@ -27466,7 +27466,7 @@ No production authority changed.
 Implement deterministic persistence replay verification over stored immutable Ledger events and compare deterministic projections/state.
 
 PostgreSQL migration apply remains required before final Phase 2 gate closure.
-## 2026-09-10 вЂ” Phase 2 Deterministic Execution Ledger Persistence Replay
+## 2026-09-10 — Phase 2 Deterministic Execution Ledger Persistence Replay
 
 ### FACT
 
@@ -27478,7 +27478,7 @@ Execution Ledger evidence:
 
 Replay canonicalizes immutable event content and orders events by:
 
-`occurred_at в†’ recorded_at в†’ event_id`.
+`occurred_at → recorded_at → event_id`.
 
 Persistence-only surrogate database `id` is not replay truth.
 
@@ -27555,7 +27555,7 @@ Perform final local PostgreSQL Phase 2 persistence verification:
 - run final tests;
 - record Phase 2 gate evidence;
 - commit/push and verify hosted CI.
-## 2026-09-10 вЂ” Phase 2 Core V2 Foundation Gate Closure
+## 2026-09-10 — Phase 2 Core V2 Foundation Gate Closure
 
 ### FACT
 
@@ -27629,7 +27629,7 @@ Production authority remains unchanged.
 ### NEXT STEP
 
 Publish the Phase 2 changeset and verify hosted CI, then begin Phase 3 Reconciliation.
-## 2026-09-12 вЂ” Phase 2 Hosted CI Closure / Phase 3 Entry
+## 2026-09-12 — Phase 2 Hosted CI Closure / Phase 3 Entry
 
 ### FACT
 
@@ -27670,7 +27670,7 @@ requires reopening it.
 
 Current phase:
 
-`Phase 3 вЂ” Reconciliation`
+`Phase 3 — Reconciliation`
 
 Current gate:
 
@@ -27694,7 +27694,7 @@ No production authority changed.
 Perform the Phase 3 Reconciliation FACT/CHECK and identify the first
 real implementation gap without redesigning already approved Phase 2
 capabilities.
-## 2026-09-12 вЂ” Phase 3 Canonical Reconciliation Observation Contracts
+## 2026-09-12 — Phase 3 Canonical Reconciliation Observation Contracts
 
 ### FACT
 
@@ -27775,7 +27775,7 @@ Phase 3 overall gate remains OPEN.
 
 Implement explicit reconciliation source/result states and canonical
 discrepancy contracts before startup or continuous reconciliation runtime.
-## 2026-09-12 вЂ” Phase 3 Generic VenueAdapter Reconciliation Contract Suite
+## 2026-09-12 — Phase 3 Generic VenueAdapter Reconciliation Contract Suite
 
 ### FACT
 
@@ -27880,7 +27880,7 @@ Phase 3 overall gate remains OPEN.
 
 Implement explicit Reconciliation source/result states and canonical
 discrepancy contracts before startup or continuous reconciliation runtime.
-## 2026-09-12 вЂ” Phase 3 Reconciliation State and Discrepancy Model
+## 2026-09-12 — Phase 3 Reconciliation State and Discrepancy Model
 
 ### FACT
 
@@ -28001,7 +28001,7 @@ No production authority changed.
 
 Implement pure deterministic discrepancy detection over canonical local
 and venue order/fill/position state without persistence or correction.
-## 2026-09-12 вЂ” Phase 3 Deterministic Reconciliation Detector
+## 2026-09-12 — Phase 3 Deterministic Reconciliation Detector
 
 ### FACT
 
@@ -28112,11 +28112,11 @@ No production authority changed.
 
 Persist reconciliation discrepancy output as immutable canonical Ledger
 evidence without destructive state correction.
-## 2026-09-12 вЂ” Phase 3 Reconciliation Ledger Lineage Correction
+## 2026-09-12 — Phase 3 Reconciliation Ledger Lineage Correction
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
 
@@ -28199,11 +28199,11 @@ AI direct exchange access remains BLOCKED.
 Persist canonical `ReconciliationDiscrepancy` as deterministic
 `RECONCILIATION_DISCREPANCY` Ledger evidence through the existing
 atomic/idempotent Ledger application service.
-## 2026-09-12 вЂ” Phase 3 Reconciliation Discrepancy Ledger Persistence
+## 2026-09-12 — Phase 3 Reconciliation Discrepancy Ledger Persistence
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
 
@@ -28315,11 +28315,11 @@ Persist one complete deterministic `ReconciliationResult` evidence
 batch so every discrepancy in a reconciliation pass is written through
 the canonical Ledger with repeat-pass idempotency and no destructive
 correction.
-## 2026-09-12 вЂ” Phase 3 Reconciliation Result Ledger Batch Persistence
+## 2026-09-12 — Phase 3 Reconciliation Result Ledger Batch Persistence
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
 
@@ -28414,11 +28414,11 @@ No production authority changed.
 Implement the Phase 3 reconciliation orchestration boundary that
 executes one canonical reconciliation pass and persists immutable
 evidence before strategy activation.
-## 2026-09-12 вЂ” Phase 3 Reconciliation Pass Orchestration
+## 2026-09-12 — Phase 3 Reconciliation Pass Orchestration
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
 
@@ -28431,10 +28431,10 @@ evidence persistence boundary.
 Sequence:
 
 `input snapshots`
-в†’ `detect_reconciliation`
-в†’ `ReconciliationResult`
-в†’ `ReconciliationEvidencePort.persist_result`
-в†’ completed reconciliation result.
+→ `detect_reconciliation`
+→ `ReconciliationResult`
+→ `ReconciliationEvidencePort.persist_result`
+→ completed reconciliation result.
 
 The orchestrator does not expose a successfully completed pass when
 evidence persistence fails.
@@ -28534,11 +28534,11 @@ Implement the startup reconciliation activation gate so strategy
 execution cannot be enabled until required startup reconciliation
 passes have completed with persisted evidence and an explicitly
 acceptable reconciliation state.
-## 2026-09-12 вЂ” Phase 3 Startup Reconciliation Activation Gate
+## 2026-09-12 — Phase 3 Startup Reconciliation Activation Gate
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
 
@@ -28662,11 +28662,11 @@ No production authority changed.
 Implement deterministic continuous reconciliation after startup so
 repeated live reconciliation passes continue to detect and persist
 drift without destructive auto-correction.
-## 2026-09-12 вЂ” Phase 3 Deterministic Continuous Reconciliation Cycle
+## 2026-09-12 — Phase 3 Deterministic Continuous Reconciliation Cycle
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
 
@@ -28812,11 +28812,11 @@ Close the next real Phase 3 gap by verifying and implementing the
 remaining venue account/balance observation and account discrepancy
 coverage required by the Master Plan before considering the overall
 Phase 3 gate.
-## 2026-09-12 вЂ” Phase 3 Venue Account Observation and Balance Discrepancies
+## 2026-09-12 — Phase 3 Venue Account Observation and Balance Discrepancies
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN pending a full
 Phase 3 gate review.
@@ -28941,11 +28941,11 @@ No production authority changed.
 Perform the full Phase 3 gate review against Master Plan, current Audit,
 Functional Inventory and actual Core code before declaring
 `TRADING_CORE_V2_RECONCILIATION_OK`.
-## 2026-09-12 вЂ” Phase 3 Reconciliation Lifecycle and Resolution Evidence
+## 2026-09-12 — Phase 3 Reconciliation Lifecycle and Resolution Evidence
 
 ### PHASE / GATE
 
-Phase 3 вЂ” Reconciliation.
+Phase 3 — Reconciliation.
 
 Gate `TRADING_CORE_V2_RECONCILIATION_OK` remains OPEN.
 
@@ -29068,9 +29068,9 @@ No production strategy activation was performed.
 Review the startup observation acquisition boundary before any Phase 3
 gate closure decision.
 
-## 2026-09-12 — Phase 3 Reconciliation Gate Closure
+## 2026-09-12 � Phase 3 Reconciliation Gate Closure
 
-Phase 3 — Reconciliation.
+Phase 3 � Reconciliation.
 
 Gate: TRADING_CORE_V2_RECONCILIATION_OK
 
@@ -29090,10 +29090,10 @@ AUDIT_TAG: TRADING_CORE_V2_RECONCILIATION_OK
 
 CLOSURE_TAG: TRADING_CORE_V2_RECONCILIATION_GATE_CLOSED
 
-NEXT STEP: Phase 4 — Execution Coordinator
+NEXT STEP: Phase 4 � Execution Coordinator
 
 
-## 2026-09-12 — Phase 3 Reconciliation Gate Status Correction
+## 2026-09-12 � Phase 3 Reconciliation Gate Status Correction
 
 The previously recorded Phase 3 closure is superseded by this correction.
 
@@ -29114,7 +29114,7 @@ NEXT STEP: close the single verified startup runtime composition gap.
 AUDIT_TAG: TRADING_CORE_V2_RECONCILIATION_GATE_STATUS_CORRECTED
 
 
-## 2026-09-12 — Phase 3 Live Venue Verification Deferred
+## 2026-09-12 � Phase 3 Live Venue Verification Deferred
 
 ### FACT
 
@@ -29149,7 +29149,7 @@ TRADING_CORE_V2_RECONCILIATION_LIVE_VENUE_VERIFICATION_DEFERRED
 Revisit this verification after server deployment and concrete venue/account connectivity.
 
 
-## 2026-09-12 — Phase 4 Execution Coordinator
+## 2026-09-12 � Phase 4 Execution Coordinator
 
 ### VERIFIED
 
@@ -29179,11 +29179,11 @@ TRADING_CORE_V2_EXECUTION_COORDINATOR_OK
 
 ### NEXT
 
-Phase 5 — Pair / Basket Execution.
+Phase 5 � Pair / Basket Execution.
 Next gate: TRADING_CORE_V2_PAIR_EXECUTION_OK
 
 
-## 2026-09-12 — Phase 5 Pair / Basket Execution
+## 2026-09-12 � Phase 5 Pair / Basket Execution
 
 ### VERIFIED
 
@@ -29215,10 +29215,10 @@ TRADING_CORE_V2_PAIR_EXECUTION_OK
 
 ### NEXT
 
-Phase 6 — Portfolio Risk V2.
+Phase 6 � Portfolio Risk V2.
 
 
-## 2026-09-12 — Phase 6 Portfolio Risk V2 Final Verification
+## 2026-09-12 � Phase 6 Portfolio Risk V2 Final Verification
 
 ### VERIFIED
 
@@ -29251,7 +29251,7 @@ TRADING_CORE_V2_PORTFOLIO_RISK_OK
 
 ### NEXT
 
-Phase 7 — Strategy Portfolio + backtest/live parity.
+Phase 7 � Strategy Portfolio + backtest/live parity.
 
 
 ### FINAL VERIFICATION MARKER
@@ -29259,7 +29259,7 @@ Phase 7 — Strategy Portfolio + backtest/live parity.
 TRADING_CORE_V2_PORTFOLIO_RISK_FINAL_VERIFICATION_OK
 
 
-## 2026-09-12 — Phase 7 Strategy Portfolio Final Verification
+## 2026-09-12 � Phase 7 Strategy Portfolio Final Verification
 
 ### VERIFIED
 
@@ -29278,7 +29278,7 @@ Grid trading remains outside StrategyPlugin ownership and is reserved for Phase 
 Focused Phase 7 + PortfolioRisk + TradeIntent suite: 62 passed.
 Full regression: 541 passed.
 flake8: PASS.
-mypy: PASS — 28 source files.
+mypy: PASS � 28 source files.
 Alembic head: f4b6c8d2e1a0; no Phase 7 migration required.
 git diff --check: PASS.
 Strategy authority scan: PASS.
@@ -29304,10 +29304,10 @@ NEXUS_V2_STRATEGY_PORTFOLIO_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 7G — Grid Trading Desk.
+Phase 7G � Grid Trading Desk.
 
 
-## 2026-09-12 — Phase 7G Grid Trading Desk Final Verification
+## 2026-09-12 � Phase 7G Grid Trading Desk Final Verification
 
 ### VERIFIED
 
@@ -29322,7 +29322,7 @@ Grid uses canonical Core execution and does not introduce direct raw venue write
 Focused Grid suite: 30 passed.
 Full regression: 571 passed.
 flake8: PASS.
-mypy: PASS — 51 source files.
+mypy: PASS � 51 source files.
 Alembic head: a5d7e9c3b102.
 git diff --check: PASS.
 
@@ -29346,10 +29346,10 @@ NEXUS_V2_GRID_TRADING_DESK_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 8 — Intelligence V2.
+Phase 8 � Intelligence V2.
 
 
-## 2026-09-12 — Phase 8 Intelligence V2 Final Verification
+## 2026-09-12 � Phase 8 Intelligence V2 Final Verification
 
 ### VERIFIED
 
@@ -29367,7 +29367,7 @@ Focused Intelligence suite: 36 passed.
 Adjacent Strategy/PortfolioRisk suite: 49 passed.
 Full regression: 607 passed.
 flake8: PASS.
-mypy: PASS — 7 source files.
+mypy: PASS � 7 source files.
 Alembic head: a5d7e9c3b102; no Phase 8 migration required.
 git diff --check: PASS.
 
@@ -29391,10 +29391,10 @@ NEXUS_V2_INTELLIGENCE_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 9 — AIEA V2.
+Phase 9 � AIEA V2.
 
 
-## 2026-09-12 — Phase 9 AIEA V2 Final Verification
+## 2026-09-12 � Phase 9 AIEA V2 Final Verification
 
 ### VERIFIED
 
@@ -29412,7 +29412,7 @@ Focused AIEA suite: 35 passed.
 Adjacent suite: 117 passed.
 Full regression: 642 passed.
 flake8: PASS.
-mypy: PASS — 12 source files.
+mypy: PASS � 12 source files.
 Alembic head: b6e8c4d2f903.
 Fresh-session AIEA persistence: PASS.
 git diff --check: PASS.
@@ -29438,10 +29438,10 @@ NEXUS_V2_AIEA_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 10 — Multi-user / Settings / Security.
+Phase 10 � Multi-user / Settings / Security.
 
 
-## 2026-09-12 — Phase 10 Multi-user / Settings / Security Final Verification
+## 2026-09-12 � Phase 10 Multi-user / Settings / Security Final Verification
 
 ### VERIFIED
 
@@ -29457,7 +29457,7 @@ Focused Phase 10 suite: 41 passed.
 Adjacent suite: 147 passed.
 Full regression: 683 passed.
 flake8: PASS.
-mypy: PASS — 75 source files.
+mypy: PASS � 75 source files.
 Alembic head: c7f9d5e4a014.
 Fresh-session settings/security persistence: PASS.
 SQLite UTC hydration boundary: VERIFIED.
@@ -29484,10 +29484,10 @@ NEXUS_V2_MULTI_USER_SECURITY_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 11 — Control Plane.
+Phase 11 � Control Plane.
 
 
-## 2026-09-12 — Phase 11 Control Plane V2 Final Verification
+## 2026-09-12 � Phase 11 Control Plane V2 Final Verification
 
 ### VERIFIED
 
@@ -29516,7 +29516,7 @@ Focused Control Plane suite: 22 passed.
 Adjacent suite: 156 passed.
 Full regression: 705 passed.
 flake8: PASS.
-mypy: PASS — 79 source files.
+mypy: PASS � 79 source files.
 Python parse/compile: PASS.
 Compiled web JavaScript syntax: PASS.
 TypeScript delivery build: internally verified; target tsc tool was unavailable.
@@ -29545,10 +29545,10 @@ NEXUS_V2_CONTROL_PLANE_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 12 — CI/CD + Packaging.
+Phase 12 � CI/CD + Packaging.
 
 
-## 2026-09-12 — Phase 12 Release Pipeline Foundation
+## 2026-09-12 � Phase 12 Release Pipeline Foundation
 
 ### VERIFIED
 
@@ -29588,7 +29588,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — Phase 12 Release Pipeline Foundation slice only.
+DONE / TEST VERIFIED � Phase 12 Release Pipeline Foundation slice only.
 
 ### PHASE 12 GATE
 
@@ -29603,7 +29603,7 @@ NEXUS_V2_PHASE12_RELEASE_FOUNDATION_VERIFIED
 SBOM, provenance/attestation, digest-pinned production deployment manifest, backup/restore verification and rollback-by-digest evidence remain required.
 
 
-## 2026-09-12 — Phase 12 Supply-Chain Evidence
+## 2026-09-12 � Phase 12 Supply-Chain Evidence
 
 ### VERIFIED
 
@@ -29646,7 +29646,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — Phase 12 Supply-Chain Evidence slice only.
+DONE / TEST VERIFIED � Phase 12 Supply-Chain Evidence slice only.
 
 ### PHASE 12 GATE
 
@@ -29661,7 +29661,7 @@ NEXUS_V2_PHASE12_SUPPLY_CHAIN_EVIDENCE_VERIFIED
 Digest-pinned production deploy manifests, backup/restore runbook verification and rollback-by-digest evidence remain required.
 
 
-## 2026-09-12 — Phase 12 Digest-Pinned Deployment & Rollback Foundation
+## 2026-09-12 � Phase 12 Digest-Pinned Deployment & Rollback Foundation
 
 ### VERIFIED
 
@@ -29704,7 +29704,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — Phase 12 Digest Deploy & Rollback slice only.
+DONE / TEST VERIFIED � Phase 12 Digest Deploy & Rollback slice only.
 
 ### PHASE 12 GATE
 
@@ -29719,7 +29719,7 @@ NEXUS_V2_PHASE12_DIGEST_DEPLOY_ROLLBACK_VERIFIED
 Final Phase 12 gate review remains required before closing NEXUS_V2_RELEASE_PIPELINE_OK.
 
 
-## 2026-09-12 — Phase 12 CI/CD + Production Packaging Final Verification
+## 2026-09-12 � Phase 12 CI/CD + Production Packaging Final Verification
 
 ### VERIFIED
 
@@ -29781,10 +29781,10 @@ NEXUS_V2_RELEASE_PIPELINE_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 13 — Venue Certification.
+Phase 13 � Venue Certification.
 
 
-## 2026-09-13 — Phase 13 BingX DEMO Adapter Contract Verification
+## 2026-09-13 � Phase 13 BingX DEMO Adapter Contract Verification
 
 ### VERIFIED
 
@@ -29823,7 +29823,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — BingX adapter contract slice only.
+DONE / TEST VERIFIED � BingX adapter contract slice only.
 
 ### PHASE 13 BINGX GATE
 
@@ -29836,7 +29836,7 @@ Live/VST network certification evidence is still required before venue certifica
 NEXUS_V2_PHASE13_BINGX_ADAPTER_CONTRACT_VERIFIED
 
 
-## 2026-09-13 — Phase 13 BingX VST Read-Only Network Foundation
+## 2026-09-13 � Phase 13 BingX VST Read-Only Network Foundation
 
 ### VERIFIED
 
@@ -29871,7 +29871,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — VST read-only foundation only.
+DONE / TEST VERIFIED � VST read-only foundation only.
 
 ### PHASE 13 BINGX GATE
 
@@ -29885,7 +29885,7 @@ Real VST read-only network evidence is still required.
 NEXUS_V2_PHASE13_BINGX_VST_READONLY_FOUNDATION_VERIFIED
 
 
-## 2026-09-13 — Phase 13 BingX VST Read-Only Network Verification
+## 2026-09-13 � Phase 13 BingX VST Read-Only Network Verification
 
 ### VERIFIED
 
@@ -29931,7 +29931,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — BingX VST read-only network compatibility.
+DONE / TEST VERIFIED � BingX VST read-only network compatibility.
 
 ### PHASE 13 BINGX GATE
 
@@ -29944,7 +29944,7 @@ Controlled DEMO write/execution lifecycle certification remains required before 
 NEXUS_V2_PHASE13_BINGX_VST_READONLY_NETWORK_VERIFIED
 
 
-## Phase 13 — BingX VST controlled-write transport
+## Phase 13 � BingX VST controlled-write transport
 
 Status: TEST VERIFIED / DONE
 Evidence tag: NEXUS_V2_PHASE13_BINGX_VST_CONTROLLED_WRITE_TRANSPORT_VERIFIED
@@ -29967,7 +29967,7 @@ submit -> observe -> cancel/resolve -> reconcile
 
 Production authority unchanged.
 
-## Phase 13 вЂ” BingX runtime certification deferral
+## Phase 13 — BingX runtime certification deferral
 
 Status: DEFERRED / NOT VERIFIED
 
@@ -30059,7 +30059,7 @@ Production safety remains unchanged:
 - Full Live disabled;
 - AI direct exchange access blocked.
 
-## Phase 14A — Local E2E / Shadow Readiness
+## Phase 14A � Local E2E / Shadow Readiness
 
 Status: DONE / TEST VERIFIED
 
@@ -30101,7 +30101,7 @@ This local Phase14A slice does not close NEXUS_V2_SHADOW_PARITY_OK.
 
 Remaining Phase14 work requires target-server shadow/runtime evidence after deferred Phase13 venue runtime certification is completed.
 
-## Supplemental Architecture вЂ” NAIL / Decision Intelligence foundation
+## Supplemental Architecture — NAIL / Decision Intelligence foundation
 
 Date: 2026-09-13
 
@@ -30113,17 +30113,17 @@ User-approved architecture addition without roadmap phase reordering:
 
 ```text
 MarketContext
-в†’ MarketDecisionSnapshot
-в†’ StrategyOpportunityAssessment[]
-в†’ StrategyPortfolioDecision / NO_TRADE
-в†’ PortfolioRisk
-в†’ StrategyRuntime / TradeIntent
-в†’ Core Execution
-в†’ Ledger
-в†’ DecisionOutcome
-в†’ DecisionEvaluation
-в†’ Decision Memory
-в†’ AIEA research evidence
+→ MarketDecisionSnapshot
+→ StrategyOpportunityAssessment[]
+→ StrategyPortfolioDecision / NO_TRADE
+→ PortfolioRisk
+→ StrategyRuntime / TradeIntent
+→ Core Execution
+→ Ledger
+→ DecisionOutcome
+→ DecisionEvaluation
+→ Decision Memory
+→ AIEA research evidence
 ```
 
 Implemented in this sandbox changeset:
@@ -30178,10 +30178,10 @@ Remaining before closure:
 - run full regression in the canonical test environment with `.[test]` installed;
 - implement durable append-only Decision Memory repository with tenant isolation/replay;
 - implement calibrated opportunity/edge/uncertainty models with OOS/WF/shadow evidence;
-- implement typed Decision Portfolio в†’ StrategyRuntime/PortfolioRisk application handoff;
+- implement typed Decision Portfolio → StrategyRuntime/PortfolioRisk application handoff;
 - derive DecisionOutcome from canonical Ledger/reconciliation evidence;
 - implement self-evaluation/calibration aggregation;
-- implement Decision Memory в†’ AIEA evidence handoff;
+- implement Decision Memory → AIEA evidence handoff;
 - wire provider configuration/API key through approved security composition;
 - certify a real Groq research-only request without changing production authority.
 

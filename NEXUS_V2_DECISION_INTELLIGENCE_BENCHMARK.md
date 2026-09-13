@@ -11,28 +11,28 @@ Close the verified gap between canonical `MarketContext`, Phase 7 strategy runti
 
 ```text
 MarketContext
-в†’ MarketDecisionSnapshot
-в†’ StrategyOpportunityAssessment[]
-в†’ StrategyPortfolioDecision / NO_TRADE
-в†’ PortfolioRisk
-в†’ StrategyRuntime / TradeIntent
-в†’ Core Execution
-в†’ Ledger
-в†’ DecisionOutcome
-в†’ DecisionEvaluation
-в†’ Decision Memory
-в†’ AIEA evidence
+→ MarketDecisionSnapshot
+→ StrategyOpportunityAssessment[]
+→ StrategyPortfolioDecision / NO_TRADE
+→ PortfolioRisk
+→ StrategyRuntime / TradeIntent
+→ Core Execution
+→ Ledger
+→ DecisionOutcome
+→ DecisionEvaluation
+→ Decision Memory
+→ AIEA evidence
 ```
 
 LLM reasoning is optional and research/advisory only:
 
 ```text
 Decision Memory / News / Evidence
-в†’ ReasoningModelPort
-в†’ structured ReasoningArtifact
-в†’ AIEA hypothesis / critique
-в†’ validation / falsification
-в†’ promotion readiness
+→ ReasoningModelPort
+→ structured ReasoningArtifact
+→ AIEA hypothesis / critique
+→ validation / falsification
+→ promotion readiness
 ```
 
 ## Reference findings
