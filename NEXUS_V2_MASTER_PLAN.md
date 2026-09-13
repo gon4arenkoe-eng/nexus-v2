@@ -26,6 +26,7 @@ The following product-architecture additions are approved for inclusion in the V
 - **AIEA Product Moat Spec** — persistent research memory, hypothesis/evolution loop, falsification-first candidate evaluation, challenger/drift adaptation, evidence-bound promotion/rollback and isolated autonomous R&D.
 - **Product Entitlements / Subscriptions / Quotas** — commercial access is modeled through feature entitlements and quotas, not plan-name conditionals in business logic.
 - **NEXUS Trading Workspace Composer** — a user-configurable trading cockpit built from typed widgets, layouts, templates and linked context while preserving non-hideable safety state.
+- **NEXUS Autonomous Intelligence Layer (NAIL) / Decision Intelligence** — a provider-neutral operational decision layer linking canonical MarketContext to evidence-bearing multi-strategy portfolio recommendations, Decision Memory/self-evaluation and AIEA research feedback. Realtime decisions remain deterministic/ML-first; optional LLM reasoning is research/advisory only and cannot own Risk, Execution, Venue writes, credentials or production promotion.
 
 These additions are **DESIGN APPROVED**, not implementation-DONE. Their implementation evidence belongs to the relevant Phase 9, Phase 10 and Phase 11 gates.
 
@@ -497,6 +498,32 @@ The target flow is:
 Portfolio allocation must consider expected edge, confidence, capacity, drawdown, regime suitability and correlation between strategies. The system should prefer complementary strategy families rather than several variants of the same signal.
 
 AIEA may recommend activation/deactivation or allocation changes, but production changes remain behind explicit promotion/risk/permission gates.
+
+### 6.11.1. NAIL / Decision Intelligence operational portfolio layer
+
+NEXUS adds a provider-neutral Decision Intelligence bounded context between canonical Intelligence evidence and deterministic strategy/runtime allocation. It is an operational decision owner, not an execution owner.
+
+Canonical flow:
+
+`MarketContext → MarketDecisionSnapshot → StrategyOpportunityAssessment[] → StrategyPortfolioDecision → PortfolioRisk → StrategyRuntime/TradeIntent → Core Execution → Ledger → DecisionOutcome → DecisionEvaluation → Decision Memory → AIEA Evidence`
+
+Required contracts include:
+
+- immutable `MarketDecisionSnapshot` with MarketContext hash, data quality, uncertainty, blockers and strategy-version availability;
+- `StrategyOpportunityAssessment` with expected net edge, confidence, uncertainty, regime/liquidity/event suitability, capacity, drawdown/tail risk, correlation/diversification and evidence lineage;
+- evidence-bearing `StrategyPortfolioDecision`, including explicit `NO_TRADE`;
+- multi-strategy allocation recommendations/targets which remain proposals until Portfolio Risk approval;
+- `DecisionOutcome`, `DecisionEvaluation` and append-only Decision Memory lineage;
+- provider-neutral `ReasoningModelPort` for optional LLM research/reasoning artifacts.
+
+Authority boundaries:
+
+- Decision Intelligence may observe, score, rank, recommend allocations, emit `NO_TRADE`, record outcomes/evaluations and create evidence for AIEA.
+- Decision Intelligence may not submit/cancel orders, call VenueAdapter writes, bypass PortfolioRisk, mutate Ledger facts, change safety limits or self-promote models.
+- LLM availability is never required for the execution-critical runtime. LLM outage degrades reasoning/research only.
+- LLM output is not a trusted fact, validation evidence, promotion approval or trading instruction. Any model/policy change must pass AIEA falsification/validation and independent promotion/risk/permission gates.
+
+Initial provider policy: `ReasoningModelPort` remains provider-neutral. A Groq OpenAI-compatible adapter is the initial cloud research adapter; an Ollama OpenAI-compatible adapter is the local/offline fallback. Provider credentials are infrastructure secrets and never enter domain contracts.
 
 ### 6.12. Grid Trading Desk — independent trading direction
 
@@ -1290,6 +1317,7 @@ Deliver:
 - multi-objective AIEA strategy scorecard;
 - canonical strategy runtime;
 - portfolio allocation interface;
+- Decision Intelligence typed portfolio-decision contracts and deterministic multi-strategy recommendation policy, with explicit NO_TRADE and no execution authority;
 - simulator/live semantic parity;
 - per-strategy PnL/attribution and correlation analytics.
 
@@ -1315,7 +1343,7 @@ Gate: `NEXUS_V2_GRID_TRADING_DESK_OK`
 
 ### Phase 8 — Intelligence V2
 
-Deliver canonical market data, data-quality/freshness, regime, liquidity, funding/OI, news/events and MarketContext.
+Deliver canonical market data, data-quality/freshness, regime, liquidity, funding/OI, news/events and MarketContext. MarketContext remains the canonical perception source for Decision Intelligence; the bridge records immutable context hashes/quality/blockers rather than copying raw venue payloads.
 
 Gate: `NEXUS_V2_INTELLIGENCE_OK`
 
@@ -1338,7 +1366,9 @@ Migrate and harden existing AIEA functions into a coherent research platform:
 - persistent research-memory provenance;
 - immutable strategy before/after evolution lineage;
 - closed evidence→hypothesis→candidate→falsification→lesson loop;
-- champion/challenger drift adaptation without blind live mutation.
+- champion/challenger drift adaptation without blind live mutation;
+- consume Decision Memory/self-evaluation only as research evidence;
+- provider-neutral LLM reasoning through `ReasoningModelPort`, optional/degraded-safe and never execution-authoritative.
 
 Gate: `NEXUS_V2_AIEA_OK`
 

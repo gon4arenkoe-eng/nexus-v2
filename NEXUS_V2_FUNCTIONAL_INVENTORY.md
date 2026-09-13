@@ -388,3 +388,27 @@ V2 Grid capability inventory:
 ### 15.3. Strategy quality principle
 
 Target production strategy count is not a KPI. The target is a diversified set of distinct, robust edges with measurable incremental contribution after costs. AIEA owns research comparison and candidate evidence; Core V2 owns deterministic runtime/risk/execution.
+
+## 16. NAIL / Decision Intelligence capability inventory — 2026-09-13 approved addition
+
+| Capability | Current status | V2 action / owner | Acceptance evidence |
+|---|---:|---|---|
+| Canonical MarketContext → decision snapshot bridge | TEST VERIFIED foundation | Decision Intelligence application | context hash/quality/blocker tests |
+| MarketDecisionSnapshot | TEST VERIFIED foundation | Decision Intelligence domain | immutable lineage tests |
+| StrategyOpportunityAssessment | TEST VERIFIED foundation | Decision Intelligence domain | numeric/eligibility validation |
+| Multi-strategy portfolio recommendation | TEST VERIFIED foundation | Decision Intelligence application | bounded weights + no execution authority tests |
+| Evidence-bearing NO_TRADE | TEST VERIFIED foundation | Decision Intelligence | stale/blocker/low-edge tests |
+| DecisionOutcome / DecisionEvaluation contracts | TEST VERIFIED foundation | Decision Intelligence domain | lineage/error taxonomy tests |
+| Decision Memory record | TEST VERIFIED foundation | Decision Intelligence + persistence adapter later | snapshot→decision→outcome→evaluation lineage |
+| Decision Memory durable repository | PLANNED / NOT VERIFIED | Decision Intelligence infrastructure | append-only persistence + tenant isolation + replay |
+| Runtime strategy opportunity models | PLANNED / NOT VERIFIED | Decision Intelligence deterministic/ML layer | calibrated edge/uncertainty + OOS/WF/shadow evidence |
+| PortfolioDecision → StrategyRuntime integration | PLANNED / NOT VERIFIED | Decision Intelligence + Phase 7 application bridge | typed integration + Risk boundary tests |
+| DecisionOutcome from canonical Ledger attribution | PLANNED / NOT VERIFIED | Core evidence → Decision Intelligence | fill/PnL/reconciliation linkage |
+| Automated self-evaluation metrics/calibration | PLANNED / NOT VERIFIED | Decision Intelligence | error attribution + confidence calibration tests |
+| Decision Memory → AIEA evidence handoff | PLANNED / NOT VERIFIED | AIEA research input | provenance + tenant isolation tests |
+| ReasoningModelPort | TEST VERIFIED foundation | Decision Intelligence port | provider-neutral contract tests |
+| Groq OpenAI-compatible reasoning adapter | TEST VERIFIED offline contract | adapter/reasoning | structured-output + degraded failure tests; real API not yet certified |
+| Ollama OpenAI-compatible fallback config | TEST VERIFIED config | adapter/reasoning | local endpoint/config test; runtime model not deployed |
+| LLM direct Risk/Execution/Venue authority | BLOCKED invariant | Architecture | forbidden dependency/source guards |
+
+This addition does not change roadmap phase order and does not reopen live authority. Existing Phase 7/8/9 gates remain historical evidence; the operational Decision Intelligence integration remains a supplemental gap until its remaining rows receive implementation evidence.

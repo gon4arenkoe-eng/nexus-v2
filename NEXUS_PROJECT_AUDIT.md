@@ -30100,3 +30100,146 @@ PHASE15=NOT_OPEN
 This local Phase14A slice does not close NEXUS_V2_SHADOW_PARITY_OK.
 
 Remaining Phase14 work requires target-server shadow/runtime evidence after deferred Phase13 venue runtime certification is completed.
+
+## Supplemental Architecture — NAIL / Decision Intelligence foundation
+
+Date: 2026-09-13
+
+Status: PARTIALLY VERIFIED
+
+Evidence tag: `NEXUS_V2_DECISION_INTELLIGENCE_FOUNDATION_PARTIALLY_VERIFIED`
+
+User-approved architecture addition without roadmap phase reordering:
+
+```text
+MarketContext
+→ MarketDecisionSnapshot
+→ StrategyOpportunityAssessment[]
+→ StrategyPortfolioDecision / NO_TRADE
+→ PortfolioRisk
+→ StrategyRuntime / TradeIntent
+→ Core Execution
+→ Ledger
+→ DecisionOutcome
+→ DecisionEvaluation
+→ Decision Memory
+→ AIEA research evidence
+```
+
+Implemented in this sandbox changeset:
+
+- new bounded context `apps/decision_intelligence`;
+- immutable `MarketDecisionSnapshot`;
+- `StrategyOpportunityAssessment`;
+- deterministic multi-strategy `StrategyPortfolioDecision` with bounded weights;
+- evidence-bearing `NO_TRADE`;
+- `DecisionObjective` separation from Risk authority;
+- `DecisionOutcome`, `DecisionEvaluation`, `DecisionMemoryRecord` lineage contracts;
+- provider-neutral `ReasoningModelPort`;
+- OpenAI-compatible Groq reasoning adapter;
+- OpenAI-compatible Ollama fallback configuration;
+- stdlib JSON HTTP transport adapter;
+- explicit LLM degraded behavior without trading failure;
+- architecture/functional-inventory/benchmark/runbook documentation.
+
+Safety evidence:
+
+- Decision Intelligence domain has no Core execution dependency;
+- Decision Portfolio Manager source contains no VenueAdapter/submit/place-order/ExecutionCoordinator authority;
+- LLM provider names are absent from Decision Intelligence domain contracts;
+- LLM output is reasoning-only and cannot grant validation/promotion/trading authority;
+- production authority unchanged.
+
+Test evidence:
+
+```text
+DECISION_INTELLIGENCE_FOCUSED=9_PASS
+DECISION_INTELLIGENCE_ADJACENT=90_PASS
+NON_PERSISTENCE_REGRESSION=767_PASS_1_SKIPPED
+PYTHON_COMPILE=PASS
+FORBIDDEN_DEPENDENCY_GREP=PASS
+```
+
+Full regression environment limitation:
+
+```text
+FULL_RAW=779_PASS_15_FAIL_1_SKIPPED
+ALL_15_FAILURES=ModuleNotFoundError_aiosqlite
+PYPROJECT_DECLARES=aiosqlite>=0.20,<1.0 under test extras
+SANDBOX_PIP_INSTALL=BLOCKED_BY_NO_NETWORK_DNS
+```
+
+The 15 failures are pre-existing persistence tests that cannot start because the sandbox lacks the declared optional test dependency. No code was patched to hide or bypass those failures.
+
+Therefore this slice is NOT `DONE / TEST VERIFIED` yet.
+
+Remaining before closure:
+
+- run full regression in the canonical test environment with `.[test]` installed;
+- implement durable append-only Decision Memory repository with tenant isolation/replay;
+- implement calibrated opportunity/edge/uncertainty models with OOS/WF/shadow evidence;
+- implement typed Decision Portfolio → StrategyRuntime/PortfolioRisk application handoff;
+- derive DecisionOutcome from canonical Ledger/reconciliation evidence;
+- implement self-evaluation/calibration aggregation;
+- implement Decision Memory → AIEA evidence handoff;
+- wire provider configuration/API key through approved security composition;
+- certify a real Groq research-only request without changing production authority.
+
+Production safety:
+
+- REAL = BLOCKED
+- AI promotion = SHADOW-ONLY
+- Advisory = OBSERVE_ONLY
+- Restricted Live = DISABLED
+- Full Live = DISABLED
+- AI direct exchange access = BLOCKED
+
+This supplemental addition does not close or bypass the open Phase 13 BingX certification gate or the full Phase 14 shadow parity gate.
+
+## Decision Intelligence Foundation - final verification
+
+**Status:** DONE / TEST VERIFIED / AUDIT VERIFIED
+
+**Evidence tag:** NEXUS_V2_DECISION_INTELLIGENCE_FOUNDATION_VERIFIED
+
+Verified foundation scope:
+
+- typed Decision Intelligence domain contracts
+- MarketDecisionSnapshot
+- StrategyOpportunityAssessment
+- StrategyPortfolioDecision
+- explicit NO_TRADE
+- DecisionOutcome
+- DecisionEvaluation
+- DecisionMemoryRecord foundation contract
+- deterministic portfolio decision foundation
+- provider-neutral ReasoningModelPort
+- OpenAI-compatible Groq reasoning adapter
+- Ollama-compatible provider boundary
+- LLM outage degrades reasoning without trading authority
+- no direct VenueAdapter / ExecutionCoordinator / exchange order access
+- canonical test extras: pytest, pytest-asyncio, aiosqlite
+
+Verification evidence:
+
+PYTHON=3.13.14
+PYTEST=8.4.2
+PYTEST_ASYNCIO=1.4.0
+DECISION_INTELLIGENCE_FOCUSED=9 passed
+DECISION_INTELLIGENCE_ADJACENT=90 passed
+FULL_REGRESSION=798 passed
+ARCHITECTURE_GUARD=PASS
+COMPILE=PASS
+
+Safety state unchanged:
+
+- AI promotion = SHADOW-ONLY
+- Advisory = OBSERVE_ONLY
+- Restricted Live = DISABLED
+- Full Live = DISABLED
+- AI direct exchange access = BLOCKED
+
+This closes only the Decision Intelligence Foundation slice.
+
+Remaining: durable Decision Memory persistence, calibrated opportunity/uncertainty models, runtime Strategy Portfolio handoff, outcome attribution and Decision-to-AIEA feedback integration.
+
