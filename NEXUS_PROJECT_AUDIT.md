@@ -30696,3 +30696,42 @@ Production safety remains:
 
 Evidence tag:
 NEXUS_V2_AIEA_OK
+## 2026-09-13 - Phase 9 AIEA V2 Gate Closure Evidence Correction
+
+Phase: 9 - AIEA V2
+Gate: NEXUS_V2_AIEA_OK
+
+The prior closure record committed in:
+d1d4a83677426d0a2956b642d16c4d102286b9cd
+
+contained an invalid evidence statement:
+- AIEA no-direct-execution authority guard PASS.
+
+The original textual guard actually STOPPED after matching non-authoritative text:
+- denylist string literals in workers/aiea_research/policy.py;
+- explanatory sandbox documentation text mentioning VenueAdapter / ExecutionCoordinator.
+
+Because the commands were entered interactively in PowerShell, later commands continued after that terminating error and the original closure commit was pushed.
+
+Corrective verification:
+- semantic Python AST authority guard PASS;
+- no VenueAdapter identifier/import/reference in executable AIEA syntax;
+- no ExecutionCoordinator identifier/import/reference in executable AIEA syntax;
+- no submit_order/create_order/cancel_order calls in apps/aiea or workers/aiea_research;
+- original textual matches verified as denylist/documentation false positives;
+- final full regression PASS;
+- production authority remains unchanged.
+
+Therefore the prior textual-guard evidence is superseded by this semantic authority verification.
+
+Phase 9 mandatory capabilities remain verified and Gate NEXUS_V2_AIEA_OK is confirmed DONE / TEST VERIFIED.
+
+Production safety remains:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_AIEA_OK_SEMANTIC_AUTHORITY_GUARD_VERIFIED
