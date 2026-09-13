@@ -29783,3 +29783,55 @@ NEXUS_V2_RELEASE_PIPELINE_FINAL_VERIFICATION_OK
 
 Phase 13 — Venue Certification.
 
+
+## 2026-09-13 — Phase 13 BingX DEMO Adapter Contract Verification
+
+### VERIFIED
+
+Concrete BingXVenueAdapter implemented against canonical V2 VenueAdapter contracts.
+
+Verified canonical operations: submit_order, cancel_order, get_order, get_open_orders, get_positions, get_account_state and get_fills.
+
+BingX normalization keeps raw venue payload fields inside the adapter boundary.
+Hedge-mode positionSide normalization preserves canonical LONG/SHORT identity.
+
+Adapter certification scope is DEMO-only.
+REAL BingX environment remains blocked.
+DEMO write authority requires explicit opt-in.
+
+### TEST EVIDENCE
+
+BingX focused suite: 14 passed.
+Generic VenueAdapter contract suite: 39 passed.
+Reconciliation adjacent suite: 60 passed.
+Full regression: 742 passed.
+flake8: PASS.
+mypy: PASS.
+Alembic head unchanged: d8a0e6f5b125.
+git diff --check: PASS.
+
+### SAFETY
+
+BINGX_DEMO_ONLY=YES
+BINGX_REAL_ENVIRONMENT=BLOCKED
+DEMO_WRITES=EXPLICIT_OPT_IN
+RAW_VENUE_FIELDS_TO_CORE=NO
+PRODUCTION_AUTHORITY_CHANGE=NO
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED — BingX adapter contract slice only.
+
+### PHASE 13 BINGX GATE
+
+NEXUS_V2_VENUE_BINGX_CERTIFIED_OK = OPEN
+
+Live/VST network certification evidence is still required before venue certification closure.
+
+### AUDIT_TAG
+
+NEXUS_V2_PHASE13_BINGX_ADAPTER_CONTRACT_VERIFIED
+
