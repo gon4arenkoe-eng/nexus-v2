@@ -112,7 +112,7 @@ jobs:
           set -euo pipefail
           grep -Fx 'AIEA_RESEARCH_SANDBOX_RUNTIME_CERTIFIED=PASS' \
             artifacts/aiea-research-sandbox/runtime-certification.log
-          sha256sum -c artifacts/aiea-research-sandbox/SHA256SUMS.txt
+          (cd artifacts/aiea-research-sandbox && sha256sum -c SHA256SUMS.txt)
 
       - name: Upload certification evidence
         uses: actions/upload-artifact@v7.0.1 # immutable release
