@@ -29835,3 +29835,52 @@ Live/VST network certification evidence is still required before venue certifica
 
 NEXUS_V2_PHASE13_BINGX_ADAPTER_CONTRACT_VERIFIED
 
+
+## 2026-09-13 — Phase 13 BingX VST Read-Only Network Foundation
+
+### VERIFIED
+
+Credential-safe BingX VST read-only network certification foundation implemented.
+
+Transport is VST-only and GET-only.
+REAL environment access remains blocked.
+Write methods remain blocked.
+Secrets are sourced only from local environment variables.
+Raw network payloads are not written into audit evidence.
+
+### TEST EVIDENCE
+
+Focused VST/BingX suite: 23 passed.
+Generic venue/reconciliation adjacent suite: 57 passed.
+Full regression: 751 passed.
+flake8: PASS.
+mypy: PASS.
+git diff --check: PASS.
+
+### SAFETY
+
+VST_ONLY=YES
+WRITE_METHODS=BLOCKED
+REAL_ENVIRONMENT=BLOCKED
+SECRETS_FROM_LOCAL_ENV_ONLY=YES
+RAW_NETWORK_PAYLOAD_EVIDENCE=NO
+PRODUCTION_AUTHORITY_CHANGE=NO
+AI direct exchange access remains BLOCKED.
+Restricted Live remains DISABLED.
+Full Live remains DISABLED.
+
+### STATUS
+
+DONE / TEST VERIFIED — VST read-only foundation only.
+
+### PHASE 13 BINGX GATE
+
+NEXUS_V2_VENUE_BINGX_CERTIFIED_OK = OPEN
+
+NETWORK_RUN=NOT_EXECUTED
+Real VST read-only network evidence is still required.
+
+### AUDIT_TAG
+
+NEXUS_V2_PHASE13_BINGX_VST_READONLY_FOUNDATION_VERIFIED
+
