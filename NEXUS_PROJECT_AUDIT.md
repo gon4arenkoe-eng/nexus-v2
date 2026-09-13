@@ -30526,3 +30526,64 @@ Evidence tag:
 NEXUS_V2_AIEA_STAGE_RESEARCH_WORKER_V1_VERIFIED
 
 Phase 9 gate is not closed by this slice alone.
+## 2026-09-13 - AIEA Research Sandbox / Compute Isolation v1
+
+Phase: 9 - AIEA V2
+Gate: NEXUS_V2_AIEA_OK remains OPEN.
+
+Status: DONE / TEST VERIFIED / RUNTIME VERIFIED for this capability slice.
+
+Implemented:
+- isolated AIEA research execution boundary;
+- Docker-backed research sandbox execution contract;
+- default-deny network policy;
+- default-deny production filesystem access;
+- no Docker socket mount;
+- no exchange credentials or production secrets;
+- dependency allowlist and static safety validation;
+- read-only container root filesystem;
+- non-root execution;
+- capability drop and no-new-privileges policy;
+- CPU, memory, PID and file-descriptor resource limits;
+- host-side wall timeout;
+- digest-pinned runtime image contract;
+- deterministic sandbox job/result evidence;
+- GitHub Actions runtime certification on ubuntu-24.04;
+- runtime evidence manifest and SHA256 verification;
+- no build on production;
+- no production deployment authority;
+- no VenueAdapter or ExecutionCoordinator access.
+
+Verification evidence:
+- local sandbox focused + adjacent: 56 passed;
+- sandbox full regression: 866 passed;
+- CI focused + adjacent: 29 passed;
+- combined full regression: 869 passed before runtime certification;
+- architecture AST guard PASS;
+- network default-deny PASS;
+- filesystem default-deny PASS;
+- Docker socket mount absent PASS;
+- resource-limit contract PASS;
+- digest-pin contract PASS;
+- no-new-migration guard PASS;
+- certification branch runtime probes executed on GitHub Actions;
+- runtime certification marker PASS;
+- SHA256 manifest path fix verified with 16 tests;
+- final GitHub Actions runtime certification run for certified commit 35065ce03984064293ad77cdca5aa368567bcf36 reported GREEN;
+- certified commits fast-forwarded unchanged into main;
+- final main compile PASS;
+- final main focused/adjacent PASS;
+- final main full regression PASS;
+- git diff --check PASS.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_AIEA_RESEARCH_SANDBOX_RUNTIME_V1_VERIFIED
+
+Phase 9 gate is not closed by this slice alone.
