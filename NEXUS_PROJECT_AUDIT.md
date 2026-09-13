@@ -30279,3 +30279,41 @@ Safety state unchanged:
 
 This closes only Durable Decision Memory Repository v1.
 Ledger outcome attribution, automated self-evaluation and Decision Memory to AIEA evidence bridge remain separate future work.
+
+## DecisionOutcome Attribution v1 - final verification
+
+Status: DONE / TEST VERIFIED / AUDIT VERIFIED
+
+Evidence tag: NEXUS_V2_DECISION_OUTCOME_ATTRIBUTION_V1_VERIFIED
+
+Verified scope:
+- immutable DecisionExecutionLink
+- decision to multiple TradeIntent lineage
+- TradeIntent to ExecutionPlan lineage resolution
+- Ledger-only DecisionOutcome attribution
+- multi-intent and multi-plan aggregation
+- explicit canonical FILL_RECORDED attribution evidence
+- duplicate Ledger event protection
+- strategy and strategy-version lineage enforcement
+- user ownership enforcement
+- missing or incomplete evidence fails closed
+- SQLite persistence UTC restoration at adapter boundary
+- immutable DecisionOutcome append to durable Decision Memory
+
+Verification evidence:
+PYTHON=3.13.14
+DECISION_OUTCOME_ATTRIBUTION_FOCUSED=8 passed
+DECISION_OUTCOME_ATTRIBUTION_ADJACENT=89 passed
+FULL_REGRESSION=814 passed
+COMPILE=PASS
+DIFF_CHECK=PASS
+
+Safety state unchanged:
+- AI promotion = SHADOW-ONLY
+- Advisory = OBSERVE_ONLY
+- Restricted Live = DISABLED
+- Full Live = DISABLED
+- AI direct exchange access = BLOCKED
+
+This closes DecisionOutcome Attribution v1 only.
+Automated DecisionEvaluation, self-evaluation statistics, confidence calibration and Decision Memory to AIEA evidence integration remain separate work.
