@@ -2,7 +2,7 @@
 
 **Version:** 1.2-draft
 **Date:** 2026-09-05
-**Status:** ARCHITECTURE/ROADMAP APPROVED IN THIS CHANGESET вЂ” implementation remains NOT DONE; project/GitHub commit still required for canonical repository adoption
+**Status:** ARCHITECTURE/ROADMAP APPROVED IN THIS CHANGESET — implementation remains NOT DONE; project/GitHub commit still required for canonical repository adoption
 **Companion:** `NEXUS_V2_FUNCTIONAL_INVENTORY.md`
 
 ---
@@ -13,8 +13,8 @@
 
 Two documents have different responsibilities:
 
-- `NEXUS_V2_MASTER_PLAN.md` вЂ” forward-looking canonical roadmap and target architecture.
-- `NEXUS_PROJECT_AUDIT.md` вЂ” sole source of truth for actual current state, evidence and DONE/VERIFIED status.
+- `NEXUS_V2_MASTER_PLAN.md` — forward-looking canonical roadmap and target architecture.
+- `NEXUS_PROJECT_AUDIT.md` — sole source of truth for actual current state, evidence and DONE/VERIFIED status.
 
 The Master Plan never makes an item DONE. Only Audit evidence can do that.
 
@@ -23,9 +23,9 @@ The Master Plan never makes an item DONE. Only Audit evidence can do that.
 
 The following product-architecture additions are approved for inclusion in the V2 roadmap without changing phase order:
 
-- **AIEA Product Moat Spec** вЂ” persistent research memory, hypothesis/evolution loop, falsification-first candidate evaluation, challenger/drift adaptation, evidence-bound promotion/rollback and isolated autonomous R&D.
-- **Product Entitlements / Subscriptions / Quotas** вЂ” commercial access is modeled through feature entitlements and quotas, not plan-name conditionals in business logic.
-- **NEXUS Trading Workspace Composer** вЂ” a user-configurable trading cockpit built from typed widgets, layouts, templates and linked context while preserving non-hideable safety state.
+- **AIEA Product Moat Spec** — persistent research memory, hypothesis/evolution loop, falsification-first candidate evaluation, challenger/drift adaptation, evidence-bound promotion/rollback and isolated autonomous R&D.
+- **Product Entitlements / Subscriptions / Quotas** — commercial access is modeled through feature entitlements and quotas, not plan-name conditionals in business logic.
+- **NEXUS Trading Workspace Composer** — a user-configurable trading cockpit built from typed widgets, layouts, templates and linked context while preserving non-hideable safety state.
 
 These additions are **DESIGN APPROVED**, not implementation-DONE. Their implementation evidence belongs to the relevant Phase 9, Phase 10 and Phase 11 gates.
 
@@ -33,7 +33,7 @@ These additions are **DESIGN APPROVED**, not implementation-DONE. Their implemen
 
 Every implementation step follows:
 
-`FACT в†’ FULL AUDIT CROSS-CHECK в†’ CODE CHECK в†’ EVIDENCE в†’ AUDIT в†’ STATUS в†’ ONE NEXT STEP`
+`FACT → FULL AUDIT CROSS-CHECK → CODE CHECK → EVIDENCE → AUDIT → STATUS → ONE NEXT STEP`
 
 Before every new design or implementation target, search the complete relevant Audit scope to avoid recreating already-approved work.
 
@@ -54,10 +54,10 @@ Unless explicitly changed by a separate approved security/architecture decision:
 
 Build NEXUS V2 as a powerful multi-user algorithmic trading platform with four product planes and three backend bounded contexts:
 
-1. **NEXUS Core V2** вЂ” deterministic trading, risk, execution, ledger, reconciliation, venue integration.
-2. **NEXUS Intelligence** вЂ” market data, regime, liquidity, volatility, funding/OI, news/events and canonical market context.
-3. **NEXUS AIEA** вЂ” research, hypotheses, experiments, ML, validation, comparison, promotion/rollback and research memory.
-4. **NEXUS Control Plane** вЂ” multi-user web shell, settings, administration, monitoring, analytics, AIEA laboratory and operational controls.
+1. **NEXUS Core V2** — deterministic trading, risk, execution, ledger, reconciliation, venue integration.
+2. **NEXUS Intelligence** — market data, regime, liquidity, volatility, funding/OI, news/events and canonical market context.
+3. **NEXUS AIEA** — research, hypotheses, experiments, ML, validation, comparison, promotion/rollback and research memory.
+4. **NEXUS Control Plane** — multi-user web shell, settings, administration, monitoring, analytics, AIEA laboratory and operational controls.
 
 The Control Plane is a presentation/API shell, not a fourth trading brain.
 
@@ -81,7 +81,7 @@ NEXUS adopts proven patterns, not wholesale dependencies or copied architectures
 | vn.py / VeighNa | simple EventEngine + Gateway + OMS separation | P0 event/OMS simplicity reference |
 | CCXT | very broad exchange capability/mapping coverage | P0 exchange mapping/reference; not sole canonical domain |
 | Microsoft Qlib | quant data/workflow/model lifecycle and online/simulation model management | P0 AIEA research reference |
-| Microsoft RD-Agent | automated hypothesisв†’implementationв†’experimentв†’feedback research loop | P0 AIEA autonomous R&D reference, sandboxed only |
+| Microsoft RD-Agent | automated hypothesis→implementation→experiment→feedback research loop | P0 AIEA autonomous R&D reference, sandboxed only |
 | Freqtrade/FreqAI | feature pipelines, adaptive retraining, lookahead analysis, operational strategy tooling | P1 AIEA validation/ML reference |
 | VectorBT | high-throughput parameter/research exploration | P1 research acceleration; license review required before embedding |
 | FinRL-X | AI-native modular production direction and RL research patterns | P2 experimental reference, not core dependency |
@@ -101,63 +101,63 @@ Use one private **monorepo** to prevent contract drift while keeping deployable 
 
 ```text
 nexus-v2/
-в”њв”Ђв”Ђ apps/
-в”‚   в”њв”Ђв”Ђ core/                  # production trading runtime
-в”‚   в”њв”Ђв”Ђ intelligence/          # market/intelligence runtime
-в”‚   в”њв”Ђв”Ђ aiea/                  # AIEA API/runtime coordinator
-в”‚   в””в”Ђв”Ђ web/                   # Control Plane frontend
-в”‚
-в”њв”Ђв”Ђ workers/
-в”‚   в””в”Ђв”Ђ aiea_research/         # heavy off-production research workers
-в”‚
-в”њв”Ђв”Ђ packages/
-в”‚   в”њв”Ђв”Ђ contracts/             # versioned shared DTO/events/identities
-в”‚   в”њв”Ђв”Ђ testkit/               # fixtures, fake venue, deterministic clock
-в”‚   в””в”Ђв”Ђ observability/         # logging/metrics/tracing conventions
-в”‚
-в”њв”Ђв”Ђ adapters/
-в”‚   в”њв”Ђв”Ђ bingx/
-в”‚   в”њв”Ђв”Ђ binance/
-в”‚   в”њв”Ђв”Ђ bybit/
-в”‚   в”њв”Ђв”Ђ okx/
-в”‚   в””в”Ђв”Ђ ...
-в”‚
-в”њв”Ђв”Ђ infra/
-в”‚   в”њв”Ђв”Ђ compose/
-в”‚   в”њв”Ђв”Ђ migrations/
-в”‚   в”њв”Ђв”Ђ github/
-в”‚   в””в”Ђв”Ђ deploy/
-в”‚
-в”њв”Ђв”Ђ docs/
-в”‚   в”њв”Ђв”Ђ architecture/
-в”‚   в”њв”Ђв”Ђ runbooks/
-в”‚   в””в”Ђв”Ђ adr/
-в”‚
-в”њв”Ђв”Ђ NEXUS_V2_MASTER_PLAN.md
-в”њв”Ђв”Ђ NEXUS_V2_FUNCTIONAL_INVENTORY.md
-в””в”Ђв”Ђ NEXUS_PROJECT_AUDIT.md
+├── apps/
+│   ├── core/                  # production trading runtime
+│   ├── intelligence/          # market/intelligence runtime
+│   ├── aiea/                  # AIEA API/runtime coordinator
+│   └── web/                   # Control Plane frontend
+│
+├── workers/
+│   └── aiea_research/         # heavy off-production research workers
+│
+├── packages/
+│   ├── contracts/             # versioned shared DTO/events/identities
+│   ├── testkit/               # fixtures, fake venue, deterministic clock
+│   └── observability/         # logging/metrics/tracing conventions
+│
+├── adapters/
+│   ├── bingx/
+│   ├── binance/
+│   ├── bybit/
+│   ├── okx/
+│   └── ...
+│
+├── infra/
+│   ├── compose/
+│   ├── migrations/
+│   ├── github/
+│   └── deploy/
+│
+├── docs/
+│   ├── architecture/
+│   ├── runbooks/
+│   └── adr/
+│
+├── NEXUS_V2_MASTER_PLAN.md
+├── NEXUS_V2_FUNCTIONAL_INVENTORY.md
+└── NEXUS_PROJECT_AUDIT.md
 ```
 
 ### Dependency direction
 
 ```text
 contracts/domain
-      в†‘
+      ↑
 application/core logic
-      в†‘
+      ↑
 ports
-      в†‘
+      ↑
 adapters/infrastructure
 ```
 
 Forbidden dependencies include:
 
-- Core domain в†’ exchange client.
-- Core domain в†’ SQLAlchemy/FastAPI.
-- AIEA в†’ ExecutionCoordinator or VenueAdapter write methods.
-- Strategies в†’ raw exchange dictionaries.
-- UI в†’ direct database access.
-- Intelligence в†’ production order execution.
+- Core domain → exchange client.
+- Core domain → SQLAlchemy/FastAPI.
+- AIEA → ExecutionCoordinator or VenueAdapter write methods.
+- Strategies → raw exchange dictionaries.
+- UI → direct database access.
+- Intelligence → production order execution.
 
 ---
 
@@ -185,17 +185,17 @@ Primary flow:
 
 ```text
 local workstation / Codespace / research host
-        в†“
+        ↓
 private GitHub monorepo
-        в†“
+        ↓
 GitHub Actions
-        в†“
+        ↓
 unit + contract + integration + security + migration + replay gates
-        в†“
+        ↓
 versioned Docker images
-        в†“
+        ↓
 GitHub Container Registry (GHCR)
-        в†“
+        ↓
 production: pull by immutable tag/digest
 ```
 
@@ -341,7 +341,7 @@ CCXT is the breadth reference; Hummingbot/Nautilus/official venue APIs validate 
 
 Preserve and extend the already-established Core V2 ownership chain:
 
-`TradeIntent в†’ ExecutionPlan в†’ PositionGroup в†’ PositionLeg в†’ ExecutionOrder в†’ ExecutionFill`
+`TradeIntent → ExecutionPlan → PositionGroup → PositionLeg → ExecutionOrder → ExecutionFill`
 
 Requirements:
 
@@ -361,13 +361,13 @@ Startup sequence:
 
 ```text
 load local ledger/cache
-в†’ connect venue adapters
-в†’ query/consume venue truth
-в†’ reconcile orders
-в†’ reconcile fills
-в†’ reconcile positions
-в†’ emit discrepancy/evidence
-в†’ only then activate strategy execution
+→ connect venue adapters
+→ query/consume venue truth
+→ reconcile orders
+→ reconcile fills
+→ reconcile positions
+→ emit discrepancy/evidence
+→ only then activate strategy execution
 ```
 
 Continuous reconciliation runs while live.
@@ -492,19 +492,19 @@ Strategy selection is separate from capital allocation.
 
 The target flow is:
 
-`Strategy/Alpha в†’ TradeIntent в†’ PortfolioConstruction/Allocation в†’ PortfolioRisk в†’ ExecutionPlan`
+`Strategy/Alpha → TradeIntent → PortfolioConstruction/Allocation → PortfolioRisk → ExecutionPlan`
 
 Portfolio allocation must consider expected edge, confidence, capacity, drawdown, regime suitability and correlation between strategies. The system should prefer complementary strategy families rather than several variants of the same signal.
 
 AIEA may recommend activation/deactivation or allocation changes, but production changes remain behind explicit promotion/risk/permission gates.
 
-### 6.12. Grid Trading Desk вЂ” independent trading direction
+### 6.12. Grid Trading Desk — independent trading direction
 
 Grid is NOT treated as an ordinary entry/exit StrategyPlugin in the target architecture. It is a dedicated trading program with its own long-lived state, capital allocation, order inventory, recovery rules, risk budget and performance attribution.
 
 Target ownership:
 
-`GridProgram в†’ GridInstance в†’ GridCycle в†’ GridOrder/Fill в†’ GridPnL`
+`GridProgram → GridInstance → GridCycle → GridOrder/Fill → GridPnL`
 
 The Grid Trading Desk shares canonical Core V2 infrastructure:
 
@@ -606,24 +606,24 @@ AIEA is the research/evolution brain. It discovers and validates candidates; it 
 
 ```text
 Market/Trade Evidence
-в†’ Knowledge Snapshot
-в†’ Hypothesis
-в†’ Candidate implementation/specification
-в†’ Static/Data validation
-в†’ Backtest
-в†’ Cost/slippage/funding model
-в†’ OOS
-в†’ Walk-forward
-в†’ Regime/event slices
-в†’ Stability/falsification tests
-в†’ Paper
-в†’ Shadow
-в†’ Comparison vs baseline
-в†’ Promotion readiness
-в†’ independent risk/permission approval
-в†’ controlled strategy-version activation
-в†’ ongoing drift/quality monitoring
-в†’ rollback/retirement when degraded
+→ Knowledge Snapshot
+→ Hypothesis
+→ Candidate implementation/specification
+→ Static/Data validation
+→ Backtest
+→ Cost/slippage/funding model
+→ OOS
+→ Walk-forward
+→ Regime/event slices
+→ Stability/falsification tests
+→ Paper
+→ Shadow
+→ Comparison vs baseline
+→ Promotion readiness
+→ independent risk/permission approval
+→ controlled strategy-version activation
+→ ongoing drift/quality monitoring
+→ rollback/retirement when degraded
 ```
 
 ### 8.3. Falsification-first policy
@@ -703,33 +703,33 @@ Production receives only compact, versioned runtime artifacts necessary for appr
 
 AIEA must be product-differentiated by a complete evidence-driven evolution lifecycle, not by the marketing label "AI" alone. The following capabilities are mandatory targets for the Phase 9 gate:
 
-1. **Persistent Research Memory with provenance** вЂ” observations, hypotheses, experiments, failed candidates, lessons, dataset/code identities and evidence remain traceable and tenant-isolated.
-2. **Hypothesis Research Loop** вЂ” market/trade evidence becomes an explicit falsifiable hypothesis linked to a reproducible experiment and candidate identity.
-3. **Strategy Evolution** вЂ” new or modified strategy versions are immutable children of prior versions with machine-readable before/after specification, reason, expected effect and actual evidence. Production versions are never rewritten in place.
-4. **Falsification Engine** вЂ” candidates may be rejected by lookahead/leakage checks, realistic costs, OOS, walk-forward, regime/symbol/side instability, parameter sensitivity, capacity/liquidity, minimum-sample, tail-risk or data-quality failures.
-5. **Market Adaptation / Champion-Challenger** вЂ” drift/degradation may trigger research and challenger creation/selection, but never blind live mutation of the active production version.
-6. **Evidence-bound Promotion and Rollback** вЂ” exact dataset/code/environment/evidence identities bind promotion; independent risk/permission approval remains required; rollback targets remain deterministic and auditable.
-7. **Isolated Autonomous R&D** вЂ” automated research workers have bounded compute/time/dependency/network policy and no production credentials, VenueAdapter write access or ExecutionCoordinator authority.
+1. **Persistent Research Memory with provenance** — observations, hypotheses, experiments, failed candidates, lessons, dataset/code identities and evidence remain traceable and tenant-isolated.
+2. **Hypothesis Research Loop** — market/trade evidence becomes an explicit falsifiable hypothesis linked to a reproducible experiment and candidate identity.
+3. **Strategy Evolution** — new or modified strategy versions are immutable children of prior versions with machine-readable before/after specification, reason, expected effect and actual evidence. Production versions are never rewritten in place.
+4. **Falsification Engine** — candidates may be rejected by lookahead/leakage checks, realistic costs, OOS, walk-forward, regime/symbol/side instability, parameter sensitivity, capacity/liquidity, minimum-sample, tail-risk or data-quality failures.
+5. **Market Adaptation / Champion-Challenger** — drift/degradation may trigger research and challenger creation/selection, but never blind live mutation of the active production version.
+6. **Evidence-bound Promotion and Rollback** — exact dataset/code/environment/evidence identities bind promotion; independent risk/permission approval remains required; rollback targets remain deterministic and auditable.
+7. **Isolated Autonomous R&D** — automated research workers have bounded compute/time/dependency/network policy and no production credentials, VenueAdapter write access or ExecutionCoordinator authority.
 
 The canonical loop is:
 
 ```text
 Evidence
-в†’ Memory / Knowledge Snapshot
-в†’ Hypothesis
-в†’ Candidate / New Version
-в†’ Falsification + Validation
-в†’ Comparison
-в†’ Lesson
-в†’ Challenger / Next Research Cycle
-в†’ Promotion Readiness
-в†’ Independent Risk / Permission Approval
-в†’ Controlled Activation
-в†’ Drift Monitoring
-в†’ Rollback / Retirement
+→ Memory / Knowledge Snapshot
+→ Hypothesis
+→ Candidate / New Version
+→ Falsification + Validation
+→ Comparison
+→ Lesson
+→ Challenger / Next Research Cycle
+→ Promotion Readiness
+→ Independent Risk / Permission Approval
+→ Controlled Activation
+→ Drift Monitoring
+→ Rollback / Retirement
 ```
 
-AIEA success is measured by reproducibility, rejection of weak candidates, OOS/stability quality, controlled adaptation and safe handoff to Core вЂ” not by the number of generated strategies.
+AIEA success is measured by reproducibility, rejection of weak candidates, OOS/stability quality, controlled adaptation and safe handoff to Core — not by the number of generated strategies.
 
 ---
 
@@ -739,13 +739,13 @@ AIEA success is measured by reproducibility, rejection of weak candidates, OOS/s
 
 ```text
 Workspace/Tenant
-  в””в”Ђв”Ђ User memberships + roles
-      в””в”Ђв”Ђ ExchangeAccount(s)
-          в””в”Ђв”Ђ StrategyInstance(s)
-              в””в”Ђв”Ђ TradeIntent
-                  в””в”Ђв”Ђ ExecutionPlan
-                      в””в”Ђв”Ђ PositionGroup
-                          в””в”Ђв”Ђ Orders/Fills
+  └── User memberships + roles
+      └── ExchangeAccount(s)
+          └── StrategyInstance(s)
+              └── TradeIntent
+                  └── ExecutionPlan
+                      └── PositionGroup
+                          └── Orders/Fills
 ```
 
 ### 9.2. Roles
@@ -798,11 +798,11 @@ Priority layers:
 
 ```text
 system safe defaults
-в†’ workspace settings
-в†’ exchange-account settings
-в†’ risk profile
-в†’ strategy instance settings
-в†’ optional session override
+→ workspace settings
+→ exchange-account settings
+→ risk profile
+→ strategy instance settings
+→ optional session override
 ```
 
 Settings domains:
@@ -831,27 +831,27 @@ Canonical separation:
 
 ```text
 Identity / Workspace Ownership
-в†’ Role Permission
-в†’ Feature Entitlement
-в†’ Quota / Resource Policy
-в†’ Safety / Risk / Promotion Authority
-в†’ Action
+→ Role Permission
+→ Feature Entitlement
+→ Quota / Resource Policy
+→ Safety / Risk / Promotion Authority
+→ Action
 ```
 
 `Payment != trading authority`. A paid plan may grant access to capabilities, compute, retention, users, accounts, strategy/grid instances or AIEA workflows, but it cannot bypass Risk, Reconciliation, Promotion, tenant isolation, credential policy or live-safety gates.
 
 Target product-access entities:
 
-- `ProductPlan` вЂ” commercial bundle name/positioning only;
-- `PlanVersion` вЂ” immutable plan composition for grandfathering and safe pricing/package changes;
-- `FeatureKey` вЂ” stable capability identifier consumed by application/API/UI;
-- `PlanEntitlement` вЂ” feature access granted by a plan version;
-- `QuotaDefinition` / `QuotaSnapshot` вЂ” resource limits such as seats, accounts, instances, experiment runs, compute, retention or storage;
-- `Subscription` / `SubscriptionState` вЂ” workspace commercial state;
-- `UsageCounter` вЂ” race-safe measured usage for quota enforcement;
-- `EntitlementOverride` вЂ” audited controlled grant/revoke for beta/support/migration without changing trading safety;
-- `BillingEvent` вЂ” immutable/idempotent commercial event evidence;
-- `BillingProviderPort` вЂ” infrastructure abstraction for external billing providers; no provider SDK in Core domain.
+- `ProductPlan` — commercial bundle name/positioning only;
+- `PlanVersion` — immutable plan composition for grandfathering and safe pricing/package changes;
+- `FeatureKey` — stable capability identifier consumed by application/API/UI;
+- `PlanEntitlement` — feature access granted by a plan version;
+- `QuotaDefinition` / `QuotaSnapshot` — resource limits such as seats, accounts, instances, experiment runs, compute, retention or storage;
+- `Subscription` / `SubscriptionState` — workspace commercial state;
+- `UsageCounter` — race-safe measured usage for quota enforcement;
+- `EntitlementOverride` — audited controlled grant/revoke for beta/support/migration without changing trading safety;
+- `BillingEvent` — immutable/idempotent commercial event evidence;
+- `BillingProviderPort` — infrastructure abstraction for external billing providers; no provider SDK in Core domain.
 
 Business/application code checks stable capability keys such as:
 
@@ -959,23 +959,23 @@ Canonical ownership:
 
 ```text
 Workspace/Tenant
-  в””в”Ђв”Ђ User
-      в””в”Ђв”Ђ UserWorkspace
-          в””в”Ђв”Ђ WorkspaceLayoutVersion
-              в””в”Ђв”Ђ WidgetInstance(s)
+  └── User
+      └── UserWorkspace
+          └── WorkspaceLayoutVersion
+              └── WidgetInstance(s)
 ```
 
 Separate shared registry:
 
 ```text
 WidgetRegistry
-  в””в”Ђв”Ђ WidgetDefinition
-      в”њв”Ђв”Ђ typed data contract
-      в”њв”Ђв”Ђ supported context keys
-      в”њв”Ђв”Ђ feature entitlement requirement
-      в”њв”Ђв”Ђ role/action permission requirement
-      в”њв”Ђв”Ђ minimum/default size
-      в””в”Ђв”Ђ safety/presentation policy
+  └── WidgetDefinition
+      ├── typed data contract
+      ├── supported context keys
+      ├── feature entitlement requirement
+      ├── role/action permission requirement
+      ├── minimum/default size
+      └── safety/presentation policy
 ```
 
 Users may:
@@ -1130,11 +1130,11 @@ Every operational alert links to a runbook.
 
 ## 15. Testing pyramid
 
-### Level 1 вЂ” Pure domain tests
+### Level 1 — Pure domain tests
 
 Fast deterministic tests for identities, intents, states, transitions, risk math and settings validation.
 
-### Level 2 вЂ” Contract tests
+### Level 2 — Contract tests
 
 - VenueAdapter certification suite;
 - repository contracts;
@@ -1142,11 +1142,11 @@ Fast deterministic tests for identities, intents, states, transitions, risk math
 - API schemas;
 - strategy contract.
 
-### Level 3 вЂ” Integration
+### Level 3 — Integration
 
 PostgreSQL + Redis + application services.
 
-### Level 4 вЂ” Fault/recovery
+### Level 4 — Fault/recovery
 
 Inject:
 
@@ -1160,19 +1160,19 @@ Inject:
 - DB retry;
 - stale venue/account snapshot.
 
-### Level 5 вЂ” Historical deterministic replay
+### Level 5 — Historical deterministic replay
 
 Rebuild local state from recorded events and compare hashes/projections.
 
-### Level 6 вЂ” Research validation
+### Level 6 — Research validation
 
 Lookahead, OOS, walk-forward, cost, regime/stability and falsification gates.
 
-### Level 7 вЂ” Venue DEMO certification
+### Level 7 — Venue DEMO certification
 
 Per venue, verify order/fill/position/restart/reconciliation semantics.
 
-### Level 8 вЂ” Shadow parallel run
+### Level 8 — Shadow parallel run
 
 New system observes the same market/runtime environment without new live authority and is compared with legacy behavior/evidence.
 
@@ -1199,7 +1199,7 @@ Legacy strategies are not automatically considered production-worthy merely beca
 
 ## 17. Phased implementation roadmap
 
-### Phase 0 вЂ” Architecture baseline and repository bootstrap
+### Phase 0 — Architecture baseline and repository bootstrap
 
 Deliverables:
 
@@ -1214,7 +1214,7 @@ Deliverables:
 
 Gate: `NEXUS_V2_FOUNDATION_PLAN_OK`
 
-### Phase 1 вЂ” Shared contracts and testkit
+### Phase 1 — Shared contracts and testkit
 
 Deliver:
 
@@ -1230,7 +1230,7 @@ Deliver:
 
 Gate: `NEXUS_V2_SHARED_CONTRACTS_OK`
 
-### Phase 2 вЂ” Import and harden existing Core V2 foundation
+### Phase 2 — Import and harden existing Core V2 foundation
 
 Migrate verified work rather than recreate it:
 
@@ -1245,7 +1245,7 @@ No legacy runtime cutover.
 
 Gate: `NEXUS_V2_CORE_FOUNDATION_MIGRATED_OK`
 
-### Phase 3 вЂ” Reconciliation
+### Phase 3 — Reconciliation
 
 Deliver:
 
@@ -1261,25 +1261,25 @@ Extract proven behavior from PositionAgent without copying legacy ownership.
 
 Gate: `TRADING_CORE_V2_RECONCILIATION_OK`
 
-### Phase 4 вЂ” Execution Coordinator
+### Phase 4 — Execution Coordinator
 
 Deliver deterministic single-leg execution state machine, unknown outcomes, retry/idempotency, recovery, cancel/replace and restart behavior.
 
 Gate: `TRADING_CORE_V2_EXECUTION_COORDINATOR_OK`
 
-### Phase 5 вЂ” Pair/basket execution
+### Phase 5 — Pair/basket execution
 
 Deliver pair-native ownership, partial-fill recovery, coordinated close and hedge integrity.
 
 Gate: `TRADING_CORE_V2_PAIR_EXECUTION_OK`
 
-### Phase 6 вЂ” Portfolio Risk V2
+### Phase 6 — Portfolio Risk V2
 
 Deliver portfolio/account/venue/correlation/concentration/liquidity risk and integrate proven single-leg policy.
 
 Gate: `TRADING_CORE_V2_PORTFOLIO_RISK_OK`
 
-### Phase 7 вЂ” Strategy Portfolio Benchmark, runtime and backtest/live parity
+### Phase 7 — Strategy Portfolio Benchmark, runtime and backtest/live parity
 
 Deliver:
 
@@ -1295,7 +1295,7 @@ Deliver:
 
 Gate: `NEXUS_V2_STRATEGY_PORTFOLIO_OK`
 
-### Phase 7G вЂ” Grid Trading Desk
+### Phase 7G — Grid Trading Desk
 
 Design and certify Grid as a dedicated trading direction, not merely a normal StrategyPlugin.
 
@@ -1313,13 +1313,13 @@ Deliver:
 
 Gate: `NEXUS_V2_GRID_TRADING_DESK_OK`
 
-### Phase 8 вЂ” Intelligence V2
+### Phase 8 — Intelligence V2
 
 Deliver canonical market data, data-quality/freshness, regime, liquidity, funding/OI, news/events and MarketContext.
 
 Gate: `NEXUS_V2_INTELLIGENCE_OK`
 
-### Phase 9 вЂ” AIEA V2
+### Phase 9 — AIEA V2
 
 Migrate and harden existing AIEA functions into a coherent research platform:
 
@@ -1337,12 +1337,12 @@ Migrate and harden existing AIEA functions into a coherent research platform:
 - isolated automated R&D worker;
 - persistent research-memory provenance;
 - immutable strategy before/after evolution lineage;
-- closed evidenceв†’hypothesisв†’candidateв†’falsificationв†’lesson loop;
+- closed evidence→hypothesis→candidate→falsification→lesson loop;
 - champion/challenger drift adaptation without blind live mutation.
 
 Gate: `NEXUS_V2_AIEA_OK`
 
-### Phase 10 вЂ” Multi-user / Settings / Security V2
+### Phase 10 — Multi-user / Settings / Security V2
 
 Deliver workspace/roles, tenant isolation, secrets layer, hierarchical settings, user-scoped background jobs/events and generic audit trail.
 
@@ -1359,7 +1359,7 @@ Also deliver the product-access foundation:
 
 Gate: `NEXUS_V2_MULTI_USER_SECURITY_OK`
 
-### Phase 11 вЂ” Control Plane V2
+### Phase 11 — Control Plane V2
 
 Deliver modern UI with operational trading, risk, reconciliation, venue, AIEA and admin surfaces.
 
@@ -1377,13 +1377,13 @@ Also deliver the Trading Workspace Composer:
 
 Gate: `NEXUS_V2_CONTROL_PLANE_OK`
 
-### Phase 12 вЂ” CI/CD and production packaging
+### Phase 12 — CI/CD and production packaging
 
 Deliver immutable images, GHCR publishing, SBOM, attestations, deploy manifests, backup/rollback runbooks and no-build-on-production enforcement.
 
 Gate: `NEXUS_V2_RELEASE_PIPELINE_OK`
 
-### Phase 13 вЂ” Venue certification
+### Phase 13 — Venue certification
 
 Sequence:
 
@@ -1397,7 +1397,43 @@ Each venue passes the common adapter/reconciliation/execution contract suite plu
 
 Gate per venue: `NEXUS_V2_VENUE_<VENUE>_CERTIFIED_OK`
 
-### Phase 14 вЂ” End-to-end simulation and shadow parallel run
+#### BingX runtime certification deferral
+
+Approved Phase-13 execution decision:
+
+Evidence tag: NEXUS_V2_PHASE13_BINGX_RUNTIME_CERTIFICATION_DEFERRED
+
+The remaining BingX runtime certification is DEFERRED / NOT VERIFIED
+until NEXUS V2 is running in the target server environment with BingX
+VST credentials connected and production-safety guards verified.
+
+Already verified locally:
+
+- BingX adapter contract;
+- BingX VST read-only network;
+- BingX VST controlled-write transport boundary.
+
+Deferred evidence:
+
+- controlled VST submit;
+- order observation;
+- cancel or terminal resolution;
+- reconciliation against resulting venue state;
+- restart/recovery semantics;
+- fill and position semantics required by venue certification.
+
+This deferral does not close NEXUS_V2_VENUE_BINGX_CERTIFIED_OK.
+
+The BingX venue gate remains OPEN.
+
+Production authority remains unchanged:
+
+- REAL trading remains blocked;
+- Restricted Live remains disabled;
+- Full Live remains disabled;
+- AI direct exchange access remains blocked.
+
+### Phase 14 — End-to-end simulation and shadow parallel run
 
 New V2 runs alongside legacy without additional live permission.
 
@@ -1414,7 +1450,7 @@ Compare:
 
 Gate: `NEXUS_V2_SHADOW_PARITY_OK`
 
-### Phase 15 вЂ” Cutover readiness review
+### Phase 15 — Cutover readiness review
 
 Requires:
 
@@ -1429,7 +1465,7 @@ Requires:
 
 Gate: `NEXUS_V2_CUTOVER_READY`
 
-### Phase 16 вЂ” Controlled production cutover
+### Phase 16 — Controlled production cutover
 
 Separate explicit authorization required.
 
@@ -1437,7 +1473,7 @@ No AI live boundary is automatically expanded by Core cutover.
 
 Gate: `NEXUS_V2_PRODUCTION_CUTOVER_OK`
 
-### Phase 17 вЂ” Legacy retirement
+### Phase 17 — Legacy retirement
 
 Only after stable verified V2 production period:
 
@@ -1475,7 +1511,7 @@ NEXUS must measure whether it trades well rather than infer quality from backtes
 
 Core execution KPIs:
 
-- submitв†’ack latency;
+- submit→ack latency;
 - fill latency;
 - expected vs realized slippage;
 - reject rate;
