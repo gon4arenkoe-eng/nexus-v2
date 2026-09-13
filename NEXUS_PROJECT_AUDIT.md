@@ -30012,3 +30012,49 @@ Production safety:
 Next primary step after this documentation changeset:
 
 prepare NEXUS V2 for target-server operation without treating deferred BingX runtime certification as DONE.
+
+
+## Phase 14A - Local E2E / Shadow Readiness
+
+Status: DESIGN / EXECUTION ORDER APPROVED
+
+Evidence tag: NEXUS_V2_PHASE14_LOCAL_READINESS_BEFORE_SERVER_APPROVED
+
+User-approved execution order:
+
+Local development may TEST VERIFY Phase 14 capabilities that do not
+require the target server or real venue runtime.
+
+Local scope:
+
+- E2E V2 simulation;
+- shadow authority isolation;
+- deterministic restart/replay;
+- comparison evidence;
+- stale/degraded/failure behavior;
+- no-live-authority proof.
+
+This is not a Phase 13 gate bypass.
+
+Deferred Phase 13 BingX runtime certification remains:
+DEFERRED / NOT VERIFIED.
+
+NEXUS_V2_VENUE_BINGX_CERTIFIED_OK remains OPEN.
+
+After target-server migration:
+
+Phase 13 deferred runtime gaps
+-> Phase 13 gate closure
+-> Phase 14 server shadow completion
+-> NEXUS_V2_SHADOW_PARITY_OK
+-> Phase 15 cutover readiness.
+
+Phase 15 must remain NOT OPEN until required Phase 13 gates and
+NEXUS_V2_SHADOW_PARITY_OK are closed with evidence.
+
+Production safety remains unchanged:
+
+- REAL trading blocked;
+- Restricted Live disabled;
+- Full Live disabled;
+- AI direct exchange access blocked.

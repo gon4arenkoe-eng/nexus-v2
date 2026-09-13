@@ -1433,6 +1433,37 @@ Production authority remains unchanged:
 - Full Live remains disabled;
 - AI direct exchange access remains blocked.
 
+#### Approved local Phase 14 readiness before server completion
+
+**Status:** `DESIGN / EXECUTION ORDER APPROVED`
+
+**Evidence tag:** `NEXUS_V2_PHASE14_LOCAL_READINESS_BEFORE_SERVER_APPROVED`
+
+Local Phase 14 preparation may proceed before deferred server-side
+Phase 13 BingX runtime certification is completed.
+
+Local scope:
+
+- end-to-end V2 simulation;
+- shadow authority isolation;
+- deterministic restart/replay;
+- legacy-versus-V2 comparison evidence;
+- stale/degraded/failure simulation;
+- proof that no additional live authority is introduced.
+
+This does not close or bypass Phase 13.
+
+Server order remains:
+
+1. deploy verified V2 runtime;
+2. complete deferred Phase 13 runtime certification;
+3. close required Phase 13 gates;
+4. complete Phase 14 server shadow evidence;
+5. close `NEXUS_V2_SHADOW_PARITY_OK`;
+6. only then open Phase 15.
+
+Production authority remains unchanged.
+
 ### Phase 14 — End-to-end simulation and shadow parallel run
 
 New V2 runs alongside legacy without additional live permission.
