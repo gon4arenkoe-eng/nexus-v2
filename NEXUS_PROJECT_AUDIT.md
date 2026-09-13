@@ -30058,3 +30058,45 @@ Production safety remains unchanged:
 - Restricted Live disabled;
 - Full Live disabled;
 - AI direct exchange access blocked.
+
+## Phase 14A — Local E2E / Shadow Readiness
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag: NEXUS_V2_PHASE14A_LOCAL_E2E_SHADOW_READINESS_VERIFIED
+
+Verified local scope:
+
+- canonical ExecutionCoordinator -> simulated VenueAdapter -> reconciliation path;
+- reconciliation MATCHED evidence;
+- STALE source fail-closed behavior;
+- restart without duplicate submit;
+- UNKNOWN/ambiguous execution recovery behavior;
+- unresolved UNKNOWN remains fail-closed;
+- deterministic shadow comparison evidence;
+- PASS / FAIL / NOT_COMPARABLE parity semantics;
+- critical mismatch classification;
+- shadow submit/cancel authority isolation;
+- deterministic Phase14A readiness report.
+
+Test evidence:
+
+PHASE14A_FOCUSED=27_PASS
+PHASE14A_ADJACENT=38_PASS
+FULL_REGRESSION=789_PASS
+PYTHON_SYNTAX=PASS
+SAFETY_AST=PASS
+
+Safety:
+
+NETWORK_ACCESS=NONE
+REAL_EXCHANGE_ACCESS=NONE
+PRODUCTION_AUTHORITY_CHANGE=NO
+PHASE13_BINGX_RUNTIME=DEFERRED_NOT_VERIFIED
+BINGX_CERTIFICATION_GATE=OPEN
+PHASE14_SHADOW_GATE=NOT_CLOSED
+PHASE15=NOT_OPEN
+
+This local Phase14A slice does not close NEXUS_V2_SHADOW_PARITY_OK.
+
+Remaining Phase14 work requires target-server shadow/runtime evidence after deferred Phase13 venue runtime certification is completed.
