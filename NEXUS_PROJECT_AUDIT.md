@@ -29966,3 +29966,49 @@ Remaining:
 submit -> observe -> cancel/resolve -> reconcile
 
 Production authority unchanged.
+
+## Phase 13 — BingX runtime certification deferral
+
+Status: DEFERRED / NOT VERIFIED
+
+Evidence tag: NEXUS_V2_PHASE13_BINGX_RUNTIME_CERTIFICATION_DEFERRED
+
+User-approved roadmap decision:
+
+The remaining BingX VST runtime execution certification is deferred from the local development environment to the target server-connected environment.
+
+Already verified and preserved:
+
+- BingX adapter contract;
+- BingX VST read-only network access;
+- BingX VST controlled-write transport boundary;
+- REAL endpoints remain blocked;
+- production authority remains unchanged.
+
+Deferred / NOT VERIFIED:
+
+- controlled VST submit;
+- observe;
+- cancel/resolve;
+- reconciliation;
+- restart/recovery semantics;
+- fill/position semantics required for final BingX venue certification.
+
+The deferral does NOT close NEXUS_V2_VENUE_BINGX_CERTIFIED_OK.
+
+BingX certification gate remains OPEN.
+
+Return condition:
+
+NEXUS V2 is running in the target server environment, BingX VST credentials are connected, and production-safety guards are verified before controlled certification writes.
+
+Production safety:
+
+- REAL = BLOCKED
+- Restricted Live = DISABLED
+- Full Live = DISABLED
+- AI direct exchange access = BLOCKED
+
+Next primary step after this documentation changeset:
+
+prepare NEXUS V2 for target-server operation without treating deferred BingX runtime certification as DONE.
