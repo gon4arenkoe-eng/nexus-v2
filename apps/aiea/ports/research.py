@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Protocol
 
 from apps.aiea.domain.research import (
+    ArtifactKind,
     CandidateVersion,
     ExperimentRecord,
     Hypothesis,
@@ -33,6 +34,23 @@ class ResearchRecordStore(Protocol):
     async def append_experiment(self, value: ExperimentRecord) -> None: ...
 
     async def append_artifact(self, value: ResearchArtifact) -> None: ...
+
+    async def get_artifact(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        kind: ArtifactKind,
+        artifact_id: str,
+    ) -> ResearchArtifact | None: ...
+
+    async def list_artifacts_for_owner(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        kind: ArtifactKind | None = None,
+    ) -> tuple[ResearchArtifact, ...]: ...
 
     async def list_experiments_for_candidate(
         self,

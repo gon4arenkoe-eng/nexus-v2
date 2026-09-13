@@ -13,6 +13,7 @@ import json
 from typing import Any
 
 from apps.aiea.domain.research import (
+    ArtifactKind,
     CandidateVersion,
     ExperimentRecord,
     ExperimentStage,
@@ -76,6 +77,25 @@ def _validation_result(value: Mapping[str, Any]) -> ValidationResult:
         score=Decimal(str(value["score"])),
         evidence_hash=str(value["evidence_hash"]),
         detail=str(value["detail"]),
+    )
+
+
+def _artifact(payload_json: str) -> ResearchArtifact:
+    value = _load(payload_json)
+    metadata = value.get("metadata", {})
+    if not isinstance(metadata, Mapping):
+        raise ValueError("artifact metadata payload is invalid")
+    parent = value.get("parent_artifact_id")
+    return ResearchArtifact(
+        artifact_id=str(value["artifact_id"]),
+        workspace_id=str(value["workspace_id"]),
+        user_id=int(value["user_id"]),
+        kind=ArtifactKind(str(value["kind"])),
+        version=str(value["version"]),
+        content_hash=str(value["content_hash"]),
+        parent_artifact_id=None if parent is None else str(parent),
+        created_at=datetime.fromisoformat(str(value["created_at"])),
+        metadata={str(key): item for key, item in metadata.items()},
     )
 
 
@@ -179,6 +199,47 @@ class AIEAResearchRecordStore:
             user_id=value.user_id,
             created_at=value.created_at,
             parent_record_id=value.parent_artifact_id,
+        )
+
+    async def get_artifact(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        kind: ArtifactKind,
+        artifact_id: str,
+    ) -> ResearchArtifact | None:
+        record = await self._repository.get(
+            workspace_id=workspace_id,
+            user_id=user_id,
+            record_type=f"artifact:{kind.value.lower()}",
+            record_id=artifact_id,
+        )
+        return None if record is None else _artifact(record.payload_json)
+
+    async def list_artifacts_for_owner(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        kind: ArtifactKind | None = None,
+    ) -> tuple[ResearchArtifact, ...]:
+        records = await self._repository.list_for_owner(
+            workspace_id=workspace_id,
+            user_id=user_id,
+        )
+        record_type = None if kind is None else f"artifact:{kind.value.lower()}"
+        values = tuple(
+            _artifact(record.payload_json)
+            for record in records
+            if record.record_type.startswith("artifact:")
+            and (record_type is None or record.record_type == record_type)
+        )
+        return tuple(
+            sorted(
+                values,
+                key=lambda item: (item.kind.value, item.artifact_id, item.version),
+            )
         )
 
     async def list_experiments_for_candidate(

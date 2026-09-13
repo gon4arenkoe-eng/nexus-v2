@@ -30426,3 +30426,53 @@ Safety state unchanged:
 This closes AIEA Experiment Lifecycle Orchestrator v1 only.
 Independent Risk and permission approval remain mandatory.
 Automatic production activation remains prohibited.
+
+## 2026-09-13 - AIEA Durable Model Registry v1
+
+Phase: 9 - AIEA V2
+Gate: NEXUS_V2_AIEA_OK remains OPEN.
+
+Status: DONE / TEST VERIFIED for this capability slice.
+
+Implemented:
+- canonical evidence-bound Model Registry entry contract;
+- workspace/user/candidate/strategy/version/parent lineage;
+- dataset version/hash and feature-definition hash binding;
+- model hash, code hash and immutable hyperparameters;
+- train/validation/test interval and cost-model binding;
+- result/evidence hashes and environment digest;
+- promotion-readiness and rollback-target binding;
+- durable storage through existing ResearchArtifact / AIEA research journal;
+- typed artifact read/restore path;
+- restart-safe fresh-session registry restoration;
+- tenant-isolated registry queries;
+- idempotent immutable retry and conflict rejection;
+- no new persistence table or Alembic migration;
+- no execution, VenueAdapter, credential or production-write authority.
+
+Verification evidence:
+- Python 3.13.14;
+- pytest 8.4.2;
+- pytest-asyncio 1.4.0;
+- aiosqlite 0.22.1;
+- changeset scope PASS;
+- compile PASS;
+- focused Model Registry: 10 passed;
+- adjacent AIEA: 54 passed;
+- full regression: 847 passed;
+- architecture guard PASS;
+- Alembic head: e9b1c7d3a246;
+- no-new-migration guard PASS;
+- git diff --check PASS.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_AIEA_MODEL_REGISTRY_DURABLE_V1_VERIFIED
+
+Phase 9 gate is not closed by this slice alone.
