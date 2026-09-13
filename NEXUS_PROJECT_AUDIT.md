@@ -30639,3 +30639,60 @@ Evidence tag:
 NEXUS_V2_AIEA_DRIFT_FRESHNESS_CHAMPION_CHALLENGER_V1_VERIFIED
 
 Phase 9 gate is not closed by this slice alone.
+## 2026-09-13 - Phase 9 AIEA V2 Gate Closure
+
+Phase: 9 - AIEA V2
+
+Gate: NEXUS_V2_AIEA_OK
+
+Status: DONE / TEST VERIFIED / RUNTIME VERIFIED where applicable.
+
+Phase 9 mandatory capability consolidation:
+- dataset/feature lineage: VERIFIED;
+- hypotheses and experiments: VERIFIED;
+- deterministic backtest with realistic research costs: VERIFIED;
+- falsification-first lifecycle: VERIFIED;
+- all mandatory falsification checks including FALSE_DISCOVERY: VERIFIED;
+- OOS / walk-forward: VERIFIED;
+- paper / shadow: VERIFIED;
+- baseline/comparison stage: VERIFIED;
+- durable model/strategy registry: VERIFIED;
+- evidence-bound promotion/rollback gates: VERIFIED;
+- model/evidence drift and freshness: VERIFIED;
+- isolated automated R&D worker: VERIFIED;
+- runtime sandbox / compute isolation: TEST + RUNTIME VERIFIED;
+- persistent tenant-scoped research-memory provenance: VERIFIED;
+- immutable parent->child candidate/version lineage: VERIFIED;
+- evidence -> hypothesis -> candidate -> falsification -> lesson -> next-cycle loop: VERIFIED;
+- champion/challenger drift adaptation: VERIFIED;
+- blind live mutation from drift monitoring: BLOCKED;
+- AIEA direct exchange/execution authority: BLOCKED.
+
+Consolidated evidence tags:
+- NEXUS_V2_DECISION_INTELLIGENCE_FOUNDATION_VERIFIED
+- NEXUS_V2_DECISION_MEMORY_DURABLE_REPOSITORY_VERIFIED
+- NEXUS_V2_DECISION_OUTCOME_ATTRIBUTION_V1_VERIFIED
+- NEXUS_V2_AIEA_DECISION_LEARNING_LOOP_V1_VERIFIED
+- NEXUS_V2_AIEA_EXPERIMENT_LIFECYCLE_V1_VERIFIED
+- NEXUS_V2_AIEA_MODEL_REGISTRY_DURABLE_V1_VERIFIED
+- NEXUS_V2_AIEA_STAGE_RESEARCH_WORKER_V1_VERIFIED
+- NEXUS_V2_AIEA_RESEARCH_SANDBOX_RUNTIME_V1_VERIFIED
+- NEXUS_V2_AIEA_DRIFT_FRESHNESS_CHAMPION_CHALLENGER_V1_VERIFIED
+
+Final gate evidence:
+- main == origin/main before closure;
+- clean worktree before closure;
+- Phase 9 capability-symbol map PASS;
+- final full regression PASS;
+- AIEA no-direct-execution authority guard PASS;
+- production authority unchanged.
+
+Production safety remains:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_AIEA_OK
