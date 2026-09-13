@@ -41,3 +41,10 @@ class DecisionMemoryStore(Protocol):
         user_id: int,
         decision_id: str,
     ) -> DecisionMemoryRecord | None: ...
+
+    async def list_memories(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+    ) -> tuple[DecisionMemoryRecord, ...]: ...

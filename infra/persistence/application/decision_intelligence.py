@@ -96,6 +96,10 @@ def _snapshot(payload_json: str) -> MarketDecisionSnapshot:
         data_quality_state=str(value["data_quality_state"]),
         data_quality_score=Decimal(str(value["data_quality_score"])),
         market_uncertainty=Decimal(str(value["market_uncertainty"])),
+        market_state_tags={
+            str(key): str(item)
+            for key, item in value.get("market_state_tags", {}).items()
+        },
         active_blockers=tuple(str(item) for item in value.get("active_blockers", [])),
         available_strategy_versions=tuple(
             str(item) for item in value.get("available_strategy_versions", [])
@@ -347,6 +351,34 @@ class DecisionMemoryPersistenceStore:
             outcome=outcome,
             evaluation=evaluation,
         )
+
+    async def list_memories(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+    ) -> tuple[DecisionMemoryRecord, ...]:
+        records = await self._repository.list_for_owner(
+            workspace_id=workspace_id,
+            user_id=user_id,
+        )
+        decision_ids = tuple(
+            sorted(
+                record.record_id
+                for record in records
+                if record.record_type == "decision"
+            )
+        )
+        memories: list[DecisionMemoryRecord] = []
+        for decision_id in decision_ids:
+            memory = await self.rebuild(
+                workspace_id=workspace_id,
+                user_id=user_id,
+                decision_id=decision_id,
+            )
+            if memory is not None:
+                memories.append(memory)
+        return tuple(memories)
 
     async def _append(
         self,

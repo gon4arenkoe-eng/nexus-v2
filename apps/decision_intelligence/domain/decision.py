@@ -112,6 +112,7 @@ class MarketDecisionSnapshot:
     data_quality_state: str
     data_quality_score: Decimal
     market_uncertainty: Decimal
+    market_state_tags: Mapping[str, str] = field(default_factory=dict)
     active_blockers: tuple[str, ...] = ()
     available_strategy_versions: tuple[str, ...] = ()
     decision_policy_version: str = "decision-v1"
@@ -138,6 +139,14 @@ class MarketDecisionSnapshot:
             raise ValueError("instruments must be a non-empty tuple of InstrumentId")
         object.__setattr__(self, "data_quality_score", _unit(self.data_quality_score, field_name="data_quality_score"))
         object.__setattr__(self, "market_uncertainty", _unit(self.market_uncertainty, field_name="market_uncertainty"))
+        if not isinstance(self.market_state_tags, Mapping):
+            raise ValueError("market_state_tags must be a mapping")
+        normalized_tags: dict[str, str] = {}
+        for key, value in self.market_state_tags.items():
+            normalized_tags[_text(str(key), field_name="market_state_tag_key")] = _text(
+                str(value), field_name="market_state_tag_value"
+            )
+        object.__setattr__(self, "market_state_tags", MappingProxyType(normalized_tags))
         for name in ("active_blockers", "available_strategy_versions", "evidence_refs"):
             values = getattr(self, name)
             if not isinstance(values, tuple) or not all(isinstance(item, str) and item.strip() for item in values):

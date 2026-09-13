@@ -30317,3 +30317,56 @@ Safety state unchanged:
 
 This closes DecisionOutcome Attribution v1 only.
 Automated DecisionEvaluation, self-evaluation statistics, confidence calibration and Decision Memory to AIEA evidence integration remain separate work.
+
+## AIEA Decision Learning Loop v1 - final verification
+
+Status: DONE / TEST VERIFIED / AUDIT VERIFIED
+
+Evidence tag: NEXUS_V2_AIEA_DECISION_LEARNING_LOOP_V1_VERIFIED
+
+Verified scope:
+- automated DecisionEvaluation generation
+- structured self-evaluation metrics
+- market-model accuracy evaluation
+- strategy-selection quality evaluation
+- allocation-quality evaluation
+- confidence-calibration evaluation
+- timing-quality evaluation
+- data-quality impact evaluation
+- execution-quality evaluation
+- deterministic primary and secondary error classification
+- insufficient-evidence fail-closed behavior
+- immutable DecisionEvaluation append to durable Decision Memory
+- decision-level calibration aggregation
+- market-state context preservation
+- Decision Memory to AIEA evidence handoff
+- AIEA decision feedback persistence
+- decision-derived lesson generation
+- decision-derived research hypothesis generation
+- closed decision evidence to lesson to research-next-cycle bridge
+- repeated publication idempotency
+- tenant/workspace/user ownership preservation
+- no AIEA direct execution, Risk or Venue authority
+
+Verification evidence:
+PYTHON=3.13.14
+PYTEST=8.4.2
+PYTEST_ASYNCIO=1.4.0
+AIOSQLITE=0.22.1
+AIEA_LEARNING_LOOP_FOCUSED=12 passed
+AIEA_LEARNING_LOOP_ADJACENT=126 passed
+FULL_REGRESSION=829 passed
+COMPILE=PASS
+ARCHITECTURE_GUARD=PASS
+DIFF_CHECK=PASS
+
+Safety state unchanged:
+- AI promotion = SHADOW-ONLY
+- Advisory = OBSERVE_ONLY
+- Restricted Live = DISABLED
+- Full Live = DISABLED
+- AI direct exchange access = BLOCKED
+
+This closes AIEA Decision Learning Loop v1 only.
+Strategy mutation, automatic production promotion and direct execution authority remain prohibited.
+Existing AIEA falsification, OOS, walk-forward, paper, shadow and approval gates remain mandatory.

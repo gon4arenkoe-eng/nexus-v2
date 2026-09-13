@@ -321,3 +321,18 @@ def test_decision_domain_has_no_core_execution_or_provider_dependencies() -> Non
         "fastapi",
     ):
         assert forbidden not in source
+
+
+def test_market_decision_snapshot_preserves_structured_market_state_tags() -> None:
+    context = _market_context()
+    snapshot = MarketContextDecisionBridge().build_snapshot(
+        snapshot_id="snapshot-tags",
+        workspace_id="ws-1",
+        user_id=7,
+        created_at=NOW,
+        context=context,
+        available_strategy_versions=("trend@1",),
+    )
+    assert snapshot.market_state_tags["regime"] == context.regime.value
+    assert snapshot.market_state_tags["volatility"] == context.volatility.value
+    assert snapshot.market_state_tags["liquidity"] == context.liquidity.value

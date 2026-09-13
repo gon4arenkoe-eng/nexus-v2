@@ -53,6 +53,13 @@ class FakeRepository:
     async def get(self, *, workspace_id, user_id, record_type, record_id):
         return self.records.get((workspace_id, user_id, record_type, record_id))
 
+    async def list_for_owner(self, *, workspace_id, user_id):
+        values = [
+            record for record in self.records.values()
+            if record.workspace_id == workspace_id and record.user_id == user_id
+        ]
+        return tuple(sorted(values, key=lambda item: (item.created_at, item.record_type, item.record_id)))
+
     async def list_children(self, *, workspace_id, user_id, record_type, parent_record_id):
         values = [
             record
@@ -170,3 +177,21 @@ def test_store_blocks_cross_owner_parent_substitution() -> None:
         return False
 
     assert asyncio.run(scenario()) is True
+
+
+def test_store_lists_owner_memories_for_calibration_projection() -> None:
+    async def scenario():
+        repo = FakeRepository()
+        store = DecisionMemoryPersistenceStore(repo)  # type: ignore[arg-type]
+        snapshot = _snapshot()
+        decision = _decision(snapshot)
+        await store.append_snapshot(snapshot)
+        await store.append_decision(decision)
+        await store.append_outcome(workspace_id="ws-1", user_id=7, value=_outcome())
+        await store.append_evaluation(workspace_id="ws-1", user_id=7, value=_evaluation())
+        return await store.list_memories(workspace_id="ws-1", user_id=7)
+
+    records = asyncio.run(scenario())
+    assert len(records) == 1
+    assert records[0].decision.decision_id == "decision-1"
+    assert records[0].evaluation is not None

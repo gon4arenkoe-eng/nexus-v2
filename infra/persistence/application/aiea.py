@@ -16,6 +16,7 @@ from apps.aiea.domain.research import (
     CandidateVersion,
     ExperimentRecord,
     Hypothesis,
+    KnowledgeSnapshot,
     ResearchArtifact,
     ResearchEvidence,
     ResearchMemoryEntry,
@@ -60,6 +61,16 @@ def _hash(payload: str) -> str:
 class AIEAResearchRecordStore:
     def __init__(self, repository: AIEAResearchRecordRepository) -> None:
         self._repository = repository
+
+    async def append_snapshot(self, value: KnowledgeSnapshot) -> None:
+        await self._append(
+            value,
+            record_type="snapshot",
+            record_id=value.snapshot_id,
+            workspace_id=value.workspace_id,
+            user_id=value.user_id,
+            created_at=value.created_at,
+        )
 
     async def append_evidence(self, value: ResearchEvidence) -> None:
         await self._append(

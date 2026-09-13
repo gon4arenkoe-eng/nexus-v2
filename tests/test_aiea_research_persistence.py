@@ -170,3 +170,40 @@ def test_aiea_model_registered_and_guarded() -> None:
         if constraint.__class__.__name__ == "CheckConstraint"
     }
     assert "user_id > 0" in checks
+
+
+def test_aiea_store_persists_explicit_knowledge_snapshot_provenance() -> None:
+    from apps.aiea.domain.research import KnowledgeSnapshot
+
+    async def scenario():
+        engine = create_async_engine("sqlite+aiosqlite:///:memory:", future=True)
+        factory = async_sessionmaker(engine, expire_on_commit=False)
+        async with engine.begin() as connection:
+            await connection.run_sync(
+                PersistenceBase.metadata.create_all,
+                tables=(AIEAResearchRecordModel.__table__,),
+            )
+        value = KnowledgeSnapshot(
+            snapshot_id="decision-knowledge-1",
+            workspace_id="ws-1",
+            user_id=7,
+            created_at=NOW,
+            evidence_ids=("evidence-1",),
+            content_hash="snapshot-content-hash",
+        )
+        async with factory() as session:
+            store = AIEAResearchRecordStore(AIEAResearchRecordRepository(session))
+            await store.append_snapshot(value)
+            await session.commit()
+        async with factory() as session:
+            record = await AIEAResearchRecordRepository(session).get(
+                workspace_id="ws-1", user_id=7, record_type="snapshot",
+                record_id="decision-knowledge-1",
+            )
+        await engine.dispose()
+        return record
+
+    record = asyncio.run(scenario())
+    assert record is not None
+    assert record.record_type == "snapshot"
+    assert record.content_hash

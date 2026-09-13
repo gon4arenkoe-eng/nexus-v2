@@ -8,6 +8,7 @@ from apps.aiea.domain.research import (
     CandidateVersion,
     ExperimentRecord,
     Hypothesis,
+    KnowledgeSnapshot,
     ResearchArtifact,
     ResearchEvidence,
     ResearchMemoryEntry,
@@ -19,6 +20,8 @@ if TYPE_CHECKING:
 
 
 class ResearchRecordStore(Protocol):
+    async def append_snapshot(self, value: KnowledgeSnapshot) -> None: ...
+
     async def append_evidence(self, value: ResearchEvidence) -> None: ...
 
     async def append_memory(self, value: ResearchMemoryEntry) -> None: ...
