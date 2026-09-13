@@ -101,25 +101,22 @@ class ContractTransport:
                     }
                 },
             }
-        if path.endswith("/trade/fillHistory"):
+        if path.endswith("/trade/allFillOrders"):
             return {
                 "code": 0,
-                "data": {
-                    "fill_orders": [
-                        {
-                            "tradeId": "fill-1",
-                            "orderId": 101,
-                            "clientOrderId": CLIENT_ID.value,
-                            "symbol": "BTC-USDT",
-                            "side": "BUY",
-                            "qty": "0.25",
-                            "price": "60000",
-                            "commission": "1",
-                            "commissionAsset": "VST",
-                            "time": 1789214400000,
-                        }
-                    ]
-                },
+                "data": [
+                    {
+                        "tradeId": "fill-1",
+                        "orderId": 101,
+                        "clientOrderId": CLIENT_ID.value,
+                        "symbol": "BTC-USDT",
+                        "side": "BUY",
+                        "qty": "0.25",
+                        "price": "60000",
+                        "fee": "0",
+                        "closeTime": 1789214400000,
+                    }
+                ],
             }
         raise AssertionError((method, path, params))
 
@@ -182,8 +179,8 @@ def test_bingx_passes_generic_venue_read_contract() -> None:
                     side=OrderSide.BUY,
                     quantity=Decimal("0.25"),
                     price=Decimal("60000"),
-                    fee=Decimal("1"),
-                    fee_currency="VST",
+                    fee=Decimal("0"),
+                    fee_currency=None,
                     executed_at=NOW,
                     observed_at=NOW,
                 ),

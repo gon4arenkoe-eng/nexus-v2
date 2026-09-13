@@ -321,9 +321,9 @@ class BingXVenueAdapter(VenueAdapter):
         )
         data = _response_data(response)
         balance_payload = (
-            data.get("balance")
+            data.get("balance", data)
             if isinstance(data, Mapping)
-            else None
+            else data
         )
         rows = _balance_rows(balance_payload)
         balances = tuple(
@@ -348,7 +348,7 @@ class BingXVenueAdapter(VenueAdapter):
         _require_account(account_id)
         if instrument_id is None:
             raise ValueError(
-                "BingX fillHistory requires instrument_id"
+                "BingX allFillOrders requires instrument_id"
             )
         _require_instrument(instrument_id)
 
@@ -362,17 +362,78 @@ class BingXVenueAdapter(VenueAdapter):
 
         response = await self._transport.request(
             "GET",
-            "/openApi/swap/v2/trade/fillHistory",
+            "/openApi/swap/v2/trade/allFillOrders",
             {
-                "symbol": _bingx_symbol(instrument_id),
+                "tradingUnit": "COIN",
                 "startTs": str(_milliseconds(start_at)),
                 "endTs": str(_milliseconds(end_at)),
-                "pageIndex": "1",
-                "pageSize": "1000",
             },
         )
         data = _response_data(response)
-        rows = _list_payload(data, keys=("fill_orders", "fills", "orders"))
+        rows = tuple(
+            row
+            for row in _list_payload(data)
+            if str(row.get("symbol") or "").upper()
+            == _bingx_symbol(instrument_id).upper()
+        )
+
+        invalid_side_order_ids = {
+            str(row.get("orderId"))
+            for row in rows
+            if (
+                row.get("orderId") is not None
+                and str(row.get("side") or "").upper()
+                not in {"BUY", "SELL"}
+            )
+        }
+
+        if invalid_side_order_ids:
+            orders_response = await self._transport.request(
+                "GET",
+                "/openApi/swap/v2/trade/allOrders",
+                {
+                    "symbol": _bingx_symbol(instrument_id),
+                    "startTime": str(_milliseconds(start_at)),
+                    "endTime": str(_milliseconds(end_at)),
+                    "limit": "1000",
+                },
+            )
+            orders_data = _response_data(orders_response)
+            order_rows = _list_payload(orders_data)
+
+            order_side_by_id = {
+                str(order.get("orderId")): (
+                    str(order.get("side") or "").upper()
+                )
+                for order in order_rows
+                if (
+                    order.get("orderId") is not None
+                    and str(order.get("side") or "").upper()
+                    in {"BUY", "SELL"}
+                )
+            }
+
+            enriched_rows: list[Mapping[str, object]] = []
+
+            for row in rows:
+                side = str(row.get("side") or "").upper()
+
+                if (
+                    side not in {"BUY", "SELL"}
+                    and row.get("orderId") is not None
+                ):
+                    recovered_side = order_side_by_id.get(
+                        str(row.get("orderId"))
+                    )
+
+                    if recovered_side is not None:
+                        enriched_row = dict(row)
+                        enriched_row["side"] = recovered_side
+                        row = enriched_row
+
+                enriched_rows.append(row)
+
+            rows = tuple(enriched_rows)
         fills = tuple(
             sorted(
                 (
@@ -661,7 +722,7 @@ def _normalize_fill(
     if side_raw not in {"BUY", "SELL"}:
         raise ValueError("BingX fill side must be BUY or SELL")
     quantity = _decimal(
-        row.get("qty", row.get("quantity", row.get("executedQty", "0"))),
+        row.get("quantity", row.get("qty", row.get("executedQty", "0"))),
         field_name="fill quantity",
     )
     price = _decimal(row.get("price", "0"), field_name="fill price")
@@ -676,7 +737,10 @@ def _normalize_fill(
         else None
     )
     executed_at = _timestamp_datetime(
-        row.get("time", row.get("timestamp", row.get("fillTime")))
+        row.get(
+            "closeTime",
+            row.get("time", row.get("timestamp", row.get("fillTime"))),
+        )
     )
     fill_id_raw = row.get("tradeId") or row.get("fillId")
     return VenueFill(

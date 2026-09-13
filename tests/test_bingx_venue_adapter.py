@@ -258,42 +258,181 @@ def test_demo_vst_balance_remains_vst_canonical_asset() -> None:
     asyncio.run(scenario())
 
 
-def test_fill_history_normalizes_fill_identity_and_fee() -> None:
+def test_v3_balance_array_normalizes_canonical_balance() -> None:
     async def scenario() -> None:
         transport = ScriptedTransport(
             {
                 "code": 0,
-                "data": {
-                    "fill_orders": [
-                        {
-                            "tradeId": 55,
-                            "orderId": 123,
-                            "clientOrderId": "nexus-1",
-                            "symbol": "BTC-USDT",
-                            "side": "BUY",
-                            "qty": "0.01",
-                            "price": "60000",
-                            "commission": "0.2",
-                            "commissionAsset": "USDT",
-                            "time": 1789214400000,
-                        }
-                    ]
-                },
+                "msg": "",
+                "data": [
+                    {
+                        "userId": "masked",
+                        "asset": "VST",
+                        "balance": "100000",
+                        "equity": "100000",
+                        "unrealizedProfit": "0",
+                        "realisedProfit": "0",
+                        "availableMargin": "99000",
+                        "usedMargin": "1000",
+                        "freezedMargin": "0",
+                    }
+                ],
             }
         )
+
+        state = await _adapter(transport).get_account_state(
+            account_id=ACCOUNT
+        )
+
+        assert len(state.balances) == 1
+        assert state.balances[0].currency == "VST"
+        assert state.balances[0].total == Decimal("100000")
+        assert state.balances[0].available == Decimal("99000")
+
+    asyncio.run(scenario())
+
+
+def test_all_fill_orders_normalizes_documented_fill_contract() -> None:
+    async def scenario() -> None:
+        transport = ScriptedTransport(
+            {
+                "code": 0,
+                "msg": "",
+                "data": [
+                    {
+                        "tradeId": "55",
+                        "orderId": "123",
+                        "symbol": "BTC-USDT",
+                        "side": "BUY",
+                        "price": "60000",
+                        "quantity": "0.01",
+                        "realizedPnl": "0",
+                        "fee": "0",
+                        "closeTime": 1789214400000,
+                    }
+                ],
+            }
+        )
+
         fills = await _adapter(transport).get_fills(
             account_id=ACCOUNT,
             instrument_id=INSTRUMENT,
             since=datetime(2026, 9, 12, 11, 0, tzinfo=UTC),
         )
+
         assert len(fills) == 1
+
         fill = fills[0]
         assert fill.venue_fill_id is not None
         assert fill.venue_fill_id.value == "55"
         assert fill.venue_order_id == VenueOrderId("123")
+        assert fill.side is OrderSide.BUY
         assert fill.quantity == Decimal("0.01")
-        assert fill.fee == Decimal("0.2")
-        assert fill.fee_currency == "USDT"
+        assert fill.price == Decimal("60000")
+        assert fill.fee == Decimal("0")
+        assert fill.executed_at == datetime(
+            2026,
+            9,
+            12,
+            12,
+            0,
+            tzinfo=UTC,
+        )
+
+        method, path, params = transport.calls[0]
+
+        assert method == "GET"
+        assert path == "/openApi/swap/v2/trade/allFillOrders"
+        assert params == {
+            "tradingUnit": "COIN",
+            "startTs": "1789210800000",
+            "endTs": "1789214400000",
+        }
+
+    asyncio.run(scenario())
+
+
+def test_fill_side_recovers_from_matching_historical_order() -> None:
+    class FillSideRecoveryTransport:
+        def __init__(self) -> None:
+            self.calls: list[
+                tuple[str, str, Mapping[str, str]]
+            ] = []
+
+        async def request(
+            self,
+            method: str,
+            path: str,
+            params: Mapping[str, str],
+        ) -> Mapping[str, object]:
+            self.calls.append(
+                (method, path, params)
+            )
+
+            if path.endswith("/trade/allFillOrders"):
+                return {
+                    "code": 0,
+                    "msg": "",
+                    "data": [
+                        {
+                            "tradeId": "fill-side-recovery",
+                            "orderId": "777",
+                            "symbol": "BTC-USDT",
+                            "side": "",
+                            "price": "60000",
+                            "quantity": "0.01",
+                            "fee": "0",
+                            "closeTime": 1789214400000,
+                        }
+                    ],
+                }
+
+            if path.endswith("/trade/allOrders"):
+                return {
+                    "code": 0,
+                    "msg": "",
+                    "data": [
+                        {
+                            "orderId": "777",
+                            "symbol": "BTC-USDT",
+                            "side": "SELL",
+                            "status": "FILLED",
+                        }
+                    ],
+                }
+
+            raise AssertionError(
+                (method, path, params)
+            )
+
+    async def scenario() -> None:
+        transport = FillSideRecoveryTransport()
+
+        fills = await _adapter(
+            transport
+        ).get_fills(
+            account_id=ACCOUNT,
+            instrument_id=INSTRUMENT,
+            since=datetime(
+                2026,
+                9,
+                12,
+                11,
+                0,
+                tzinfo=UTC,
+            ),
+        )
+
+        assert len(fills) == 1
+        assert fills[0].side is OrderSide.SELL
+
+        assert [
+            path
+            for _, path, _ in transport.calls
+        ] == [
+            "/openApi/swap/v2/trade/allFillOrders",
+            "/openApi/swap/v2/trade/allOrders",
+        ]
 
     asyncio.run(scenario())
 
