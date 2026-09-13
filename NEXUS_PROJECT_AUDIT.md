@@ -29943,3 +29943,26 @@ Controlled DEMO write/execution lifecycle certification remains required before 
 
 NEXUS_V2_PHASE13_BINGX_VST_READONLY_NETWORK_VERIFIED
 
+
+## Phase 13 — BingX VST controlled-write transport
+
+Status: TEST VERIFIED / DONE
+Evidence tag: NEXUS_V2_PHASE13_BINGX_VST_CONTROLLED_WRITE_TRANSPORT_VERIFIED
+
+Evidence:
+STATIC=PASS
+CONTROLLED_WRITE_FOCUSED=9_PASS
+BINGX_ADJACENT=22_PASS
+FULL_REGRESSION=762_PASS
+DIFF_CHECK=PASS
+REAL_ENDPOINTS=ABSENT
+READONLY_BOUNDARY=PRESERVED
+NETWORK_WRITES_ATTEMPTED=FALSE
+
+Controlled writes are VST-only and limited to the BingX order endpoint.
+Real VST order execution is not certified yet.
+
+Remaining:
+submit -> observe -> cancel/resolve -> reconcile
+
+Production authority unchanged.

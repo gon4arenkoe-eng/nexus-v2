@@ -44,6 +44,84 @@ class BingXVstHttpConfig:
             raise ValueError("timeout_seconds must be positive")
 
 
+class BingXVstControlledWriteHttpTransport:
+    """Signed VST transport for narrowly scoped Phase-13 order certification.
+
+    REAL hosts are unavailable. Writes are limited to the single BingX
+    perpetual order endpoint required for submit/cancel lifecycle evidence.
+    """
+
+    _WRITE_PATH = "/openApi/swap/v2/trade/order"
+    _ALLOWED_METHODS = frozenset({"GET", "POST", "DELETE"})
+
+    def __init__(
+        self,
+        *,
+        config: BingXVstHttpConfig,
+        clock: Callable[[], datetime] | None = None,
+    ) -> None:
+        self._delegate = BingXVstReadOnlyHttpTransport(
+            config=config,
+            clock=clock,
+        )
+
+    async def request(
+        self,
+        method: str,
+        path: str,
+        params: Mapping[str, str],
+    ) -> Mapping[str, object]:
+        method_normalized = method.strip().upper()
+
+        if method_normalized not in self._ALLOWED_METHODS:
+            raise PermissionError(
+                "BingX VST controlled-write transport rejects method"
+            )
+        if not path.startswith("/openApi/"):
+            raise ValueError("BingX path must start with /openApi/")
+
+        if method_normalized == "GET":
+            return await self._delegate.request(
+                method_normalized,
+                path,
+                params,
+            )
+
+        if path != self._WRITE_PATH:
+            raise PermissionError(
+                "BingX VST controlled-write transport rejects write endpoint"
+            )
+
+        signed_params = dict(params)
+        signed_params["recvWindow"] = str(
+            self._delegate._config.recv_window_ms
+        )
+        signed_params["timestamp"] = str(
+            _milliseconds(self._delegate._now())
+        )
+
+        signing_string = _canonical_signing_string(signed_params)
+        signature = _signature(
+            secret_key=self._delegate._config.secret_key,
+            signing_string=signing_string,
+        )
+        query = _encoded_query(signed_params, signature=signature)
+
+        last_error: Exception | None = None
+        for base_url in (PRIMARY_VST_BASE_URL, FALLBACK_VST_BASE_URL):
+            try:
+                return self._delegate._request_once(
+                    method=method_normalized,
+                    url=f"{base_url}{path}?{query}",
+                )
+            except (URLError, TimeoutError, socket.timeout) as exc:
+                last_error = exc
+                continue
+
+        raise BingXVstTransportError(
+            "BingX VST request failed on primary and fallback endpoints"
+        ) from last_error
+
 class BingXVstReadOnlyHttpTransport:
     """Signed VST transport that rejects all non-GET methods."""
 
