@@ -72,6 +72,30 @@ class AIEAResearchRecordRepository:
         )
         return None if model is None else self._to_record(model)
 
+
+    async def list_children(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        record_type: str,
+        parent_record_id: str,
+    ) -> tuple[AIEAStoredRecord, ...]:
+        result = await self._session.execute(
+            select(AIEAResearchRecordModel)
+            .where(
+                AIEAResearchRecordModel.workspace_id == workspace_id,
+                AIEAResearchRecordModel.user_id == user_id,
+                AIEAResearchRecordModel.record_type == record_type,
+                AIEAResearchRecordModel.parent_record_id == parent_record_id,
+            )
+            .order_by(
+                AIEAResearchRecordModel.created_at,
+                AIEAResearchRecordModel.record_id,
+            )
+        )
+        return tuple(self._to_record(model) for model in result.scalars().all())
+
     async def list_for_owner(
         self,
         *,

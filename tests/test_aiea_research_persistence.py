@@ -4,12 +4,18 @@ from __future__ import annotations
 
 import asyncio
 from datetime import UTC, datetime
+from decimal import Decimal
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from apps.aiea.domain.research import (
+    ExperimentRecord,
+    ExperimentStage,
+    FalsificationCheck,
     ResearchEvidence,
     ResearchEvidenceKind,
+    ValidationOutcome,
+    ValidationResult,
 )
 from infra.persistence.application.aiea import AIEAResearchRecordStore
 from infra.persistence.base import PersistenceBase
@@ -207,3 +213,62 @@ def test_aiea_store_persists_explicit_knowledge_snapshot_provenance() -> None:
     assert record is not None
     assert record.record_type == "snapshot"
     assert record.content_hash
+
+
+def test_aiea_store_rebuilds_candidate_experiments_for_lifecycle_resume() -> None:
+    def experiment(stage: ExperimentStage, index: int) -> ExperimentRecord:
+        return ExperimentRecord(
+            experiment_id=f"resume-exp-{index}",
+            workspace_id="ws-1",
+            user_id=7,
+            hypothesis_id="hyp-1",
+            candidate_id="cand-1",
+            stage=stage,
+            started_at=NOW,
+            completed_at=NOW,
+            dataset_hash="dataset-hash",
+            code_hash="code-hash",
+            environment_digest="sha256:research-image",
+            cost_model_version="cost-v2",
+            results=(
+                ValidationResult(
+                    check=FalsificationCheck.REALISTIC_COSTS,
+                    outcome=ValidationOutcome.PASS,
+                    score=Decimal("0.90"),
+                    evidence_hash=f"evidence-{index}",
+                    detail="pass",
+                ),
+            ),
+            metrics={"score": Decimal("0.90")},
+        )
+
+    async def scenario():
+        engine = create_async_engine("sqlite+aiosqlite:///:memory:", future=True)
+        factory = async_sessionmaker(engine, expire_on_commit=False)
+        async with engine.begin() as connection:
+            await connection.run_sync(
+                PersistenceBase.metadata.create_all,
+                tables=(AIEAResearchRecordModel.__table__,),
+            )
+        async with factory() as session:
+            store = AIEAResearchRecordStore(AIEAResearchRecordRepository(session))
+            await store.append_experiment(experiment(ExperimentStage.BACKTEST, 1))
+            await store.append_experiment(experiment(ExperimentStage.OOS, 2))
+            await session.commit()
+        async with factory() as session:
+            store = AIEAResearchRecordStore(AIEAResearchRecordRepository(session))
+            records = await store.list_experiments_for_candidate(
+                workspace_id="ws-1", user_id=7, candidate_id="cand-1"
+            )
+            hidden = await store.list_experiments_for_candidate(
+                workspace_id="ws-2", user_id=7, candidate_id="cand-1"
+            )
+        await engine.dispose()
+        return records, hidden
+
+    records, hidden = asyncio.run(scenario())
+    assert tuple(item.stage for item in records) == (
+        ExperimentStage.BACKTEST,
+        ExperimentStage.OOS,
+    )
+    assert hidden == ()

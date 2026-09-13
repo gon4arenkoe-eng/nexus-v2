@@ -15,11 +15,15 @@ from typing import Any
 from apps.aiea.domain.research import (
     CandidateVersion,
     ExperimentRecord,
+    ExperimentStage,
+    FalsificationCheck,
     Hypothesis,
     KnowledgeSnapshot,
     ResearchArtifact,
     ResearchEvidence,
     ResearchMemoryEntry,
+    ValidationOutcome,
+    ValidationResult,
 )
 from infra.persistence.repositories.aiea import (
     AIEAResearchRecordRepository,
@@ -56,6 +60,46 @@ def _serialize(value: object) -> str:
 
 def _hash(payload: str) -> str:
     return sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _load(payload_json: str) -> dict[str, Any]:
+    value = json.loads(payload_json)
+    if not isinstance(value, dict):
+        raise ValueError("AIEA payload must be an object")
+    return value
+
+
+def _validation_result(value: Mapping[str, Any]) -> ValidationResult:
+    return ValidationResult(
+        check=FalsificationCheck(str(value["check"])),
+        outcome=ValidationOutcome(str(value["outcome"])),
+        score=Decimal(str(value["score"])),
+        evidence_hash=str(value["evidence_hash"]),
+        detail=str(value["detail"]),
+    )
+
+
+def _experiment(payload_json: str) -> ExperimentRecord:
+    value = _load(payload_json)
+    metrics = value.get("metrics", {})
+    if not isinstance(metrics, Mapping):
+        raise ValueError("experiment metrics payload is invalid")
+    return ExperimentRecord(
+        experiment_id=str(value["experiment_id"]),
+        workspace_id=str(value["workspace_id"]),
+        user_id=int(value["user_id"]),
+        hypothesis_id=str(value["hypothesis_id"]),
+        candidate_id=str(value["candidate_id"]),
+        stage=ExperimentStage(str(value["stage"])),
+        started_at=datetime.fromisoformat(str(value["started_at"])),
+        completed_at=datetime.fromisoformat(str(value["completed_at"])),
+        dataset_hash=str(value["dataset_hash"]),
+        code_hash=str(value["code_hash"]),
+        environment_digest=str(value["environment_digest"]),
+        cost_model_version=str(value["cost_model_version"]),
+        results=tuple(_validation_result(item) for item in value["results"]),
+        metrics={str(key): Decimal(str(item)) for key, item in metrics.items()},
+    )
 
 
 class AIEAResearchRecordStore:
@@ -136,6 +180,21 @@ class AIEAResearchRecordStore:
             created_at=value.created_at,
             parent_record_id=value.parent_artifact_id,
         )
+
+    async def list_experiments_for_candidate(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        candidate_id: str,
+    ) -> tuple[ExperimentRecord, ...]:
+        records = await self._repository.list_children(
+            workspace_id=workspace_id,
+            user_id=user_id,
+            record_type="experiment",
+            parent_record_id=candidate_id,
+        )
+        return tuple(_experiment(record.payload_json) for record in records)
 
     async def list_record_ids(
         self,

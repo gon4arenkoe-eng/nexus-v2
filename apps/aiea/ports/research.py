@@ -34,6 +34,14 @@ class ResearchRecordStore(Protocol):
 
     async def append_artifact(self, value: ResearchArtifact) -> None: ...
 
+    async def list_experiments_for_candidate(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        candidate_id: str,
+    ) -> tuple[ExperimentRecord, ...]: ...
+
     async def list_record_ids(
         self,
         *,

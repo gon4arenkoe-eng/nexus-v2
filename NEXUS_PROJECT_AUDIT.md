@@ -30370,3 +30370,59 @@ Safety state unchanged:
 This closes AIEA Decision Learning Loop v1 only.
 Strategy mutation, automatic production promotion and direct execution authority remain prohibited.
 Existing AIEA falsification, OOS, walk-forward, paper, shadow and approval gates remain mandatory.
+
+## AIEA Experiment Lifecycle Orchestrator v1 - final verification
+
+Status: DONE / TEST VERIFIED / AUDIT VERIFIED
+
+Evidence tag: NEXUS_V2_AIEA_EXPERIMENT_LIFECYCLE_V1_VERIFIED
+
+Verified scope:
+- mandatory ordered AIEA experiment lifecycle
+- BACKTEST stage
+- OOS stage
+- WALK_FORWARD stage
+- REGIME_SLICES stage
+- FALSIFICATION stage
+- PAPER stage
+- SHADOW stage
+- COMPARISON stage
+- PROMOTION_READINESS stage
+- stage skipping blocked
+- out-of-order evidence blocked
+- failed stage stops lifecycle
+- rejected candidate cannot resume forward progression
+- candidate lineage enforced
+- dataset lineage enforced
+- code hash lineage enforced
+- environment digest lineage enforced
+- cost model version lineage enforced
+- duplicate candidate-stage evidence blocked
+- restart/resume reuses compatible persisted evidence
+- repeated lifecycle execution is deterministic and idempotent
+- workspace/user ownership isolation preserved
+- no AIEA direct ExecutionCoordinator, VenueAdapter or exchange write authority
+- promotion readiness does not bypass Risk or permission approval
+
+Verification evidence:
+PYTHON=3.13.14
+PYTEST=8.4.2
+PYTEST_ASYNCIO=1.4.0
+AIOSQLITE=0.22.1
+AIEA_EXPERIMENT_LIFECYCLE_FOCUSED=44 passed
+AIEA_EXPERIMENT_LIFECYCLE_ADJACENT=69 passed
+FULL_REGRESSION=837 passed
+COMPILE=PASS
+ARCHITECTURE_GUARD=PASS
+DIFF_CHECK=PASS
+
+Safety state unchanged:
+- AI promotion = SHADOW-ONLY
+- Advisory = OBSERVE_ONLY
+- Restricted Live = DISABLED
+- Full Live = DISABLED
+- AI direct exchange access = BLOCKED
+
+This closes AIEA Experiment Lifecycle Orchestrator v1 only.
+Independent Risk and permission approval remain mandatory.
+Automatic production activation remains prohibited.
