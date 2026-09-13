@@ -1,0 +1,139 @@
+name: AIEA Research Sandbox Runtime Certification
+
+on:
+  push:
+    branches:
+      - "aiea-sandbox-cert/**"
+    paths:
+      - ".github/workflows/aiea-research-sandbox-certification.yml"
+      - "workers/aiea_research/sandbox.py"
+      - "scripts/aiea_research_sandbox_certify.py"
+      - "tests/test_aiea_research_sandbox.py"
+      - "tests/test_aiea_research_sandbox_ci.py"
+      - "infra/github/aiea_research_sandbox_ci_check.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aiea-sandbox-cert-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # Docker Official Image, immutable multi-platform digest. The ubuntu-24.04
+  # runner resolves linux/amd64 from this immutable index digest.
+  SANDBOX_IMAGE: python@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
+
+jobs:
+  runtime-certification:
+    name: Runtime isolation certification
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@v7.0.0 # immutable release
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check ".[test]" pytest
+
+      - name: Verify CI certification policy
+        run: python infra/github/aiea_research_sandbox_ci_check.py
+
+      - name: Verify sandbox focused tests
+        run: python -m pytest -q tests/test_aiea_research_sandbox.py tests/test_aiea_research_sandbox_ci.py
+
+      - name: Verify Docker daemon
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker version
+          docker info --format '{{json .ServerVersion}}'
+
+      - name: Pull immutable sandbox image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "${SANDBOX_IMAGE}"
+          docker image inspect "${SANDBOX_IMAGE}" > /tmp/aiea-sandbox-image-inspect.json
+
+      - name: Run real runtime negative probes
+        shell: bash
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/aiea-research-sandbox
+          python scripts/aiea_research_sandbox_certify.py "${SANDBOX_IMAGE}" \
+            | tee artifacts/aiea-research-sandbox/runtime-certification.log
+          cp /tmp/aiea-sandbox-image-inspect.json \
+            artifacts/aiea-research-sandbox/image-inspect.json
+
+      - name: Write immutable evidence metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          out = Path("artifacts/aiea-research-sandbox")
+          payload = {
+              "schema_version": 1,
+              "commit_sha": os.environ["GITHUB_SHA"],
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "ref": os.environ["GITHUB_REF"],
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "runner_os": os.environ["RUNNER_OS"],
+              "runner_arch": os.environ["RUNNER_ARCH"],
+              "sandbox_image": os.environ["SANDBOX_IMAGE"],
+              "production_deploy_performed": False,
+          }
+          (out / "metadata.json").write_text(
+              json.dumps(payload, sort_keys=True, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+          (cd artifacts/aiea-research-sandbox && sha256sum \
+            runtime-certification.log image-inspect.json metadata.json \
+            > SHA256SUMS.txt)
+
+      - name: Verify runtime certification marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fx 'AIEA_RESEARCH_SANDBOX_RUNTIME_CERTIFIED=PASS' \
+            artifacts/aiea-research-sandbox/runtime-certification.log
+          sha256sum -c artifacts/aiea-research-sandbox/SHA256SUMS.txt
+
+      - name: Upload certification evidence
+        uses: actions/upload-artifact@v7.0.1 # immutable release
+        with:
+          name: aiea-research-sandbox-runtime-${{ github.sha }}
+          path: artifacts/aiea-research-sandbox/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish evidence summary
+        shell: bash
+        run: |
+          {
+            echo "## AIEA Research Sandbox runtime certification"
+            echo
+            echo "- commit: \`${GITHUB_SHA}\`"
+            echo "- image: \`${SANDBOX_IMAGE}\`"
+            echo "- network isolation: PASS"
+            echo "- read-only filesystem: PASS"
+            echo "- host secret isolation: PASS"
+            echo "- Docker socket isolation: PASS"
+            echo "- bounded resource command contract: PASS"
+            echo "- production deployment: NOT PERFORMED"
+          } >> "${GITHUB_STEP_SUMMARY}"
