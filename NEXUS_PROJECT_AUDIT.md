@@ -30587,3 +30587,55 @@ Evidence tag:
 NEXUS_V2_AIEA_RESEARCH_SANDBOX_RUNTIME_V1_VERIFIED
 
 Phase 9 gate is not closed by this slice alone.
+## 2026-09-13 - AIEA Drift / Freshness + Champion-Challenger Adaptation v1
+
+Phase: 9 - AIEA V2
+Gate: NEXUS_V2_AIEA_OK remains OPEN.
+
+Status: DONE / TEST VERIFIED for this capability slice.
+
+Implemented:
+- model/evidence freshness derived deterministically from evidence age;
+- performance degradation assessment;
+- deterministic drift state and adaptation action;
+- RESEARCH_CHALLENGER action for degraded/stale evidence;
+- challenger comparison and lift evaluation;
+- COMPARE_CHALLENGER action;
+- PROMOTION_REVIEW action for qualifying challenger improvement;
+- no automatic activation from drift monitoring;
+- live_mutation_allowed remains false;
+- existing PromotionReadiness / risk / permission / rollback gates preserved;
+- durable tenant-scoped immutable drift evidence through existing AIEA research artifact journal;
+- restart-safe persistence;
+- tenant isolation;
+- idempotent identical evidence handling;
+- no new persistence table or Alembic migration;
+- no execution authority.
+
+Verification evidence:
+- Python 3.13.14;
+- pytest 8.4.2;
+- pytest-asyncio 1.4.0;
+- aiosqlite 0.22.1;
+- changeset scope PASS;
+- compile PASS;
+- focused drift/freshness: 6 passed;
+- adjacent AIEA: 53 passed;
+- full regression: 875 passed;
+- no execution authority guard PASS;
+- no blind live mutation guard PASS;
+- Alembic head: e9b1c7d3a246;
+- no-new-migration guard PASS;
+- git diff --check PASS.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_AIEA_DRIFT_FRESHNESS_CHAMPION_CHALLENGER_V1_VERIFIED
+
+Phase 9 gate is not closed by this slice alone.
