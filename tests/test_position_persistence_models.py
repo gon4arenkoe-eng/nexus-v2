@@ -28,6 +28,7 @@ def test_position_tables_registered_with_existing_execution_tables() -> None:
         "multi_leg_execution_states",
         "grid_instance_states",
         "aiea_research_records",
+        "decision_intelligence_records",
         "workspaces",
         "product_plans",
         "product_plan_versions",

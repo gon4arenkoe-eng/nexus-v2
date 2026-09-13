@@ -1,0 +1,127 @@
+"""Tenant-scoped immutable repository for Decision Intelligence records."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from datetime import UTC, datetime
+
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from infra.persistence.models.decision_intelligence import DecisionIntelligenceRecordModel
+
+
+@dataclass(frozen=True, slots=True)
+class DecisionStoredRecord:
+    workspace_id: str
+    user_id: int
+    record_type: str
+    record_id: str
+    parent_record_id: str | None
+    content_hash: str
+    payload_json: str
+    created_at: datetime
+
+
+class DecisionIntelligenceRecordRepository:
+    def __init__(self, session: AsyncSession) -> None:
+        self._session = session
+
+    async def append(self, record: DecisionStoredRecord) -> None:
+        existing = await self._session.get(
+            DecisionIntelligenceRecordModel,
+            (record.workspace_id, record.user_id, record.record_type, record.record_id),
+        )
+        if existing is not None:
+            if (
+                existing.content_hash == record.content_hash
+                and existing.payload_json == record.payload_json
+                and existing.parent_record_id == record.parent_record_id
+            ):
+                return
+            raise ValueError("immutable Decision Intelligence record conflict")
+        self._session.add(
+            DecisionIntelligenceRecordModel(
+                workspace_id=record.workspace_id,
+                user_id=record.user_id,
+                record_type=record.record_type,
+                record_id=record.record_id,
+                parent_record_id=record.parent_record_id,
+                content_hash=record.content_hash,
+                payload_json=record.payload_json,
+                created_at=record.created_at,
+            )
+        )
+
+    async def get(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        record_type: str,
+        record_id: str,
+    ) -> DecisionStoredRecord | None:
+        model = await self._session.get(
+            DecisionIntelligenceRecordModel,
+            (workspace_id, user_id, record_type, record_id),
+        )
+        return None if model is None else self._to_record(model)
+
+    async def list_children(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+        record_type: str,
+        parent_record_id: str,
+    ) -> tuple[DecisionStoredRecord, ...]:
+        result = await self._session.execute(
+            select(DecisionIntelligenceRecordModel)
+            .where(
+                DecisionIntelligenceRecordModel.workspace_id == workspace_id,
+                DecisionIntelligenceRecordModel.user_id == user_id,
+                DecisionIntelligenceRecordModel.record_type == record_type,
+                DecisionIntelligenceRecordModel.parent_record_id == parent_record_id,
+            )
+            .order_by(
+                DecisionIntelligenceRecordModel.created_at,
+                DecisionIntelligenceRecordModel.record_id,
+            )
+        )
+        return tuple(self._to_record(model) for model in result.scalars().all())
+
+    async def list_for_owner(
+        self,
+        *,
+        workspace_id: str,
+        user_id: int,
+    ) -> tuple[DecisionStoredRecord, ...]:
+        result = await self._session.execute(
+            select(DecisionIntelligenceRecordModel)
+            .where(
+                DecisionIntelligenceRecordModel.workspace_id == workspace_id,
+                DecisionIntelligenceRecordModel.user_id == user_id,
+            )
+            .order_by(
+                DecisionIntelligenceRecordModel.created_at,
+                DecisionIntelligenceRecordModel.record_type,
+                DecisionIntelligenceRecordModel.record_id,
+            )
+        )
+        return tuple(self._to_record(model) for model in result.scalars().all())
+
+    @staticmethod
+    def _to_record(model: DecisionIntelligenceRecordModel) -> DecisionStoredRecord:
+        created_at = model.created_at
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=UTC)
+        return DecisionStoredRecord(
+            workspace_id=model.workspace_id,
+            user_id=model.user_id,
+            record_type=model.record_type,
+            record_id=model.record_id,
+            parent_record_id=model.parent_record_id,
+            content_hash=model.content_hash,
+            payload_json=model.payload_json,
+            created_at=created_at,
+        )

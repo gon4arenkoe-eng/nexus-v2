@@ -47,6 +47,7 @@ def test_order_fill_tables_registered() -> None:
         "multi_leg_execution_states",
         "grid_instance_states",
         "aiea_research_records",
+        "decision_intelligence_records",
         "workspaces",
         "product_plans",
         "product_plan_versions",

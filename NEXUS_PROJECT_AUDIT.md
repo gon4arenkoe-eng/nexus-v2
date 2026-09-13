@@ -30242,3 +30242,40 @@ Safety state unchanged:
 This closes only the Decision Intelligence Foundation slice.
 
 Remaining: durable Decision Memory persistence, calibrated opportunity/uncertainty models, runtime Strategy Portfolio handoff, outcome attribution and Decision-to-AIEA feedback integration.
+
+## Durable Decision Memory Repository v1 - final verification
+
+Status: DONE / TEST VERIFIED / AUDIT VERIFIED
+
+Evidence tag: NEXUS_V2_DECISION_MEMORY_DURABLE_REPOSITORY_VERIFIED
+
+Verified scope:
+- DecisionMemoryStore port
+- append-only decision intelligence journal
+- snapshot / decision / outcome / evaluation immutable records
+- tenant-scoped workspace and user ownership
+- idempotent same-content append
+- immutable conflict fail-closed behavior
+- parent-chain ownership enforcement
+- deterministic DecisionMemoryRecord rebuild
+- fresh-session persistence recovery
+- Alembic migration e9b1c7d3a246
+
+Verification evidence:
+PYTHON=3.13.14
+ALEMBIC_HEAD=e9b1c7d3a246
+DECISION_MEMORY_FOCUSED=8 passed
+DECISION_MEMORY_ADJACENT=84 passed
+FULL_REGRESSION=806 passed
+COMPILE=PASS
+DIFF_CHECK=PASS
+
+Safety state unchanged:
+- AI promotion = SHADOW-ONLY
+- Advisory = OBSERVE_ONLY
+- Restricted Live = DISABLED
+- Full Live = DISABLED
+- AI direct exchange access = BLOCKED
+
+This closes only Durable Decision Memory Repository v1.
+Ledger outcome attribution, automated self-evaluation and Decision Memory to AIEA evidence bridge remain separate future work.
