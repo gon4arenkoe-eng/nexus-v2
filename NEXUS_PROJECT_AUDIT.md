@@ -30476,3 +30476,53 @@ Evidence tag:
 NEXUS_V2_AIEA_MODEL_REGISTRY_DURABLE_V1_VERIFIED
 
 Phase 9 gate is not closed by this slice alone.
+## 2026-09-13 - AIEA Stage-aware Deterministic Research Worker v1
+
+Phase: 9 - AIEA V2
+Gate: NEXUS_V2_AIEA_OK remains OPEN.
+
+Status: DONE / TEST VERIFIED for this capability slice.
+
+Implemented:
+- stage-aware deterministic ExperimentStageWorkerPort execution;
+- canonical lifecycle support for BACKTEST, OOS, WALK_FORWARD, REGIME_SLICES, FALSIFICATION, PAPER, SHADOW, COMPARISON;
+- deterministic historical OHLCV replay;
+- reproducible stage-local evidence;
+- deterministic strategy research fixtures;
+- realistic execution-cost handling;
+- mandatory FALSIFICATION computation for all 13 required checks;
+- lookahead/leakage and holdout isolation checks;
+- OOS and walk-forward evaluation;
+- regime, symbol/parameter stability support where applicable;
+- capacity/liquidity, minimum-sample, tail-risk, data-quality and false-discovery evidence;
+- fail-closed network and exchange-credential policy enforcement;
+- no VenueAdapter dependency;
+- no ExecutionCoordinator dependency;
+- no order submission/cancellation capability;
+- no SQLAlchemy/FastAPI dependency in the research worker;
+- no production exchange authority.
+
+Verification evidence:
+- Python 3.13.14;
+- pytest 8.4.2;
+- changeset scope PASS;
+- compile PASS;
+- focused + adjacent: 43 passed;
+- full regression: 853 passed;
+- AST architecture guard PASS;
+- network fail-closed reference PASS;
+- exchange-credentials fail-closed reference PASS;
+- execution-call guard PASS;
+- git diff --check PASS.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_AIEA_STAGE_RESEARCH_WORKER_V1_VERIFIED
+
+Phase 9 gate is not closed by this slice alone.
