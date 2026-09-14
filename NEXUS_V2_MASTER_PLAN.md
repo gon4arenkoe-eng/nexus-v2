@@ -1,7 +1,7 @@
 # NEXUS V2 MASTER PLAN
 
-**Version:** 1.2-draft
-**Date:** 2026-09-05
+**Version:** 1.3-draft
+**Date:** 2026-09-14
 **Status:** ARCHITECTURE/ROADMAP APPROVED IN THIS CHANGESET — implementation remains NOT DONE; project/GitHub commit still required for canonical repository adoption
 **Companion:** `NEXUS_V2_FUNCTIONAL_INVENTORY.md`
 
@@ -26,6 +26,7 @@ The following product-architecture additions are approved for inclusion in the V
 - **AIEA Product Moat Spec** — persistent research memory, hypothesis/evolution loop, falsification-first candidate evaluation, challenger/drift adaptation, evidence-bound promotion/rollback and isolated autonomous R&D.
 - **Product Entitlements / Subscriptions / Quotas** — commercial access is modeled through feature entitlements and quotas, not plan-name conditionals in business logic.
 - **NEXUS Trading Workspace Composer** — a user-configurable trading cockpit built from typed widgets, layouts, templates and linked context while preserving non-hideable safety state.
+- **Multi-Market Extensibility Foundation** — Core identities and execution ownership remain asset-class agnostic; equities/ETFs, FX, futures, options, CFDs and multi-asset brokers may be added after launch through optional canonical market-structure contracts, adapters and per-venue certification without widening current crypto launch authority.
 - **NEXUS Autonomous Intelligence Layer (NAIL) / Decision Intelligence** — a provider-neutral operational decision layer linking canonical MarketContext to evidence-bearing multi-strategy portfolio recommendations, Decision Memory/self-evaluation and AIEA research feedback. Realtime decisions remain deterministic/ML-first; optional LLM reasoning is research/advisory only and cannot own Risk, Execution, Venue writes, credentials or production promotion.
 
 These additions are **DESIGN APPROVED**, not implementation-DONE. Their implementation evidence belongs to the relevant Phase 9, Phase 10 and Phase 11 gates.
@@ -337,6 +338,25 @@ Unsupported required capabilities fail closed.
 **P2:** BitMEX, Deribit, Kraken Futures, MEXC, HTX, Coinbase International, Backpack and others after capability review.
 
 CCXT is the breadth reference; Hummingbot/Nautilus/official venue APIs validate execution semantics for critical venues.
+
+### 6.4.1. Multi-market extensibility foundation
+
+**Approved scope:** prepare canonical contracts now; integrate non-crypto venues only in a post-launch update.
+
+Current launch scope remains the approved crypto venue program. Future integration targets may include equities/ETFs, FX, listed futures, options, CFDs and multi-asset brokers.
+
+Core invariants:
+
+- InstrumentId remains the stable venue/instrument identity and already carries AssetClass + InstrumentType;
+- Core must not infer asset class, expiry, settlement or base/quote semantics by parsing native symbols;
+- market-specific properties are optional canonical metadata/capabilities, not universal fields;
+- trading sessions/calendars, corporate actions, short-sale rules, funding, expiry/exercise, settlement and contract multipliers are capability-declared;
+- raw broker/exchange payloads remain adapter-only;
+- unsupported required market capabilities fail closed;
+- every added market/venue receives dedicated adapter, reconciliation, risk/execution and certification evidence;
+- future-ready does not mean implemented, certified or live-enabled.
+
+Deferred post-launch targets include Forex, equities/ETFs, traditional futures/options and multi-asset brokers. Concrete provider selection remains a separate capability/security/license/cost decision.
 
 ### 6.5. Ledger
 
@@ -1424,6 +1444,8 @@ Sequence:
 5. P1 venues one by one
 
 Each venue passes the common adapter/reconciliation/execution contract suite plus venue-specific edge cases.
+
+Launch certification remains focused on the approved crypto venue set. Future non-crypto markets reuse the same canonical adapter/certification model but are certified only when their adapters are implemented in a post-launch update.
 
 Gate per venue: `NEXUS_V2_VENUE_<VENUE>_CERTIFIED_OK`
 

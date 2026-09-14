@@ -30735,3 +30735,57 @@ Production safety remains:
 
 Evidence tag:
 NEXUS_V2_AIEA_OK_SEMANTIC_AUTHORITY_GUARD_VERIFIED
+## 2026-09-14 - Multi-Market Extensibility Foundation v1
+
+Phase: 15 supplemental architecture readiness
+Status: DONE / TEST VERIFIED
+
+Approved scope:
+- current production launch scope remains crypto;
+- Core contracts are extended for future multi-market / multi-asset support;
+- future integrations may include equities, ETFs, FX, CFD, futures, options, fixed income and other approved asset classes;
+- concrete non-crypto venue integrations are deferred until post-launch;
+- no current non-crypto venue is considered implemented, certified or live-enabled by this amendment.
+
+Implemented:
+- canonical market-structure contracts;
+- trading-session and calendar extension points;
+- settlement semantics;
+- contract multiplier;
+- expiry / maturity semantics;
+- underlying instrument reference;
+- option right / strike / exercise-style semantics;
+- venue market capability profile;
+- corporate-action capability declaration;
+- short-selling capability declaration;
+- funding capability declaration;
+- margin capability declaration;
+- current Instrument identity preserved;
+- crypto execution path preserved;
+- no raw venue payload dependency introduced;
+- no live authority expansion.
+
+Roadmap amendment:
+- Master Plan updated for post-launch multi-market extensibility;
+- Functional Inventory updated with deferred multi-market capability scope;
+- current crypto release remains the immediate cutover target;
+- future non-crypto rollout requires separate adapters, tests and per-venue/per-market certification.
+
+Verification:
+- document read-back PASS;
+- compile PASS;
+- focused multi-market contract tests: 23 passed;
+- Core crypto-only assumption guard PASS;
+- shared-contract dependency guard PASS;
+- full regression: 882 passed;
+- git diff --check PASS.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_MULTI_MARKET_EXTENSIBILITY_V1_VERIFIED

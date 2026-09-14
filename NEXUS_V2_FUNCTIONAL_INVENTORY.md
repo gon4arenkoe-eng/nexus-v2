@@ -1,7 +1,7 @@
 # NEXUS V2 — Functional Capability Inventory
 
-**Version:** 1.1-draft
-**Date:** 2026-09-05
+**Version:** 1.2-draft
+**Date:** 2026-09-14
 **Purpose:** Prevent functional loss during the migration from legacy NEXUS V10 to NEXUS V2.
 
 ## 0. Evidence basis and status semantics
@@ -90,6 +90,11 @@ Commercial plan names/prices are configuration. V2 business logic consumes stabl
 | Sandbox/demo mode | legacy exchange model `is_demo` | OBSERVED | EXTEND | Venue account config | explicit environment contract |
 | Exchange credential encryption | encrypted fields exist | OBSERVED | KEEP/REBUILD | Secret management | no-plaintext/no-log security tests |
 | Credential log safety | snapshot prints decrypted key prefixes | SECURITY GAP | REPLACE | Secret management | zero secret material in logs |
+| Future multi-market extensibility foundation | AssetClass/InstrumentType already include non-crypto identities; optional market structure contracts added in this changeset | PLANNED/FOUNDATION | KEEP/EXTEND | Shared contracts + Venue adapters | contract tests + later per-market certification |
+| Trading sessions / calendars | future multi-asset requirement | PLANNED | NEW when integrated | Market structure contract / Intelligence | calendar/session tests per market |
+| Corporate actions | future equities/ETF requirement | PLANNED | NEW when integrated | Intelligence + Ledger policy boundary | split/dividend lifecycle tests |
+| Expiry / exercise / contract multiplier | future futures/options requirement | PLANNED/FOUNDATION | EXTEND | Market structure contracts | expiry/exercise/multiplier tests |
+| Settlement semantics | future cash/physical/derivative requirement | PLANNED/FOUNDATION | EXTEND | Core contracts + Ledger/Risk policy | settlement tests before venue certification |
 
 ## 3. Trading Core / execution lifecycle
 
