@@ -30875,3 +30875,47 @@ Production safety unchanged:
 
 Evidence tag:
 NEXUS_V2_PHASE13_BINANCE_USDM_ADAPTER_FOUNDATION_V1_VERIFIED
+## 2026-09-14 - Phase 13 Binance USD-M HTTP Transport v1
+
+Phase: 13 - Venue Certification
+Slice: Binance USD-M HTTP Transport
+Status: DONE / TEST VERIFIED
+
+Implemented:
+- Binance USD-M sandbox HTTP transport;
+- HMAC-SHA256 signed request support;
+- X-MBX-APIKEY header support;
+- timestamp and recvWindow signing inputs;
+- sandbox host allowlist;
+- demo-fapi default host;
+- legacy testnet host compatibility only;
+- production fapi host rejected;
+- transport writes disabled by default;
+- credentials remain adapter/transport-local and outside Core.
+
+Verification:
+- focused HTTP transport + adapter tests: 20 passed;
+- reconciliation adjacent tests: 30 passed;
+- full regression: 910 passed;
+- sandbox host allowlist: PASS;
+- production fapi host absent/rejected: PASS;
+- HMAC-SHA256 signing: VERIFIED;
+- transport writes default disabled: PASS;
+- Core transport credential leak: ABSENT;
+- diff check: PASS.
+
+Explicitly deferred:
+- real credential network probe;
+- runtime Binance sandbox/testnet certification;
+- Binance certification gate closure;
+- production/live enablement.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_PHASE13_BINANCE_USDM_HTTP_TRANSPORT_V1_VERIFIED
