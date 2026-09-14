@@ -30834,3 +30834,44 @@ Production safety unchanged:
 
 Evidence tag:
 NEXUS_V2_PHASE13_P0_VENUE_NORMALIZATION_V1_VERIFIED
+## 2026-09-14 - Phase 13 Binance USD-M Adapter Foundation v1
+
+Phase: 13 - Venue Certification
+Slice: Binance USD-M Adapter Foundation
+Status: DONE / TEST VERIFIED
+
+Implemented:
+- Binance USD-M VenueAdapter foundation;
+- venue-specific Binance USD-M raw payload normalization;
+- canonical order, position, balance and fill mapping;
+- generic VenueAdapter read contract compatibility;
+- testnet-only adapter policy;
+- testnet writes disabled by default;
+- v1 position mode limited to ONEWAY;
+- raw Binance fields remain adapter-local;
+- exchange credentials remain outside Core contracts.
+
+Verification:
+- focused Binance USD-M adapter/contract tests: 21 passed;
+- reconciliation adjacent tests: 33 passed;
+- full regression: 900 passed;
+- Core raw Binance fields: ABSENT;
+- transport/credential separation: PASS;
+- diff check: PASS.
+
+Explicitly deferred:
+- real Binance USD-M HTTP signing transport;
+- runtime Binance testnet certification;
+- hedge-mode support;
+- Binance certification gate closure;
+- production/live enablement.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_PHASE13_BINANCE_USDM_ADAPTER_FOUNDATION_V1_VERIFIED
