@@ -30789,3 +30789,48 @@ Production safety unchanged:
 
 Evidence tag:
 NEXUS_V2_MULTI_MARKET_EXTENSIBILITY_V1_VERIFIED
+## 2026-09-14 - Phase 13 P0 Venue Normalization Foundation v1
+
+Phase: 13 - Venue Certification
+Slice: P0 Venue Normalization Foundation
+Status: DONE / TEST VERIFIED
+
+Implemented:
+- shared adapter-layer venue normalization contract;
+- reusable normalization testkit;
+- BingX verified as reference implementation against the canonical VenueAdapter boundary;
+- raw venue fields remain contained inside adapter boundaries;
+- no second parallel parser stack was introduced;
+- future Binance, Bybit and OKX adapters must normalize venue-specific payloads into the same canonical contract.
+
+BingX evidence reconciliation:
+- reference normalization VERIFIED;
+- reconciliation read contract VERIFIED;
+- recreated-adapter deterministic read behavior VERIFIED;
+- prior matrix CAP_RECONCILIATION=NO and CAP_RESTART_RECOVERY=NO are not accepted as authoritative absence findings because focused executable evidence now proves the relevant generic reconciliation/restart behavior.
+
+Verification:
+- focused normalization: 24 passed;
+- reconciliation/restart adjacent: 28 passed;
+- full regression: 890 passed;
+- Core raw venue fields: ABSENT;
+- P0 future adapter boundaries: PRESENT;
+- diff check: PASS.
+
+Explicitly NOT closed by this slice:
+- full Phase 13 venue certification gate;
+- Binance VenueAdapter implementation/certification;
+- Bybit VenueAdapter implementation/certification;
+- OKX VenueAdapter implementation/certification;
+- other crypto venue adapters;
+- production cutover authorization.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_PHASE13_P0_VENUE_NORMALIZATION_V1_VERIFIED
