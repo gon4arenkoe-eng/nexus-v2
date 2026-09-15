@@ -30959,3 +30959,65 @@ Production safety unchanged:
 
 Evidence tag:
 NEXUS_V2_PHASE13_BINANCE_USDM_RUNTIME_ERROR_EVIDENCE_V1_VERIFIED
+## 2026-09-15 - Phase 13 Binance USD-M runtime certification deferral
+
+Phase: Phase 13 — Venue Certification
+
+Status: DEFERRED / NOT VERIFIED
+
+Evidence tag: NEXUS_V2_PHASE13_BINANCE_RUNTIME_CERTIFICATION_DEFERRED
+
+### FACT
+
+Binance USD-M local implementation currently has verified foundation evidence:
+
+- NEXUS_V2_PHASE13_BINANCE_USDM_ADAPTER_FOUNDATION_V1_VERIFIED;
+- NEXUS_V2_PHASE13_BINANCE_USDM_HTTP_TRANSPORT_V1_VERIFIED;
+- NEXUS_V2_PHASE13_BINANCE_USDM_RUNTIME_ERROR_EVIDENCE_V1_VERIFIED.
+
+Local runtime investigation also established that the remaining Binance
+production/runtime certification cannot be completed reliably from the
+current local regional/network environment.
+
+The user approved deferring the remaining Binance runtime certification
+to the target server-connected environment.
+
+### VERIFIED LOCALLY
+
+- Binance USD-M VenueAdapter foundation;
+- canonical normalization boundary;
+- sandbox HTTP signing transport;
+- structured Binance runtime error evidence;
+- secret/error redaction;
+- write authority remains disabled;
+- no Binance venue certification gate was closed.
+
+### DEFERRED / NOT VERIFIED
+
+- target-server Binance runtime read certification;
+- runtime venue reconciliation evidence;
+- controlled write certification;
+- final venue-specific edge-case certification;
+- NEXUS_V2_VENUE_BINANCE_CERTIFIED_OK.
+
+### SAFETY
+
+- this deferral is not a certification PASS;
+- Binance remains in the mandatory P0 venue set;
+- no local regional restriction is to be bypassed for certification;
+- Restricted Live remains DISABLED;
+- Full Live remains DISABLED;
+- AI direct exchange access remains BLOCKED;
+- no production write authority is introduced.
+
+### STATUS
+
+PHASE13_BINANCE_RUNTIME=DEFERRED_NOT_VERIFIED
+
+NEXUS_V2_VENUE_BINANCE_CERTIFIED_OK=OPEN
+
+Phase 13 work may continue with Bybit and subsequent venues while this
+external runtime dependency remains deferred.
+
+Phase 15 must not treat the Binance venue gate as closed until the
+target-server certification evidence is completed.

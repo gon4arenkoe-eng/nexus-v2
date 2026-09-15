@@ -1516,6 +1516,45 @@ Server order remains:
 
 Production authority remains unchanged.
 
+#### Binance USD-M runtime certification deferral
+
+Status: DEFERRED / NOT VERIFIED.
+
+The local development environment cannot complete Binance USD-M runtime
+certification because venue availability is blocked by the current local
+regional/network context.
+
+This is not a venue certification success and does not close
+NEXUS_V2_VENUE_BINANCE_CERTIFIED_OK.
+
+Already verified locally:
+
+- Binance USD-M VenueAdapter foundation;
+- canonical venue normalization;
+- sandbox HTTP/signing transport;
+- structured runtime HTTP error evidence;
+- zero production write authority added.
+
+Deferred to the target server-connected environment:
+
+- Binance USD-M runtime read certification;
+- venue-specific runtime reconciliation evidence;
+- controlled write certification when explicitly authorized by the
+  Phase 13 certification procedure;
+- final Binance venue gate closure.
+
+Required server-side order:
+
+1. deploy the verified V2 runtime/image;
+2. verify target-server network/venue availability;
+3. run Binance read-only runtime certification;
+4. run remaining approved venue certification evidence;
+5. close NEXUS_V2_VENUE_BINANCE_CERTIFIED_OK only after all required
+   evidence is verified.
+
+This deferral permits Phase 13 work on the remaining venues to continue,
+but it does not remove Binance from the required P0 certification set and
+does not permit Phase 15 to treat Binance certification as complete.
 ### Phase 14 — End-to-end simulation and shadow parallel run
 
 New V2 runs alongside legacy without additional live permission.
