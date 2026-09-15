@@ -174,3 +174,110 @@ def test_source_contains_no_production_fapi_base_url() -> None:
     text = open(source, encoding="utf-8").read()
     forbidden = "https://" + "fapi.binance.com"
     assert forbidden not in text
+
+
+def test_http_418_preserves_safe_retry_and_rate_limit_evidence(monkeypatch) -> None:
+    from io import BytesIO
+
+    transport = _transport()
+    body = (
+        b'{"code":-1003,"msg":"IP banned until 123; '
+        b'signature=top-secret-signature apiKey=top-secret-key"}'
+    )
+
+    def banned(request, timeout):
+        raise HTTPError(
+            request.full_url,
+            418,
+            "I'm a teapot",
+            {
+                "Retry-After": "120",
+                "X-MBX-USED-WEIGHT-1M": "2400",
+                "X-MBX-ORDER-COUNT-1M": "15",
+                "X-MBX-APIKEY": "must-never-be-captured",
+            },
+            BytesIO(body),
+        )
+
+    monkeypatch.setattr(http_transport, "urlopen", banned)
+
+    async def scenario() -> None:
+        with pytest.raises(BinanceUsdMTransportError) as caught:
+            await transport.request("GET", "/fapi/v2/balance", {})
+        error = caught.value
+        assert error.status_code == 418
+        assert error.binance_code == -1003
+        assert error.retry_after_seconds == 120
+        assert error.rate_limit_headers == (
+            ("X-MBX-ORDER-COUNT-1M", "15"),
+            ("X-MBX-USED-WEIGHT-1M", "2400"),
+        )
+        assert error.binance_message is not None
+        assert "signature=<redacted>" in error.binance_message
+        assert "apiKey=<redacted>" in error.binance_message
+        rendered = str(error)
+        assert "status=418" in rendered
+        assert "code=-1003" in rendered
+        assert "retry_after=120s" in rendered
+        assert "top-secret-signature" not in rendered
+        assert "top-secret-key" not in rendered
+        assert "must-never-be-captured" not in repr(error.rate_limit_headers)
+
+    asyncio.run(scenario())
+
+
+def test_http_error_ignores_non_rate_limit_headers_and_malformed_retry_after(monkeypatch) -> None:
+    from io import BytesIO
+
+    transport = _transport()
+
+    def denied(request, timeout):
+        raise HTTPError(
+            request.full_url,
+            401,
+            "Unauthorized",
+            {
+                "Retry-After": "not-a-number",
+                "Authorization": "Bearer secret",
+                "Set-Cookie": "secret-cookie",
+            },
+            BytesIO(b'{"code":-2015,"msg":"Invalid API-key, IP, or permissions."}'),
+        )
+
+    monkeypatch.setattr(http_transport, "urlopen", denied)
+
+    async def scenario() -> None:
+        with pytest.raises(BinanceUsdMTransportError) as caught:
+            await transport.request("GET", "/fapi/v2/balance", {})
+        error = caught.value
+        assert error.status_code == 401
+        assert error.binance_code == -2015
+        assert error.retry_after_seconds is None
+        assert error.rate_limit_headers == ()
+        assert error.binance_message == "Invalid API-key, IP, or permissions."
+        rendered = str(error)
+        assert "Bearer secret" not in rendered
+        assert "secret-cookie" not in rendered
+
+    asyncio.run(scenario())
+
+
+def test_network_error_has_no_fake_http_evidence(monkeypatch) -> None:
+    transport = _transport()
+
+    def network_fail(request, timeout):
+        raise URLError("network down")
+
+    monkeypatch.setattr(http_transport, "urlopen", network_fail)
+
+    async def scenario() -> None:
+        with pytest.raises(BinanceUsdMTransportError) as caught:
+            await transport.request("GET", "/fapi/v2/balance", {})
+        error = caught.value
+        assert error.status_code is None
+        assert error.binance_code is None
+        assert error.binance_message is None
+        assert error.retry_after_seconds is None
+        assert error.rate_limit_headers == ()
+
+    asyncio.run(scenario())

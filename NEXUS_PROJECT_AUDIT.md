@@ -30919,3 +30919,43 @@ Production safety unchanged:
 
 Evidence tag:
 NEXUS_V2_PHASE13_BINANCE_USDM_HTTP_TRANSPORT_V1_VERIFIED
+## 2026-09-15 - Phase 13 Binance USD-M Runtime Error Evidence v1
+
+Phase: 13 - Venue Certification
+Slice: Binance USD-M Runtime Error Evidence
+Status: DONE / TEST VERIFIED
+
+Implemented:
+- structured Binance USD-M runtime HTTP error evidence;
+- HTTP status capture;
+- Binance code/message capture;
+- Retry-After capture;
+- Binance rate-limit header capture;
+- secret/API-key/signature redaction;
+- no arbitrary response-header leakage;
+- existing sandbox write default remains disabled.
+
+Verification:
+- focused runtime error/redaction tests: 23 passed;
+- reconciliation adjacent tests: 21 passed;
+- full regression: 913 passed;
+- runtime error fields: PASS;
+- secret redaction guard: PASS;
+- production fapi host absent: PASS;
+- diff check: PASS.
+
+Explicitly deferred:
+- real credential network probe retry;
+- Binance runtime testnet read-only certification;
+- Binance certification gate closure;
+- production/live enablement.
+
+Production safety unchanged:
+- AI promotion: SHADOW-ONLY;
+- Advisory: OBSERVE_ONLY;
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_PHASE13_BINANCE_USDM_RUNTIME_ERROR_EVIDENCE_V1_VERIFIED

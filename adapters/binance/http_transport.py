@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import re
 import socket
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
@@ -29,7 +30,24 @@ _ALLOWED_SANDBOX_BASE_URLS: Final = frozenset(
 
 
 class BinanceUsdMTransportError(RuntimeError):
-    """Sanitized network/HTTP/JSON transport failure."""
+    """Sanitized Binance transport failure with safe runtime evidence."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        status_code: int | None = None,
+        binance_code: int | str | None = None,
+        binance_message: str | None = None,
+        retry_after_seconds: int | None = None,
+        rate_limit_headers: tuple[tuple[str, str], ...] = (),
+    ) -> None:
+        super().__init__(message)
+        self.status_code = status_code
+        self.binance_code = binance_code
+        self.binance_message = binance_message
+        self.retry_after_seconds = retry_after_seconds
+        self.rate_limit_headers = rate_limit_headers
 
 
 @dataclass(frozen=True, slots=True)
@@ -115,8 +133,21 @@ class BinanceUsdMSandboxHttpTransport:
             ) as response:
                 payload = response.read().decode("utf-8")
         except HTTPError as exc:
+            evidence = _http_error_evidence(exc)
+            parts = [f"Binance USD-M sandbox HTTP error status={exc.code}"]
+            if evidence["binance_code"] is not None:
+                parts.append(f"code={evidence['binance_code']}")
+            if evidence["retry_after_seconds"] is not None:
+                parts.append(f"retry_after={evidence['retry_after_seconds']}s")
+            if evidence["binance_message"]:
+                parts.append(f"msg={evidence['binance_message']}")
             raise BinanceUsdMTransportError(
-                f"Binance USD-M sandbox HTTP error status={exc.code}"
+                " ".join(parts),
+                status_code=exc.code,
+                binance_code=evidence["binance_code"],
+                binance_message=evidence["binance_message"],
+                retry_after_seconds=evidence["retry_after_seconds"],
+                rate_limit_headers=evidence["rate_limit_headers"],
             ) from exc
         except (URLError, TimeoutError, socket.timeout) as exc:
             raise BinanceUsdMTransportError(
@@ -160,3 +191,64 @@ def _signature(*, secret_key: str, query_string: str) -> str:
         query_string.encode("utf-8"),
         hashlib.sha256,
     ).hexdigest()
+
+
+_SENSITIVE_TOKEN_PATTERNS: Final = (
+    re.compile(r"(?i)(signature\s*[=:]\s*)[^&\s,;]+"),
+    re.compile(r"(?i)(api[_-]?key\s*[=:]\s*)[^&\s,;]+"),
+    re.compile(r"(?i)(secret(?:[_-]?key)?\s*[=:]\s*)[^&\s,;]+"),
+)
+
+
+def _redact_sensitive_text(value: object, *, limit: int = 512) -> str:
+    text = str(value).replace("\r", " ").replace("\n", " ")
+    for pattern in _SENSITIVE_TOKEN_PATTERNS:
+        text = pattern.sub(lambda match: f"{match.group(1)}<redacted>", text)
+    return text[:limit]
+
+
+def _http_error_evidence(exc: HTTPError) -> dict[str, object]:
+    """Extract only non-secret diagnostic evidence from one HTTPError."""
+
+    retry_after_seconds: int | None = None
+    rate_limit_headers: list[tuple[str, str]] = []
+    headers = exc.headers
+    if headers is not None:
+        raw_retry_after = headers.get("Retry-After")
+        if raw_retry_after is not None:
+            try:
+                retry_after_seconds = max(0, int(str(raw_retry_after).strip()))
+            except ValueError:
+                retry_after_seconds = None
+        for name, value in headers.items():
+            lowered = str(name).lower()
+            if lowered.startswith("x-mbx-used-weight-") or lowered.startswith(
+                "x-mbx-order-count-"
+            ):
+                rate_limit_headers.append((str(name), _redact_sensitive_text(value, limit=128)))
+
+    binance_code: int | str | None = None
+    binance_message: str | None = None
+    try:
+        body = exc.read(4096)
+    except Exception:  # pragma: no cover - defensive against exotic HTTPError bodies.
+        body = b""
+    if body:
+        try:
+            parsed = json.loads(body.decode("utf-8", errors="replace"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            parsed = None
+        if isinstance(parsed, dict):
+            raw_code = parsed.get("code")
+            if isinstance(raw_code, (int, str)):
+                binance_code = raw_code
+            raw_message = parsed.get("msg")
+            if raw_message is not None:
+                binance_message = _redact_sensitive_text(raw_message)
+
+    return {
+        "binance_code": binance_code,
+        "binance_message": binance_message,
+        "retry_after_seconds": retry_after_seconds,
+        "rate_limit_headers": tuple(sorted(rate_limit_headers)),
+    }
