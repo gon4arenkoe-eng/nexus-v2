@@ -31021,3 +31021,98 @@ external runtime dependency remains deferred.
 
 Phase 15 must not treat the Binance venue gate as closed until the
 target-server certification evidence is completed.
+
+## 2026-09-15 - Phase 13 Bybit Adapter Foundation v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: TEST VERIFIED / DONE
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_ADAPTER_FOUNDATION_V1_VERIFIED
+
+### SCOPE
+
+Implemented the Bybit V5 canonical VenueAdapter foundation for the
+approved Phase 13 P0 venue sequence.
+
+Implemented:
+
+- adapters/bybit/__init__.py;
+- adapters/bybit/venue.py;
+- Bybit-specific raw payload normalization;
+- canonical order normalization;
+- canonical position normalization;
+- canonical account/balance normalization;
+- canonical fill normalization;
+- generic VenueAdapter reconciliation read-contract coverage;
+- fail-closed DEMO environment configuration;
+- fail-closed ONEWAY position mode;
+- writes disabled by default.
+
+### ARCHITECTURE
+
+The adapter preserves the required boundary:
+
+raw Bybit V5 payload
+→ Bybit-specific normalization
+→ canonical VenueAdapter values
+→ Core
+
+Raw Bybit fields do not enter canonical Core.
+
+No direct Strategy or AIEA execution path was introduced.
+
+### VERIFICATION
+
+Python:
+- canonical project test runtime: Python 3.13.14;
+- pytest: 8.4.2;
+- pytest-asyncio: 1.4.0.
+
+Static/type verification:
+- mypy --explicit-package-bases: PASS;
+- no issues found in 3 source files.
+
+Focused:
+- 16 passed.
+
+Adjacent venue/reconciliation:
+- 24 passed.
+
+Full regression:
+- 924 passed.
+
+Safety/ownership:
+- RAW_BYBIT_FIELDS_TO_CORE=NO;
+- PRODUCTION_HOST_IN_FOUNDATION=NO;
+- default Bybit writes remain disabled;
+- live authority expansion: NONE.
+
+### NOT INCLUDED / NOT VERIFIED
+
+This evidence does NOT certify Bybit runtime connectivity.
+
+Still required in later Phase 13 slices:
+
+- Bybit Demo HTTP transport/signing;
+- runtime authenticated read verification;
+- reconciliation/runtime evidence;
+- controlled demo write certification;
+- venue-specific runtime edge cases;
+- NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK closure.
+
+### STATUS
+
+BYBIT_ADAPTER_FOUNDATION_V1=TEST_VERIFIED_DONE
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Production safety unchanged:
+
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_ADAPTER_FOUNDATION_V1_VERIFIED
