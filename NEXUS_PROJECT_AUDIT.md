@@ -31223,3 +31223,121 @@ RUNTIME_NETWORK_CERTIFICATION=NOT_STARTED
 
 Evidence tag:
 NEXUS_V2_PHASE13_BYBIT_DEMO_HTTP_TRANSPORT_V1_VERIFIED
+## 2026-09-16 - Phase 13 Bybit Demo Read-Only Runtime Probe v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: TEST VERIFIED / DONE
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_DEMO_READONLY_RUNTIME_V1_VERIFIED
+
+### SCOPE
+
+Executed an external read-only runtime probe against the approved Bybit
+Demo Trading environment.
+
+Runtime host:
+
+- https://api-demo.bybit.com
+
+No repository code changes were required by this runtime verification.
+
+### PUBLIC CONNECTIVITY
+
+Bybit public server-time request:
+
+- PUBLIC_TIME_RETCODE=0;
+- PUBLIC_TIME_RETMSG=OK;
+- PUBLIC_TIME=PASS;
+- CLOCK_SKEW_MS=-974.
+
+### AUTHENTICATED READ-ONLY EVIDENCE
+
+Authenticated Demo API credentials were entered through masked console input.
+
+Verified GET-only reads:
+
+- wallet balance:
+  - WALLET_RETCODE=0;
+  - WALLET_RETMSG=OK;
+  - WALLET_ACCOUNTS=1;
+
+- open orders:
+  - OPEN_ORDERS_RETCODE=0;
+  - OPEN_ORDERS_RETMSG=OK;
+  - OPEN_ORDERS_COUNT=0;
+
+- positions:
+  - POSITIONS_RETCODE=0;
+  - POSITIONS_RETMSG=OK;
+  - POSITIONS_COUNT=1;
+
+- executions:
+  - EXECUTIONS_RETCODE=0;
+  - EXECUTIONS_RETMSG=OK;
+  - EXECUTIONS_COUNT=0.
+
+Overall:
+
+- AUTHENTICATED_READS=PASS.
+
+### SAFETY
+
+The runtime probe was strictly read-only.
+
+Verified:
+
+- HTTP_METHODS_USED=GET_ONLY;
+- WRITE_METHODS_CALLED=0;
+- ORDER_CREATION_CALLED=0;
+- ORDER_CANCEL_CALLED=0;
+- REAL_CREDENTIALS_ECHOED=0;
+- repository worktree remained clean;
+- repository HEAD remained unchanged;
+- live authority expansion: NONE.
+
+Production authority remains unchanged:
+
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### VERIFIED
+
+This evidence verifies:
+
+- Bybit Demo network reachability;
+- Bybit public server-time reachability;
+- runtime clock-skew evidence;
+- valid authenticated Demo API signing/credentials;
+- wallet read availability;
+- open-order read availability;
+- position read availability;
+- execution/fill read availability;
+- GET-only runtime operation.
+
+### NOT INCLUDED / NOT VERIFIED
+
+This evidence does NOT close the full Bybit venue certification gate.
+
+Still required before:
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK
+
+can close:
+
+- runtime reconciliation evidence using the canonical BybitVenueAdapter;
+- restart/replay behavior where required by the common certification suite;
+- controlled Bybit Demo write certification when explicitly approved;
+- venue-specific execution edge cases;
+- final common adapter/reconciliation/execution certification review.
+
+### STATUS
+
+BYBIT_DEMO_READONLY_RUNTIME_V1=TEST_VERIFIED_DONE
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_DEMO_READONLY_RUNTIME_V1_VERIFIED
