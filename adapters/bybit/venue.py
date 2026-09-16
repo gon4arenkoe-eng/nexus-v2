@@ -399,13 +399,13 @@ class BybitVenueAdapter(VenueAdapter):
             params["symbol"] = _bybit_symbol(instrument_id)
         else:
             params["settleCoin"] = self._config.settle_coin
-        response = await self._transport.request("GET", "/v5/order/realtime", params)
+        response = await self._request_complete_read("GET", "/v5/order/realtime", params)
         return tuple(self._normalizer.normalize_order(row) for row in _result_list(response))
 
     async def get_positions(self, *, account_id: AccountId) -> tuple[VenuePosition, ...]:
         _require_account(account_id)
         observed_at = self._observed_at()
-        response = await self._transport.request(
+        response = await self._request_complete_read(
             "GET",
             "/v5/position/list",
             {"category": "linear", "settleCoin": self._config.settle_coin},
@@ -450,7 +450,7 @@ class BybitVenueAdapter(VenueAdapter):
         if since is not None:
             params["startTime"] = str(_milliseconds(since))
         observed_at = self._observed_at()
-        response = await self._transport.request("GET", "/v5/execution/list", params)
+        response = await self._request_complete_read("GET", "/v5/execution/list", params)
         context = FillNormalizationContext(
             account_id=account_id,
             fallback_instrument=instrument_id,
@@ -460,6 +460,222 @@ class BybitVenueAdapter(VenueAdapter):
             self._normalizer.normalize_fill(row, context=context)
             for row in _result_list(response)
         )
+
+
+    async def _request_complete_read(
+        self,
+        method: str,
+        path: str,
+        params: Mapping[str, str],
+    ) -> Mapping[str, object]:
+        """Collect complete cursor-paginated reconciliation truth.
+
+        Execution history with an explicit startTime is additionally split
+        into Bybit-compliant windows no wider than seven days.
+        """
+
+        method_normalized = method.strip().upper()
+
+        if method_normalized != "GET":
+            raise PermissionError(
+                "Bybit complete reconciliation reads are GET-only"
+            )
+
+        if path != "/v5/execution/list" or "startTime" not in params:
+            return await self._request_all_pages(
+                path=path,
+                params=params,
+            )
+
+        try:
+            requested_start = int(str(params["startTime"]))
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                "Bybit execution startTime must be integer milliseconds"
+            ) from exc
+
+        now_ms = int(
+            self._observed_at().timestamp() * 1000
+        )
+
+        if requested_start > now_ms:
+            raise ValueError(
+                "Bybit execution startTime cannot be in the future"
+            )
+
+        seven_days_ms = 7 * 24 * 60 * 60 * 1000
+
+        base_params = dict(params)
+        base_params.pop("startTime", None)
+        base_params.pop("endTime", None)
+        base_params.pop("cursor", None)
+        base_params.pop("limit", None)
+
+        rows: list[Mapping[str, object]] = []
+        seen_exec_ids: dict[
+            str,
+            Mapping[str, object],
+        ] = {}
+
+        # Walk newest -> oldest so the aggregate retains Bybit's
+        # documented newest-first execution-history direction.
+        window_end = now_ms
+
+        while window_end >= requested_start:
+            window_start = max(
+                requested_start,
+                window_end - seven_days_ms,
+            )
+
+            window_params = dict(base_params)
+            window_params["startTime"] = str(window_start)
+            window_params["endTime"] = str(window_end)
+
+            response = await self._request_all_pages(
+                path=path,
+                params=window_params,
+            )
+
+            result = _result_mapping(response)
+            items = result.get("list")
+
+            if not isinstance(items, list):
+                raise ValueError(
+                    "Bybit response result.list must be a list"
+                )
+
+            for item in items:
+                if not isinstance(item, Mapping):
+                    raise ValueError(
+                        "Bybit result.list item must be a mapping"
+                    )
+
+                exec_id = str(
+                    item.get("execId") or ""
+                ).strip()
+
+                if not exec_id:
+                    raise ValueError(
+                        "Bybit execution row requires execId"
+                    )
+
+                existing = seen_exec_ids.get(exec_id)
+
+                if existing is not None:
+                    if dict(existing) != dict(item):
+                        raise ValueError(
+                            "Bybit execution history contains "
+                            "conflicting duplicate execId"
+                        )
+                    continue
+
+                seen_exec_ids[exec_id] = item
+                rows.append(item)
+
+            if window_start == requested_start:
+                break
+
+            # Adjacent inclusive millisecond windows must not overlap.
+            window_end = window_start - 1
+
+        return {
+            "retCode": 0,
+            "retMsg": "OK",
+            "result": {
+                "list": rows,
+                "nextPageCursor": "",
+            },
+        }
+
+    async def _request_all_pages(
+        self,
+        *,
+        path: str,
+        params: Mapping[str, str],
+    ) -> Mapping[str, object]:
+        """Follow Bybit nextPageCursor until the required read is complete."""
+
+        page_limits = {
+            "/v5/order/realtime": 50,
+            "/v5/position/list": 200,
+            "/v5/execution/list": 100,
+        }
+
+        page_limit = page_limits.get(path)
+
+        if page_limit is None:
+            # This helper is intentionally narrow: adding another
+            # paginated endpoint requires an explicit certification slice.
+            raise ValueError(
+                f"unsupported complete Bybit read path: {path}"
+            )
+
+        base_params = dict(params)
+        base_params.pop("cursor", None)
+        base_params["limit"] = str(page_limit)
+
+        rows: list[Mapping[str, object]] = []
+        seen_cursors: set[str] = set()
+
+        cursor: str | None = None
+
+        while True:
+            page_params = dict(base_params)
+
+            if cursor is not None:
+                page_params["cursor"] = cursor
+
+            response = await self._transport.request(
+                "GET",
+                path,
+                page_params,
+            )
+
+            result = _result_mapping(response)
+            items = result.get("list")
+
+            if not isinstance(items, list):
+                raise ValueError(
+                    "Bybit response result.list must be a list"
+                )
+
+            for item in items:
+                if not isinstance(item, Mapping):
+                    raise ValueError(
+                        "Bybit result.list item must be a mapping"
+                    )
+                rows.append(item)
+
+            raw_cursor = result.get("nextPageCursor")
+
+            if raw_cursor is None:
+                next_cursor = ""
+            elif isinstance(raw_cursor, str):
+                next_cursor = raw_cursor.strip()
+            else:
+                raise ValueError(
+                    "Bybit nextPageCursor must be a string"
+                )
+
+            if not next_cursor:
+                break
+
+            if next_cursor in seen_cursors:
+                raise ValueError(
+                    "Bybit pagination cursor repeated"
+                )
+
+            seen_cursors.add(next_cursor)
+            cursor = next_cursor
+
+        return {
+            "retCode": 0,
+            "retMsg": "OK",
+            "result": {
+                "list": rows,
+                "nextPageCursor": "",
+            },
+        }
 
     def _require_demo_write(self) -> None:
         if not self._config.allow_demo_writes:

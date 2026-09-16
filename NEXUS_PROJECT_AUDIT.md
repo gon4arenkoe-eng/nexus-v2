@@ -31624,3 +31624,76 @@ NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
 
 Evidence tag:
 NEXUS_V2_PHASE13_RECONCILIATION_SOURCE_STATE_COMPOSITION_V1_VERIFIED
+## 2026-09-16 - Phase 13 Bybit Reconciliation Read Completeness v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_RECONCILIATION_READ_COMPLETENESS_V1_VERIFIED
+
+### FACT
+
+Bybit reconciliation reads were previously single-page reads and could not prove
+complete venue truth for paginated open orders, positions, and executions.
+
+Execution history also requires bounded time-window traversal.
+
+### CHANGE
+
+Added Bybit-specific complete reconciliation read handling inside
+adapters/bybit:
+
+- open orders follow nextPageCursor;
+- positions follow nextPageCursor;
+- executions follow nextPageCursor;
+- endpoint-specific maximum page sizes are requested;
+- execution history with startTime is traversed in windows no wider than
+  seven days;
+- adjacent history windows do not overlap;
+- duplicate executions are deduplicated by execId;
+- conflicting duplicate execId values fail closed;
+- repeated pagination cursors fail closed;
+- invalid cursor types fail closed;
+- future execution startTime fails closed;
+- complete reconciliation reads are GET-only.
+
+Raw Bybit pagination/history details remain inside the Bybit adapter boundary.
+
+### SAFETY
+
+No Core files changed.
+
+No production Bybit host added.
+
+No venue write method added.
+
+No runtime network call was made during verification.
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### VERIFICATION
+
+- compile: PASS;
+- mypy: PASS;
+- focused completeness tests: 11 passed;
+- Bybit adjacent tests: 21 passed;
+- reconciliation adjacent tests: 52 passed;
+- full regression: 969 passed;
+- production host absent: PASS;
+- Core unchanged: PASS;
+- git diff --check: PASS.
+
+### STATUS
+
+BYBIT_RECONCILIATION_READ_COMPLETENESS_V1=DONE_TEST_VERIFIED
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_RECONCILIATION_READ_COMPLETENESS_V1_VERIFIED
