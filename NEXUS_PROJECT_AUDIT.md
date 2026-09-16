@@ -31697,3 +31697,77 @@ NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
 
 Evidence tag:
 NEXUS_V2_PHASE13_BYBIT_RECONCILIATION_READ_COMPLETENESS_V1_VERIFIED
+## 2026-09-16 - Phase 13 Reconciliation Fill Horizon v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag:
+NEXUS_V2_PHASE13_RECONCILIATION_FILL_HORIZON_V1_VERIFIED
+
+### FACT
+
+No canonical production reconciliation fill-history horizon existed.
+
+The local reconciliation snapshot is historically unbounded for one
+user/account/instrument scope and loads all local orders and fills.
+
+Therefore a fixed venue lookback such as seven days would be asymmetric and
+could hide valid fill discrepancies.
+
+### CHANGE
+
+Added deterministic venue-agnostic reconciliation fill-history horizon logic.
+
+The lower bound is derived from the earliest of:
+
+- local ExecutionFill.executed_at;
+- local ExecutionOrder.created_at.
+
+Order creation time participates so a venue fill missing locally can still be
+discovered even when no corresponding local fill exists.
+
+If there are no local orders and no local fills, the horizon is explicitly:
+
+UNKNOWN
+
+No implicit arbitrary lookback is introduced.
+
+### SAFETY
+
+The capability is venue-agnostic.
+
+No SQLAlchemy dependency added.
+
+No exchange adapter dependency added.
+
+No network dependency added.
+
+No trading authority added.
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### VERIFICATION
+
+- compile: PASS;
+- mypy: PASS;
+- focused fill-horizon tests: 6 passed;
+- adjacent snapshot/reconciliation tests: 46 passed;
+- full regression: 975 passed;
+- venue-agnostic architecture check: PASS;
+- no infrastructure dependency: PASS;
+- git diff --check: PASS.
+
+### STATUS
+
+RECONCILIATION_FILL_HORIZON_V1=DONE_TEST_VERIFIED
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Evidence tag:
+NEXUS_V2_PHASE13_RECONCILIATION_FILL_HORIZON_V1_VERIFIED
