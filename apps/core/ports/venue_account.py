@@ -41,7 +41,7 @@ def _require_asset(value: str) -> str:
     if not isinstance(value, str):
         raise ValueError("asset must be a string")
 
-    normalized = value.strip()
+    normalized = value.strip().upper()
 
     if not normalized:
         raise ValueError("asset must be non-empty")
@@ -81,6 +81,12 @@ class VenueBalance:
                 field_name="available",
             ),
         )
+
+    @property
+    def currency(self) -> str:
+        """Compatibility alias; canonical identity is asset."""
+
+        return self.asset
 
 
 @dataclass(frozen=True, slots=True)

@@ -9,6 +9,7 @@ from adapters.binance.venue import BINANCE_USDM_VENUE_ID, BinanceUsdMVenueAdapte
 from apps.core.domain.orders import OrderSide
 from apps.core.ports.venue import (
     VenueAccountState,
+    VenueAccountObservationState,
     VenueBalance,
     VenueFill,
     VenueOrderResult,
@@ -130,6 +131,7 @@ def test_binance_usdm_passes_generic_venue_read_contract() -> None:
             ),
             account_state=VenueAccountState(
                 account_id=ACCOUNT,
+                state=VenueAccountObservationState.CURRENT,
                 balances=(VenueBalance("USDT", Decimal("1000"), Decimal("800")),),
                 observed_at=NOW,
             ),

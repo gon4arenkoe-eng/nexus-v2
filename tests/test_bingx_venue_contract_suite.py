@@ -11,6 +11,7 @@ from adapters.bingx.venue import BINGX_VENUE_ID, BingXVenueAdapter
 from apps.core.domain.orders import OrderSide
 from apps.core.ports.venue import (
     VenueAccountState,
+    VenueAccountObservationState,
     VenueBalance,
     VenueFill,
     VenueOrderResult,
@@ -160,9 +161,10 @@ def test_bingx_passes_generic_venue_read_contract() -> None:
             ),
             account_state=VenueAccountState(
                 account_id=ACCOUNT,
+                state=VenueAccountObservationState.CURRENT,
                 balances=(
                     VenueBalance(
-                        currency="VST",
+                        asset="VST",
                         total=Decimal("1000"),
                         available=Decimal("800"),
                     ),

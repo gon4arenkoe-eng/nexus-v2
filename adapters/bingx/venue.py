@@ -15,6 +15,7 @@ from typing import Protocol, cast
 from apps.core.domain.orders import OrderSide
 from apps.core.ports.venue import (
     VenueAccountState,
+    VenueAccountObservationState,
     VenueAdapter,
     VenueBalance,
     VenueCapabilities,
@@ -334,6 +335,7 @@ class BingXVenueAdapter(VenueAdapter):
         )
         return VenueAccountState(
             account_id=account_id,
+            state=VenueAccountObservationState.CURRENT,
             balances=balances,
             observed_at=self._observed_at(),
         )
@@ -699,7 +701,7 @@ def _normalize_balance(row: Mapping[str, object]) -> VenueBalance:
         field_name="availableMargin",
     )
     return VenueBalance(
-        currency=currency,
+        asset=currency,
         total=total,
         available=available,
     )

@@ -24,6 +24,7 @@ from adapters.common.normalization import (
 from apps.core.domain.orders import OrderSide, OrderType
 from apps.core.ports.venue import (
     VenueAccountState,
+    VenueAccountObservationState,
     VenueAdapter,
     VenueBalance,
     VenueCapabilities,
@@ -206,7 +207,7 @@ class BinanceUsdMNormalizer:
         if not currency:
             raise ValueError("Binance balance requires asset")
         return VenueBalance(
-            currency=currency,
+            asset=currency,
             total=_decimal(raw.get("balance", "0"), field_name="balance"),
             available=_decimal(
                 raw.get("availableBalance", raw.get("withdrawAvailable", "0")),
@@ -391,6 +392,7 @@ class BinanceUsdMVenueAdapter(VenueAdapter):
         balances = tuple(self._normalizer.normalize_balance(row) for row in _list_response(response))
         return VenueAccountState(
             account_id=account_id,
+            state=VenueAccountObservationState.CURRENT,
             balances=balances,
             observed_at=self._observed_at(),
         )

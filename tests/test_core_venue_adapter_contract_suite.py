@@ -14,6 +14,7 @@ from apps.core.domain.orders import (
 )
 from apps.core.ports.venue import (
     VenueAccountState,
+    VenueAccountObservationState,
     VenueAdapter,
     VenueBalance,
     VenueCapabilities,
@@ -90,9 +91,10 @@ def _position() -> VenuePosition:
 def _account_state() -> VenueAccountState:
     return VenueAccountState(
         account_id=ACCOUNT_ID,
+        state=VenueAccountObservationState.CURRENT,
         balances=(
             VenueBalance(
-                currency="USDT",
+                asset="USDT",
                 total=Decimal("1000"),
                 available=Decimal("800"),
             ),

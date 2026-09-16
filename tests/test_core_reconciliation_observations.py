@@ -11,6 +11,7 @@ import pytest
 from apps.core.domain.orders import OrderSide
 from apps.core.ports.venue import (
     VenueAccountState,
+    VenueAccountObservationState,
     VenueBalance,
     VenueCapabilities,
     VenueCapability,
@@ -177,9 +178,10 @@ def test_account_state_normalizes_balance_and_time() -> None:
 
     state = VenueAccountState(
         account_id=_account(),
+        state=VenueAccountObservationState.CURRENT,
         balances=(
             VenueBalance(
-                currency=" usdt ",
+                asset=" usdt ",
                 total=Decimal("1000"),
                 available=Decimal("750"),
             ),
@@ -187,24 +189,25 @@ def test_account_state_normalizes_balance_and_time() -> None:
         observed_at=observed,
     )
 
-    assert state.balances[0].currency == "USDT"
+    assert state.balances[0].asset == "USDT"
     assert state.observed_at.tzinfo is UTC
     assert state.observed_at.hour == 10
 
 
 def test_account_state_rejects_duplicate_currency() -> None:
     balance = VenueBalance(
-        currency="USDT",
+        asset="USDT",
         total=Decimal("100"),
         available=Decimal("100"),
     )
 
     with pytest.raises(
         ValueError,
-        match="duplicate currency",
+        match="duplicate asset",
     ):
         VenueAccountState(
             account_id=_account(),
+            state=VenueAccountObservationState.CURRENT,
             balances=(balance, balance),
             observed_at=_time(),
         )
@@ -216,7 +219,7 @@ def test_balance_requires_finite_values() -> None:
         match="total must be finite",
     ):
         VenueBalance(
-            currency="USDT",
+            asset="USDT",
             total=Decimal("NaN"),
             available=Decimal("1"),
         )

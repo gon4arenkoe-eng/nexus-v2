@@ -31476,3 +31476,84 @@ ReconciliationPassOrchestrator.
 
 Evidence tag:
 NEXUS_V2_PHASE13_LOCAL_RECONCILIATION_SNAPSHOT_PROVIDER_V1_VERIFIED
+## 2026-09-16 - Phase 13 Venue Account Contract Unification v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag:
+NEXUS_V2_PHASE13_VENUE_ACCOUNT_CONTRACT_UNIFICATION_V1_VERIFIED
+
+### FACT
+
+Two incompatible canonical account/balance contracts existed simultaneously:
+
+- apps.core.ports.venue;
+- apps.core.ports.venue_account.
+
+BingX, Binance and Bybit used the former while reconciliation used the latter.
+
+Direct introspection proved:
+
+- SAME_BALANCE_CLASS=False;
+- SAME_ACCOUNT_STATE_CLASS=False.
+
+### CHANGE
+
+Venue account/balance observation was unified onto the quality-aware
+apps.core.ports.venue_account contract.
+
+apps.core.ports.venue now re-exports:
+
+- VenueAccountObservationState;
+- VenueAccountState;
+- VenueBalance.
+
+The duplicate VenueBalance and VenueAccountState definitions were removed
+from apps.core.ports.venue.
+
+Canonical balance identity is now sset.
+
+A read-only currency compatibility alias remains on VenueBalance to preserve
+existing read behavior while canonical callers use sset.
+
+BingX, Binance and Bybit successful account reads now explicitly emit:
+
+VenueAccountObservationState.CURRENT
+
+No implicit CURRENT default was introduced.
+
+### SAFETY
+
+STALE and UNAVAILABLE remain explicit account observation states.
+
+This change does not assign overall ReconciliationSourceState; runtime source
+quality composition remains a separate Phase 13 concern.
+
+No venue write authority was added.
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### VERIFICATION
+
+- global legacy VenueBalance(currency=...) calls: ABSENT;
+- P0 adapter suites: 37 passed;
+- focused account/contract suites: 49 passed;
+- mypy: PASS;
+- adjacent reconciliation + Phase14 simulation: 60 passed;
+- full regression: 948 passed;
+- git diff --check: PASS.
+
+### STATUS
+
+VENUE_ACCOUNT_CONTRACT_UNIFICATION_V1=DONE_TEST_VERIFIED
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Evidence tag:
+NEXUS_V2_PHASE13_VENUE_ACCOUNT_CONTRACT_UNIFICATION_V1_VERIFIED

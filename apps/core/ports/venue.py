@@ -291,72 +291,11 @@ def _require_finite_decimal(
     return value
 
 
-@dataclass(frozen=True, slots=True)
-class VenueBalance:
-    """One canonical balance observation."""
-
-    currency: str
-    total: Decimal
-    available: Decimal
-
-    def __post_init__(self) -> None:
-        currency = _require_non_empty_text(
-            self.currency,
-            field_name="currency",
-        ).upper()
-
-        total = _require_finite_decimal(
-            self.total,
-            field_name="total",
-        )
-        available = _require_finite_decimal(
-            self.available,
-            field_name="available",
-        )
-
-        object.__setattr__(self, "currency", currency)
-        object.__setattr__(self, "total", total)
-        object.__setattr__(self, "available", available)
-
-
-@dataclass(frozen=True, slots=True)
-class VenueAccountState:
-    """Canonical read-only venue account observation."""
-
-    account_id: AccountId
-    balances: tuple[VenueBalance, ...]
-    observed_at: datetime
-
-    def __post_init__(self) -> None:
-        if not isinstance(self.account_id, AccountId):
-            raise ValueError("account_id must be an AccountId")
-
-        if not isinstance(self.balances, tuple):
-            raise ValueError("balances must be a tuple")
-
-        currencies: set[str] = set()
-
-        for balance in self.balances:
-            if not isinstance(balance, VenueBalance):
-                raise ValueError(
-                    "balances must contain VenueBalance values"
-                )
-
-            if balance.currency in currencies:
-                raise ValueError(
-                    "duplicate currency in account observation"
-                )
-
-            currencies.add(balance.currency)
-
-        object.__setattr__(
-            self,
-            "observed_at",
-            normalize_utc_datetime(
-                self.observed_at,
-                field_name="observed_at",
-            ),
-        )
+from apps.core.ports.venue_account import (
+    VenueAccountObservationState,
+    VenueAccountState,
+    VenueBalance,
+)
 
 
 @dataclass(frozen=True, slots=True)

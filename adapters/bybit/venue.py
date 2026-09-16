@@ -29,6 +29,7 @@ from adapters.common.normalization import (
 from apps.core.domain.orders import OrderSide, OrderType
 from apps.core.ports.venue import (
     VenueAccountState,
+    VenueAccountObservationState,
     VenueAdapter,
     VenueBalance,
     VenueCapabilities,
@@ -221,7 +222,7 @@ class BybitNormalizer:
         """
 
         return VenueBalance(
-            currency="USD",
+            asset="USD",
             total=_decimal(raw.get("totalWalletBalance", "0"), field_name="totalWalletBalance"),
             available=_decimal(
                 raw.get("totalAvailableBalance", "0"),
@@ -429,6 +430,7 @@ class BybitVenueAdapter(VenueAdapter):
             raise ValueError("Bybit UNIFIED wallet query must return exactly one account row")
         return VenueAccountState(
             account_id=account_id,
+            state=VenueAccountObservationState.CURRENT,
             balances=(self._normalizer.normalize_balance(rows[0]),),
             observed_at=self._observed_at(),
         )
