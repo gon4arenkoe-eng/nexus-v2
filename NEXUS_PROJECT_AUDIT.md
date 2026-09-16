@@ -31341,3 +31341,138 @@ NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
 
 Evidence tag:
 NEXUS_V2_PHASE13_BYBIT_DEMO_READONLY_RUNTIME_V1_VERIFIED
+## 2026-09-16 - Phase 13 Local Reconciliation Snapshot Provider v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag:
+NEXUS_V2_PHASE13_LOCAL_RECONCILIATION_SNAPSHOT_PROVIDER_V1_VERIFIED
+
+### SCOPE
+
+Implemented the missing persistence-backed local reconciliation snapshot
+provider for one explicit:
+
+- user;
+- account;
+- instrument
+
+scope.
+
+Canonical output:
+
+- ExecutionOrder;
+- ExecutionFill;
+- PositionLeg.
+
+### IMPLEMENTATION
+
+Added:
+
+- apps/core/ports/reconciliation_snapshot.py;
+- infra/persistence/repositories/reconciliation_snapshot.py;
+- infra/persistence/application/reconciliation_snapshot.py;
+- tests/test_local_reconciliation_snapshot_provider.py;
+- docs/runbooks/PHASE13_LOCAL_RECONCILIATION_SNAPSHOT_PROVIDER_V1.md.
+
+Dependency direction remains:
+
+Core port <- infrastructure persistence implementation
+
+Core does not import SQLAlchemy.
+
+### OWNERSHIP / ISOLATION
+
+Orders are filtered by:
+
+- user_id;
+- venue/account;
+- instrument identity.
+
+Fills are filtered by their own user/account/venue ownership and joined to
+the owning ExecutionOrder for instrument identity.
+
+PositionLeg ownership is constrained through PositionGroup.user_id because
+PositionLegModel does not directly own user_id.
+
+### DETERMINISM / HYDRATION
+
+Queries use deterministic ordering.
+
+Persisted rows hydrate into canonical domain objects:
+
+- ExecutionOrder;
+- ExecutionFill;
+- PositionLeg.
+
+Canonical domain constructors revalidate invariants.
+
+Timezone-naive persistence timestamps are restored as UTC using the existing
+repository convention.
+
+### VERIFICATION
+
+Compile:
+
+- PASS.
+
+Typecheck:
+
+- mypy PASS.
+
+Focused:
+
+- 10 passed.
+
+Adjacent reconciliation:
+
+- 42 passed.
+
+Full regression:
+
+- 944 passed.
+
+Exact candidate scope:
+
+- PASS.
+
+git diff --check:
+
+- PASS.
+
+Architecture safety:
+
+- Core SQLAlchemy dependency: ABSENT;
+- venue dependency: ABSENT;
+- write authority: ABSENT.
+
+### SAFETY
+
+No venue network calls were performed.
+
+No order submit/cancel methods were added.
+
+No persistence mutation API was added to this provider.
+
+No destructive reconciliation behavior was added.
+
+Production authority remains unchanged:
+
+- Restricted Live: DISABLED;
+- Full Live: DISABLED;
+- AI direct exchange access: BLOCKED.
+
+### STATUS
+
+LOCAL_RECONCILIATION_SNAPSHOT_PROVIDER_V1=DONE_TEST_VERIFIED
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Next remaining Bybit certification work includes composing real local
+snapshot truth with canonical Bybit venue observations through the existing
+ReconciliationPassOrchestrator.
+
+Evidence tag:
+NEXUS_V2_PHASE13_LOCAL_RECONCILIATION_SNAPSHOT_PROVIDER_V1_VERIFIED
