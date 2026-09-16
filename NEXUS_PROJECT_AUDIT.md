@@ -31557,3 +31557,70 @@ NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
 
 Evidence tag:
 NEXUS_V2_PHASE13_VENUE_ACCOUNT_CONTRACT_UNIFICATION_V1_VERIFIED
+## 2026-09-16 - Phase 13 Reconciliation Source State Composition v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag:
+NEXUS_V2_PHASE13_RECONCILIATION_SOURCE_STATE_COMPOSITION_V1_VERIFIED
+
+### FACT
+
+No production owner existed for composing overall
+ReconciliationSourceState from required venue observations.
+
+Startup and continuous reconciliation accepted source_state as input but did
+not determine it.
+
+### CHANGE
+
+Added deterministic reconciliation source-quality composition:
+
+- all CURRENT -> CURRENT;
+- known STALE -> STALE;
+- explicit DEGRADED -> DEGRADED;
+- partial UNAVAILABLE -> DEGRADED;
+- all UNAVAILABLE -> UNAVAILABLE;
+- any UNKNOWN -> UNKNOWN.
+
+Added canonical projection from VenueAccountObservationState to
+ReconciliationSourceState.
+
+The policy is venue-agnostic and infrastructure-independent.
+
+### SAFETY
+
+No venue-specific dependency added.
+
+No SQLAlchemy/FastAPI/network dependency added.
+
+No trading authority added.
+
+No implicit source CURRENT default outside the explicit composition policy.
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### VERIFICATION
+
+- compile: PASS;
+- mypy: PASS;
+- focused source-state tests: 10 passed;
+- adjacent reconciliation tests: 60 passed;
+- full regression: 958 passed;
+- architecture dependency checks: PASS;
+- git diff --check: PASS.
+
+### STATUS
+
+RECONCILIATION_SOURCE_STATE_COMPOSITION_V1=DONE_TEST_VERIFIED
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Evidence tag:
+NEXUS_V2_PHASE13_RECONCILIATION_SOURCE_STATE_COMPOSITION_V1_VERIFIED
