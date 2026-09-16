@@ -31116,3 +31116,110 @@ Production safety unchanged:
 
 Evidence tag:
 NEXUS_V2_PHASE13_BYBIT_ADAPTER_FOUNDATION_V1_VERIFIED
+## 2026-09-16 - Phase 13 Bybit Demo HTTP Transport v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: TEST VERIFIED / DONE
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_DEMO_HTTP_TRANSPORT_V1_VERIFIED
+
+### SCOPE
+
+Implemented the Bybit V5 Demo HTTP transport boundary for the existing
+canonical Bybit VenueAdapter foundation.
+
+Implemented:
+
+- adapters/bybit/http_transport.py;
+- Bybit Demo REST host allowlist;
+- V5 HMAC-SHA256 request signing;
+- GET query signing;
+- POST JSON body signing;
+- X-BAPI authentication headers;
+- timestamp and receive-window ownership inside the transport;
+- fail-closed write gate;
+- sanitized HTTP/runtime error evidence;
+- safe Bybit retCode / retMsg evidence;
+- Bybit rate-limit evidence handling;
+- transport exports through adapters/bybit/__init__.py.
+
+### ENVIRONMENT BOUNDARY
+
+Allowed:
+
+- https://api-demo.bybit.com
+
+Rejected / absent from runtime transport:
+
+- production https://api.bybit.com;
+- testnet https://api-testnet.bybit.com.
+
+This slice does not introduce production connectivity.
+
+### SAFETY
+
+- Demo writes are disabled by default;
+- credentials remain transport-local;
+- no credential material enters canonical Core;
+- raw Bybit transport fields do not enter Core;
+- no real API credentials were used;
+- no runtime network requests were made;
+- Restricted Live remains DISABLED;
+- Full Live remains DISABLED;
+- AI direct exchange access remains BLOCKED;
+- live authority expansion: NONE.
+
+### VERIFICATION
+
+Static/type verification:
+
+- compile: PASS;
+- mypy --explicit-package-bases: PASS;
+- no issues found in 2 source files.
+
+Focused transport tests:
+
+- 10 passed.
+
+Adjacent Bybit tests:
+
+- 16 passed.
+
+Full regression:
+
+- 934 passed.
+
+Ownership / safety:
+
+- PRODUCTION_HOST=ABSENT;
+- TESTNET_HOST=ABSENT;
+- DEMO_HOST=PRESENT;
+- WRITE_GATE=PRESENT;
+- BYBIT_TRANSPORT_FIELDS_TO_CORE=NO;
+- git diff --check: PASS.
+
+### NOT INCLUDED / NOT VERIFIED
+
+This evidence does NOT close the Bybit venue certification gate.
+
+Still required:
+
+- real Bybit Demo credential/runtime connectivity verification;
+- authenticated read-only runtime evidence;
+- reconciliation/runtime evidence;
+- controlled Demo write certification when explicitly authorized;
+- venue-specific runtime edge cases;
+- NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK closure.
+
+### STATUS
+
+BYBIT_DEMO_HTTP_TRANSPORT_V1=TEST_VERIFIED_DONE
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+RUNTIME_NETWORK_CERTIFICATION=NOT_STARTED
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_DEMO_HTTP_TRANSPORT_V1_VERIFIED
