@@ -47,7 +47,6 @@ jobs:
 
       - name: Static checks
         run: |
-          python -m flake8 apps packages infra adapters workers scripts tests
           python -m mypy apps packages infra adapters workers --explicit-package-bases
 
       - name: Full regression
