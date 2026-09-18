@@ -360,6 +360,162 @@ class BybitVenueAdapter(VenueAdapter):
             venue_order_id=venue_order_id,
         )
 
+
+    async def get_historical_order(
+        self,
+        *,
+        account_id: AccountId,
+        venue_order_id: VenueOrderId | None = None,
+        client_order_id: ClientOrderId | None = None,
+    ) -> VenueOrderResult:
+        """Query one historical Bybit order through the history endpoint.
+
+        The request is GET-only and requires at least one concrete order
+        identity. The adapter intentionally does not broaden this method into
+        an unrestricted historical order sweep.
+        """
+
+        if venue_order_id is None and client_order_id is None:
+            raise ValueError(
+                "historical order lookup requires venue_order_id "
+                "or client_order_id"
+            )
+
+        params: dict[str, str] = {
+            "category": "linear",
+            "settleCoin": self._config.settle_coin,
+            "limit": "50",
+        }
+
+        if venue_order_id is not None:
+            params["orderId"] = str(venue_order_id)
+
+        if client_order_id is not None:
+            params["orderLinkId"] = str(client_order_id)
+
+        rows: list[Mapping[str, object]] = []
+
+        cursor: str | None = None
+        seen_cursors: set[str] = set()
+
+        while True:
+            page = dict(params)
+
+            if cursor is not None:
+                page["cursor"] = cursor
+
+            response = await self._transport.request(
+                "GET",
+                "/v5/order/history",
+                page,
+            )
+
+            result = _result_mapping(response)
+            items = result.get("list")
+
+            if not isinstance(items, list):
+                raise ValueError(
+                    "Bybit response result.list must be a list"
+                )
+
+            for item in items:
+                if not isinstance(item, Mapping):
+                    raise ValueError(
+                        "Bybit order history row must be a mapping"
+                    )
+                rows.append(item)
+
+            raw_cursor = result.get("nextPageCursor")
+
+            if raw_cursor is None:
+                next_cursor = ""
+            elif isinstance(raw_cursor, str):
+                next_cursor = raw_cursor.strip()
+            else:
+                raise ValueError(
+                    "Bybit nextPageCursor must be a string"
+                )
+
+            if not next_cursor:
+                break
+
+            if next_cursor in seen_cursors:
+                raise ValueError(
+                    "Bybit order-history pagination cursor repeated"
+                )
+
+            seen_cursors.add(next_cursor)
+            cursor = next_cursor
+
+        if not rows:
+            raise LookupError(
+                "Bybit historical order not found"
+            )
+
+        # A point lookup may return several rows only when the supplied
+        # identity is insufficiently selective. Resolve deterministically.
+        matches: list[Mapping[str, object]] = []
+
+        requested_venue_id = (
+            str(venue_order_id)
+            if venue_order_id is not None
+            else None
+        )
+        requested_client_id = (
+            str(client_order_id)
+            if client_order_id is not None
+            else None
+        )
+
+        for row in rows:
+            row_venue_id = str(
+                row.get("orderId") or ""
+            ).strip()
+
+            row_client_id = str(
+                row.get("orderLinkId") or ""
+            ).strip()
+
+            if (
+                requested_venue_id is not None
+                and row_venue_id == requested_venue_id
+            ):
+                matches.append(row)
+                continue
+
+            if (
+                requested_client_id is not None
+                and row_client_id == requested_client_id
+            ):
+                matches.append(row)
+
+        if not matches:
+            raise LookupError(
+                "Bybit historical order identity did not match response"
+            )
+
+        if len(matches) > 1:
+            canonical = {
+                (
+                    str(row.get("orderId") or "").strip(),
+                    str(row.get("orderLinkId") or "").strip(),
+                    str(row.get("orderStatus") or "").strip(),
+                    str(row.get("cumExecQty") or "").strip(),
+                    str(row.get("avgPrice") or "").strip(),
+                )
+                for row in matches
+            }
+
+            if len(canonical) != 1:
+                raise ValueError(
+                    "Bybit historical order lookup returned "
+                    "conflicting identity matches"
+                )
+
+        return self._normalizer.normalize_order(
+            matches[0]
+        )
+
     async def get_order(
         self,
         *,

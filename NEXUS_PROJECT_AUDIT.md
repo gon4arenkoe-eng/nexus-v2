@@ -31852,3 +31852,80 @@ NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
 
 Evidence tag:
 NEXUS_V2_PHASE13_ORDER_RECONCILIATION_SCOPE_SEPARATION_V1_VERIFIED
+## 2026-09-18 - Phase 13 Bybit Historical Order Coverage v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_HISTORICAL_ORDER_COVERAGE_V1_VERIFIED
+
+### FACT
+
+Bybit realtime order reads do not constitute complete historical order
+coverage for reconciliation.
+
+A canonical historical order lookup was therefore required inside the Bybit
+adapter boundary.
+
+### CHANGE
+
+Added GET-only Bybit historical order lookup through:
+
+GET /v5/order/history
+
+The lookup:
+
+- requires venue_order_id or client_order_id;
+- supports orderId and orderLinkId identity;
+- follows Bybit nextPageCursor;
+- rejects repeated cursors;
+- rejects invalid cursor types;
+- rejects missing identity;
+- rejects missing order matches;
+- rejects conflicting identity matches;
+- normalizes the resulting venue order through the existing Bybit
+  normalizer.
+
+Raw Bybit historical endpoint semantics remain inside adapters/bybit.
+
+No Core dependency on Bybit was introduced.
+
+### SAFETY
+
+Historical order lookup is strictly GET-only.
+
+No production Bybit host was added.
+
+No venue write method was added.
+
+No runtime network call was made during verification.
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### VERIFICATION
+
+- compile: PASS;
+- mypy: PASS;
+- focused historical-order tests: 10 passed;
+- Bybit adjacent tests: 32 passed;
+- reconciliation adjacent tests: 55 passed;
+- full regression: 991 passed;
+- production host absent: PASS;
+- historical lookup GET-only: PASS;
+- venue write methods called: 0;
+- git diff --check: PASS.
+
+### STATUS
+
+BYBIT_HISTORICAL_ORDER_COVERAGE_V1=DONE_TEST_VERIFIED
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Evidence tag:
+NEXUS_V2_PHASE13_BYBIT_HISTORICAL_ORDER_COVERAGE_V1_VERIFIED
