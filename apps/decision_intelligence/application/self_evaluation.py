@@ -237,7 +237,7 @@ class DecisionCalibrationService:
                 if not error_costs
                 else sum(error_costs, _ZERO) / Decimal(len(error_costs))
             ),
-            error_counts=dict(errors),
+            error_counts={key: value for key, value in errors.items()},
         )
 
 

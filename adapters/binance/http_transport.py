@@ -16,7 +16,7 @@ import socket
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from typing import Final
+from typing import Final, TypedDict
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -207,7 +207,14 @@ def _redact_sensitive_text(value: object, *, limit: int = 512) -> str:
     return text[:limit]
 
 
-def _http_error_evidence(exc: HTTPError) -> dict[str, object]:
+class _BinanceHttpErrorEvidence(TypedDict):
+    binance_code: int | str | None
+    binance_message: str | None
+    retry_after_seconds: int | None
+    rate_limit_headers: tuple[tuple[str, str], ...]
+
+
+def _http_error_evidence(exc: HTTPError) -> _BinanceHttpErrorEvidence:
     """Extract only non-secret diagnostic evidence from one HTTPError."""
 
     retry_after_seconds: int | None = None

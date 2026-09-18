@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 from decimal import Decimal
 from hashlib import sha256
 
@@ -146,7 +148,7 @@ class LedgerDecisionOutcomeAttributionService:
         return outcome
 
 
-def _evidence_ref(evidence: list[object]) -> str:
+def _evidence_ref(evidence: Sequence[object]) -> str:
     raw = "|".join(
         f"{item.event_id}:{item.plan_id}:{item.occurred_at.isoformat()}"  # type: ignore[attr-defined]
         for item in evidence

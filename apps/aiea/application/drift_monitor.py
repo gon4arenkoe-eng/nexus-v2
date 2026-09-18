@@ -282,7 +282,11 @@ class DurableDriftEvidence:
             action=AdaptationAction(str(m["action"])),
             comparison=ComparisonState(str(m["comparison"])),
             observed_at=datetime.fromisoformat(str(m["observed_at"])),
-            evidence_age_seconds=int(m["evidence_age_seconds"]),
+            evidence_age_seconds=(
+                m["evidence_age_seconds"]
+                if isinstance(m["evidence_age_seconds"], int)
+                else int(str(m["evidence_age_seconds"]))
+            ),
             performance_ratio=Decimal(str(m["performance_ratio"])),
             freshness_ratio=Decimal(str(m["freshness_ratio"])),
             challenger_lift=None if challenger_lift is None else Decimal(str(challenger_lift)),
