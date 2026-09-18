@@ -31771,3 +31771,84 @@ NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
 
 Evidence tag:
 NEXUS_V2_PHASE13_RECONCILIATION_FILL_HORIZON_V1_VERIFIED
+## 2026-09-18 - Phase 13 Order Reconciliation Scope Separation v1
+
+Phase: Phase 13 — Venue Certification
+
+Status: DONE / TEST VERIFIED
+
+Evidence tag:
+NEXUS_V2_PHASE13_ORDER_RECONCILIATION_SCOPE_SEPARATION_V1_VERIFIED
+
+### FACT
+
+Canonical reconciliation previously used one local order tuple for two
+different purposes:
+
+- order-state comparison against venue orders;
+- local order ownership for fill reconciliation.
+
+This was incompatible with venues whose current order endpoint exposes only
+active/open orders while local persistence retains historical orders.
+
+### CHANGE
+
+Added an explicit optional order-comparison scope:
+
+order_comparison_local_orders
+
+The canonical local_orders tuple remains the complete local order history and
+continues to provide local fill ownership.
+
+When order_comparison_local_orders is omitted, existing detector semantics are
+preserved by defaulting comparison scope to local_orders.
+
+When supplied, the comparison scope must:
+
+- be a tuple;
+- contain ExecutionOrder values;
+- be a subset of local_orders.
+
+Startup and continuous reconciliation propagate the explicit comparison scope
+without changing ownership semantics.
+
+### SAFETY
+
+This is venue-agnostic Core reconciliation behavior.
+
+No Bybit-specific API, retention rule, or venue payload was introduced into
+Core.
+
+No infrastructure dependency was added.
+
+No venue write authority was added.
+
+Phase 14 compatibility was explicitly re-tested.
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### VERIFICATION
+
+- compile: PASS;
+- mypy: PASS;
+- focused scope-separation tests: 6 passed;
+- reconciliation adjacent tests: 48 passed;
+- Phase14 adjacent tests: 27 passed;
+- full regression: 981 passed;
+- venue-agnostic check: PASS;
+- infrastructure unchanged: PASS;
+- venue writes added: 0;
+- git diff --check: PASS.
+
+### STATUS
+
+ORDER_RECONCILIATION_SCOPE_SEPARATION_V1=DONE_TEST_VERIFIED
+
+NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
+
+Evidence tag:
+NEXUS_V2_PHASE13_ORDER_RECONCILIATION_SCOPE_SEPARATION_V1_VERIFIED

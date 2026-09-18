@@ -47,6 +47,7 @@ class ReconciliationPassRunnerPort(Protocol):
         local_orders: tuple[ExecutionOrder, ...],
         venue_orders: tuple[VenueOrderResult, ...],
         local_fills: tuple[ExecutionFill, ...],
+        order_comparison_local_orders: tuple[ExecutionOrder, ...] | None = None,
         venue_fills: tuple[VenueFill, ...],
         local_positions: tuple[PositionLeg, ...],
         venue_positions: tuple[VenuePosition, ...],
@@ -69,6 +70,7 @@ class StartupReconciliationInput:
     local_orders: tuple[ExecutionOrder, ...] = ()
     venue_orders: tuple[VenueOrderResult, ...] = ()
     local_fills: tuple[ExecutionFill, ...] = ()
+    order_comparison_local_orders: tuple[ExecutionOrder, ...] | None = None
     venue_fills: tuple[VenueFill, ...] = ()
     local_positions: tuple[PositionLeg, ...] = ()
     venue_positions: tuple[VenuePosition, ...] = ()
@@ -176,6 +178,9 @@ class StartupReconciliationActivationGate:
                 venue_orders=item.venue_orders,
                 local_fills=item.local_fills,
                 venue_fills=item.venue_fills,
+                order_comparison_local_orders=(
+                    item.order_comparison_local_orders
+                ),
                 local_positions=item.local_positions,
                 venue_positions=item.venue_positions,
                 venue_account=item.venue_account,

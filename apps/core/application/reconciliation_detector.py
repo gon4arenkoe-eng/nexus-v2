@@ -778,6 +778,7 @@ def detect_reconciliation(
     local_orders: tuple[ExecutionOrder, ...],
     venue_orders: tuple[VenueOrderResult, ...],
     local_fills: tuple[ExecutionFill, ...],
+    order_comparison_local_orders: tuple[ExecutionOrder, ...] | None = None,
     venue_fills: tuple[VenueFill, ...],
     local_positions: tuple[PositionLeg, ...],
     venue_positions: tuple[VenuePosition, ...],
@@ -789,6 +790,32 @@ def detect_reconciliation(
         raise ReconciliationDetectionError(
             "account venue must match instrument venue"
         )
+
+    if order_comparison_local_orders is None:
+        comparison_local_orders = local_orders
+    else:
+        if not isinstance(order_comparison_local_orders, tuple):
+            raise ReconciliationDetectionError(
+                "order_comparison_local_orders must be a tuple"
+            )
+
+        ownership_ids = {
+            str(order.order_id)
+            for order in local_orders
+        }
+
+        for order in order_comparison_local_orders:
+            if not isinstance(order, ExecutionOrder):
+                raise ReconciliationDetectionError(
+                    "order comparison scope must contain ExecutionOrder values"
+                )
+
+            if str(order.order_id) not in ownership_ids:
+                raise ReconciliationDetectionError(
+                    "order comparison scope must be a subset of local_orders"
+                )
+
+        comparison_local_orders = order_comparison_local_orders
 
     if source_state is not ReconciliationSourceState.CURRENT:
         discrepancy = ReconciliationDiscrepancy(
@@ -824,7 +851,7 @@ def detect_reconciliation(
             account_id=account_id,
             instrument_id=instrument_id,
             observed_at=observed_at,
-            local_orders=local_orders,
+            local_orders=comparison_local_orders,
             venue_orders=venue_orders,
         )
     )
