@@ -32239,3 +32239,40 @@ Evidence:
 - git diff --check: PASS.
 - Existing untracked Phase 13 Bybit artifacts were preserved and are not part of this change.
 - This does NOT claim Phase 13 venue certification, Phase 14 completion, production readiness, or live authority.
+
+## NEXUS_V2_PHASE13_SIMULATED_SERVER_DEPLOYMENT_VERIFIED
+
+Status: DONE / TEST VERIFIED
+Phase: 13 / venue certification gate remains OPEN
+
+Evidence:
+- Target host: nexus-bot.
+- Deployed immutable release commit: b76e9d123780b582855f376203a433d45d01c607.
+- Deployed immutable image digest: sha256:616066ad0fb574c466553a16144a3b5fc9c648a8b5229335edb0d49a19b3ae02.
+- Production host performed image pull/run only; no source build was performed on production.
+- Persistent container: nexus-v2-core.
+- Runtime entrypoint: python -m scripts.simulated_server_runtime.
+- Runtime mode: SIMULATION_ONLY.
+- HTTP /health: healthy / ready=true.
+- HTTP /ready: ready / ready=true.
+- HTTP /status: RUNNING.
+- Startup reconciliation: MATCHED.
+- Strategy execution allowed: true inside simulation-only composition.
+- Portfolio Risk: APPROVED.
+- Simulated order status: ACCEPTED.
+- Execution state: OPENING; fill/closed lifecycle is NOT claimed by this evidence.
+- Post-execution reconciliation: MATCHED.
+- Simulated venue writes: 1.
+- Real exchange writes: 0.
+- Production authority: false.
+- Container hardening: read-only rootfs, cap-drop ALL, no-new-privileges.
+- Restart policy: unless-stopped.
+- Network: nexus-v2-foundation.
+- Loopback HTTP binding: 127.0.0.1:18080 -> 8080.
+- Controlled docker restart: PASS.
+- Container ID remained 1c46644e1a03d894b23ce7c1e6ec5f2032f67a41e5461c6077a34df4541d9529.
+- StartedAt changed from 2026-09-20T18:16:27.091508515Z to 2026-09-20T18:17:04.170481948Z.
+- After restart: Running=true, /status RUNNING, startup/post reconciliation MATCHED, Portfolio Risk APPROVED, real exchange writes 0.
+- Previous immutable artifact is retained as rollback evidence; it was not deleted.
+- Legacy nexus-app remains stopped by explicit user decision.
+- This evidence does NOT claim Phase 13 venue certification, Phase 14 completion, live trading readiness, production cutover, or expanded live authority.
