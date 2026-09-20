@@ -31929,3 +31929,50 @@ NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK=OPEN
 
 Evidence tag:
 NEXUS_V2_PHASE13_BYBIT_HISTORICAL_ORDER_COVERAGE_V1_VERIFIED
+## NEXUS_V2_TARGET_SERVER_RUNTIME_PACKAGING_V1_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 13 — Venue Certification
+Scope: target-server runtime foundation and immutable-release deployment wiring.
+
+Implemented:
+- added minimal long-running V2 target-server runtime in scripts/target_server_runtime.py;
+- added read-only GET /health and GET /ready process-runtime endpoints;
+- preserved fail-closed Control Plane safety composition;
+- preserved startup reconciliation activation boundary;
+- added nexus-core deployment service to infra/deploy/compose.production.yml;
+- production runtime uses explicit scripts.target_server_runtime command;
+- runtime binds container port 8080 to host loopback only by default;
+- deployment remains read-only, drops all capabilities and enables no-new-privileges;
+- existing nexus-release-verify release-validation service remains preserved;
+- release image continues to include runtime source through existing COPY scripts ./scripts.
+
+Verification:
+- Python compile: PASS;
+- focused runtime + packaging tests: 9 passed;
+- adjacent release/deploy tests: 23 passed;
+- full regression: 1000 passed;
+- UTF-8 BOM: ABSENT;
+- git diff --check: PASS;
+- database dependency added: NONE;
+- venue dependency added: NONE;
+- database writes during verification: 0;
+- exchange writes during verification: 0;
+- production deployment performed: NO;
+- live authority expansion: NONE.
+
+Safety:
+- /ready represents process/runtime readiness only; it does NOT authorize strategy execution;
+- trading readiness remains gated by startup reconciliation and later Phase 13 runtime certification;
+- Restricted Live remains DISABLED;
+- Full Live remains DISABLED;
+- AI direct exchange access remains BLOCKED.
+
+Deferred / not claimed by this tag:
+- immutable CI image containing this changeset is NOT YET BUILT;
+- target-server deployment/runtime evidence is NOT YET VERIFIED;
+- Phase 13 venue certification gates remain OPEN;
+- existing unfinished Bybit reconciliation files are excluded from this changeset.
+
+Evidence tag: NEXUS_V2_TARGET_SERVER_RUNTIME_PACKAGING_V1_VERIFIED

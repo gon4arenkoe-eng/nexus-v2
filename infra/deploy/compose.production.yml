@@ -1,6 +1,43 @@
 name: nexus-v2-production-release
 
 services:
+  nexus-core:
+    image: "${NEXUS_IMAGE_REF:?NEXUS_IMAGE_REF must be a verified GHCR image pinned by sha256 digest}"
+    pull_policy: always
+    restart: unless-stopped
+    read_only: true
+    init: true
+    command:
+      - python
+      - -m
+      - scripts.target_server_runtime
+    entrypoint: []
+    ports:
+      - "127.0.0.1:${NEXUS_CORE_PORT:-8080}:8080"
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    environment:
+      NEXUS_RUNTIME_MODE: target-server-foundation
+      NEXUS_RUNTIME_HOST: "0.0.0.0"
+      NEXUS_RUNTIME_PORT: "8080"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - >-
+          import json,urllib.request;
+          data=json.load(urllib.request.urlopen('http://127.0.0.1:8080/health',timeout=2));
+          raise SystemExit(0 if data.get('status') == 'healthy' else 1)
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
   nexus-release-verify:
     image: "${NEXUS_IMAGE_REF:?NEXUS_IMAGE_REF must be a verified GHCR image pinned by sha256 digest}"
     pull_policy: always
