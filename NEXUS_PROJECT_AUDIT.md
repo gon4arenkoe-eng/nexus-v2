@@ -32215,3 +32215,27 @@ exus-cert-* client order identity.
 - Diff check: PASS
 - Existing Phase 13 Bybit untracked artifacts preserved unchanged.
 - This evidence does NOT claim Phase 13 venue certification, Phase 14 completion, production readiness, or live authority.
+
+## NEXUS_V2_SIMULATED_SERVER_RUNTIME_VERIFIED
+
+Status: DONE / TEST VERIFIED
+Phase: 13 / venue certification gate remains OPEN
+
+Evidence:
+- Added executable long-lived server runtime: scripts/simulated_server_runtime.py
+- Runtime composes the previously verified simulation-only Core execution path.
+- Startup reconciliation: MATCHED.
+- Portfolio Risk: APPROVED.
+- ExecutionCoordinator: exercised through canonical VenueAdapter boundary.
+- Post-execution reconciliation: MATCHED.
+- Runtime status: RUNNING.
+- HTTP evidence endpoints: /health, /ready, /status.
+- Runtime mode: SIMULATION_ONLY.
+- Real exchange writes: 0.
+- Production authority: false.
+- Existing target-server-foundation contract remains unchanged.
+- Focused + adjacent verification: 13 passed in 2.84s.
+- Full regression: 1010 passed in 6.87s.
+- git diff --check: PASS.
+- Existing untracked Phase 13 Bybit artifacts were preserved and are not part of this change.
+- This does NOT claim Phase 13 venue certification, Phase 14 completion, production readiness, or live authority.
