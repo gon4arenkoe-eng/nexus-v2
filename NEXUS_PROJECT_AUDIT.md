@@ -32193,3 +32193,25 @@ exus-cert-* client order identity.
 - Live authority expansion: NONE.
 - Status: DONE/TEST VERIFIED for controlled-execution runner implementation only.
 - NEXUS_V2_VENUE_BINGX_CERTIFIED_OK: OPEN.
+
+## NEXUS_V2_SIMULATED_CORE_RUNTIME_VERIFIED
+
+- Status: DONE / TEST VERIFIED
+- Phase/Gate: Phase 13 / venue certification gate remains OPEN
+- Scope: first executable cross-phase NEXUS V2 Core runtime using simulation-only adapters.
+- Runtime entrypoint: `python -m scripts.run_nexus_simulated`
+- Startup reconciliation: MATCHED
+- Strategy execution allowed: true
+- Portfolio Risk: APPROVED
+- Execution Coordinator: exercised through canonical VenueAdapter boundary
+- Simulated venue order state: ACCEPTED
+- Post-execution reconciliation: MATCHED
+- Runtime status: RUNNING
+- Safety mode: SIMULATION_ONLY
+- Real exchange writes: 0
+- Production authority: false
+- Focused + adjacent verification: 29 passed
+- Full regression: 1008 passed in 6.56s
+- Diff check: PASS
+- Existing Phase 13 Bybit untracked artifacts preserved unchanged.
+- This evidence does NOT claim Phase 13 venue certification, Phase 14 completion, production readiness, or live authority.
