@@ -32170,3 +32170,26 @@ Production safety remains unchanged:
 - Restricted Live = DISABLED;
 - Full Live = DISABLED;
 - AI direct exchange access = BLOCKED.
+
+## NEXUS_V2_PHASE13_BINGX_VST_CONTROLLED_EXECUTION_RUNNER_VERIFIED
+
+- Phase: 13 — Venue Certification.
+- Scope: BingX VST controlled-execution certification runner foundation.
+- Added scripts/certify_bingx_vst_controlled_execution.py.
+- Added 	ests/test_bingx_vst_controlled_execution_cert_script.py.
+- Runtime boundary: canonical BingXVenueAdapter using BingXVstControlledWriteHttpTransport.
+- Safety boundary: explicit NEXUS_BINGX_VST_CONTROLLED_WRITE=I_UNDERSTAND_VST_ONLY enablement required.
+- Ownership: generated certification-scoped 
+exus-cert-* client order identity.
+- Lifecycle implemented: LIMIT submit -> canonical observe -> cancel.
+- Production BingX hosts are not supported by this runner.
+- Database access: none.
+- Real VST write performed in this evidence step: NO.
+- Compile: PASS.
+- Focused BingX suite: 34 passed.
+- Repository dev_check: PASS.
+- Full regression: 1006 passed.
+- Production cutover: NO.
+- Live authority expansion: NONE.
+- Status: DONE/TEST VERIFIED for controlled-execution runner implementation only.
+- NEXUS_V2_VENUE_BINGX_CERTIFIED_OK: OPEN.
