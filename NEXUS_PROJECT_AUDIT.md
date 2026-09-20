@@ -31976,3 +31976,105 @@ Deferred / not claimed by this tag:
 - existing unfinished Bybit reconciliation files are excluded from this changeset.
 
 Evidence tag: NEXUS_V2_TARGET_SERVER_RUNTIME_PACKAGING_V1_VERIFIED
+
+## NEXUS V2 Phase 13 - Target Server HTTP Runtime Verification - 2026-09-20
+
+**Evidence tag:** `NEXUS_V2_PHASE13_TARGET_SERVER_HTTP_RUNTIME_VERIFIED`
+
+### FACT
+
+Verified immutable release artifact:
+
+`ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:876a233a7ae719b8fb91dae6332a50b6fb06b329f0a17f19a3d1ae50d731ea9e`
+
+OCI revision:
+
+`385e33f8542c26e4cc4edc1576cff630bdcb339a`
+
+The image was pulled by immutable digest on target server `nexus-bot`.
+No source build was performed on production.
+
+### CHECK
+
+The immutable image was first executed as an isolated release artifact probe and returned:
+
+`{"artifact":"nexus-v2","runtime_mode":"release-artifact","status":"READY_ARTIFACT"}`
+
+The same immutable image was then started temporarily as:
+
+`python -m scripts.target_server_runtime`
+
+with runtime mode:
+
+`target-server-foundation`
+
+and loopback-only published endpoint:
+
+`127.0.0.1:18080 -> container:8080`
+
+Verified responses:
+
+- `GET /health` -> HTTP 200
+- service = `nexus-v2-core`
+- status = `healthy`
+- runtime_mode = `target-server-foundation`
+- `GET /ready` -> HTTP 200
+- status = `ready`
+- unknown route -> HTTP 404 with canonical `NOT_FOUND` response
+
+The temporary container used the default Docker bridge only and was not attached to the legacy compose network.
+
+After verification:
+
+- temporary V2 runtime container removed;
+- port 18080 released;
+- legacy `nexus-app` remained healthy;
+- legacy PostgreSQL remained healthy;
+- legacy Redis remained healthy;
+- legacy Nginx remained running.
+
+### EVIDENCE
+
+- immutable image pull: PASS
+- digest identity: PASS
+- OCI commit identity: PASS
+- isolated release artifact probe: PASS
+- target-server V2 HTTP runtime start: PASS
+- `/health`: HTTP 200 PASS
+- `/ready`: HTTP 200 PASS
+- unknown route: HTTP 404 PASS
+- temporary runtime removal: PASS
+- port release: PASS
+- server build: 0
+- database writes: 0
+- exchange writes: 0
+- legacy runtime changed: NO
+- production cutover: NO
+- live authority expansion: NONE
+
+### STATUS
+
+**DONE / TEST VERIFIED** for the Phase 13 target-server HTTP runtime foundation slice.
+
+This evidence proves that the verified immutable NEXUS V2 release image can run the target-server HTTP foundation runtime on `nexus-bot`.
+
+This does **not** certify any venue and does **not** close Phase 13.
+
+`/ready` in this evidence means process/runtime foundation readiness only. It does not mean trading authorization or venue readiness.
+
+### SAFETY
+
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+- production cutover: NOT PERFORMED
+- legacy remains production runtime owner
+- no database migration performed
+- no exchange write performed
+- no production source build performed
+
+### REMAINING GAP
+
+Phase 13 venue certification remains open.
+
+Deferred venue runtime/reconciliation/execution certification must still be completed under the per-venue gates before Phase 13 can be closed.
