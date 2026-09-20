@@ -32276,3 +32276,33 @@ Evidence:
 - Previous immutable artifact is retained as rollback evidence; it was not deleted.
 - Legacy nexus-app remains stopped by explicit user decision.
 - This evidence does NOT claim Phase 13 venue certification, Phase 14 completion, live trading readiness, production cutover, or expanded live authority.
+
+## NEXUS_V2_PHASE13_BINGX_VST_OBSERVER_RUNTIME_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Scope:
+- Added long-running BingX VST observer runtime.
+- Runtime uses canonical BingXVenueAdapter.
+- Repeatedly observes account, open orders, positions, and fills.
+- Health/readiness/status expose current venue observation state.
+- Venue observation failure is surfaced as unavailable/degraded and fails readiness closed.
+- Runtime does not enable order submission or cancellation.
+- Production trading authority remains disabled.
+
+Verification:
+- Python: .\.venv\Scripts\python.exe
+- compile: PASS
+- focused BingX observer/adapter/contract suite: 23 passed
+- full regression: 1017 passed
+- git diff --check: PASS
+
+Production safety:
+- BingX VST / DEMO observation only.
+- strategy_execution_allowed=false.
+- production_authority=false.
+- Restricted Live: DISABLED.
+- Full Live: DISABLED.
+- AI direct exchange access: BLOCKED.
+
+Evidence tag: NEXUS_V2_PHASE13_BINGX_VST_OBSERVER_RUNTIME_VERIFIED
