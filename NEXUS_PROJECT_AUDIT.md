@@ -32076,3 +32076,97 @@ This does **not** certify any venue and does **not** close Phase 13.
 Phase 13 venue certification remains open.
 
 Deferred venue runtime/reconciliation/execution certification must still be completed under the per-venue gates before Phase 13 can be closed.
+
+## Phase 13 — Persistent Target-Server Runtime + Restart/Recovery Verification
+
+Evidence tag:
+
+`NEXUS_V2_PHASE13_PERSISTENT_TARGET_SERVER_RUNTIME_RECOVERY_VERIFIED`
+
+### Scope
+
+Persistent parallel V2 foundation runtime on `nexus-bot` using immutable release image:
+
+`ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:876a233a7ae719b8fb91dae6332a50b6fb06b329f0a17f19a3d1ae50d731ea9e`
+
+OCI/source revision:
+
+`385e33f8542c26e4cc4edc1576cff630bdcb339a`
+
+This verification did not perform production cutover and did not connect V2 to legacy PostgreSQL, Redis, nginx routing, exchange credentials, or execution authority.
+
+### Persistent runtime evidence
+
+Verified on target server:
+
+- container `nexus-v2-core` running from the immutable digest;
+- runtime mode `target-server-foundation`;
+- dedicated Docker network `nexus-v2-foundation`;
+- V2 is not attached to legacy `nexus-engine_default`;
+- final V2 network is a separate bridge with `Internal=false`;
+- loopback-only host publication `127.0.0.1:18080 -> 8080/tcp`;
+- `/health` returned HTTP 200 with `status=healthy`;
+- `/ready` returned HTTP 200 with `status=ready`;
+- restart policy `unless-stopped`;
+- read-only root filesystem enabled;
+- capabilities dropped with `ALL`;
+- `no-new-privileges` enabled.
+
+An earlier `Internal=true` V2 bridge allowed the runtime to operate internally but Docker did not activate the requested host port publication. The V2-only network was therefore recreated as a normal bridge (`Internal=false`). This does not attach V2 to the legacy network. The final loopback publication was verified active.
+
+### Controlled restart/recovery evidence
+
+Before restart:
+
+- container running;
+- immutable digest unchanged;
+- `/health` PASS;
+- restart count 0.
+
+Controlled `docker restart` was executed.
+
+After restart:
+
+- recovery observed on health attempt 2;
+- `/health` returned HTTP 200;
+- `/ready` returned HTTP 200;
+- container ID was preserved;
+- process `StartedAt` changed, proving process restart;
+- `127.0.0.1:18080 -> 8080/tcp` remained active;
+- runtime hardening remained present;
+- V2 remained detached from `nexus-engine_default`.
+
+Legacy after V2 restart:
+
+- `nexus-app` healthy;
+- `nexus-postgres` healthy;
+- `nexus-redis` healthy;
+- `nexus-nginx` remained running.
+
+### Safety evidence
+SERVER_BUILD=0
+DATABASE_WRITES=0
+EXCHANGE_WRITES=0
+NGINX_CHANGED=NO
+PRODUCTION_CUTOVER=NO
+LIVE_AUTHORITY_EXPANSION=NONE
+
+The V2 network is not described as fully network-isolated: final `nexus-v2-foundation` has `Internal=false`. Isolation proven here is separation from the legacy Docker network plus loopback-only host publication. No DB/exchange credentials or execution authority were introduced by this slice.
+
+`/ready` remains foundation process readiness only. It is not trading authorization and does not certify venue execution/reconciliation.
+
+### Status
+
+`PERSISTENT TARGET-SERVER V2 FOUNDATION = DONE / TEST VERIFIED`
+
+`PERSISTENT V2 RESTART/RECOVERY = DONE / TEST VERIFIED`
+
+`PHASE13 VENUE CERTIFICATION = OPEN`
+
+Production safety remains unchanged:
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
