@@ -29066,9 +29066,9 @@ No production strategy activation was performed.
 Review the startup observation acquisition boundary before any Phase 3
 gate closure decision.
 
-## 2026-09-12 — Phase 3 Reconciliation Gate Closure
+## 2026-09-12 ï¿½ Phase 3 Reconciliation Gate Closure
 
-Phase 3 — Reconciliation.
+Phase 3 ï¿½ Reconciliation.
 
 Gate: TRADING_CORE_V2_RECONCILIATION_OK
 
@@ -29088,10 +29088,10 @@ AUDIT_TAG: TRADING_CORE_V2_RECONCILIATION_OK
 
 CLOSURE_TAG: TRADING_CORE_V2_RECONCILIATION_GATE_CLOSED
 
-NEXT STEP: Phase 4 — Execution Coordinator
+NEXT STEP: Phase 4 ï¿½ Execution Coordinator
 
 
-## 2026-09-12 — Phase 3 Reconciliation Gate Status Correction
+## 2026-09-12 ï¿½ Phase 3 Reconciliation Gate Status Correction
 
 The previously recorded Phase 3 closure is superseded by this correction.
 
@@ -29112,7 +29112,7 @@ NEXT STEP: close the single verified startup runtime composition gap.
 AUDIT_TAG: TRADING_CORE_V2_RECONCILIATION_GATE_STATUS_CORRECTED
 
 
-## 2026-09-12 — Phase 3 Live Venue Verification Deferred
+## 2026-09-12 ï¿½ Phase 3 Live Venue Verification Deferred
 
 ### FACT
 
@@ -29147,7 +29147,7 @@ TRADING_CORE_V2_RECONCILIATION_LIVE_VENUE_VERIFICATION_DEFERRED
 Revisit this verification after server deployment and concrete venue/account connectivity.
 
 
-## 2026-09-12 — Phase 4 Execution Coordinator
+## 2026-09-12 ï¿½ Phase 4 Execution Coordinator
 
 ### VERIFIED
 
@@ -29177,11 +29177,11 @@ TRADING_CORE_V2_EXECUTION_COORDINATOR_OK
 
 ### NEXT
 
-Phase 5 — Pair / Basket Execution.
+Phase 5 ï¿½ Pair / Basket Execution.
 Next gate: TRADING_CORE_V2_PAIR_EXECUTION_OK
 
 
-## 2026-09-12 — Phase 5 Pair / Basket Execution
+## 2026-09-12 ï¿½ Phase 5 Pair / Basket Execution
 
 ### VERIFIED
 
@@ -29213,10 +29213,10 @@ TRADING_CORE_V2_PAIR_EXECUTION_OK
 
 ### NEXT
 
-Phase 6 — Portfolio Risk V2.
+Phase 6 ï¿½ Portfolio Risk V2.
 
 
-## 2026-09-12 — Phase 6 Portfolio Risk V2 Final Verification
+## 2026-09-12 ï¿½ Phase 6 Portfolio Risk V2 Final Verification
 
 ### VERIFIED
 
@@ -29249,7 +29249,7 @@ TRADING_CORE_V2_PORTFOLIO_RISK_OK
 
 ### NEXT
 
-Phase 7 — Strategy Portfolio + backtest/live parity.
+Phase 7 ï¿½ Strategy Portfolio + backtest/live parity.
 
 
 ### FINAL VERIFICATION MARKER
@@ -29257,7 +29257,7 @@ Phase 7 — Strategy Portfolio + backtest/live parity.
 TRADING_CORE_V2_PORTFOLIO_RISK_FINAL_VERIFICATION_OK
 
 
-## 2026-09-12 — Phase 7 Strategy Portfolio Final Verification
+## 2026-09-12 ï¿½ Phase 7 Strategy Portfolio Final Verification
 
 ### VERIFIED
 
@@ -29276,7 +29276,7 @@ Grid trading remains outside StrategyPlugin ownership and is reserved for Phase 
 Focused Phase 7 + PortfolioRisk + TradeIntent suite: 62 passed.
 Full regression: 541 passed.
 flake8: PASS.
-mypy: PASS — 28 source files.
+mypy: PASS ï¿½ 28 source files.
 Alembic head: f4b6c8d2e1a0; no Phase 7 migration required.
 git diff --check: PASS.
 Strategy authority scan: PASS.
@@ -29302,10 +29302,10 @@ NEXUS_V2_STRATEGY_PORTFOLIO_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 7G — Grid Trading Desk.
+Phase 7G ï¿½ Grid Trading Desk.
 
 
-## 2026-09-12 — Phase 7G Grid Trading Desk Final Verification
+## 2026-09-12 ï¿½ Phase 7G Grid Trading Desk Final Verification
 
 ### VERIFIED
 
@@ -29320,7 +29320,7 @@ Grid uses canonical Core execution and does not introduce direct raw venue write
 Focused Grid suite: 30 passed.
 Full regression: 571 passed.
 flake8: PASS.
-mypy: PASS — 51 source files.
+mypy: PASS ï¿½ 51 source files.
 Alembic head: a5d7e9c3b102.
 git diff --check: PASS.
 
@@ -29344,10 +29344,10 @@ NEXUS_V2_GRID_TRADING_DESK_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 8 — Intelligence V2.
+Phase 8 ï¿½ Intelligence V2.
 
 
-## 2026-09-12 — Phase 8 Intelligence V2 Final Verification
+## 2026-09-12 ï¿½ Phase 8 Intelligence V2 Final Verification
 
 ### VERIFIED
 
@@ -29365,7 +29365,7 @@ Focused Intelligence suite: 36 passed.
 Adjacent Strategy/PortfolioRisk suite: 49 passed.
 Full regression: 607 passed.
 flake8: PASS.
-mypy: PASS — 7 source files.
+mypy: PASS ï¿½ 7 source files.
 Alembic head: a5d7e9c3b102; no Phase 8 migration required.
 git diff --check: PASS.
 
@@ -29389,10 +29389,10 @@ NEXUS_V2_INTELLIGENCE_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 9 — AIEA V2.
+Phase 9 ï¿½ AIEA V2.
 
 
-## 2026-09-12 — Phase 9 AIEA V2 Final Verification
+## 2026-09-12 ï¿½ Phase 9 AIEA V2 Final Verification
 
 ### VERIFIED
 
@@ -29410,7 +29410,7 @@ Focused AIEA suite: 35 passed.
 Adjacent suite: 117 passed.
 Full regression: 642 passed.
 flake8: PASS.
-mypy: PASS — 12 source files.
+mypy: PASS ï¿½ 12 source files.
 Alembic head: b6e8c4d2f903.
 Fresh-session AIEA persistence: PASS.
 git diff --check: PASS.
@@ -29436,10 +29436,10 @@ NEXUS_V2_AIEA_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 10 — Multi-user / Settings / Security.
+Phase 10 ï¿½ Multi-user / Settings / Security.
 
 
-## 2026-09-12 — Phase 10 Multi-user / Settings / Security Final Verification
+## 2026-09-12 ï¿½ Phase 10 Multi-user / Settings / Security Final Verification
 
 ### VERIFIED
 
@@ -29455,7 +29455,7 @@ Focused Phase 10 suite: 41 passed.
 Adjacent suite: 147 passed.
 Full regression: 683 passed.
 flake8: PASS.
-mypy: PASS — 75 source files.
+mypy: PASS ï¿½ 75 source files.
 Alembic head: c7f9d5e4a014.
 Fresh-session settings/security persistence: PASS.
 SQLite UTC hydration boundary: VERIFIED.
@@ -29482,10 +29482,10 @@ NEXUS_V2_MULTI_USER_SECURITY_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 11 — Control Plane.
+Phase 11 ï¿½ Control Plane.
 
 
-## 2026-09-12 — Phase 11 Control Plane V2 Final Verification
+## 2026-09-12 ï¿½ Phase 11 Control Plane V2 Final Verification
 
 ### VERIFIED
 
@@ -29514,7 +29514,7 @@ Focused Control Plane suite: 22 passed.
 Adjacent suite: 156 passed.
 Full regression: 705 passed.
 flake8: PASS.
-mypy: PASS — 79 source files.
+mypy: PASS ï¿½ 79 source files.
 Python parse/compile: PASS.
 Compiled web JavaScript syntax: PASS.
 TypeScript delivery build: internally verified; target tsc tool was unavailable.
@@ -29543,10 +29543,10 @@ NEXUS_V2_CONTROL_PLANE_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 12 — CI/CD + Packaging.
+Phase 12 ï¿½ CI/CD + Packaging.
 
 
-## 2026-09-12 — Phase 12 Release Pipeline Foundation
+## 2026-09-12 ï¿½ Phase 12 Release Pipeline Foundation
 
 ### VERIFIED
 
@@ -29586,7 +29586,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — Phase 12 Release Pipeline Foundation slice only.
+DONE / TEST VERIFIED ï¿½ Phase 12 Release Pipeline Foundation slice only.
 
 ### PHASE 12 GATE
 
@@ -29601,7 +29601,7 @@ NEXUS_V2_PHASE12_RELEASE_FOUNDATION_VERIFIED
 SBOM, provenance/attestation, digest-pinned production deployment manifest, backup/restore verification and rollback-by-digest evidence remain required.
 
 
-## 2026-09-12 — Phase 12 Supply-Chain Evidence
+## 2026-09-12 ï¿½ Phase 12 Supply-Chain Evidence
 
 ### VERIFIED
 
@@ -29644,7 +29644,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — Phase 12 Supply-Chain Evidence slice only.
+DONE / TEST VERIFIED ï¿½ Phase 12 Supply-Chain Evidence slice only.
 
 ### PHASE 12 GATE
 
@@ -29659,7 +29659,7 @@ NEXUS_V2_PHASE12_SUPPLY_CHAIN_EVIDENCE_VERIFIED
 Digest-pinned production deploy manifests, backup/restore runbook verification and rollback-by-digest evidence remain required.
 
 
-## 2026-09-12 — Phase 12 Digest-Pinned Deployment & Rollback Foundation
+## 2026-09-12 ï¿½ Phase 12 Digest-Pinned Deployment & Rollback Foundation
 
 ### VERIFIED
 
@@ -29702,7 +29702,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — Phase 12 Digest Deploy & Rollback slice only.
+DONE / TEST VERIFIED ï¿½ Phase 12 Digest Deploy & Rollback slice only.
 
 ### PHASE 12 GATE
 
@@ -29717,7 +29717,7 @@ NEXUS_V2_PHASE12_DIGEST_DEPLOY_ROLLBACK_VERIFIED
 Final Phase 12 gate review remains required before closing NEXUS_V2_RELEASE_PIPELINE_OK.
 
 
-## 2026-09-12 — Phase 12 CI/CD + Production Packaging Final Verification
+## 2026-09-12 ï¿½ Phase 12 CI/CD + Production Packaging Final Verification
 
 ### VERIFIED
 
@@ -29779,10 +29779,10 @@ NEXUS_V2_RELEASE_PIPELINE_FINAL_VERIFICATION_OK
 
 ### NEXT
 
-Phase 13 — Venue Certification.
+Phase 13 ï¿½ Venue Certification.
 
 
-## 2026-09-13 — Phase 13 BingX DEMO Adapter Contract Verification
+## 2026-09-13 ï¿½ Phase 13 BingX DEMO Adapter Contract Verification
 
 ### VERIFIED
 
@@ -29821,7 +29821,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — BingX adapter contract slice only.
+DONE / TEST VERIFIED ï¿½ BingX adapter contract slice only.
 
 ### PHASE 13 BINGX GATE
 
@@ -29834,7 +29834,7 @@ Live/VST network certification evidence is still required before venue certifica
 NEXUS_V2_PHASE13_BINGX_ADAPTER_CONTRACT_VERIFIED
 
 
-## 2026-09-13 — Phase 13 BingX VST Read-Only Network Foundation
+## 2026-09-13 ï¿½ Phase 13 BingX VST Read-Only Network Foundation
 
 ### VERIFIED
 
@@ -29869,7 +29869,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — VST read-only foundation only.
+DONE / TEST VERIFIED ï¿½ VST read-only foundation only.
 
 ### PHASE 13 BINGX GATE
 
@@ -29883,7 +29883,7 @@ Real VST read-only network evidence is still required.
 NEXUS_V2_PHASE13_BINGX_VST_READONLY_FOUNDATION_VERIFIED
 
 
-## 2026-09-13 — Phase 13 BingX VST Read-Only Network Verification
+## 2026-09-13 ï¿½ Phase 13 BingX VST Read-Only Network Verification
 
 ### VERIFIED
 
@@ -29929,7 +29929,7 @@ Full Live remains DISABLED.
 
 ### STATUS
 
-DONE / TEST VERIFIED — BingX VST read-only network compatibility.
+DONE / TEST VERIFIED ï¿½ BingX VST read-only network compatibility.
 
 ### PHASE 13 BINGX GATE
 
@@ -29942,7 +29942,7 @@ Controlled DEMO write/execution lifecycle certification remains required before 
 NEXUS_V2_PHASE13_BINGX_VST_READONLY_NETWORK_VERIFIED
 
 
-## Phase 13 — BingX VST controlled-write transport
+## Phase 13 ï¿½ BingX VST controlled-write transport
 
 Status: TEST VERIFIED / DONE
 Evidence tag: NEXUS_V2_PHASE13_BINGX_VST_CONTROLLED_WRITE_TRANSPORT_VERIFIED
@@ -30057,7 +30057,7 @@ Production safety remains unchanged:
 - Full Live disabled;
 - AI direct exchange access blocked.
 
-## Phase 14A — Local E2E / Shadow Readiness
+## Phase 14A ï¿½ Local E2E / Shadow Readiness
 
 Status: DONE / TEST VERIFIED
 
@@ -32179,7 +32179,7 @@ Production safety remains unchanged:
 - Added 	ests/test_bingx_vst_controlled_execution_cert_script.py.
 - Runtime boundary: canonical BingXVenueAdapter using BingXVstControlledWriteHttpTransport.
 - Safety boundary: explicit NEXUS_BINGX_VST_CONTROLLED_WRITE=I_UNDERSTAND_VST_ONLY enablement required.
-- Ownership: generated certification-scoped 
+- Ownership: generated certification-scoped
 exus-cert-* client order identity.
 - Lifecycle implemented: LIMIT submit -> canonical observe -> cancel.
 - Production BingX hosts are not supported by this runner.
