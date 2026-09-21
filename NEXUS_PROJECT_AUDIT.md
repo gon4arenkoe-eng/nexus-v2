@@ -32607,3 +32607,82 @@ Inventory disposition for Phase 3:
 **TRADING_CORE_V2_RECONCILIATION_OK = DONE / TEST VERIFIED**
 
 This gate closure authorizes progression to the next Master Plan dependency only. It does not authorize production trading, Restricted Live, Full Live, AI promotion, AI direct exchange access, destructive reconciliation correction, or legacy retirement.
+
+## NEXUS_V2_PHASE13_BINGX_PROTECTION_MAPPING_VERIFIED
+
+### PHASE / GATE
+
+Phase: 13 — Venue Certification
+
+Venue: BingX
+
+Parent gate:
+NEXUS_V2_VENUE_BINGX_CERTIFIED_OK = OPEN
+
+This evidence closes only the canonical BingX native protection
+order mapping slice. It does not close the full BingX venue
+certification gate.
+
+### IMPLEMENTED
+
+Canonical protective-order representation:
+
+- OrderType.STOP_MARKET
+- OrderType.TAKE_PROFIT_MARKET
+- VenueOrderRequest.trigger_price
+- VenueOrderRequest.position_side
+
+BingX VenueAdapter mapping:
+
+- STOP_MARKET -> BingX STOP_MARKET
+- TAKE_PROFIT_MARKET -> BingX TAKE_PROFIT_MARKET
+- trigger_price -> stopPrice
+- canonical position_side -> positionSide
+- quantity remains explicit
+- NATIVE_STOP_LOSS capability declared
+- NATIVE_TAKE_PROFIT capability declared
+
+Legacy BingX protection regression invariant preserved:
+
+- protection payload uses quantity
+- protection payload uses stopPrice
+- closePosition is not emitted
+- reduceOnly is not emitted for native protective-order requests
+
+### TEST EVIDENCE
+
+Compile: PASS
+
+Focused protection / BingX / venue contract suite:
+46 passed
+
+Full regression:
+1045 passed
+
+Targeted production-source mypy:
+Success: no issues found in 3 source files
+
+Verified files:
+
+- apps/core/domain/orders.py
+- apps/core/ports/venue.py
+- adapters/bingx/venue.py
+
+git diff --check:
+PASS
+
+### SAFETY
+
+VENUE_WRITE_PERFORMED=NO
+
+PRODUCTION_AUTHORITY_CHANGE=NO
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### STATUS
+
+DONE / TEST VERIFIED

@@ -93,6 +93,8 @@ class VenueOrderRequest:
     quantity: Decimal
     order_type: OrderType
     limit_price: Decimal | None = None
+    trigger_price: Decimal | None = None
+    position_side: VenuePositionSide | None = None
     reduce_only: bool = False
 
     def __post_init__(self) -> None:
@@ -139,11 +141,19 @@ class VenueOrderRequest:
                 raise ValueError(
                     "MARKET order must not define limit_price"
                 )
+            if self.trigger_price is not None:
+                raise ValueError(
+                    "MARKET order must not define trigger_price"
+                )
 
         elif self.order_type is OrderType.LIMIT:
             if self.limit_price is None:
                 raise ValueError(
                     "LIMIT order requires limit_price"
+                )
+            if self.trigger_price is not None:
+                raise ValueError(
+                    "LIMIT order must not define trigger_price"
                 )
 
             object.__setattr__(
@@ -153,6 +163,40 @@ class VenueOrderRequest:
                     self.limit_price,
                     field_name="limit_price",
                 ),
+            )
+
+        elif self.order_type in (
+            OrderType.STOP_MARKET,
+            OrderType.TAKE_PROFIT_MARKET,
+        ):
+            if self.limit_price is not None:
+                raise ValueError(
+                    "protective market order must not define limit_price"
+                )
+            if self.trigger_price is None:
+                raise ValueError(
+                    "protective market order requires trigger_price"
+                )
+            if self.position_side is None:
+                raise ValueError(
+                    "protective market order requires position_side"
+                )
+
+            object.__setattr__(
+                self,
+                "trigger_price",
+                require_positive_decimal(
+                    self.trigger_price,
+                    field_name="trigger_price",
+                ),
+            )
+
+        if self.position_side is not None and not isinstance(
+            self.position_side,
+            VenuePositionSide,
+        ):
+            raise ValueError(
+                "position_side must be a VenuePositionSide"
             )
 
         if not isinstance(self.reduce_only, bool):

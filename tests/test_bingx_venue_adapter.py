@@ -93,6 +93,8 @@ def test_capabilities_cover_shared_reconciliation_reads() -> None:
         VenueCapability.ACCOUNT_QUERY,
         VenueCapability.FILL_QUERY,
         VenueCapability.HEDGE_MODE,
+        VenueCapability.NATIVE_STOP_LOSS,
+        VenueCapability.NATIVE_TAKE_PROFIT,
     ):
         assert adapter.capabilities.supports(capability)
 
@@ -146,6 +148,88 @@ def test_reduce_only_sell_targets_long_position() -> None:
         assert params["side"] == "SELL"
         assert params["positionSide"] == "LONG"
         assert params["reduceOnly"] == "true"
+
+    asyncio.run(scenario())
+
+
+def test_stop_market_maps_canonical_protection_to_bingx() -> None:
+    async def scenario() -> None:
+        transport = ScriptedTransport(
+            {"code": 0, "data": {"orderId": 125}}
+        )
+
+        request = VenueOrderRequest(
+            client_order_id=ClientOrderId("nexus-stop-1"),
+            account_id=ACCOUNT,
+            instrument_id=INSTRUMENT,
+            side=OrderSide.SELL,
+            quantity=Decimal("0.01"),
+            order_type=OrderType.STOP_MARKET,
+            trigger_price=Decimal("59000"),
+            position_side=VenuePositionSide.LONG,
+        )
+
+        await _adapter(
+            transport,
+            writes=True,
+        ).submit_order(request)
+
+        method, path, params = transport.calls[0]
+
+        assert method == "POST"
+        assert path == "/openApi/swap/v2/trade/order"
+        assert params == {
+            "symbol": "BTC-USDT",
+            "side": "SELL",
+            "positionSide": "LONG",
+            "type": "STOP_MARKET",
+            "quantity": "0.01",
+            "clientOrderId": "nexus-stop-1",
+            "stopPrice": "59000",
+        }
+        assert "closePosition" not in params
+        assert "reduceOnly" not in params
+
+    asyncio.run(scenario())
+
+
+def test_take_profit_market_maps_canonical_protection_to_bingx() -> None:
+    async def scenario() -> None:
+        transport = ScriptedTransport(
+            {"code": 0, "data": {"orderId": 126}}
+        )
+
+        request = VenueOrderRequest(
+            client_order_id=ClientOrderId("nexus-tp-1"),
+            account_id=ACCOUNT,
+            instrument_id=INSTRUMENT,
+            side=OrderSide.SELL,
+            quantity=Decimal("0.01"),
+            order_type=OrderType.TAKE_PROFIT_MARKET,
+            trigger_price=Decimal("65000"),
+            position_side=VenuePositionSide.LONG,
+        )
+
+        await _adapter(
+            transport,
+            writes=True,
+        ).submit_order(request)
+
+        method, path, params = transport.calls[0]
+
+        assert method == "POST"
+        assert path == "/openApi/swap/v2/trade/order"
+        assert params == {
+            "symbol": "BTC-USDT",
+            "side": "SELL",
+            "positionSide": "LONG",
+            "type": "TAKE_PROFIT_MARKET",
+            "quantity": "0.01",
+            "clientOrderId": "nexus-tp-1",
+            "stopPrice": "65000",
+        }
+        assert "closePosition" not in params
+        assert "reduceOnly" not in params
 
     asyncio.run(scenario())
 

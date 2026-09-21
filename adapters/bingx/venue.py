@@ -125,6 +125,8 @@ class BingXVenueAdapter(VenueAdapter):
             frozenset(
                 {
                     VenueCapability.HEDGE_MODE,
+                    VenueCapability.NATIVE_STOP_LOSS,
+                    VenueCapability.NATIVE_TAKE_PROFIT,
                     VenueCapability.ORDER_QUERY,
                     VenueCapability.OPEN_ORDER_QUERY,
                     VenueCapability.POSITION_QUERY,
@@ -149,13 +151,19 @@ class BingXVenueAdapter(VenueAdapter):
         params = {
             "symbol": _bingx_symbol(request.instrument_id),
             "side": request.side.value,
-            "positionSide": _position_side_for_request(request),
+            "positionSide": (
+                request.position_side.value
+                if request.position_side is not None
+                else _position_side_for_request(request)
+            ),
             "type": request.order_type.value,
             "quantity": _decimal_text(request.quantity),
             "clientOrderId": request.client_order_id.value,
         }
         if request.limit_price is not None:
             params["price"] = _decimal_text(request.limit_price)
+        if request.trigger_price is not None:
+            params["stopPrice"] = _decimal_text(request.trigger_price)
         if request.reduce_only:
             params["reduceOnly"] = "true"
 
