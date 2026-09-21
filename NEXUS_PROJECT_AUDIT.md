@@ -32413,3 +32413,44 @@ Remaining Phase 3 closure evidence:
 - reconciliation must complete again after restart before readiness;
 - fail-closed server evidence for unavailable/non-matched state;
 - only after all required server evidence may TRADING_CORE_V2_RECONCILIATION_OK be evaluated for closure.
+
+---
+
+## NEXUS_V2_PHASE3_RECONCILIATION_RUNTIME_TYPE_CONTRACT_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 3 — Reconciliation
+
+Gate:
+- TRADING_CORE_V2_RECONCILIATION_OK = OPEN
+- This evidence does NOT close the Phase 3 gate.
+
+Release verification failure:
+- Release Image pre-build mypy rejected reconciliation_runtime.py because EvidenceFactory returned object while ReconciliationPassOrchestrator requires ReconciliationEvidencePort.
+- Docker image build did not start for the failed release run.
+
+Fix:
+- EvidenceFactory now explicitly returns ReconciliationEvidencePort.
+- Runtime behavior and execution authority are unchanged.
+
+Verification:
+- exact Release mypy command: PASS;
+- mypy: Success: no issues found in 166 source files;
+- Phase3 focused tests: 63 passed;
+- full regression: 1034 passed;
+- git diff --check: PASS.
+
+Safety:
+- no venue write capability added;
+- no destructive reconciliation correction added;
+- strategy execution authority remains disabled in the Phase3 observer runtime;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
+
+Remaining:
+- push verified fix;
+- GitHub CI verification;
+- successful immutable Release Image;
+- server Phase3 reconciliation evidence remains required before gate closure.

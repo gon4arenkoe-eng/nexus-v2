@@ -12,6 +12,7 @@ from apps.core.application.reconciliation_acquisition import (
     StartupReconciliationAcquisition,
 )
 from apps.core.application.reconciliation_orchestrator import (
+    ReconciliationEvidencePort,
     ReconciliationPassOrchestrator,
 )
 from apps.core.application.startup_reconciliation import (
@@ -42,7 +43,7 @@ class SessionFactory(Protocol):
 
 
 class EvidenceFactory(Protocol):
-    def __call__(self, session: AsyncSession) -> object: ...
+    def __call__(self, session: AsyncSession) -> ReconciliationEvidencePort: ...
 
 
 @dataclass(frozen=True, slots=True)
