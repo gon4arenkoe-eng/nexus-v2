@@ -32907,3 +32907,230 @@ This slice does not close the full Phase 14 shadow parity gate.
 Remaining dependency:
 
 Deploy the verified immutable Phase 14 runtime to the target server and collect continuous BingX VST shadow/runtime evidence before extending parity comparison coverage.
+
+## NEXUS_V2_PHASE14_CORE_EXECUTION_ROOT_PERSISTENCE_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Implemented the missing canonical Core execution-root persistence path:
+
+- `infra/persistence/repositories/core_execution.py`
+- `infra/persistence/application/core_execution.py`
+- `tests/test_core_execution_persistence.py`
+
+Canonical persistence order:
+
+`ExecutionPlan -> ExecutionPlanLeg -> PositionGroup -> PositionLeg -> ExecutionOrder`
+
+The implementation reuses the existing Phase 2/Core V2 persistence schema.
+No Alembic migration or new persistence table was introduced.
+
+### Verified behavior
+
+- canonical execution ownership graph is persisted in FK-safe order;
+- repeated persistence of the same graph is idempotent;
+- conflicting persisted identity fails closed;
+- position/order lifecycle state may be updated without changing canonical ownership;
+- ownership mismatch is rejected before database writes;
+- transaction failure performs rollback;
+- successful persistence commits exactly once;
+- Core domain remains independent from SQLAlchemy.
+
+### Verification
+
+- compile: PASS
+- focused persistence tests: 5 passed
+- source mypy: PASS
+- adjacent Core/Coordinator/Phase14 tests: 110 passed
+- full regression: 1058 passed
+- git diff check: PASS
+
+### Safety
+
+- database schema change: NO
+- real venue write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_CORE_EXECUTION_ROOT_PERSISTENCE_VERIFIED = DONE / TEST VERIFIED`
+
+This capability does not close the Phase 14 shadow parity gate.
+
+Remaining dependency:
+
+Wire this persistence service into the Postgres-backed Phase 14 candidate and prove restart recovery across process/container restart.
+
+## NEXUS_V2_PHASE14_SIMULATED_VENUE_OBSERVATION_PERSISTENCE_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Implemented durable Phase 14 simulated venue-order observation persistence:
+
+- `infra/persistence/repositories/phase14_simulated_venue.py`
+- `infra/persistence/application/phase14_simulated_venue.py`
+- `tests/test_phase14_simulated_venue_persistence.py`
+
+The implementation reuses existing `execution_orders` fields:
+
+- `venue_order_id`
+- `last_venue_status`
+- `last_venue_observed_at`
+- `venue_observation_source`
+
+No new table or migration was introduced.
+
+### Verified behavior
+
+The adapter intentionally supports only the current Phase 14 simulated contract:
+
+`ACCEPTED + zero fill`
+
+Verified properties:
+
+- canonical execution order must already exist;
+- unknown canonical order fails closed;
+- mismatched venue order identity fails closed;
+- mismatched requested quantity fails closed;
+- non-ACCEPTED simulated state is rejected;
+- accepted zero-fill observation round-trips through persistence;
+- open-order observation loading is scoped by user/account/instrument;
+- no real VenueAdapter write authority is introduced.
+
+The adapter is not a general-purpose venue persistence implementation.
+
+### Verification
+
+- compile: PASS
+- focused persistence tests: 5 passed
+- source mypy: PASS
+- adjacent persistence/reconciliation/Phase14 tests: 67 passed
+- full regression: 1063 passed
+- git diff check: PASS
+
+### Safety
+
+- database schema change: NO
+- real venue write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_SIMULATED_VENUE_OBSERVATION_PERSISTENCE_VERIFIED = DONE / TEST VERIFIED`
+
+This capability does not close the Phase 14 shadow parity gate.
+
+Remaining dependency:
+
+`Core execution root persistence
+ -> durable simulated venue observation
+ -> SQL coordinator checkpoint
+ -> process/container restart
+ -> PostgreSQL reload
+ -> recovery
+ -> duplicate submit = 0`
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+## NEXUS_V2_PHASE14_POSTGRES_BACKED_CANDIDATE_PARTIALLY_VERIFIED
+
+Status: PARTIALLY VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Implemented a Postgres-backed Phase 14 simulation candidate:
+
+- `scripts/phase14_postgres_candidate.py`
+- `tests/test_phase14_postgres_candidate.py`
+
+Updated:
+
+- `scripts/phase14_bingx_shadow_runtime.py`
+
+The Phase 14 BingX shadow runtime now uses the Postgres-backed candidate as its default candidate runner.
+
+Durable composition:
+
+`Core execution root persistence
+ -> SQL coordinator state
+ -> durable simulated venue observation
+ -> canonical local execution lifecycle persistence`
+
+Standalone `scripts/run_nexus_simulated.py` remains unchanged as the existing memory-only simulation smoke.
+
+### Verified behavior
+
+- canonical execution graph construction is internally consistent;
+- existing persisted execution order is loaded before execution;
+- a missing root is seeded once;
+- an existing root is reused instead of resetting lifecycle state;
+- simulated venue observation is persisted through the verified SQL observation store;
+- coordinator state uses `SqlAlchemyExecutionCoordinatorStateStore`;
+- materialized execution lifecycle is persisted after execution/recovery;
+- simulated venue state uses canonical `VenueOrderState.ACCEPTED`;
+- candidate imports no real BingX/Binance/Bybit/OKX venue implementation;
+- real exchange writes remain zero;
+- production authority remains false.
+
+### Verification
+
+- compile: PASS
+- focused candidate + Phase14 runtime tests: 7 passed
+- source mypy: PASS
+- adjacent persistence/coordinator/reconciliation tests: 68 passed
+- full regression: 1066 passed
+- git diff check: PASS
+
+### Not Yet Verified
+
+The following evidence is still required before this capability can become DONE / TEST VERIFIED:
+
+- execution against a real V2 PostgreSQL instance;
+- first process persists execution root, simulated venue observation and coordinator checkpoint;
+- second independent process reloads the same state;
+- second process performs zero duplicate simulated submits;
+- persisted order/coordinator/venue evidence survives process restart;
+- reconciliation remains MATCHED;
+- real exchange writes remain zero.
+
+### Safety
+
+- database schema change: NO
+- real BingX write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_POSTGRES_BACKED_CANDIDATE_PARTIALLY_VERIFIED = PARTIALLY VERIFIED`
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`

@@ -22,7 +22,9 @@ from scripts.bingx_vst_observer_runtime import (
     ObserverSnapshot,
     observe_once,
 )
-from scripts.run_nexus_simulated import run as run_simulated_core
+from scripts.phase14_postgres_candidate import (
+    run as run_postgres_candidate,
+)
 
 
 DEFAULT_HOST: Final = "0.0.0.0"
@@ -137,7 +139,7 @@ def _candidate_int(
 async def run_shadow_cycle(
     *,
     observer: ObserverRunner = observe_once,
-    candidate_runner: CandidateRunner = run_simulated_core,
+    candidate_runner: CandidateRunner = run_postgres_candidate,
 ) -> Phase14ShadowSnapshot:
     real = await observer()
     candidate = await candidate_runner()
