@@ -32731,3 +32731,110 @@ AI direct exchange access remains BLOCKED.
 ### STATUS
 
 ROADMAP CHANGE APPROVED
+
+## NEXUS_V2_VENUE_BINGX_CERTIFIED_OK
+
+Status: DONE / TEST VERIFIED
+
+### PHASE / GATE
+
+Phase: 13 - Venue Certification
+
+Venue: BingX
+
+Gate:
+
+`NEXUS_V2_VENUE_BINGX_CERTIFIED_OK = DONE / TEST VERIFIED`
+
+### FINAL RUNTIME EVIDENCE
+
+Verified source revision:
+
+`1520b1b2fc1cd73ff7484ca6523b574ccfc6321f`
+
+Verified immutable image:
+
+`ghcr.io/gon4arenkoe-eng/nexus-v2:sha-1520b1b2fc1cd73ff7484ca6523b574ccfc6321f`
+
+Verified image digest:
+
+`sha256:bb564d3bdef66a5a4d1e4a187cb77ccad8143c74fd8c2ddc5f84ccb9f8202bf2`
+
+Controlled BingX VST protection lifecycle completed successfully:
+
+`OPEN -> SL ACTIVE -> TP ACTIVE -> CANCEL PROTECTIONS -> CLOSE -> FLAT`
+
+Runtime evidence:
+
+- environment: BINGX_VST
+- mode: PROTECTION
+- quantity: 0.0001 BTC
+- open_state: ACCEPTED
+- stop_active: true
+- take_profit_active: true
+- protections_cancelled: true
+- flat_confirmed: true
+- writes_attempted: true
+- production_environment_used: false
+
+Observed VST order identities:
+
+- open_order_id: 2102040428992794624
+- stop_order_id: 2102040434469068800
+- take_profit_order_id: 2102040439925858304
+- close_order_id: 2102040452015329280
+
+Position entry price:
+
+`85254.9`
+
+Certification trigger prices:
+
+- stop: `81046.3`
+- take profit: `89577.5`
+
+Pre-certification read-only account evidence:
+
+- open_order_count: 0
+- position_count: 0
+- fill_count: 0
+- writes_attempted: false
+- real_environment_used: false
+
+### ACCUMULATED BINGX CERTIFICATION EVIDENCE
+
+Previously DONE / TEST VERIFIED:
+
+- canonical BingX adapter contract;
+- authenticated BingX VST account/open-orders/positions/fills reads;
+- controlled-write VST transport boundary;
+- canonical controlled execution runner;
+- long-running VST observer runtime;
+- target-server observer deployment;
+- startup and continuous reconciliation;
+- restart/recovery and fail-closed semantics;
+- canonical STOP_MARKET mapping;
+- canonical TAKE_PROFIT_MARKET mapping;
+- explicit quantity + stopPrice protection payload;
+- Hedge Mode position-side semantics;
+- protection mapping tests;
+- final controlled VST protection lifecycle.
+
+### SAFETY
+
+- BingX production environment used: NO
+- production trading authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+- Binance / Bybit / OKX remain DEFERRED / NOT DONE
+
+### RESULT
+
+`NEXUS_V2_VENUE_BINGX_CERTIFIED_OK = DONE / TEST VERIFIED`
+
+Phase 13 is complete for the approved BingX-first production scope.
+
+Next dependency:
+
+Phase 14 - BingX E2E simulation / shadow parity.
