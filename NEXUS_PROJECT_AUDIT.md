@@ -32686,3 +32686,48 @@ AI direct exchange access remains BLOCKED.
 ### STATUS
 
 DONE / TEST VERIFIED
+
+## NEXUS_V2_BINGX_FIRST_OPERATIONAL_ROADMAP_APPROVED
+
+### DECISION
+
+BingX is the only active venue for the first complete operational NEXUS V2 path.
+
+Binance, Bybit and OKX are deferred until the bot is fully operational, stabilized and hardened on BingX.
+
+### CURRENT PHASE
+
+Phase 13 - Venue Certification
+
+Active gate:
+
+`NEXUS_V2_VENUE_BINGX_CERTIFIED_OK`
+
+Deferred gates:
+
+- `NEXUS_V2_VENUE_BINANCE_CERTIFIED_OK`
+- `NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK`
+- `NEXUS_V2_VENUE_OKX_CERTIFIED_OK`
+
+Status: DEFERRED / NOT DONE
+
+### APPROVED FORWARD PATH
+
+BingX certification
+-> BingX E2E/shadow
+-> BingX-scope cutover readiness
+-> separately authorized controlled production cutover
+-> operational stabilization/hardening
+-> resume other venue certification
+
+### SAFETY
+
+Restricted Live remains DISABLED.
+
+Full Live remains DISABLED.
+
+AI direct exchange access remains BLOCKED.
+
+### STATUS
+
+ROADMAP CHANGE APPROVED

@@ -1734,3 +1734,58 @@ Do **not** start coding Phase 3 or move files yet.
 First commit this Master Plan and Functional Inventory into the new/private GitHub work area and register the architecture transition in `NEXUS_PROJECT_AUDIT.md` with status `ARCHITECTURE/ROADMAP APPROVED`, not `DONE` for implementation.
 
 Then execute Phase 0 one step at a time, beginning with the repository/CI/contracts baseline.
+
+---
+
+## Approved roadmap amendment - 2026-09-21
+
+Marker: NEXUS_V2_BINGX_FIRST_OPERATIONAL_ROADMAP_APPROVED
+
+### BingX-first operationalization
+
+The production-readiness path is intentionally single-venue-first.
+
+Execution order:
+
+1. Fully certify BingX DEMO/VST and close `NEXUS_V2_VENUE_BINGX_CERTIFIED_OK`.
+2. Run Phase 14 E2E simulation/shadow using BingX as the only active production-scope venue.
+3. Run Phase 15 cutover readiness against the BingX-only supported production scope.
+4. Phase 16 controlled production cutover remains separately authorized and does not automatically enable live trading.
+5. Stabilize and harden the complete NEXUS V2 bot on BingX until the operational product is complete and reliable.
+6. Only after that resume venue expansion:
+   - Binance USD-M test environment;
+   - Bybit demo/test;
+   - OKX demo;
+   - later P1 venues.
+
+### Deferred venue status
+
+Until the BingX-first operational path is complete:
+
+- `NEXUS_V2_VENUE_BINANCE_CERTIFIED_OK` = DEFERRED / NOT DONE
+- `NEXUS_V2_VENUE_BYBIT_CERTIFIED_OK` = DEFERRED / NOT DONE
+- `NEXUS_V2_VENUE_OKX_CERTIFIED_OK` = DEFERRED / NOT DONE
+
+Deferral must not be interpreted as certification.
+
+### Phase 14 dependency amendment
+
+For the first production-scope path, Phase 14 requires certification of every venue included in that production scope.
+
+The approved initial production scope contains BingX only.
+
+Therefore Binance, Bybit and OKX certification do not block the BingX Phase 14 shadow path.
+
+### Phase 15 dependency amendment
+
+All mandatory test gates means all mandatory gates for the approved production scope.
+
+For the initial production scope this includes BingX and excludes deferred venues.
+
+Functional parity, rollback, DB rehearsal, security, secret migration, inventory parity and explicit authorization remain mandatory.
+
+### Long-term product target
+
+The wider multi-venue target remains unchanged.
+
+Deferring Binance/Bybit/OKX changes implementation order only; it does not remove their Functional Inventory requirements or future certification gates.
