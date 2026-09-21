@@ -1,8 +1,15 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import asyncio
 from dataclasses import replace
+from datetime import UTC, datetime
 
+from apps.core.application.shadow_parity import (
+    ALL_SHADOW_PARITY_DIMENSIONS,
+    ShadowBehaviorEvidence,
+    ShadowEvidenceState,
+    ShadowParityDimension,
+)
 from scripts.bingx_vst_observer_runtime import ObserverSnapshot
 from scripts.phase14_bingx_shadow_runtime import (
     _payload,
@@ -48,7 +55,32 @@ async def _candidate_ok() -> dict[str, object]:
         "real_exchange_writes": 0,
         "production_authority": False,
         "status": "RUNNING",
+        "shadow_evidence": {
+            "signals_intents": {"intent": "same"},
+            "risk_decisions": {"risk": "same"},
+            "order_intent": {"order": "same"},
+            "positions": {"positions": "same"},
+            "fills_reconciliation": {"fills": "same"},
+            "pnl_attribution": {"pnl": "same"},
+            "execution_quality": {"quality": "same"},
+            "failures_stale_states": {"failure": "same"},
+        },
     }
+
+
+async def _reference_ok() -> ShadowBehaviorEvidence:
+    candidate = await _candidate_ok()
+    raw = candidate["shadow_evidence"]
+    assert isinstance(raw, dict)
+    return ShadowBehaviorEvidence(
+        source="LEGACY_REFERENCE",
+        observed_at=datetime.now(UTC),
+        state=ShadowEvidenceState.CURRENT,
+        dimensions={
+            dimension: raw[dimension.value]
+            for dimension in ALL_SHADOW_PARITY_DIMENSIONS
+        },
+    )
 
 
 def test_shadow_cycle_combines_real_readonly_and_simulated_candidate() -> None:
@@ -56,6 +88,7 @@ def test_shadow_cycle_combines_real_readonly_and_simulated_candidate() -> None:
         run_shadow_cycle(
             observer=_observer_current,
             candidate_runner=_candidate_ok,
+            reference_runner=_reference_ok,
         )
     )
 
@@ -72,6 +105,9 @@ def test_shadow_cycle_combines_real_readonly_and_simulated_candidate() -> None:
 
     # Foundation readiness must never claim full shadow parity closure.
     assert snapshot.shadow_gate_open is False
+    assert snapshot.parity_state == "PASS"
+    assert set(snapshot.parity_dimensions.values()) == {"PASS"}
+    assert snapshot.parity_critical_mismatches == ()
     assert snapshot.error is None
 
 
@@ -86,6 +122,7 @@ def test_shadow_cycle_fails_closed_when_real_observation_is_unavailable() -> Non
         run_shadow_cycle(
             observer=unavailable,
             candidate_runner=_candidate_ok,
+            reference_runner=_reference_ok,
         )
     )
 
@@ -107,6 +144,7 @@ def test_shadow_cycle_fails_closed_if_candidate_reports_real_exchange_write() ->
         run_shadow_cycle(
             observer=_observer_current,
             candidate_runner=unsafe_candidate,
+            reference_runner=_reference_ok,
         )
     )
 
@@ -124,6 +162,7 @@ def test_runtime_payload_never_exposes_live_authority() -> None:
         run_shadow_cycle(
             observer=_observer_current,
             candidate_runner=_candidate_ok,
+            reference_runner=_reference_ok,
         )
     )
 
@@ -137,3 +176,54 @@ def test_runtime_payload_never_exposes_live_authority() -> None:
     assert payload["strategy_execution_allowed"] is False
     assert payload["writes_attempted"] is False
     assert payload["shadow_gate_open"] is False
+
+
+def test_shadow_cycle_fails_closed_on_reference_mismatch() -> None:
+    async def mismatched_reference() -> ShadowBehaviorEvidence:
+        reference = await _reference_ok()
+        dimensions = dict(reference.dimensions)
+        dimensions[ShadowParityDimension.ORDER_INTENT] = {"order": "different"}
+        return ShadowBehaviorEvidence(
+            source=reference.source,
+            observed_at=reference.observed_at,
+            state=reference.state,
+            dimensions=dimensions,
+        )
+
+    snapshot = asyncio.run(
+        run_shadow_cycle(
+            observer=_observer_current,
+            candidate_runner=_candidate_ok,
+            reference_runner=mismatched_reference,
+        )
+    )
+    assert snapshot.ready is False
+    assert snapshot.parity_state == "FAIL"
+    assert snapshot.parity_critical_mismatches == ("order_intent",)
+    assert snapshot.error == "shadow_parity_mismatch"
+
+
+def test_shadow_cycle_missing_reference_is_not_comparable() -> None:
+    async def unavailable_reference() -> ShadowBehaviorEvidence:
+        return ShadowBehaviorEvidence(
+            source="LEGACY_REFERENCE",
+            observed_at=datetime.now(UTC),
+            state=ShadowEvidenceState.UNAVAILABLE,
+            dimensions={
+                dimension: None
+                for dimension in ALL_SHADOW_PARITY_DIMENSIONS
+            },
+            errors=("reference unavailable",),
+        )
+
+    snapshot = asyncio.run(
+        run_shadow_cycle(
+            observer=_observer_current,
+            candidate_runner=_candidate_ok,
+            reference_runner=unavailable_reference,
+        )
+    )
+    assert snapshot.ready is False
+    assert snapshot.parity_state == "NOT_COMPARABLE"
+    assert set(snapshot.parity_dimensions.values()) == {"NOT_COMPARABLE"}
+    assert snapshot.error == "shadow_parity_not_comparable"

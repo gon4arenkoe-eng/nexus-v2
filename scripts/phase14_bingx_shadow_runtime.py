@@ -1,4 +1,4 @@
-﻿"""Phase 14 BingX VST read-only shadow runtime.
+"""Phase 14 BingX VST read-only shadow runtime.
 
 Real BingX VST is observation-only.
 Candidate execution runs only through the existing simulated Core runtime.
@@ -18,6 +18,14 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Awaitable, Callable, Final
 
+from apps.core.application.shadow_parity import (
+    ALL_SHADOW_PARITY_DIMENSIONS,
+    ShadowBehaviorEvidence,
+    ShadowEvidenceState,
+    ShadowParityDimension,
+    ShadowParityState,
+    compare_shadow_behavior,
+)
 from scripts.bingx_vst_observer_runtime import (
     ObserverSnapshot,
     observe_once,
@@ -25,6 +33,7 @@ from scripts.bingx_vst_observer_runtime import (
 from scripts.phase14_postgres_candidate import (
     run as run_postgres_candidate,
 )
+from scripts.phase14_reference_evidence import observe_reference_once
 
 
 DEFAULT_HOST: Final = "0.0.0.0"
@@ -34,6 +43,7 @@ DEFAULT_INTERVAL_SECONDS: Final = 30.0
 
 ObserverRunner = Callable[[], Awaitable[ObserverSnapshot]]
 CandidateRunner = Callable[[], Awaitable[dict[str, object]]]
+ReferenceRunner = Callable[[], Awaitable[ShadowBehaviorEvidence]]
 
 
 @dataclass(frozen=True, slots=True)
@@ -57,6 +67,12 @@ class Phase14ShadowSnapshot:
 
     simulated_venue_writes: int
     real_exchange_writes: int
+
+    reference_source_state: str
+    reference_observed_at: str
+    parity_state: str
+    parity_dimensions: dict[str, str]
+    parity_critical_mismatches: tuple[str, ...]
 
     shadow_gate_open: bool
     production_authority: bool
@@ -136,13 +152,80 @@ def _candidate_int(
     return value
 
 
+def _candidate_behavior_evidence(
+    *,
+    real: ObserverSnapshot,
+    candidate: dict[str, object],
+) -> ShadowBehaviorEvidence:
+    raw = candidate.get("shadow_evidence")
+    raw_dimensions = raw if isinstance(raw, dict) else {}
+
+    dimensions: dict[ShadowParityDimension, object] = {
+        ShadowParityDimension.SIGNALS_INTENTS: raw_dimensions.get(
+            "signals_intents"
+        ),
+        ShadowParityDimension.RISK_DECISIONS: raw_dimensions.get(
+            "risk_decisions",
+            {"portfolio_risk": _candidate_text(candidate, "portfolio_risk")},
+        ),
+        ShadowParityDimension.ORDER_INTENT: raw_dimensions.get(
+            "order_intent",
+            {
+                "execution_state": _candidate_text(candidate, "execution_state"),
+                "order_status": _candidate_text(candidate, "order_status"),
+            },
+        ),
+        ShadowParityDimension.POSITIONS: raw_dimensions.get("positions"),
+        ShadowParityDimension.FILLS_RECONCILIATION: raw_dimensions.get(
+            "fills_reconciliation",
+            {
+                "startup_reconciliation": _candidate_text(
+                    candidate, "startup_reconciliation"
+                ),
+                "post_execution_reconciliation": _candidate_text(
+                    candidate, "post_execution_reconciliation"
+                ),
+            },
+        ),
+        ShadowParityDimension.PNL_ATTRIBUTION: raw_dimensions.get(
+            "pnl_attribution"
+        ),
+        ShadowParityDimension.EXECUTION_QUALITY: raw_dimensions.get(
+            "execution_quality",
+            {
+                "venue_writes": _candidate_int(candidate, "venue_writes"),
+                "real_exchange_writes": _candidate_int(
+                    candidate, "real_exchange_writes"
+                ),
+                "order_status": _candidate_text(candidate, "order_status"),
+            },
+        ),
+        ShadowParityDimension.FAILURES_STALE_STATES: raw_dimensions.get(
+            "failures_stale_states",
+            {
+                "bingx_source_state": real.source_state,
+                "candidate_status": _candidate_text(candidate, "status"),
+            },
+        ),
+    }
+
+    return ShadowBehaviorEvidence(
+        source="NEXUS_V2_CANDIDATE",
+        observed_at=datetime.now(UTC),
+        state=ShadowEvidenceState.CURRENT,
+        dimensions=dimensions,
+    )
+
+
 async def run_shadow_cycle(
     *,
     observer: ObserverRunner = observe_once,
     candidate_runner: CandidateRunner = run_postgres_candidate,
+    reference_runner: ReferenceRunner = observe_reference_once,
 ) -> Phase14ShadowSnapshot:
     real = await observer()
     candidate = await candidate_runner()
+    reference = await reference_runner()
 
     real_exchange_writes = _candidate_int(
         candidate,
@@ -184,7 +267,17 @@ async def run_shadow_cycle(
         and real.strategy_execution_allowed is False
     )
 
-    ready = real_ok and candidate_ok
+    candidate_evidence = _candidate_behavior_evidence(
+        real=real,
+        candidate=candidate,
+    )
+    parity = compare_shadow_behavior(reference, candidate_evidence)
+
+    ready = (
+        real_ok
+        and candidate_ok
+        and parity.state is ShadowParityState.PASS
+    )
 
     error: str | None = None
 
@@ -194,6 +287,10 @@ async def run_shadow_cycle(
         error = "bingx_observation_not_current_or_not_read_only"
     elif not candidate_ok:
         error = "simulated_candidate_not_ready"
+    elif parity.state is ShadowParityState.FAIL:
+        error = "shadow_parity_mismatch"
+    elif parity.state is ShadowParityState.NOT_COMPARABLE:
+        error = "shadow_parity_not_comparable"
 
     return Phase14ShadowSnapshot(
         observed_at=datetime.now(UTC).isoformat(),
@@ -230,6 +327,11 @@ async def run_shadow_cycle(
         ),
         simulated_venue_writes=simulated_venue_writes,
         real_exchange_writes=real_exchange_writes,
+        reference_source_state=reference.state.value,
+        reference_observed_at=reference.observed_at.isoformat(),
+        parity_state=parity.state.value,
+        parity_dimensions=dict(parity.dimension_states),
+        parity_critical_mismatches=parity.critical_mismatches,
         # Runtime readiness is not the Phase 14 parity gate.
         shadow_gate_open=False,
         production_authority=False,
@@ -262,6 +364,14 @@ def _failed_snapshot(
         candidate_post_execution_reconciliation="UNKNOWN",
         simulated_venue_writes=0,
         real_exchange_writes=0,
+        reference_source_state="UNKNOWN",
+        reference_observed_at="",
+        parity_state="NOT_COMPARABLE",
+        parity_dimensions={
+            dimension.value: "NOT_COMPARABLE"
+            for dimension in ALL_SHADOW_PARITY_DIMENSIONS
+        },
+        parity_critical_mismatches=(),
         shadow_gate_open=False,
         production_authority=False,
         strategy_execution_allowed=False,

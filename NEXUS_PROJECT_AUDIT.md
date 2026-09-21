@@ -33134,3 +33134,214 @@ The following evidence is still required before this capability can become DONE 
 `NEXUS_V2_PHASE14_POSTGRES_BACKED_CANDIDATE_PARTIALLY_VERIFIED = PARTIALLY VERIFIED`
 
 `NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+## NEXUS_V2_PHASE14_POSTGRES_BACKED_CANDIDATE_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Closed the real PostgreSQL process-restart verification for the Phase 14 Postgres-backed simulation candidate.
+
+Verified source revision:
+
+`6300feb58cdb4fcb26290f9c598c76620cbfd381`
+
+Verified immutable release image:
+
+`ghcr.io/gon4arenkoe-eng/nexus-v2:sha-6300feb58cdb4fcb26290f9c598c76620cbfd381`
+
+Verified image digest:
+
+`sha256:d9512d586950acf3c47df2a83134f97ba21a75bee33e039dad7ecba6f38c74c5`
+
+Environment:
+
+- target host: nexus-bot
+- V2 database: nexus_v2
+- execution mode: PHASE14_POSTGRES_SIMULATION_ONLY
+- real exchange authority: NONE
+
+### Process 1 Evidence
+
+Fresh independent container/process:
+
+- root_seeded: true
+- venue_writes: 1
+- database_persistence: true
+- execution_state: OPENING
+- order_status: ACCEPTED
+- portfolio_risk: APPROVED
+- post_execution_reconciliation: MATCHED
+- real_exchange_writes: 0
+- production_authority: false
+- process result: PASS
+
+The first process then exited and its container was removed.
+
+### Process 2 Evidence
+
+A new independent container/process was started with the same Phase 14 candidate run identity and the same PostgreSQL persistence target.
+
+Observed:
+
+- root_seeded: false
+- venue_writes: 0
+- database_persistence: true
+- execution_state: OPENING
+- order_status: ACCEPTED
+- portfolio_risk: APPROVED
+- post_execution_reconciliation: MATCHED
+- real_exchange_writes: 0
+- production_authority: false
+- process result: PASS
+
+Explicit verification markers:
+
+`DUPLICATE_SUBMIT=0`
+
+`REAL_EXCHANGE_WRITES=0`
+
+### Recovery Semantics
+
+The second process did not seed a new execution root and did not perform another simulated submit.
+
+The persisted OPENING coordinator state was recovered through the durable PostgreSQL-backed execution/coordinator/venue-observation path.
+
+The reported `coordinator_idempotent` field remained false because this path executed coordinator recovery rather than the coordinator's non-recovery idempotent return path.
+
+No claim of `coordinator_idempotent=true` is made.
+
+### Verification Chain
+
+Previously verified locally for this source lineage:
+
+- full release mypy: 170 source files PASS
+- focused persistence/candidate tests: PASS
+- full regression: 1066 passed
+- git diff check: PASS
+- Release Image Foundation verify job: PASS
+- immutable GHCR image build/publish: PASS
+
+Target-server restart proof:
+
+`process 1
+ -> PostgreSQL persist
+ -> container exit
+ -> process 2
+ -> PostgreSQL reload/recovery
+ -> duplicate submit = 0`
+
+### Safety
+
+- real BingX writes: ZERO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+- server-side development/build: NO
+
+### Result
+
+`NEXUS_V2_PHASE14_POSTGRES_BACKED_CANDIDATE_VERIFIED = DONE / TEST VERIFIED`
+
+The Postgres-backed Phase 14 candidate restart/recovery capability is verified.
+
+This does NOT close the overall Phase 14 gate.
+
+Remaining Phase 14 dependency:
+
+Continuous BingX VST shadow/parity evidence covering the required comparison dimensions before:
+
+`NEXUS_V2_SHADOW_PARITY_OK = DONE / TEST VERIFIED`
+## NEXUS_V2_PHASE14_SHADOW_PARITY_RUNTIME_FOUNDATION_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Implemented the Phase 14 production shadow parity comparison foundation.
+
+The runtime now has explicit comparison coverage for all required Phase 14 dimensions:
+
+1. signals/intents
+2. risk decisions
+3. order intent
+4. positions
+5. fills/reconciliation
+6. PnL attribution
+7. execution quality
+8. failures/stale states
+
+Added a fail-closed reference evidence source for legacy/reference behavioral evidence.
+
+Reference evidence is never fabricated. Missing, stale, unavailable, incomplete or invalid reference evidence produces `NOT_COMPARABLE` rather than a false parity PASS.
+
+### Implementation
+
+Added:
+
+- `apps/core/application/shadow_parity.py`
+- `scripts/phase14_reference_evidence.py`
+- `tests/test_shadow_parity.py`
+- `tests/test_phase14_reference_evidence.py`
+
+Updated:
+
+- `scripts/phase14_bingx_shadow_runtime.py`
+- `tests/test_phase14_bingx_shadow_runtime.py`
+
+### Verification
+
+Source base:
+
+`6300feb58cdb4fcb26290f9c598c76620cbfd381`
+
+Verification results after applying the parity patch:
+
+- compile: PASS
+- full release mypy: PASS, 171 source files
+- focused Phase 14 tests: 45 passed
+- full regression: 1077 passed
+- git diff check: PASS
+
+Comparator behavior verified:
+
+- equivalent evidence -> PASS
+- deterministic mismatch -> FAIL
+- missing comparison evidence -> NOT_COMPARABLE
+- stale reference evidence -> NOT_COMPARABLE
+- unavailable reference evidence -> NOT_COMPARABLE
+- incomplete reference dimensions -> fail closed
+
+### Safety
+
+- real BingX write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+- server-side build/development: NO
+
+### Result
+
+`NEXUS_V2_PHASE14_SHADOW_PARITY_RUNTIME_FOUNDATION_VERIFIED = DONE / TEST VERIFIED`
+
+This verifies the Phase 14 parity comparison/runtime foundation only.
+
+It does NOT close:
+
+`NEXUS_V2_SHADOW_PARITY_OK`
+
+The overall gate still requires real target-server shadow evidence using actual reference behavioral snapshots and V2 candidate evidence across the eight comparison dimensions.
