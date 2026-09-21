@@ -1,4 +1,4 @@
-﻿"""Read-only BingX VST Phase-3 reconciliation server runtime."""
+"""Read-only BingX VST Phase-3 reconciliation server runtime."""
 
 from __future__ import annotations
 
@@ -218,13 +218,29 @@ async def _run_once(runtime, scope) -> Phase3Snapshot:
     )
 
 
-def reconciliation_loop(stop: threading.Event, factory, runtime, scope, engine) -> None:
+def reconciliation_loop(
+    stop: threading.Event,
+    startup_complete: threading.Event,
+    startup_result: dict[str, BaseException | None],
+    factory,
+    runtime,
+    scope,
+    engine,
+) -> None:
     interval = _interval_seconds()
 
     async def run() -> None:
-        await _verify_v2_database(factory)
-
         try:
+            try:
+                await _verify_v2_database(factory)
+            except BaseException as exc:
+                startup_result["error"] = exc
+                startup_complete.set()
+                return
+
+            startup_result["error"] = None
+            startup_complete.set()
+
             while not stop.is_set():
                 snapshot = await _run_once(runtime, scope)
                 STATE.set(snapshot)
@@ -305,12 +321,28 @@ def main() -> int:
     engine, factory, runtime = _build_runtime()
 
     stop = threading.Event()
+    startup_complete = threading.Event()
+    startup_result: dict[str, BaseException | None] = {}
     worker = threading.Thread(
         target=reconciliation_loop,
-        args=(stop, factory, runtime, scope, engine),
+        args=(
+            stop,
+            startup_complete,
+            startup_result,
+            factory,
+            runtime,
+            scope,
+            engine,
+        ),
         daemon=True,
     )
     worker.start()
+
+    startup_complete.wait()
+    startup_error = startup_result.get("error")
+    if startup_error is not None:
+        worker.join(timeout=5)
+        raise RuntimeError("Phase 3 database verification failed") from startup_error
 
     host = os.environ.get("NEXUS_RUNTIME_HOST", DEFAULT_HOST)
     port = int(os.environ.get("NEXUS_RUNTIME_PORT", str(DEFAULT_PORT)))

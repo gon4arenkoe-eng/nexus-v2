@@ -32495,3 +32495,37 @@ Remaining gate evidence:
 
 Conclusion:
 The event-loop defect is locally fixed and TEST VERIFIED. Phase 3 is not closed until corrected immutable-image server continuous/restart evidence passes.
+
+## NEXUS_V2_PHASE3_STARTUP_SYNCHRONIZATION_LOCAL_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 3 — Reconciliation
+Gate: TRADING_CORE_V2_RECONCILIATION_OK remains OPEN.
+
+Scope:
+- Corrected Phase 3 server runtime startup synchronization after the single-event-loop lifecycle fix.
+- Database compatibility verification remains owned by the reconciliation worker event loop.
+- HTTP server binding is blocked until database verification succeeds.
+- Database verification failure is propagated to main and prevents HTTP bind.
+- Async engine disposal occurs on both database-verification failure and normal reconciliation-loop shutdown.
+- No schema migration/stamp/upgrade was added.
+- No venue write authority was added.
+- Strategy execution remains disabled.
+- Production authority remains disabled.
+
+Verification:
+- git diff --check: PASS
+- compileall: PASS
+- mypy: PASS — 166 source files
+- focused Phase 3 tests: PASS — 20 passed
+- full regression: PASS — 1037 passed
+- release foundation policy: PASS
+- final git diff --check: PASS
+
+Safety:
+- Deployment: NOT PERFORMED
+- Database mutation: NOT PERFORMED
+- Venue write: NOT PERFORMED
+- Production authority: FALSE
+- Phase 3 gate remains OPEN pending immutable image publication and server continuous/restart/fail-closed evidence.

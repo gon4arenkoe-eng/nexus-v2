@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import asyncio
 import threading
@@ -183,7 +183,7 @@ def test_loop_repeats_reconciliation(monkeypatch):
 
     thread = threading.Thread(
         target=target.reconciliation_loop,
-        args=(stop, object(), runtime, object(), FakeEngine()),
+        args=(stop, threading.Event(), {}, object(), runtime, object(), FakeEngine()),
     )
     thread.start()
     thread.join(timeout=3)
@@ -228,13 +228,97 @@ def test_reconciliation_loop_uses_one_event_loop_for_verify_runs_and_dispose(
     monkeypatch.setattr(target, "_run_once", fake_run_once)
     monkeypatch.setattr(target, "_interval_seconds", lambda: 0.0)
 
+    startup_complete = threading.Event()
+    startup_result: dict[str, BaseException | None] = {}
+
     target.reconciliation_loop(
         stop,
+        startup_complete,
+        startup_result,
         object(),
         object(),
         object(),
         FakeEngine(),
     )
 
+    assert startup_complete.is_set()
+    assert startup_result["error"] is None
+
     assert calls == ["verify", "run", "run", "dispose"]
     assert len(set(loop_ids)) == 1
+
+
+def test_reconciliation_loop_reports_database_verification_failure(
+    monkeypatch,
+) -> None:
+    stop = threading.Event()
+    startup_complete = threading.Event()
+    startup_result: dict[str, BaseException | None] = {}
+    calls: list[str] = []
+
+    class FakeEngine:
+        async def dispose(self) -> None:
+            calls.append("dispose")
+
+    async def fake_verify(factory) -> None:
+        calls.append("verify")
+        raise RuntimeError("wrong database head")
+
+    monkeypatch.setattr(target, "_verify_v2_database", fake_verify)
+
+    target.reconciliation_loop(
+        stop,
+        startup_complete,
+        startup_result,
+        object(),
+        object(),
+        object(),
+        FakeEngine(),
+    )
+
+    assert startup_complete.is_set()
+    assert isinstance(startup_result["error"], RuntimeError)
+    assert calls == ["verify", "dispose"]
+
+
+def test_main_does_not_bind_http_when_database_verification_fails(
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("NEXUS_V2_DATABASE_URL", "postgresql+asyncpg://unused")
+    monkeypatch.setenv("BINGX_VST_API_KEY", "unused")
+    monkeypatch.setenv("BINGX_VST_SECRET_KEY", "unused")
+    monkeypatch.setenv("BINGX_VST_SYMBOL", "BTCUSDT")
+
+    monkeypatch.setattr(target, "_scope", lambda: object())
+    monkeypatch.setattr(
+        target,
+        "_build_runtime",
+        lambda: (object(), object(), object()),
+    )
+
+    def fake_loop(
+        stop,
+        startup_complete,
+        startup_result,
+        factory,
+        runtime,
+        scope,
+        engine,
+    ) -> None:
+        startup_result["error"] = RuntimeError("wrong database head")
+        startup_complete.set()
+
+    server_constructed = False
+
+    def forbidden_server(*args, **kwargs):
+        nonlocal server_constructed
+        server_constructed = True
+        raise AssertionError("HTTP server must not bind")
+
+    monkeypatch.setattr(target, "reconciliation_loop", fake_loop)
+    monkeypatch.setattr(target, "ThreadingHTTPServer", forbidden_server)
+
+    with pytest.raises(RuntimeError, match="database verification failed"):
+        target.main()
+
+    assert server_constructed is False
