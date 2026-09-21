@@ -32454,3 +32454,44 @@ Remaining:
 - GitHub CI verification;
 - successful immutable Release Image;
 - server Phase3 reconciliation evidence remains required before gate closure.
+
+## NEXUS_V2_PHASE3_RECONCILIATION_EVENT_LOOP_FIX_LOCAL_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 3 — Reconciliation
+Gate: TRADING_CORE_V2_RECONCILIATION_OK remains OPEN.
+
+Scope:
+- Fixed Phase 3 BingX VST reconciliation runtime async lifecycle after real server evidence exposed cross-event-loop reuse of the SQLAlchemy AsyncEngine.
+- Database-head verification, repeated reconciliation passes, and engine disposal now execute inside one worker-owned asyncio event loop.
+- Existing repeated-reconciliation test was updated for the lifecycle contract.
+- Added regression coverage proving verification, two reconciliation passes, and disposal use the same running event loop.
+
+Local verification:
+- focused Phase 3 runtime: 9 passed
+- combined Phase 3 verification: 54 passed
+- canonical Release compile: PASS
+- canonical Release mypy: Success, no issues found in 166 source files
+- full regression: 1035 passed
+- release foundation policy: PASS
+- git diff --check: PASS
+
+Safety:
+- runtime remains PHASE3_BINGX_VST_RECONCILIATION_OBSERVE_ONLY
+- strategy_execution_allowed remains false
+- production_authority remains false
+- writes_attempted remains false
+- no live authority expansion
+- no legacy database migration/stamp/upgrade performed
+
+Remaining gate evidence:
+- build immutable Release image from this fix
+- deploy Phase 3 reconciliation runtime on server
+- prove continuous reconciliation across multiple intervals
+- prove controlled restart performs startup reconciliation before readiness
+- prove committed lifecycle evidence continues after restart
+- preserve fail-closed behavior and zero venue writes
+
+Conclusion:
+The event-loop defect is locally fixed and TEST VERIFIED. Phase 3 is not closed until corrected immutable-image server continuous/restart evidence passes.

@@ -218,13 +218,21 @@ async def _run_once(runtime, scope) -> Phase3Snapshot:
     )
 
 
-def reconciliation_loop(stop: threading.Event, runtime, scope) -> None:
+def reconciliation_loop(stop: threading.Event, factory, runtime, scope, engine) -> None:
     interval = _interval_seconds()
 
-    while not stop.is_set():
-        snapshot = asyncio.run(_run_once(runtime, scope))
-        STATE.set(snapshot)
-        stop.wait(interval)
+    async def run() -> None:
+        await _verify_v2_database(factory)
+
+        try:
+            while not stop.is_set():
+                snapshot = await _run_once(runtime, scope)
+                STATE.set(snapshot)
+                stop.wait(interval)
+        finally:
+            await engine.dispose()
+
+    asyncio.run(run())
 
 
 def _payload(snapshot: Phase3Snapshot | None) -> dict[str, object]:
@@ -296,13 +304,10 @@ def main() -> int:
 
     engine, factory, runtime = _build_runtime()
 
-    # Database compatibility is checked before readiness/server startup.
-    asyncio.run(_verify_v2_database(factory))
-
     stop = threading.Event()
     worker = threading.Thread(
         target=reconciliation_loop,
-        args=(stop, runtime, scope),
+        args=(stop, factory, runtime, scope, engine),
         daemon=True,
     )
     worker.start()
@@ -319,7 +324,6 @@ def main() -> int:
         stop.set()
         worker.join(timeout=5)
         server.server_close()
-        asyncio.run(engine.dispose())
 
     return 0
 

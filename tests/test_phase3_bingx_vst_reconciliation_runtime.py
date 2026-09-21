@@ -172,12 +172,69 @@ def test_loop_repeats_reconciliation(monkeypatch):
 
     monkeypatch.setattr(stop, "wait", immediate_wait)
 
+    class FakeEngine:
+        async def dispose(self) -> None:
+            return None
+
+    async def fake_verify(factory) -> None:
+        return None
+
+    monkeypatch.setattr(target, "_verify_v2_database", fake_verify)
+
     thread = threading.Thread(
         target=target.reconciliation_loop,
-        args=(stop, runtime, object()),
+        args=(stop, object(), runtime, object(), FakeEngine()),
     )
     thread.start()
     thread.join(timeout=3)
 
     assert not thread.is_alive()
     assert runtime.calls >= 2
+
+
+def test_reconciliation_loop_uses_one_event_loop_for_verify_runs_and_dispose(
+    monkeypatch,
+) -> None:
+    stop = threading.Event()
+    loop_ids: list[int] = []
+    calls: list[str] = []
+
+    class FakeEngine:
+        async def dispose(self) -> None:
+            loop_ids.append(id(asyncio.get_running_loop()))
+            calls.append("dispose")
+
+    async def fake_verify(factory) -> None:
+        loop_ids.append(id(asyncio.get_running_loop()))
+        calls.append("verify")
+
+    async def fake_run_once(runtime, scope):
+        loop_ids.append(id(asyncio.get_running_loop()))
+        calls.append("run")
+        if calls.count("run") == 2:
+            stop.set()
+        return target.Phase3Snapshot(
+            observed_at="2026-09-21T00:00:00+00:00",
+            source_state="CURRENT",
+            reconciliation_gate_passed=True,
+            ready=True,
+            error=None,
+            strategy_execution_allowed=False,
+            production_authority=False,
+            writes_attempted=False,
+        )
+
+    monkeypatch.setattr(target, "_verify_v2_database", fake_verify)
+    monkeypatch.setattr(target, "_run_once", fake_run_once)
+    monkeypatch.setattr(target, "_interval_seconds", lambda: 0.0)
+
+    target.reconciliation_loop(
+        stop,
+        object(),
+        object(),
+        object(),
+        FakeEngine(),
+    )
+
+    assert calls == ["verify", "run", "run", "dispose"]
+    assert len(set(loop_ids)) == 1
