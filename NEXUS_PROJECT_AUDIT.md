@@ -32306,3 +32306,110 @@ Production safety:
 - AI direct exchange access: BLOCKED.
 
 Evidence tag: NEXUS_V2_PHASE13_BINGX_VST_OBSERVER_RUNTIME_VERIFIED
+
+## NEXUS_V2_PHASE13_BINGX_VST_SERVER_OBSERVER_DEPLOYMENT_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase/Gate:
+- Phase 13 — Venue Certification.
+- BingX venue certification gate remains OPEN; this evidence closes only the server observer deployment step.
+
+Source/release evidence:
+- source revision: `69525dc059546a651fc9209c03b9cbd605d4223c`
+- immutable GHCR digest: `sha256:5d0e70d96179357fc6c1d9f67e7228f7e4a4fe66dcbd61dfecf3cb7af7abb354`
+- release workflow published the immutable image successfully.
+- local verification before release: focused 23 passed; full regression 1017 passed; diff check PASS.
+
+Server deployment evidence:
+- canonical container: `nexus-v2-core`
+- canonical image: `ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:5d0e70d96179357fc6c1d9f67e7228f7e4a4fe66dcbd61dfecf3cb7af7abb354`
+- container state: RUNNING
+- runtime mode: `BINGX_VST_OBSERVE_ONLY`
+- environment: `BINGX_VST`
+- source state: `CURRENT`
+- readiness: true; `/ready` returned HTTP 200
+- account query: PASS
+- open-orders query: PASS
+- positions query: PASS
+- fills query: PASS
+- balance assets observed: VST
+- observed symbol: BTCUSDT
+
+Safety evidence:
+- `writes_attempted=false`
+- `production_authority=false`
+- `strategy_execution_allowed=false`
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+- no production trading authority added by this deployment.
+
+Rollback evidence:
+- previous simulated container preserved as `nexus-v2-core-rollback-simulated`
+- rollback image digest: `sha256:616066ad0fb574c466553a16144a3b5fc9c648a8b5229335edb0d49a19b3ae02`
+- rollback container state after controlled stop: EXITED
+- rollback image/container were not deleted.
+
+Result:
+- long-running canonical server runtime now observes real BingX VST through the canonical BingX adapter.
+- this does NOT by itself close `NEXUS_V2_VENUE_BINGX_CERTIFIED_OK`.
+
+---
+
+## NEXUS_V2_PHASE3_SERVER_RECONCILIATION_RUNTIME_LOCAL_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 3 — Reconciliation
+
+Gate:
+- TRADING_CORE_V2_RECONCILIATION_OK = OPEN
+- This evidence does NOT close the Phase 3 gate.
+- Server/runtime evidence against a separate V2 persistence target and real BingX VST remains required.
+
+Implemented:
+- canonical local + venue reconciliation acquisition boundary;
+- deterministic startup reconciliation application composition;
+- persistence-compatible reconciliation runtime;
+- local snapshot acquisition before evidence transaction;
+- immutable reconciliation evidence persisted through Execution Ledger;
+- readiness published only after successful evidence transaction commit;
+- acquisition failure remains fail-closed;
+- evidence persistence failure rolls back;
+- executable BingX VST Phase-3 reconciliation runtime;
+- reconciliation-derived /ready;
+- repeated continuous reconciliation loop;
+- explicit STARTING / CURRENT / UNAVAILABLE runtime presentation;
+- strict V2 Alembic-head compatibility guard;
+- no runtime schema migration/stamp;
+- no destructive reconciliation correction;
+- no venue write calls;
+- no execution-authority promotion.
+
+Local verification:
+- Phase3 server-runtime focused: 63 passed;
+- full regression: 1034 passed;
+- safety source check: PASS;
+- git diff --check: PASS.
+
+Safety:
+- runtime mode = PHASE3_BINGX_VST_RECONCILIATION_OBSERVE_ONLY;
+- strategy_execution_allowed = false;
+- production_authority = false;
+- writes_attempted = false;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
+
+Remaining Phase 3 closure evidence:
+- deploy verified immutable image to nexus-bot;
+- use a separate V2-compatible persistence target;
+- do not migrate/stamp/upgrade the legacy production database;
+- real BingX VST startup reconciliation;
+- committed Ledger reconciliation evidence on server;
+- continuous repeated reconciliation evidence;
+- controlled process/container restart;
+- reconciliation must complete again after restart before readiness;
+- fail-closed server evidence for unavailable/non-matched state;
+- only after all required server evidence may TRADING_CORE_V2_RECONCILIATION_OK be evaluated for closure.
