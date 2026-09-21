@@ -32838,3 +32838,72 @@ Phase 13 is complete for the approved BingX-first production scope.
 Next dependency:
 
 Phase 14 - BingX E2E simulation / shadow parity.
+
+## NEXUS_V2_PHASE14_BINGX_SHADOW_RUNTIME_FOUNDATION_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Implemented target-server BingX shadow runtime foundation:
+
+- `scripts/phase14_bingx_shadow_runtime.py`
+- `tests/test_phase14_bingx_shadow_runtime.py`
+
+Runtime composition:
+
+`BingX VST read-only observation -> simulated Core candidate -> combined shadow runtime evidence`
+
+The real BingX side remains observation-only.
+
+Candidate execution remains simulation-only.
+
+This slice does not close the full Phase 14 shadow parity gate.
+
+### Verified behavior
+
+- BingX VST observation is required to be CURRENT;
+- real venue observation has no write authority;
+- simulated candidate executes the existing Core simulation path;
+- candidate startup reconciliation must be MATCHED;
+- candidate portfolio risk must be APPROVED;
+- candidate post-execution reconciliation must be MATCHED;
+- reported real exchange writes must equal zero;
+- unavailable/non-read-only BingX observation fails closed;
+- any reported real exchange write fails readiness;
+- runtime never exposes production authority;
+- runtime never exposes strategy execution authority;
+- `shadow_gate_open` remains false.
+
+### Verification
+
+- compile: PASS
+- focused Phase14 tests: 31 passed
+- source mypy: PASS
+- full regression: 1053 passed
+- git diff check: PASS
+
+### Safety
+
+- real BingX writes: BLOCKED / ZERO
+- production authority: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+- Binance / Bybit / OKX: DEFERRED / NOT DONE
+
+### Result
+
+`NEXUS_V2_PHASE14_BINGX_SHADOW_RUNTIME_FOUNDATION_VERIFIED = DONE / TEST VERIFIED`
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+Remaining dependency:
+
+Deploy the verified immutable Phase 14 runtime to the target server and collect continuous BingX VST shadow/runtime evidence before extending parity comparison coverage.
