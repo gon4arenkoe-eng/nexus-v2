@@ -41,17 +41,17 @@ class CoreExecutionPersistenceRepository:
             recorded_at=recorded_at,
         )
 
-        for leg in plan.legs:
+        for planned_leg in plan.legs:
             await self._persist_plan_leg(
                 plan_id=plan.plan_id,
-                leg=leg,
+                leg=planned_leg,
                 created_at=plan.created_at,
             )
 
         await self._persist_group(group)
 
-        for leg in position_legs:
-            await self._persist_position_leg(leg)
+        for position_leg in position_legs:
+            await self._persist_position_leg(position_leg)
 
         await self._persist_order(
             user_id=plan.user_id,
