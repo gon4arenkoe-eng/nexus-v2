@@ -33493,3 +33493,70 @@ This fixes the release-CI SQLAlchemy typing blocker only.
 It does NOT close:
 
 `NEXUS_V2_SHADOW_PARITY_OK`
+## NEXUS_V2_PHASE14_SQLALCHEMY_ASYNCIO_DEPENDENCY_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Fixed the canonical SQLAlchemy asyncio runtime dependency declaration in `pyproject.toml`.
+
+Changed:
+
+`SQLAlchemy>=2.0,<3.0`
+
+to:
+
+`SQLAlchemy[asyncio]>=2.0,<3.0`
+
+All current GitHub workflows already install `.[test]` from the canonical project metadata, so no workflow-specific dependency duplication was added.
+
+### Root Cause
+
+Release CI reached pytest collection but failed while importing `sqlalchemy.ext.asyncio` because `greenlet` was not installed in the clean GitHub runner environment.
+
+The bare SQLAlchemy dependency did not explicitly guarantee the asyncio runtime dependency set.
+
+### Verification
+
+Source base:
+
+`0fddc1aff467ca5a4a299a8a5bb420d7a566fbc8`
+
+Results:
+
+- exact release dependency install: PASS
+- SQLAlchemy version: 2.0.52
+- greenlet version: 3.5.5
+- SQLAlchemy asyncio import: PASS
+- exact release mypy: PASS, 171 source files
+- previously failing AIEA persistence test: 1 passed
+- full regression: 1082 passed
+- git diff check: PASS
+
+### Safety
+
+- CI workflow logic changed: NO
+- database schema changed: NO
+- trading/reconciliation semantics changed: NO
+- real venue write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_SQLALCHEMY_ASYNCIO_DEPENDENCY_VERIFIED = DONE / TEST VERIFIED`
+
+This closes the clean-runner SQLAlchemy asyncio dependency blocker only.
+
+It does NOT close:
+
+`NEXUS_V2_SHADOW_PARITY_OK`
