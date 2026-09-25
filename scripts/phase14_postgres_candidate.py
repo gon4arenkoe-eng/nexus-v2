@@ -20,6 +20,7 @@ from __future__ import annotations
 import os
 from datetime import UTC, datetime
 from decimal import Decimal
+from typing import Any
 
 from apps.core.application.execution_coordinator import (
     SingleLegExecutionCoordinator,
@@ -283,6 +284,117 @@ def _risk_engine() -> PortfolioRiskEngine:
         single_leg_policy=AllowSingleLegPolicy(),
     )
 
+
+def _decimal_text(value: Decimal) -> str:
+    return format(value, "f")
+
+
+def _shadow_evidence(
+    *,
+    plan: ExecutionPlan,
+    position_legs: tuple[PositionLeg, ...],
+    request: PortfolioRiskRequest,
+    risk: Any,
+    outcome: Any,
+    startup_state: str,
+    final_state: str,
+    venue_writes: int,
+) -> dict[str, object]:
+    leg = plan.legs[0]
+    position = position_legs[0]
+    order = outcome.order
+
+    requested = order.requested_quantity
+    filled = order.filled_quantity
+    fill_ratio = (
+        Decimal("0")
+        if requested == 0
+        else filled / requested
+    )
+
+    return {
+        "signals_intents": {
+            "strategy": plan.strategy,
+            "strategy_version": plan.strategy_version,
+            "source": plan.source,
+            "shape": plan.shape.value,
+            "intent_semantics": {
+                "instrument": str(leg.instrument_id),
+                "side": leg.side.value,
+                "quantity": _decimal_text(leg.quantity),
+                "reduce_only": leg.reduce_only,
+            },
+            "strategy_signal_observed": False,
+            "signal_note": (
+                "Phase14 deterministic candidate constructs canonical intent "
+                "semantics directly; no StrategyRuntime signal is claimed"
+            ),
+        },
+        "risk_decisions": {
+            "decision": risk.state.value,
+            "shape": request.shape.value,
+            "strategy": request.strategy,
+            "observation_state": "CURRENT",
+            "leg_count": len(request.legs),
+            "reasons": [str(item) for item in risk.reasons],
+        },
+        "order_intent": {
+            "instrument": str(order.instrument_id),
+            "side": order.side.value,
+            "order_type": order.order_type.value,
+            "requested_quantity": _decimal_text(order.requested_quantity),
+            "limit_price": (
+                None
+                if order.limit_price is None
+                else _decimal_text(order.limit_price)
+            ),
+            "reduce_only": order.reduce_only,
+        },
+        "positions": {
+            "instrument": str(position.instrument_id),
+            "side": position.side.value,
+            "target_quantity": _decimal_text(position.target_quantity),
+            "filled_quantity": _decimal_text(position.filled_quantity),
+            "current_quantity": _decimal_text(position.current_quantity),
+            "status": position.status.value,
+        },
+        "fills_reconciliation": {
+            "filled_quantity": _decimal_text(filled),
+            "fill_count": 0,
+            "startup_reconciliation": startup_state,
+            "post_execution_reconciliation": final_state,
+        },
+        "pnl_attribution": {
+            "realized_pnl": "0",
+            "unrealized_pnl": "0",
+            "fees": "0",
+            "funding": "0",
+            "net_pnl": "0",
+            "attribution_state": "NO_FILL",
+        },
+        "execution_quality": {
+            "order_status": order.status.value,
+            "requested_quantity": _decimal_text(requested),
+            "filled_quantity": _decimal_text(filled),
+            "fill_ratio": _decimal_text(fill_ratio),
+            "average_fill_price": (
+                None
+                if order.average_fill_price is None
+                else _decimal_text(order.average_fill_price)
+            ),
+            "slippage_bps": None,
+            "simulated_submit_count": venue_writes,
+            "real_exchange_writes": 0,
+        },
+        "failures_stale_states": {
+            "candidate_status": "RUNNING",
+            "risk_observation_state": "CURRENT",
+            "reconciliation_source_state": "CURRENT",
+            "requires_recovery": outcome.requires_recovery,
+            "rejection_reason": order.rejection_reason,
+            "errors": [],
+        },
+    }
 
 def _graph(
     run_id: str,
@@ -564,6 +676,17 @@ async def run() -> dict[str, object]:
                 "post-execution reconciliation failed"
             )
 
+        shadow_evidence = _shadow_evidence(
+            plan=plan,
+            position_legs=position_legs,
+            request=request,
+            risk=risk,
+            outcome=outcome,
+            startup_state="MATCHED",
+            final_state=final.state.value,
+            venue_writes=len(venue.submitted),
+        )
+
         return {
             "service": "nexus-v2-core",
             "mode": "PHASE14_POSTGRES_SIMULATION_ONLY",
@@ -582,6 +705,7 @@ async def run() -> dict[str, object]:
             "requires_recovery": outcome.requires_recovery,
             "run_id": run_id,
             "status": "RUNNING",
+            "shadow_evidence": shadow_evidence,
         }
     finally:
         await engine.dispose()

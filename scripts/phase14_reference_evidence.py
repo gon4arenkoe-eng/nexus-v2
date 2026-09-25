@@ -80,10 +80,31 @@ def _load_reference_sync() -> ShadowBehaviorEvidence:
             dimension: raw_dimensions.get(dimension.value)
             for dimension in ALL_SHADOW_PARITY_DIMENSIONS
         }
+
+        missing = tuple(
+            dimension.value
+            for dimension, value in dimensions.items()
+            if value is None
+        )
+        invalid = tuple(
+            dimension.value
+            for dimension, value in dimensions.items()
+            if value is not None and not isinstance(value, dict)
+        )
+
         errors_raw = payload.get("errors", [])
         if not isinstance(errors_raw, list):
             raise ValueError("reference errors must be a list")
         errors = tuple(str(item) for item in errors_raw)
+
+        if missing or invalid:
+            source_state = ShadowEvidenceState.DEGRADED
+            details: list[str] = []
+            if missing:
+                details.append("missing=" + ",".join(missing))
+            if invalid:
+                details.append("invalid=" + ",".join(invalid))
+            errors = (*errors, "reference evidence incomplete: " + " ".join(details))
 
         age = (datetime.now(UTC) - observed_at).total_seconds()
         if age < 0:

@@ -161,59 +161,42 @@ def _candidate_behavior_evidence(
     raw_dimensions = raw if isinstance(raw, dict) else {}
 
     dimensions: dict[ShadowParityDimension, object] = {
-        ShadowParityDimension.SIGNALS_INTENTS: raw_dimensions.get(
-            "signals_intents"
-        ),
-        ShadowParityDimension.RISK_DECISIONS: raw_dimensions.get(
-            "risk_decisions",
-            {"portfolio_risk": _candidate_text(candidate, "portfolio_risk")},
-        ),
-        ShadowParityDimension.ORDER_INTENT: raw_dimensions.get(
-            "order_intent",
-            {
-                "execution_state": _candidate_text(candidate, "execution_state"),
-                "order_status": _candidate_text(candidate, "order_status"),
-            },
-        ),
-        ShadowParityDimension.POSITIONS: raw_dimensions.get("positions"),
-        ShadowParityDimension.FILLS_RECONCILIATION: raw_dimensions.get(
-            "fills_reconciliation",
-            {
-                "startup_reconciliation": _candidate_text(
-                    candidate, "startup_reconciliation"
-                ),
-                "post_execution_reconciliation": _candidate_text(
-                    candidate, "post_execution_reconciliation"
-                ),
-            },
-        ),
-        ShadowParityDimension.PNL_ATTRIBUTION: raw_dimensions.get(
-            "pnl_attribution"
-        ),
-        ShadowParityDimension.EXECUTION_QUALITY: raw_dimensions.get(
-            "execution_quality",
-            {
-                "venue_writes": _candidate_int(candidate, "venue_writes"),
-                "real_exchange_writes": _candidate_int(
-                    candidate, "real_exchange_writes"
-                ),
-                "order_status": _candidate_text(candidate, "order_status"),
-            },
-        ),
-        ShadowParityDimension.FAILURES_STALE_STATES: raw_dimensions.get(
-            "failures_stale_states",
-            {
-                "bingx_source_state": real.source_state,
-                "candidate_status": _candidate_text(candidate, "status"),
-            },
-        ),
+        dimension: raw_dimensions.get(dimension.value)
+        for dimension in ALL_SHADOW_PARITY_DIMENSIONS
     }
+
+    missing = tuple(
+        dimension.value
+        for dimension, value in dimensions.items()
+        if value is None
+    )
+    invalid = tuple(
+        dimension.value
+        for dimension, value in dimensions.items()
+        if value is not None and not isinstance(value, dict)
+    )
+
+    state = ShadowEvidenceState.CURRENT
+    errors: tuple[str, ...] = ()
+    if missing or invalid:
+        state = ShadowEvidenceState.DEGRADED
+        details: list[str] = []
+        if missing:
+            details.append("missing=" + ",".join(missing))
+        if invalid:
+            details.append("invalid=" + ",".join(invalid))
+        errors = ("candidate shadow evidence incomplete: " + " ".join(details),)
+
+    if real.source_state != "CURRENT":
+        state = ShadowEvidenceState.DEGRADED
+        errors = (*errors, f"bingx source_state={real.source_state}")
 
     return ShadowBehaviorEvidence(
         source="NEXUS_V2_CANDIDATE",
         observed_at=datetime.now(UTC),
-        state=ShadowEvidenceState.CURRENT,
+        state=state,
         dimensions=dimensions,
+        errors=errors,
     )
 
 

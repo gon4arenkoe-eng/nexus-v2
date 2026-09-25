@@ -59,3 +59,18 @@ def test_stale_reference_source_is_marked_stale(tmp_path, monkeypatch) -> None:
     evidence = asyncio.run(observe_reference_once())
     assert evidence.state is ShadowEvidenceState.STALE
     assert evidence.errors
+
+
+def test_current_reference_with_missing_dimension_is_degraded(tmp_path, monkeypatch) -> None:
+    payload = _payload(datetime.now(UTC).isoformat())
+    payload["dimensions"].pop("pnl_attribution")
+    path = tmp_path / "reference.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setenv("NEXUS_PHASE14_REFERENCE_EVIDENCE_FILE", str(path))
+    monkeypatch.setenv("NEXUS_PHASE14_REFERENCE_MAX_AGE_SECONDS", "300")
+
+    evidence = asyncio.run(observe_reference_once())
+
+    assert evidence.state is ShadowEvidenceState.DEGRADED
+    assert evidence.dimensions
+    assert any("missing=pnl_attribution" in item for item in evidence.errors)

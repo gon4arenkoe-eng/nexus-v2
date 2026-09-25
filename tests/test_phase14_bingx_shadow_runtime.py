@@ -227,3 +227,24 @@ def test_shadow_cycle_missing_reference_is_not_comparable() -> None:
     assert snapshot.parity_state == "NOT_COMPARABLE"
     assert set(snapshot.parity_dimensions.values()) == {"NOT_COMPARABLE"}
     assert snapshot.error == "shadow_parity_not_comparable"
+
+
+def test_candidate_without_full_shadow_evidence_is_not_comparable() -> None:
+    async def incomplete_candidate() -> dict[str, object]:
+        candidate = await _candidate_ok()
+        raw = candidate["shadow_evidence"]
+        assert isinstance(raw, dict)
+        raw.pop("pnl_attribution")
+        return candidate
+
+    snapshot = asyncio.run(
+        run_shadow_cycle(
+            observer=_observer_current,
+            candidate_runner=incomplete_candidate,
+            reference_runner=_reference_ok,
+        )
+    )
+
+    assert snapshot.ready is False
+    assert snapshot.parity_state == "NOT_COMPARABLE"
+    assert snapshot.error == "shadow_parity_not_comparable"

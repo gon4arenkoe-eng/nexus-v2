@@ -33345,3 +33345,97 @@ It does NOT close:
 `NEXUS_V2_SHADOW_PARITY_OK`
 
 The overall gate still requires real target-server shadow evidence using actual reference behavioral snapshots and V2 candidate evidence across the eight comparison dimensions.
+## NEXUS_V2_PHASE14_FACTUAL_SHADOW_EVIDENCE_PRODUCERS_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Implemented factual Phase 14 shadow evidence producers for the canonical eight comparison dimensions:
+
+1. signals/intents
+2. risk decisions
+3. order intent
+4. positions
+5. fills/reconciliation
+6. PnL attribution
+7. execution quality
+8. failures/stale states
+
+The Postgres-backed Phase 14 candidate now emits normalized factual `shadow_evidence` derived from the actual candidate execution flow.
+
+Reference evidence handling was hardened so incomplete, missing, stale or invalid reference evidence cannot be treated as CURRENT parity evidence.
+
+Added an atomic reference evidence writer for externally observed legacy/reference behavior.
+
+### Implementation
+
+Updated:
+
+- `scripts/phase14_postgres_candidate.py`
+- `scripts/phase14_bingx_shadow_runtime.py`
+- `scripts/phase14_reference_evidence.py`
+- `tests/test_phase14_postgres_candidate.py`
+- `tests/test_phase14_bingx_shadow_runtime.py`
+- `tests/test_phase14_reference_evidence.py`
+
+Added:
+
+- `scripts/phase14_reference_evidence_writer.py`
+- `tests/test_phase14_reference_evidence_writer.py`
+
+### Verification
+
+Source base:
+
+`0adea5891ee642a05eb6653f8b1e73e953806605`
+
+Verification results:
+
+- compile: PASS
+- full release mypy: PASS, 171 source files
+- focused Phase 14 tests: 50 passed
+- full regression: 1082 passed
+- git diff check: PASS
+
+### Evidence Semantics
+
+Candidate factual evidence is emitted for all eight Phase 14 parity dimensions.
+
+Missing or incomplete candidate evidence cannot be silently reconstructed into a parity PASS.
+
+Reference evidence is strict fail-closed:
+
+- missing evidence -> not CURRENT
+- incomplete dimensions -> not CURRENT
+- stale evidence -> not comparable
+- invalid evidence -> not comparable
+
+The atomic reference writer requires the complete canonical dimension set before publication.
+
+### Safety
+
+- real BingX write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+- server-side development/build: NO
+
+### Result
+
+`NEXUS_V2_PHASE14_FACTUAL_SHADOW_EVIDENCE_PRODUCERS_VERIFIED = DONE / TEST VERIFIED`
+
+This verifies the factual evidence-producer capability.
+
+It does NOT close:
+
+`NEXUS_V2_SHADOW_PARITY_OK`
+
+The overall Phase 14 gate still requires real target-server reference-to-candidate shadow comparison evidence across the eight dimensions.

@@ -155,3 +155,21 @@ def test_phase14_postgres_candidate_has_no_real_venue_import() -> None:
         for item in combined
         for marker in forbidden
     )
+
+
+def test_candidate_declares_all_eight_shadow_evidence_dimensions() -> None:
+    source = Path("scripts/phase14_postgres_candidate.py").read_text(encoding="utf-8")
+    for name in (
+        "signals_intents",
+        "risk_decisions",
+        "order_intent",
+        "positions",
+        "fills_reconciliation",
+        "pnl_attribution",
+        "execution_quality",
+        "failures_stale_states",
+    ):
+        assert f'"{name}"' in source
+
+    assert '"shadow_evidence": shadow_evidence' in source
+    assert '"real_exchange_writes": 0' in source
