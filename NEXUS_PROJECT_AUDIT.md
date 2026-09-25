@@ -33560,3 +33560,76 @@ This closes the clean-runner SQLAlchemy asyncio dependency blocker only.
 It does NOT close:
 
 `NEXUS_V2_SHADOW_PARITY_OK`
+## NEXUS_V2_PHASE14_SQLALCHEMY_2_0_COMPATIBILITY_BOUNDARY_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Pinned the canonical SQLAlchemy dependency to the verified 2.0 compatibility series:
+
+`SQLAlchemy[asyncio]>=2.0,<2.1`
+
+This prevents clean CI runners from silently upgrading to SQLAlchemy 2.1 during Phase 14.
+
+### Root Cause
+
+The release runner correctly checked out:
+
+`0d9e848ab76d00627c751832644dd28dc113c72a`
+
+but the prior dependency range:
+
+`SQLAlchemy[asyncio]>=2.0,<3.0`
+
+resolved to SQLAlchemy 2.1.1.
+
+The repository persistence typing and verified reconciliation implementation currently target the SQLAlchemy 2.0 typing contract.
+
+SQLAlchemy 2.1 migration is therefore deferred rather than introduced implicitly during Phase 14 release verification.
+
+### Verification
+
+Source base:
+
+`0d9e848ab76d00627c751832644dd28dc113c72a`
+
+Verified against latest allowed SQLAlchemy 2.0 series:
+
+- SQLAlchemy: 2.0.54
+- greenlet: 3.5.5
+- SQLAlchemy asyncio import: PASS
+- pip check: PASS
+- compile: PASS
+- exact release mypy: PASS, 171 source files
+- previous CI blocker focused tests: 28 passed
+- full regression: 1082 passed
+- git diff check: PASS
+
+### Safety
+
+- CI workflow logic changed: NO
+- database schema changed: NO
+- reconciliation behavior changed: NO
+- SQLAlchemy 2.1 migration performed: NO
+- real venue write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_SQLALCHEMY_2_0_COMPATIBILITY_BOUNDARY_VERIFIED = DONE / TEST VERIFIED`
+
+This closes the SQLAlchemy dependency-series drift blocker only.
+
+It does NOT close:
+
+`NEXUS_V2_SHADOW_PARITY_OK`
