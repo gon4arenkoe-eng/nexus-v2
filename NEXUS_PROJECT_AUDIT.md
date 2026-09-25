@@ -33633,3 +33633,90 @@ This closes the SQLAlchemy dependency-series drift blocker only.
 It does NOT close:
 
 `NEXUS_V2_SHADOW_PARITY_OK`
+## NEXUS_V2_PHASE14_TARGET_SERVER_INPUT_INTEGRATION_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Runtime Evidence
+
+Target host:
+
+`nexus-bot`
+
+Verified immutable runtime:
+
+`ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:f9f5cd3001d41a88aa1360c4d282bb8b3f83d36ae093a4509aa5e78797437d73`
+
+Source revision:
+
+`2e4f21178c2c63d020e8b71ae585fa3957f812dc`
+
+### Verified Integration Path
+
+Real target-server integration cycle proved:
+
+- BingX VST observer source state: CURRENT
+- BingX observer writes attempted: false
+- BingX observer production authority: false
+- Postgres-backed candidate status: RUNNING
+- candidate real exchange writes: 0
+- candidate production authority: false
+- factual candidate shadow evidence dimensions: 8 / 8
+- legacy/reference evidence state: UNAVAILABLE
+- missing reference evidence fails closed
+- overall parity state: NOT_COMPARABLE
+
+All eight dimensions were explicitly NOT_COMPARABLE:
+
+1. signals_intents
+2. risk_decisions
+3. order_intent
+4. positions
+5. fills_reconciliation
+6. pnl_attribution
+7. execution_quality
+8. failures_stale_states
+
+Final runtime evidence:
+
+CHECKPOINT=COMPARATOR_PASS
+BINGX_READ_ONLY_OBSERVATION=PASS
+CANDIDATE_FACTUAL_DIMENSIONS=8
+CANDIDATE_REAL_EXCHANGE_WRITES=0
+REFERENCE_FAIL_CLOSED=PASS
+PARITY_EXPECTED_NOT_COMPARABLE=PASS
+DOCKER_RC=0
+TARGET_SERVER_INTEGRATION_PROOF=PASS
+PRODUCTION_AUTHORITY_CHANGE=NO
+
+### Interpretation
+
+This verifies the complete Phase 14 target-server input/comparator path up to the legacy/reference boundary.
+
+`NOT_COMPARABLE` is the expected fail-closed result because no factual legacy/reference evidence producer is wired yet.
+
+This evidence does NOT establish behavioral parity and does NOT close:
+
+`NEXUS_V2_SHADOW_PARITY_OK`
+
+### Safety
+
+- real exchange write performed: NO
+- additional live authority granted: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_TARGET_SERVER_INPUT_INTEGRATION_VERIFIED = DONE / TEST VERIFIED`
+
+First remaining Phase 14 gap:
+
+factual legacy/reference evidence producer wiring.
