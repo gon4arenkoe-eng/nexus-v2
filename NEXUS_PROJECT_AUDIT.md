@@ -33439,3 +33439,57 @@ It does NOT close:
 `NEXUS_V2_SHADOW_PARITY_OK`
 
 The overall Phase 14 gate still requires real target-server reference-to-candidate shadow comparison evidence across the eight dimensions.
+## NEXUS_V2_PHASE14_RECONCILIATION_SQLALCHEMY_TYPING_FIX_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Fixed SQLAlchemy 2 scalar-result typing in:
+
+- `infra/persistence/repositories/reconciliation_snapshot.py`
+- `tests/test_local_reconciliation_snapshot_provider.py`
+
+The repository now uses `AsyncSession.scalars(statement)` for ORM scalar model retrieval while preserving the existing canonical reconciliation query semantics.
+
+The test session double was updated to model the same scalar-result contract.
+
+### Verification
+
+Source base:
+
+`ccfee29777a41c745add1cb4c12826d9b6eec1ba`
+
+Results:
+
+- compile: PASS
+- exact release mypy: PASS, 171 source files
+- focused reconciliation + Phase 14 tests: 39 passed
+- full regression: 1082 passed
+- git diff check: PASS
+
+### Safety
+
+- database schema change: NO
+- reconciliation semantic change: NO
+- real venue write performed: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_RECONCILIATION_SQLALCHEMY_TYPING_FIX_VERIFIED = DONE / TEST VERIFIED`
+
+This fixes the release-CI SQLAlchemy typing blocker only.
+
+It does NOT close:
+
+`NEXUS_V2_SHADOW_PARITY_OK`

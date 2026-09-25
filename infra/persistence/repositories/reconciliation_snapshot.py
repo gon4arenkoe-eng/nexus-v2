@@ -79,7 +79,7 @@ class LocalReconciliationSnapshotRepository:
             instrument_id=instrument_id,
         )
 
-        order_result = await self._session.execute(
+        order_result = await self._session.scalars(
             self._order_statement(
                 user_id=user_id,
                 account_id=account_id,
@@ -87,7 +87,7 @@ class LocalReconciliationSnapshotRepository:
             )
         )
 
-        fill_result = await self._session.execute(
+        fill_result = await self._session.scalars(
             self._fill_statement(
                 user_id=user_id,
                 account_id=account_id,
@@ -95,7 +95,7 @@ class LocalReconciliationSnapshotRepository:
             )
         )
 
-        position_result = await self._session.execute(
+        position_result = await self._session.scalars(
             self._position_statement(
                 user_id=user_id,
                 account_id=account_id,
@@ -105,15 +105,15 @@ class LocalReconciliationSnapshotRepository:
 
         orders = tuple(
             self._to_order(model)
-            for model in order_result.scalars().all()
+            for model in order_result.all()
         )
         fills = tuple(
             self._to_fill(model)
-            for model in fill_result.scalars().all()
+            for model in fill_result.all()
         )
         positions = tuple(
             self._to_position(model)
-            for model in position_result.scalars().all()
+            for model in position_result.all()
         )
 
         return LocalReconciliationSnapshot(

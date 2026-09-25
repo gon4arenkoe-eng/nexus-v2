@@ -309,6 +309,8 @@ class _Result:
         return _Scalars(self._values)
 
 
+
+
 class _Session:
     def __init__(self):
         self.calls = 0
@@ -326,6 +328,10 @@ class _Session:
             return _Result((_position_model(),))
 
         raise AssertionError("unexpected query")
+
+    async def scalars(self, statement):
+        result = await self.execute(statement)
+        return result.scalars()
 
 
 def test_repository_load_returns_complete_canonical_snapshot() -> None:
