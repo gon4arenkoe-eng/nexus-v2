@@ -33807,3 +33807,132 @@ Wire the frozen verified legacy decision graph to the safe replay
 foundation, produce factual legacy reference evidence, and compare
 that evidence against the V2 candidate across the required eight
 Phase 14 parity dimensions.
+
+## NEXUS_V2_PHASE14_LEGACY_REPLAY_THROUGH_RISK_PARTIALLY_VERIFIED
+
+### FACT
+
+Phase 14 exact-frozen-image legacy replay is verified through:
+
+`ConfigAgent → MarketAgent → SignalAgent → AIRiskAgent`
+
+Frozen legacy image:
+
+`sha256:1c2feff6af4a94f0bc618815485de0dfa9b9a4153018de35316059d05f2a313e`
+
+Canonical replay foundation baseline:
+
+`349da032baa5b6dab0588073b8ddd7734725dca7`
+
+ConfigAgent runtime:
+- isolated local replay DB path verified;
+- existing settings verified;
+- `strategy='auto' → None` verified;
+- missing-user defaults verified;
+- production DB connection = NO.
+
+MarketAgent runtime:
+- canonical `ReplayBingXClient` market path verified;
+- OHLCV normalization verified;
+- chronological sorting verified;
+- cache hit verified;
+- force refresh verified;
+- HTTP fallback = NO;
+- replay write events = 0.
+
+SignalAgent runtime:
+- signal = `SELL`;
+- strategy = `fair_value_gap`;
+- regime = `TREND_DOWN`;
+- confidence = `0.75`;
+- decision score = `0.774919`;
+- one `signal.generated` event verified;
+- venue writes = 0.
+
+AIRiskAgent runtime:
+- formulaic risk path verified;
+- approved = YES;
+- position size = `1000.0`;
+- leverage = `10`;
+- stop loss = `102.0`;
+- take profit = `96.0`;
+- risk DB execute count = `3`;
+- current Groq client created = NO;
+- current AI call performed = NO.
+
+Historical AI provenance:
+- historical AI state = `UNKNOWN`;
+- current AI regeneration is prohibited;
+- historical AI-dependent risk parity is therefore `NOT_COMPARABLE`.
+
+`RISK_PARITY_STATE = NOT_COMPARABLE`
+
+`NOT_COMPARABLE_REASON = MISSING_HISTORICAL_AI_OUTPUT`
+
+### EVIDENCE
+
+ConfigAgent:
+`legacy-config-agent-inmemory-db-evidence.txt`
+SHA256:
+`42cc3bac9be0375b7436a3632acaa747b96fef684c6699a389934152210539ef`
+
+MarketAgent:
+`legacy-market-agent-replay-evidence.txt`
+SHA256:
+`b305eee279ed9d8c4faf92cfd1dd95f19ab59258f405da3ceea03812e060524d`
+
+SignalAgent:
+`legacy-signal-agent-replay-evidence.txt`
+SHA256:
+`4ef55d6966322fca2faffd48d893cb9ac6a7d8952bf58bc42d40c97b43f30c3c`
+
+AIRiskAgent:
+`legacy-ai-risk-formulaic-replay-evidence.txt`
+SHA256:
+`e805a909f978ace45bbadb52111da2a2c911f6283b27be0f60dae7a2bf3db226`
+
+### SAFETY
+
+- execution location = local/off-production;
+- exact legacy image = read-only;
+- V2 replay closure = read-only;
+- network = none;
+- production DB connection = NO;
+- real venue connection = NO;
+- real venue write = NO;
+- current AI/Groq call = NO;
+- `Orchestrator.run()` = NO;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- trading authority change = NO.
+
+### STATUS
+
+`PARTIALLY VERIFIED`
+
+`NEXUS_V2_PHASE14_LEGACY_REPLAY_THROUGH_RISK_PARTIALLY_VERIFIED = PARTIALLY VERIFIED`
+
+This does NOT close `NEXUS_V2_SHADOW_PARITY_OK`.
+
+Legacy runtime behavior through Risk is verified.
+
+Historical AI-dependent risk parity remains `NOT_COMPARABLE` because authentic historical AI output is unavailable.
+
+### GAP
+
+Remaining Phase 14 comparison scope:
+- ExecutionAgent order intent;
+- simulated order/fill lifecycle;
+- Position lifecycle;
+- reconciliation;
+- PnL attribution;
+- execution quality;
+- failure/stale-state behavior;
+- final V2 ↔ legacy comparison.
+
+### NEXT STEP
+
+Run exact-image legacy `ExecutionAgent.run()` using the verified SELL signal and approved formulaic risk plan through canonical `ReplayBingXClient` and isolated replay DB.
+
+Risk provenance remains `NOT_COMPARABLE` and must not be upgraded by downstream execution evidence.
