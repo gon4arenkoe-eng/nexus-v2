@@ -33720,3 +33720,90 @@ This evidence does NOT establish behavioral parity and does NOT close:
 First remaining Phase 14 gap:
 
 factual legacy/reference evidence producer wiring.
+
+## NEXUS_V2_PHASE14_LEGACY_REFERENCE_REPLAY_FOUNDATION_VERIFIED
+
+Status: DONE / TEST VERIFIED
+
+Phase: 14 - End-to-end simulation and shadow parallel run
+
+Gate:
+
+`NEXUS_V2_SHADOW_PARITY_OK = OPEN`
+
+### Scope
+
+Implemented the safe Legacy Reference Replay foundation required to
+produce deterministic legacy/reference behavioral evidence without
+granting the frozen legacy runtime any production trading authority.
+
+Added:
+
+- `apps/core/application/legacy_reference_replay.py`
+- `tests/test_phase14_legacy_reference_replay_foundation.py`
+
+The foundation provides:
+
+- deterministic replay clock / as-of input handling;
+- credential-free stateful `ReplayBingXClient`;
+- simulated order/fill/position lifecycle;
+- simulated SL/TP creation, read-back and cancellation;
+- simulated balance and income/fee history;
+- outbound socket network denial for replay execution;
+- replay notification sink;
+- historical AI provenance handling which forbids live Groq regeneration;
+- fail-closed handling when historical AI evidence is unavailable.
+
+### Verification
+
+Canonical local dev environment:
+
+- Python: 3.13.14
+- SQLAlchemy: 2.0.54
+- isolated environment: `.venv-phase14`
+
+Verified source hashes:
+
+- `legacy_reference_replay.py`:
+  `c92cbd33305c2768aa757bb1947fe7413a1ab6ea7c68c5286cd3519c5f473a93`
+- `test_phase14_legacy_reference_replay_foundation.py`:
+  `6a36b6378a4bbde6da9ccea9efe485b9194a659a769a6a78bd2de0dfdc3908e7`
+
+Verification results:
+
+- compile: PASS
+- focused flake8: PASS
+- focused mypy: PASS
+- focused replay foundation tests: 12 passed
+- adjacent Phase 14 tests: 45 passed
+- full mypy: PASS, 172 source files
+- full regression: 1094 passed
+- git diff check: PASS
+
+Safety verification:
+
+- real exchange write: NO
+- production database write: NO
+- live Groq regeneration: NO
+- real exchange credentials required by replay: NO
+- production authority expanded: NO
+- Restricted Live: DISABLED
+- Full Live: DISABLED
+- AI direct exchange access: BLOCKED
+
+### Result
+
+`NEXUS_V2_PHASE14_LEGACY_REFERENCE_REPLAY_FOUNDATION_VERIFIED = DONE / TEST VERIFIED`
+
+This closes the Legacy Reference Replay foundation slice only.
+
+It does NOT close:
+
+`NEXUS_V2_SHADOW_PARITY_OK`
+
+Remaining Phase 14 dependency:
+
+Wire the frozen verified legacy decision graph to the safe replay
+foundation, produce factual legacy reference evidence, and compare
+that evidence against the V2 candidate across the required eight
+Phase 14 parity dimensions.
