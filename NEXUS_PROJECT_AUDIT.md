@@ -34517,3 +34517,100 @@ Production safety remains unchanged:
 
 ### NEXT STEP
 Run exactly one controlled BingX VST READ-ONLY one-shot cycle on the authorized runtime host, verify the fresh `BINGX_VST_OBSERVER_REAL` snapshot through Control Plane readback, and record `real_exchange_writes=0` evidence.
+
+## Phase 12 — V2 PostgreSQL migration rehearsal — 2026-09-27
+
+### FACT
+
+Phase 11 Control Plane recovery introduced migration:
+
+`e9b1c7d3a246 -> f2c4e6a8b013`
+
+for immutable `portfolio_risk_snapshots` persistence.
+
+Production database topology was fact-checked before rehearsal:
+
+- legacy database `nexus_db` remained at `d7f4b2a91c6e`;
+- isolated V2 database `nexus_v2` was at `e9b1c7d3a246`;
+- legacy and V2 Alembic lineages were not merged;
+- target migration `f2c4e6a8b013` declares `e9b1c7d3a246` as its direct parent.
+
+### CHECK
+
+Migration was rehearsed against a temporary PostgreSQL copy restored from the real isolated `nexus_v2` database.
+
+Verified immutable image:
+
+`ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:5e23e1c051feee70497a5a692ae329a376e80a750eda667ab59b62410a53009f`
+
+Verified source commit:
+
+`b88e5d0fb8c60cf9373f7c2030cdc9f96a6b73dd`
+
+The temporary Alembic runtime used the actual PostgreSQL Docker network `nexus-engine_default`. No production container networking was modified.
+
+Rehearsed sequence:
+
+1. dump isolated production V2 database;
+2. restore to temporary PostgreSQL database;
+3. verify start revision `e9b1c7d3a246`;
+4. upgrade to `f2c4e6a8b013`;
+5. verify `portfolio_risk_snapshots` exists;
+6. downgrade to `e9b1c7d3a246`;
+7. verify `portfolio_risk_snapshots` is removed;
+8. re-upgrade to `f2c4e6a8b013`;
+9. verify production V2 DB, legacy DB and running Core image remained unchanged;
+10. remove temporary database, role and dump.
+
+### EVIDENCE
+
+- `BASELINE=PASS`
+- `POSTGRES_DNS=PASS`
+- `TEMP_COPY=PASS`
+- `ALEMBIC_TEMP_CONNECTION=PASS`
+- `UPGRADE_VERIFY=PASS`
+- `UP_REVISION=f2c4e6a8b013`
+- `PORTFOLIO_RISK_TABLE=YES`
+- `DOWNGRADE_VERIFY=PASS`
+- `DOWN_REVISION=e9b1c7d3a246`
+- `TABLE_AFTER_DOWNGRADE=NO`
+- `REUPGRADE_VERIFY=PASS`
+- `FINAL_TEMP_REVISION=f2c4e6a8b013`
+- `PRODUCTION_UNCHANGED=PASS`
+- `TEMP_DB_REMAINING=0`
+- `TEMP_ROLE_REMAINING=0`
+- `V2_POSTGRES_MIGRATION_REHEARSAL=PASS`
+- `PRODUCTION_V2_DB_CHANGED=NO`
+- `LEGACY_DB_CHANGED=NO`
+- `RUNNING_CONTAINER_CHANGED=NO`
+- `SERVER_BUILD=NO`
+- `PRODUCTION_AUTHORITY_CHANGED=NO`
+
+Evidence tag:
+
+`NEXUS_V2_PHASE12_V2_POSTGRES_MIGRATION_REHEARSAL_VERIFIED`
+
+### STATUS
+
+`DONE / TEST VERIFIED — V2 POSTGRES MIGRATION REHEARSAL ONLY`
+
+This does not authorize production database migration, container replacement, production cutover, Restricted Live or Full Live.
+
+`NEXUS_V2_RELEASE_PIPELINE_OK` remains OPEN.
+
+`NEXUS_V2_CONTROL_PLANE_OK` remains OPEN.
+
+### PRODUCTION SAFETY
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- production source build = NO;
+- production database migration = NOT EXECUTED;
+- running production container replacement = NOT EXECUTED.
+
+### NEXT STEP
+
+Build and verify the exact immutable deploy/rollback manifest for `nexus-v2-core` before any production migration or container replacement.
