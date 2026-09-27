@@ -7,6 +7,12 @@ async function parseJson(response) {
     return (await response.json());
 }
 export class ControlPlaneApi {
+    async overview() {
+        return parseJson(await fetch(`${API_BASE}/control-plane/overview`, {
+            credentials: "same-origin",
+            cache: "no-store",
+        }));
+    }
     async listWorkspaces() {
         return parseJson(await fetch(`${API_BASE}/control-plane/workspaces`, {
             credentials: "same-origin",

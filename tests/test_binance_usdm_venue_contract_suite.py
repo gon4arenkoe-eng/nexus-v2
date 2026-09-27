@@ -74,6 +74,8 @@ class ContractTransport:
                     "positionSide": "BOTH",
                     "positionAmt": "1",
                     "entryPrice": "60000",
+                    "markPrice": "62000",
+                    "leverage": "10",
                 }
             ]
         if path == "/fapi/v2/balance":
@@ -127,6 +129,8 @@ def test_binance_usdm_passes_generic_venue_read_contract() -> None:
                     quantity=Decimal("1"),
                     entry_price=Decimal("60000"),
                     observed_at=NOW,
+                    mark_price=Decimal("62000"),
+                    leverage=Decimal("10"),
                 ),
             ),
             account_state=VenueAccountState(

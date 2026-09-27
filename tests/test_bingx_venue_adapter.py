@@ -296,12 +296,16 @@ def test_positions_preserve_hedge_side_identity() -> None:
                         "positionSide": "LONG",
                         "positionAmt": "0.4",
                         "avgPrice": "60000",
+                        "markPrice": "62000",
+                        "leverage": "10",
                     },
                     {
                         "symbol": "BTC-USDT",
                         "positionSide": "SHORT",
                         "positionAmt": "-0.2",
                         "avgPrice": "61000",
+                        "markPrice": "60500",
+                        "leverage": "5",
                     },
                 ],
             }
@@ -314,6 +318,14 @@ def test_positions_preserve_hedge_side_identity() -> None:
         assert tuple(item.quantity for item in positions) == (
             Decimal("0.4"),
             Decimal("0.2"),
+        )
+        assert tuple(item.mark_price for item in positions) == (
+            Decimal("62000"),
+            Decimal("60500"),
+        )
+        assert tuple(item.leverage for item in positions) == (
+            Decimal("10"),
+            Decimal("5"),
         )
 
     asyncio.run(scenario())

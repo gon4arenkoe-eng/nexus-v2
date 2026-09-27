@@ -200,6 +200,8 @@ class BinanceUsdMNormalizer:
             quantity=abs(quantity_signed),
             entry_price=entry_price,
             observed_at=context.observed_at,
+            mark_price=_positive_decimal_or_none(raw.get("markPrice")),
+            leverage=_positive_decimal_or_none(raw.get("leverage")),
         )
 
     def normalize_balance(self, raw: Mapping[str, object]) -> VenueBalance:

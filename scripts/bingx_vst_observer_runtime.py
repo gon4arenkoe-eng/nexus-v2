@@ -13,13 +13,33 @@ import threading
 import time
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime, timedelta
+from decimal import Decimal
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Final
 
 from adapters.bingx.http_transport import BingXVstHttpConfig, BingXVstReadOnlyHttpTransport
 from adapters.bingx.venue import BINGX_VENUE_ID, BingXVenueAdapter
-from packages.contracts.identities import AccountId, AssetClass, InstrumentId, InstrumentType
+from apps.core.application.portfolio_risk_recording import (
+    build_portfolio_risk_snapshot,
+)
+from apps.core.domain.portfolio_risk import (
+    PortfolioRiskLimits,
+    PortfolioRiskState,
+)
+from infra.persistence.repositories.portfolio_risk_snapshot import (
+    PortfolioRiskSnapshotRepository,
+)
+from infra.persistence.session import (
+    create_persistence_engine,
+    create_session_factory,
+)
+from packages.contracts.identities import (
+    AccountId,
+    AssetClass,
+    InstrumentId,
+    InstrumentType,
+)
 
 DEFAULT_HOST: Final = "0.0.0.0"
 DEFAULT_PORT: Final = 8080
@@ -43,6 +63,9 @@ class ObserverSnapshot:
     writes_attempted: bool
     production_authority: bool
     strategy_execution_allowed: bool
+    portfolio_risk_recording: str = "DISABLED"
+    portfolio_risk_snapshot_id: str | None = None
+    portfolio_risk_recording_error: str | None = None
     error: str | None = None
 
 
@@ -84,6 +107,162 @@ def _interval_seconds() -> float:
     return value
 
 
+def _risk_recording_enabled() -> bool:
+    return (
+        os.environ.get(
+            "NEXUS_VST_PORTFOLIO_RISK_RECORDING",
+            "DISABLED",
+        ).strip().upper()
+        == "ENABLED"
+    )
+
+
+def _required_decimal_mapping(
+    value: object,
+    *,
+    field_name: str,
+) -> Decimal:
+    try:
+        parsed = Decimal(str(value))
+    except Exception as exc:
+        raise RuntimeError(
+            f"invalid Portfolio Risk limit: {field_name}"
+        ) from exc
+    if not parsed.is_finite():
+        raise RuntimeError(
+            f"invalid Portfolio Risk limit: {field_name}"
+        )
+    return parsed
+
+
+def _portfolio_risk_limits() -> PortfolioRiskLimits:
+    raw = _required_env("NEXUS_PORTFOLIO_RISK_LIMITS_JSON")
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(
+            "NEXUS_PORTFOLIO_RISK_LIMITS_JSON must be valid JSON"
+        ) from exc
+    if not isinstance(payload, dict):
+        raise RuntimeError(
+            "NEXUS_PORTFOLIO_RISK_LIMITS_JSON must be an object"
+        )
+
+    required = (
+        "max_open_position_groups",
+        "max_gross_exposure",
+        "max_net_exposure",
+        "max_account_exposure",
+        "max_venue_exposure",
+        "max_strategy_exposure",
+        "max_instrument_exposure",
+        "max_currency_concentration",
+        "max_correlation_cluster_exposure",
+        "max_leverage",
+        "max_margin_utilization",
+        "max_daily_drawdown",
+        "max_rolling_drawdown",
+        "max_order_liquidity_ratio",
+        "max_expected_slippage_bps",
+    )
+    missing = tuple(name for name in required if name not in payload)
+    if missing:
+        raise RuntimeError(
+            "missing Portfolio Risk limits: " + ",".join(missing)
+        )
+
+    try:
+        max_groups = int(payload["max_open_position_groups"])
+    except Exception as exc:
+        raise RuntimeError(
+            "max_open_position_groups must be an integer"
+        ) from exc
+
+    decimal_fields = {
+        name: _required_decimal_mapping(
+            payload[name],
+            field_name=name,
+        )
+        for name in required
+        if name != "max_open_position_groups"
+    }
+    hedge_tolerance = _required_decimal_mapping(
+        payload.get("hedge_tolerance", "0.05"),
+        field_name="hedge_tolerance",
+    )
+    return PortfolioRiskLimits(
+        max_open_position_groups=max_groups,
+        hedge_tolerance=hedge_tolerance,
+        **decimal_fields,
+    )
+
+
+def _risk_user_id() -> int:
+    value = int(_required_env("NEXUS_CONTROL_PLANE_USER_ID"))
+    if value <= 0:
+        raise RuntimeError("NEXUS_CONTROL_PLANE_USER_ID must be positive")
+    return value
+
+
+def _risk_stale_after() -> timedelta:
+    seconds = float(
+        os.environ.get(
+            "NEXUS_PORTFOLIO_RISK_STALE_SECONDS",
+            "90",
+        )
+    )
+    if seconds <= 0:
+        raise RuntimeError(
+            "NEXUS_PORTFOLIO_RISK_STALE_SECONDS must be positive"
+        )
+    return timedelta(seconds=seconds)
+
+
+async def _record_portfolio_risk_snapshot(
+    *,
+    account,
+    positions,
+) -> str:
+    database_url = _required_env("NEXUS_V2_DATABASE_URL")
+    user_id = _risk_user_id()
+    limits = _portfolio_risk_limits()
+    equity_asset = os.environ.get(
+        "NEXUS_VST_EQUITY_ASSET",
+        "VST",
+    ).strip().upper()
+    if not equity_asset:
+        raise RuntimeError("NEXUS_VST_EQUITY_ASSET must be non-empty")
+
+    engine = create_persistence_engine(database_url)
+    session_factory = create_session_factory(engine)
+    try:
+        async with session_factory() as session:
+            repository = PortfolioRiskSnapshotRepository(session)
+            previous = await repository.latest_for_user(user_id=user_id)
+            snapshot = build_portfolio_risk_snapshot(
+                user_id=user_id,
+                account_state=account,
+                positions=positions,
+                equity_asset=equity_asset,
+                trading_state=PortfolioRiskState.HALTED,
+                now=datetime.now(UTC),
+                stale_after=_risk_stale_after(),
+                previous_snapshot=(
+                    previous.snapshot if previous is not None else None
+                ),
+            )
+            snapshot_id = await repository.append(
+                snapshot=snapshot,
+                limits=limits,
+                source="BINGX_VST_OBSERVER_REAL",
+                recorded_at=datetime.now(UTC),
+            )
+            await session.commit()
+            return snapshot_id
+    finally:
+        await engine.dispose()
+
+
 async def observe_once() -> ObserverSnapshot:
     api_key = _required_env("BINGX_VST_API_KEY")
     secret_key = _required_env("BINGX_VST_SECRET_KEY")
@@ -108,6 +287,25 @@ async def observe_once() -> ObserverSnapshot:
         instrument_id=instrument_id,
         since=datetime.now(UTC) - timedelta(hours=24),
     )
+
+    portfolio_risk_recording = "DISABLED"
+    portfolio_risk_snapshot_id = None
+    portfolio_risk_recording_error = None
+    if _risk_recording_enabled():
+        try:
+            portfolio_risk_snapshot_id = (
+                await _record_portfolio_risk_snapshot(
+                    account=account,
+                    positions=positions,
+                )
+            )
+            portfolio_risk_recording = "PASS"
+        except Exception as exc:
+            portfolio_risk_recording = "FAIL"
+            portfolio_risk_recording_error = (
+                f"{type(exc).__name__}: {exc}"
+            )
+
     return ObserverSnapshot(
         environment="BINGX_VST",
         symbol=symbol,
@@ -124,6 +322,9 @@ async def observe_once() -> ObserverSnapshot:
         writes_attempted=False,
         production_authority=False,
         strategy_execution_allowed=False,
+        portfolio_risk_recording=portfolio_risk_recording,
+        portfolio_risk_snapshot_id=portfolio_risk_snapshot_id,
+        portfolio_risk_recording_error=portfolio_risk_recording_error,
     )
 
 
@@ -169,12 +370,16 @@ def _payload(snapshot: ObserverSnapshot | None) -> dict[str, object]:
             "strategy_execution_allowed": False,
         }
     data = asdict(snapshot)
+    ready = (
+        snapshot.source_state == "CURRENT"
+        and snapshot.portfolio_risk_recording != "FAIL"
+    )
     data.update(
         {
             "service": "nexus-v2-core",
             "runtime_mode": "BINGX_VST_OBSERVE_ONLY",
-            "status": "RUNNING" if snapshot.source_state == "CURRENT" else "DEGRADED",
-            "ready": snapshot.source_state == "CURRENT",
+            "status": "RUNNING" if ready else "DEGRADED",
+            "ready": ready,
         }
     )
     return data

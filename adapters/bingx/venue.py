@@ -304,6 +304,14 @@ class BingXVenueAdapter(VenueAdapter):
                     quantity=quantity,
                     entry_price=entry_price,
                     observed_at=observed_at,
+                    mark_price=_first_positive_decimal(
+                        row,
+                        ("markPrice",),
+                    ),
+                    leverage=_first_positive_decimal(
+                        row,
+                        ("leverage",),
+                    ),
                 )
             )
 

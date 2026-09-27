@@ -38,6 +38,7 @@ from infra.persistence.models.platform_security import (
     WorkspaceMembershipModel,
     WorkspaceModel,
 )
+from infra.persistence.models.portfolio_risk import PortfolioRiskSnapshotModel
 from infra.persistence.models.positions import (
     PositionGroupModel,
     PositionLegModel,
@@ -60,6 +61,7 @@ __all__ = (
     "ExecutionPlanModel",
     "PositionGroupModel",
     "PositionLegModel",
+    "PortfolioRiskSnapshotModel",
     "AuditEventModel",
     "BillingEventModel",
     "EncryptedSecretModel",

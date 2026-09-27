@@ -352,6 +352,8 @@ class VenuePosition:
     quantity: Decimal
     entry_price: Decimal | None
     observed_at: datetime
+    mark_price: Decimal | None = None
+    leverage: Decimal | None = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.account_id, AccountId):
@@ -395,8 +397,24 @@ class VenuePosition:
                 field_name="entry_price",
             )
 
+        mark_price = self.mark_price
+        if mark_price is not None:
+            mark_price = require_positive_decimal(
+                mark_price,
+                field_name="mark_price",
+            )
+
+        leverage = self.leverage
+        if leverage is not None:
+            leverage = require_positive_decimal(
+                leverage,
+                field_name="leverage",
+            )
+
         object.__setattr__(self, "quantity", quantity)
         object.__setattr__(self, "entry_price", entry_price)
+        object.__setattr__(self, "mark_price", mark_price)
+        object.__setattr__(self, "leverage", leverage)
         object.__setattr__(
             self,
             "observed_at",

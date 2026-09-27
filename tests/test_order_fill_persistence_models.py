@@ -38,6 +38,7 @@ def test_order_fill_tables_registered() -> None:
     assert set(PersistenceBase.metadata.tables) == {
         "execution_plans",
         "execution_plan_legs",
+        "portfolio_risk_snapshots",
         "position_groups",
         "position_legs",
         "execution_orders",

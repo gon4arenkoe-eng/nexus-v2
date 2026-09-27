@@ -33936,3 +33936,584 @@ Remaining Phase 14 comparison scope:
 Run exact-image legacy `ExecutionAgent.run()` using the verified SELL signal and approved formulaic risk plan through canonical `ReplayBingXClient` and isolated replay DB.
 
 Risk provenance remains `NOT_COMPARABLE` and must not be upgraded by downstream execution evidence.
+
+## 2026-09-27 — Phase 11 Control Plane real operational read slice recovery verification
+
+### PHASE / GATE
+
+- Phase: `11 — Control Plane V2` recovery / real-data integration.
+- Overall gate: `NEXUS_V2_CONTROL_PLANE_OK = OPEN`.
+- This entry verifies one recovery slice only; it does not re-close the overall Phase 11 gate.
+- Phase 14 overall gate remains OPEN / partially verified under its existing evidence.
+- Phase 15 progression remains halted until mandatory dependencies are actually closed.
+
+### FACT
+
+Forensic review of the current `apps/web` implementation showed that the browser-facing Control Plane still contained hardcoded/demo operational trading values despite the historical 2026-09-12 Phase 11 final-verification entry.
+
+This recovery slice replaces the first operational dashboard path with a real, read-only canonical projection:
+
+`Control Plane UI -> GET /api/v2/control-plane/overview -> application read contract -> canonical persistence projections`
+
+Real data now wired in this slice:
+
+- open positions and position inventory from canonical PositionGroup/PositionLeg persistence;
+- execution orders from canonical ExecutionOrder persistence;
+- execution fills from canonical ExecutionFill persistence;
+- reconciliation state, latest terminal sync evidence and unresolved discrepancy evidence from canonical Execution Ledger events;
+- real open-position and open-order counts derived from those canonical projections.
+
+Authoritative read models not yet present are not fabricated:
+
+- Portfolio/NAV/equity = `UNAVAILABLE`;
+- Portfolio Risk snapshot/utilization = `UNAVAILABLE`;
+- mark-to-market PnL fields without authoritative current read ownership = unavailable / em-dash presentation.
+
+Strategies, Grid, Intelligence, AIEA and other Control Plane surfaces outside this one slice remain separately unverified for real-data wiring and may still contain preview/demo presentation.
+
+### SECURITY / OWNERSHIP BOUNDARY
+
+- HTTP runtime is read-only and exposes GET only for this slice.
+- No UI -> DB direct access was introduced.
+- No VenueAdapter write, ExecutionCoordinator write or exchange credential access was introduced.
+- Runtime identity is server-configured for the off-production read-only composition root because production HTTP authentication/JWT integration is not yet proven in V2.
+- Active workspace membership is checked fail-closed before returning operational state.
+- Current Core trading projections are user-scoped rather than workspace-scoped; full workspace/tenant resource ownership for this read boundary is therefore NOT VERIFIED and remains an explicit Phase 10/11 integration gap.
+
+### CODE
+
+Added:
+
+- `apps/core/application/control_plane_read.py`
+- `infra/persistence/repositories/control_plane_read.py`
+- `scripts/control_plane_readonly_runtime.py`
+- `tests/test_control_plane_read_repository.py`
+- `tests/test_control_plane_readonly_runtime.py`
+- `tests/test_control_plane_real_data_frontend.py`
+
+Updated:
+
+- `apps/web/index.html`
+- `apps/web/src/contracts.ts`
+- `apps/web/src/api.ts`
+- `apps/web/compiled/api.js`
+
+### TEST / VERIFICATION EVIDENCE
+
+Focused Control Plane/read slice:
+
+- `34 passed, 1 skipped`.
+
+Adjacent Core/persistence/reconciliation/security suite:
+
+- initial run: 207 passed + 5 environment failures caused exclusively by missing `aiosqlite`;
+- existing project test dependency `aiosqlite 0.22.1` was reused from the uploaded project `.venv` in an isolated `/tmp` test path;
+- rerun: `212 passed`.
+
+Full V2 regression using the same isolated existing test dependency:
+
+- `1103 passed in 8.24s`.
+
+Static/read-back:
+
+- Python compile = PASS;
+- TypeScript `tsc --noEmit` = PASS;
+- TypeScript delivery build = PASS;
+- inline frontend JavaScript syntax = PASS;
+- old hardcoded dashboard equity `$129,543.18` = ABSENT;
+- old hardcoded daily PnL `$2,715.32` = ABSENT;
+- `/api/v2/control-plane/overview` fetch boundary = PRESENT;
+- `git diff --check` = PASS.
+
+Browser smoke note:
+
+- sandbox Chromium headless DOM smoke = ENVIRONMENT BLOCKED;
+- Chromium timed out under missing/unusable DBus/zygote environment before DOM output;
+- this is not recorded as PASS and is not used as test evidence for this slice;
+- HTTP runtime/frontend contract tests plus full repository regression are the verification evidence used here.
+
+Tool availability note:
+
+- `flake8` was not available in the current Linux verification environment;
+- `mypy` was not available in the current Linux verification environment;
+- no PASS is claimed for those tools in this entry.
+
+### HISTORICAL CONTRADICTION — NOT SILENTLY RESOLVED
+
+The existing 2026-09-12 Audit entry records:
+
+- `NEXUS_V2_CONTROL_PLANE_OK`;
+- `DONE / TEST VERIFIED`;
+- `NEXUS_V2_CONTROL_PLANE_FINAL_VERIFICATION_OK`.
+
+Current source inspection later proved that browser operational surfaces were still hardcoded/demo and real backend integration was not proven end-to-end. This recovery entry does not delete or rewrite the historical record. The overall Control Plane gate is treated as OPEN until real-data/API/auth/tenant isolation and remaining surface integration are verified.
+
+### SAFETY
+
+- execution/build location = off-production uploaded source copy;
+- production deployment = NO;
+- production database change = NO;
+- production exchange write = NO;
+- legacy deletion/cleanup = NO;
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
+
+### STATUS
+
+`DONE / TEST VERIFIED — REAL OPERATIONAL READ SLICE ONLY`
+
+`NEXUS_V2_PHASE11_CONTROL_PLANE_REAL_OPERATIONAL_READ_SLICE_VERIFIED`
+
+Overall Phase 11 gate remains:
+
+`NEXUS_V2_CONTROL_PLANE_OK = OPEN`
+
+### NEXT STEP
+
+Implement the next single authoritative read slice: canonical Portfolio/NAV + Portfolio Risk read models, then replace the remaining unavailable Portfolio/Risk dashboard surfaces without browser-side financial calculations.
+
+## 2026-09-27 — Phase 11 Control Plane Portfolio / Risk read slice verification
+
+### PHASE / GATE
+
+- Phase: `11 — Control Plane V2` recovery / real-data integration.
+- Overall gate: `NEXUS_V2_CONTROL_PLANE_OK = OPEN`.
+- This entry verifies one read/persistence/UI slice only; it does not close the overall Phase 11 gate.
+- Phase 14 overall gate remains OPEN / partially verified under its existing evidence.
+- Phase 15 progression remains halted until mandatory dependencies are actually closed.
+
+### FACT
+
+The previous verified Control Plane operational slice intentionally left Portfolio/NAV/equity and Portfolio Risk as `UNAVAILABLE` because no authoritative persisted read source existed.
+
+Current Core V2 already defines canonical `PortfolioRiskSnapshot` / `PortfolioRiskLimits`, including:
+
+- user identity;
+- explicit `CURRENT / STALE / DEGRADED / UNAVAILABLE / UNKNOWN` observation state;
+- `ACTIVE / REDUCING / HALTED` trading state;
+- equity / daily-start equity / rolling-peak equity;
+- canonical position exposure notionals and margin usage;
+- Portfolio Risk limits.
+
+Before this recovery slice those canonical snapshots were ephemeral only. No durable snapshot history existed for the Control Plane to read.
+
+This slice adds an immutable Portfolio Risk snapshot history and a deterministic read projection:
+
+`canonical PortfolioRiskSnapshot + PortfolioRiskLimits -> immutable persistence history -> server-side portfolio/risk read projection -> GET /api/v2/control-plane/overview -> Control Plane UI`
+
+The browser does not calculate Portfolio Risk or synthesize NAV from positions.
+
+### CODE
+
+Added:
+
+- `apps/core/application/portfolio_state_read.py`
+- `infra/persistence/models/portfolio_risk.py`
+- `infra/persistence/repositories/portfolio_risk_snapshot.py`
+- `infra/persistence/migrations/versions/f2c4e6a8b013_add_portfolio_risk_snapshots.py`
+- `tests/test_portfolio_state_read.py`
+- `tests/test_portfolio_risk_snapshot_persistence.py`
+
+Extended the already recovered Control Plane read slice:
+
+- `apps/core/application/control_plane_read.py`
+- `infra/persistence/repositories/control_plane_read.py`
+- `apps/web/src/contracts.ts`
+- `apps/web/index.html`
+- Control Plane repository/runtime/frontend tests.
+
+Persistence model registry and exact table-set tests were updated for:
+
+- `portfolio_risk_snapshots`.
+
+### READ PROJECTION
+
+When at least one canonical snapshot exists for the user, the server-side projection exposes:
+
+- equity;
+- daily PnL and daily PnL ratio;
+- daily / rolling drawdown;
+- gross / net exposure;
+- margin used;
+- leverage;
+- margin utilization;
+- utilization against canonical gross/net/leverage/margin/drawdown limits;
+- headline risk utilization;
+- observation state and trading state;
+- chronological equity history.
+
+When no canonical snapshot exists:
+
+- `portfolio_state = UNAVAILABLE`;
+- `risk_state = UNAVAILABLE`;
+- `portfolio = null`;
+- `risk = null`;
+- `portfolio_history = []`.
+
+No zero/default financial values are silently substituted.
+
+### PERSISTENCE / MIGRATION
+
+New immutable history table:
+
+`portfolio_risk_snapshots`
+
+Migration:
+
+- revision: `f2c4e6a8b013`;
+- parent: `e9b1c7d3a246`;
+- `alembic heads` = `f2c4e6a8b013 (head)`.
+
+Repository evidence verifies:
+
+- append survives a fresh DB session;
+- deterministic duplicate append is idempotent;
+- user histories do not cross;
+- latest/read-history ordering is deterministic;
+- canonical exposures and limits reconstruct from persistence.
+
+Migration rehearsal note:
+
+- the complete historical Alembic chain cannot be rehearsed on SQLite because the original root migration contains PostgreSQL `JSONB`; SQLite fails before reaching this revision;
+- this is an existing dialect constraint, not a failure of `f2c4e6a8b013`;
+- the new migration itself was executed in an isolated Alembic Operations context against SQLite and passed `upgrade -> schema/index inspection -> downgrade`.
+
+New-migration rehearsal:
+
+- upgrade = PASS;
+- expected columns/indexes = PASS;
+- downgrade = PASS.
+
+### TEST / VERIFICATION EVIDENCE
+
+Focused Portfolio/Risk + Control Plane slice:
+
+- `49 passed`.
+
+Adjacent persistence/Core/security/Control Plane suite:
+
+- `130 passed`.
+
+Additional Control Plane runtime serialization slice:
+
+- `16 passed`.
+
+Full V2 regression:
+
+- `1110 passed in 9.70s`.
+
+Static / read-back:
+
+- Python compile = PASS;
+- TypeScript `tsc --noEmit` = PASS;
+- TypeScript delivery build = PASS;
+- inline frontend JavaScript syntax = PASS;
+- `alembic heads` = PASS;
+- `git diff --check` = PASS.
+
+Test-environment note:
+
+- the uploaded project `.venv` contains pure-Python `aiosqlite`, but its Windows `greenlet` binary is not Linux-compatible;
+- verification therefore used system Linux SQLAlchemy/greenlet and copied only the existing pure-Python `aiosqlite` package into an isolated `/tmp` test path;
+- no production dependency or project dependency declaration was changed for this purpose.
+
+### CRITICAL OPEN GAP — REAL PRODUCER
+
+This slice verifies the canonical persistence/read/UI path, but it does **not** prove that the current live/off-production Risk runtime is already persisting real snapshots.
+
+Current source inspection found snapshot construction in simulation/candidate paths, but no verified real runtime producer writing `PortfolioRiskSnapshot` history from current authoritative account/position/mark state.
+
+Therefore:
+
+- the Control Plane now displays real canonical values **when a canonical snapshot exists**;
+- it must continue to display `UNAVAILABLE` when no snapshot exists;
+- simulation constants must not be written into the real read path merely to populate cards;
+- browser-side or ad-hoc DB reconstruction of equity/NAV remains prohibited.
+
+The next integration step is the real canonical snapshot producer / recording boundary.
+
+### TENANCY GAP
+
+The canonical Phase 6 `PortfolioRiskSnapshot` is user-scoped (`user_id`) rather than workspace-scoped. Active workspace membership remains checked by the Control Plane read boundary, but full workspace-specific Portfolio Risk ownership is not proven by this slice.
+
+No claim of full tenant isolation for Portfolio Risk state is made here.
+
+### SAFETY
+
+- build/test location = off-production uploaded source copy;
+- production deployment = NO;
+- production DB migration = NO;
+- real exchange write = NO;
+- UI -> DB direct access = NO;
+- browser-side Portfolio Risk calculation = NO;
+- legacy deletion/cleanup = NO;
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
+
+### STATUS
+
+`DONE / TEST VERIFIED — PORTFOLIO / RISK READ SLICE ONLY`
+
+`NEXUS_V2_PHASE11_CONTROL_PLANE_PORTFOLIO_RISK_READ_SLICE_VERIFIED`
+
+Overall Phase 11 gate remains:
+
+`NEXUS_V2_CONTROL_PLANE_OK = OPEN`
+
+### NEXT STEP
+
+Implement one canonical real snapshot producer/recorder boundary so the existing Risk runtime can persist actual `PortfolioRiskSnapshot + PortfolioRiskLimits` evidence for the Control Plane without adding exchange authority or browser-side valuation logic.
+
+## 2026-09-27 — Phase 11 Portfolio Risk canonical snapshot producer integration
+
+### PHASE / GATE
+
+- Phase: `11 — Control Plane V2` recovery / real-data integration.
+- Overall gate: `NEXUS_V2_CONTROL_PLANE_OK = OPEN`.
+- This entry verifies the snapshot-producer code path and its persistence integration only.
+- Phase 14 overall gate remains OPEN / partially verified under existing evidence.
+- Phase 15 progression remains halted until mandatory dependencies are actually closed.
+
+### FACT
+
+The previously verified Portfolio/Risk read slice could display canonical values only when an immutable `PortfolioRiskSnapshot + PortfolioRiskLimits` record already existed. No verified real runtime producer was persisting those records.
+
+Current source inspection found:
+
+- canonical account equity observations already exist through `VenueAccountState`;
+- BingX and Binance position endpoints expose current venue mark price and leverage, but the canonical `VenuePosition` contract previously discarded those fields;
+- Intelligence defines read-only market-data contracts, but no production `CanonicalMarketDataSource` adapter is currently present in the V2 source tree;
+- simulation / Phase 14 candidate paths contain fixed valuation values and therefore remain forbidden as a real Control Plane source.
+
+This slice connects a fail-closed producer path to the existing BingX VST read-only observer runtime without adding order-write or production authority.
+
+### RESEARCH / REFERENCE CHECK
+
+A current NautilusTrader accounting reference was checked before implementation. Relevant design principle confirmed:
+
+- mark-to-market / portfolio aggregates must become unavailable or unpriced when required prices are missing;
+- missing prices must not silently become zero;
+- valuation state should preserve stale/missing-price semantics.
+
+NEXUS applies the same principle here: entry price is never substituted for current mark price.
+
+### CODE
+
+Added:
+
+- `apps/core/application/portfolio_risk_recording.py`
+- `tests/test_portfolio_risk_recording.py`
+
+Extended canonical venue observation contract:
+
+- `apps/core/ports/venue.py`
+  - optional normalized `VenuePosition.mark_price`;
+  - optional normalized `VenuePosition.leverage`;
+  - both validated as positive when present.
+
+Extended venue normalization:
+
+- `adapters/bingx/venue.py`
+  - reads `markPrice` and `leverage` from canonicalized open-position payloads;
+- `adapters/binance/venue.py`
+  - reads `markPrice` and `leverage` from USD-M position-risk payloads.
+
+Extended existing read-only VST runtime:
+
+- `scripts/bingx_vst_observer_runtime.py`
+  - optional Portfolio Risk recording is explicit opt-in through `NEXUS_VST_PORTFOLIO_RISK_RECORDING=ENABLED`;
+  - DB URL and user identity remain server-side configuration;
+  - limits must be supplied explicitly through `NEXUS_PORTFOLIO_RISK_LIMITS_JSON`;
+  - VST equity asset defaults to `VST` and may be explicitly overridden for this VST runtime only;
+  - recording writes only immutable Portfolio Risk snapshot evidence to PostgreSQL/SQLAlchemy persistence;
+  - it does not call `submit_order`, `cancel_order`, ExecutionCoordinator or any exchange write boundary;
+  - this observe-only runtime records `PortfolioRiskState.HALTED`, so the producer cannot imply trading authority;
+  - recording failure is explicit and makes runtime readiness `DEGRADED` when recording was enabled.
+
+### PRODUCER SEMANTICS
+
+Producer input is canonical account + position observation state.
+
+For each open position it requires:
+
+- actual venue mark price;
+- actual venue leverage;
+- account ownership matching the observed account.
+
+It derives:
+
+- signed notional = `quantity * mark_price` with LONG/SHORT sign;
+- margin used = `notional / leverage` (same deterministic leverage model already used by Portfolio Risk candidate evaluation);
+- equity from exactly one explicitly configured canonical account balance asset;
+- rolling peak from the previous canonical snapshot when available.
+
+Daily baseline semantics:
+
+- first observation for a UTC day initializes `daily_start_equity` from the actual observed equity and is marked `DEGRADED` because a midnight baseline is not independently proven;
+- subsequent same-day observations preserve that baseline and may become `CURRENT` if all source observations are fresh;
+- stale account/position observations remain explicitly `STALE`.
+
+Missing/inconsistent input is fail-closed:
+
+- missing mark price -> no snapshot;
+- missing leverage -> no snapshot;
+- missing configured equity asset -> no snapshot;
+- unavailable account observation -> no snapshot;
+- missing/invalid risk limits -> no snapshot.
+
+No entry-price fallback and no hardcoded valuation value is allowed.
+
+### TEST / VERIFICATION EVIDENCE
+
+New producer / adapter / observer focused verification:
+
+- `59 passed`.
+
+Direct canonical snapshot-recorder DB integration verifies:
+
+- immutable snapshot persisted through `PortfolioRiskSnapshotRepository`;
+- source = `BINGX_VST_OBSERVER_REAL`;
+- equity = canonical venue balance value;
+- exposure = quantity × actual normalized mark price;
+- margin = notional / actual normalized leverage;
+- trading state = `HALTED`;
+- fresh-session read reconstructs the same canonical values.
+
+Additional focused producer/persistence subset:
+
+- `18 passed`.
+
+Full V2 regression after all changes:
+
+- `1118 passed in 9.69s`.
+
+Static / read-back:
+
+- Python compile = PASS;
+- TypeScript `tsc --noEmit` = PASS;
+- `git diff --check` = PASS;
+- existing observer no-exchange-write source test = PASS;
+- producer contains no exchange client or ExecutionCoordinator dependency.
+
+### CURRENT LIMITATION / NOT CLAIMED
+
+No real-network BingX VST producer cycle was executed in this development environment because the user credentials / live VST runtime are not available here.
+
+Therefore this evidence proves:
+
+- producer implementation = TEST VERIFIED;
+- canonical mark/leverage normalization = TEST VERIFIED;
+- DB recording path = TEST VERIFIED;
+- observer composition wiring = TEST VERIFIED;
+
+It does NOT yet prove:
+
+- actual current BingX VST payload contains usable mark/leverage for the user's account at runtime;
+- the deployed VST observer has run this producer successfully against the real PostgreSQL instance;
+- any production/live trading authority.
+
+Risk-limit configuration is still supplied explicitly to this off-production/VST producer through server-side JSON configuration. Canonical Settings/RiskProfile ownership of those limits remains a future integration capability; values are not invented in code.
+
+### SAFETY
+
+- implementation/build/test location = off-production uploaded source copy;
+- production deployment = NO;
+- production database migration/change = NO;
+- real exchange write = NO;
+- producer exchange dependency = READ ONLY existing `VenueAdapter` observations;
+- strategy execution authority = NO;
+- snapshot trading state in VST observer = `HALTED`;
+- UI -> DB direct access = NO;
+- browser-side valuation = NO;
+- entry-price-as-mark fallback = BLOCKED;
+- simulation valuation constants in real read path = BLOCKED;
+- legacy deletion/cleanup = NO;
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
+
+### STATUS
+
+`DONE / TEST VERIFIED — SNAPSHOT PRODUCER INTEGRATION ONLY`
+
+`NEXUS_V2_PHASE11_PORTFOLIO_RISK_SNAPSHOT_PRODUCER_TEST_VERIFIED`
+
+Overall Phase 11 gate remains:
+
+`NEXUS_V2_CONTROL_PLANE_OK = OPEN`
+
+### NEXT STEP
+
+Run one controlled real BingX VST READ-ONLY producer cycle against the existing canonical PostgreSQL snapshot table, verify a fresh `BINGX_VST_OBSERVER_REAL` snapshot and Control Plane read-back, and confirm `real_exchange_writes = 0` before any further Control Plane data wiring.
+
+## Phase 11 — BingX VST Portfolio/Risk one-shot validation runner — 2026-09-27
+
+### FACT
+The Portfolio/Risk snapshot producer is already integrated into the existing BingX VST read-only observer, but its normal runtime entrypoint is long-running. A separate one-shot validation entrypoint is required for controlled real-network evidence without starting a second persistent observer.
+
+### CODE CHECK
+Added `scripts/bingx_vst_portfolio_risk_one_shot.py`.
+
+The runner:
+- requires explicit `NEXUS_VST_PORTFOLIO_RISK_RECORDING=ENABLED`;
+- invokes the existing read-only `observe_once()` exactly once;
+- requires account/open-orders/positions/fills reads to PASS;
+- requires Portfolio/Risk snapshot recording to PASS and return a snapshot id;
+- requires `writes_attempted=false`, `production_authority=false`, `strategy_execution_allowed=false`;
+- reads the resulting state through the existing Control Plane read boundary;
+- fails if Portfolio/Risk readback is unavailable;
+- reports `real_exchange_writes=0` and exits immediately;
+- does not import ExecutionCoordinator or any order-write transport.
+
+### TEST / EVIDENCE
+Focused one-shot + observer + producer + read-boundary suite:
+- `30 passed`
+
+Full V2 regression after the runner addition:
+- `1122 passed in 9.47s`
+
+Static/read-back:
+- Python compile: PASS
+- runner calls `observe_once()` once: TEST VERIFIED
+- explicit recording opt-in: TEST VERIFIED
+- Control Plane Portfolio/Risk readback requirement: TEST VERIFIED
+- execution/production authority fail-closed assertions: TEST VERIFIED
+- secrets are not emitted by the result contract: VERIFIED BY CODE READ-BACK
+
+Environment fact for this AI execution environment:
+- `BINGX_VST_API_KEY=ABSENT`
+- `BINGX_VST_SECRET_KEY=ABSENT`
+- `NEXUS_V2_DATABASE_URL=ABSENT`
+- `NEXUS_CONTROL_PLANE_USER_ID=ABSENT`
+- `NEXUS_CONTROL_PLANE_WORKSPACE_ID=ABSENT`
+- `NEXUS_PORTFOLIO_RISK_LIMITS_JSON=ABSENT`
+
+No secret values were requested, read, logged or embedded in the artifact.
+
+### STATUS
+`DONE / TEST VERIFIED — ONE-SHOT VALIDATION RUNNER ONLY`
+
+Evidence tag:
+`NEXUS_V2_PHASE11_BINGX_VST_ONE_SHOT_RUNNER_TEST_VERIFIED`
+
+The overall Phase 11 gate remains OPEN.
+
+Real BingX VST network certification remains `NOT VERIFIED` in this environment because the required server-side credentials/config are absent. This status is not silently promoted from test evidence.
+
+Production safety remains unchanged:
+- Strategy Decision Engine AI path = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED.
+
+### NEXT STEP
+Run exactly one controlled BingX VST READ-ONLY one-shot cycle on the authorized runtime host, verify the fresh `BINGX_VST_OBSERVER_REAL` snapshot through Control Plane readback, and record `real_exchange_writes=0` evidence.

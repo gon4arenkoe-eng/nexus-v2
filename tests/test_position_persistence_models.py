@@ -19,6 +19,7 @@ def test_position_tables_registered_with_existing_execution_tables() -> None:
     assert set(PersistenceBase.metadata.tables) == {
         "execution_plans",
         "execution_plan_legs",
+        "portfolio_risk_snapshots",
         "position_groups",
         "position_legs",
         "execution_orders",
