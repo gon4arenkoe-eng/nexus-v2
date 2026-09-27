@@ -34730,3 +34730,76 @@ This evidence does not authorize:
 ### NEXT STEP
 
 Verify the committed manifests through private GitHub/CI and immutable artifact identity before any separately authorized production deployment operation.
+
+## Phase 12 — exact remote CI verification for observer deploy manifest commit — 2026-09-27
+
+### FACT
+
+Canonical private GitHub `main` was synchronized to:
+
+`0cedb8e59e2f832e06ce37dd63b5fb1fc7f3c1e6`
+
+This commit contains the verified Phase 11 observer candidate/rollback deployment manifests, supporting runbook, and Audit evidence.
+
+### CHECK
+
+GitHub Actions was queried for the exact commit SHA.
+
+Required CI workflow:
+
+`.github/workflows/ci.yml`
+
+Observed run:
+
+- run id: `36350032934`;
+- workflow: `NEXUS V2 CI Baseline`;
+- event: `push`;
+- status: `completed`;
+- conclusion: `success`;
+- head SHA: `0cedb8e59e2f832e06ce37dd63b5fb1fc7f3c1e6`;
+- failed completed runs for the exact commit: `0`.
+
+### EVIDENCE
+
+- `COMMIT_IDENTITY=PASS`
+- `GH_AUTH=PASS`
+- `CI_RUN_ID=36350032934`
+- `CI_STATUS=completed`
+- `CI_CONCLUSION=success`
+- `CI_HEAD_SHA=0cedb8e59e2f832e06ce37dd63b5fb1fc7f3c1e6`
+- `CI_EXACT_COMMIT=PASS`
+- `FAILED_COMPLETED_RUNS=0`
+- `PHASE12_REMOTE_CI=PASS`
+- `CI_WORKFLOW_COMPLETED_SUCCESS=YES`
+- `PRODUCTION_CHANGED=NO`
+- `PRODUCTION_DB_CHANGED=NO`
+- `RUNNING_CONTAINER_CHANGED=NO`
+- `SERVER_BUILD=NO`
+- `PRODUCTION_AUTHORITY_CHANGED=NO`
+
+Evidence tag:
+
+`NEXUS_V2_PHASE12_REMOTE_CI_EXACT_COMMIT_VERIFIED`
+
+### STATUS
+
+`DONE / TEST VERIFIED — EXACT REMOTE CI COMMIT ONLY`
+
+This does not by itself close `NEXUS_V2_RELEASE_PIPELINE_OK`.
+
+Phase 12 gate remains OPEN pending full evidence reconciliation against all canonical Phase 12 requirements.
+
+### PRODUCTION SAFETY
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- production migration = NOT EXECUTED;
+- production container replacement = NOT EXECUTED;
+- no-build-on-production invariant preserved.
+
+### NEXT STEP
+
+Perform a full Phase 12 Audit evidence reconciliation against immutable images, GHCR publishing, SBOM, attestations, deploy manifests, backup/rollback runbooks and no-build-on-production enforcement.
