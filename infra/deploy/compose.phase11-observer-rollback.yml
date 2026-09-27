@@ -1,0 +1,39 @@
+name: nexus-v2-phase11-observer-rollback
+
+services:
+  nexus-core:
+    container_name: nexus-v2-core
+    image: "ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:5d0e70d96179357fc6c1d9f67e7228f7e4a4fe66dcbd61dfecf3cb7af7abb354"
+    pull_policy: never
+    restart: unless-stopped
+    read_only: true
+    user: "nexus:nexus"
+
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - ALL
+
+    entrypoint:
+      - python
+
+    command:
+      - -m
+      - scripts.bingx_vst_observer_runtime
+
+    ports:
+      - "127.0.0.1:18081:8080"
+
+    environment:
+      BINGX_VST_API_KEY: "${BINGX_VST_API_KEY:?BINGX_VST_API_KEY is required}"
+      BINGX_VST_SECRET_KEY: "${BINGX_VST_SECRET_KEY:?BINGX_VST_SECRET_KEY is required}"
+      NEXUS_RUNTIME_MODE: "${NEXUS_RUNTIME_MODE:?NEXUS_RUNTIME_MODE is required}"
+
+    networks:
+      - nexus-v2-foundation
+
+networks:
+  nexus-v2-foundation:
+    external: true
+    name: nexus-v2-foundation

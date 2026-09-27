@@ -34614,3 +34614,119 @@ This does not authorize production database migration, container replacement, pr
 ### NEXT STEP
 
 Build and verify the exact immutable deploy/rollback manifest for `nexus-v2-core` before any production migration or container replacement.
+
+## Phase 12 — Phase 11 observer deploy / rollback manifest local verification — 2026-09-27
+
+### FACT
+
+Phase 11 Control Plane recovery requires a verified runtime deployment contract for the real BingX VST observer and Portfolio Risk snapshot producer.
+
+The existing generic production compose foundation still targets another runtime and was not silently repurposed.
+
+Separate candidate and rollback manifests were created:
+
+- `infra/deploy/compose.phase11-observer-candidate.yml`
+- `infra/deploy/compose.phase11-observer-rollback.yml`
+
+Supporting runbook:
+
+- `docs/runbooks/phase11-observer-deploy-rollback.md`
+
+Candidate immutable image:
+
+`sha256:5e23e1c051feee70497a5a692ae329a376e80a750eda667ab59b62410a53009f`
+
+Rollback baseline image:
+
+`sha256:5d0e70d96179357fc6c1d9f67e7228f7e4a4fe66dcbd61dfecf3cb7af7abb354`
+
+### CHECK
+
+Candidate manifest verified:
+
+- immutable digest only;
+- no production build directive;
+- runtime command uses `scripts.bingx_vst_observer_runtime`;
+- read-only root filesystem;
+- `no-new-privileges`;
+- all Linux capabilities dropped;
+- loopback-only `127.0.0.1:18081 -> 8080` binding;
+- external BingX VST credentials only;
+- `NEXUS_V2_DATABASE_URL` required externally;
+- explicit Control Plane user identity;
+- explicit Portfolio Risk limits;
+- Portfolio Risk recording enabled;
+- access to both `nexus-v2-foundation` and `nexus-engine_default`.
+
+Rollback manifest verified against the actual running container baseline:
+
+- rollback image digest matches the running old observer image;
+- `user=nexus:nexus`;
+- read-only root filesystem;
+- `no-new-privileges`;
+- `cap_drop=ALL`;
+- no tmpfs;
+- `nexus-v2-foundation` only;
+- no V2 database binding;
+- process parity with `python -m scripts.bingx_vst_observer_runtime`;
+- loopback-only port parity.
+
+No production container or Docker network was changed during verification.
+
+### EVIDENCE
+
+- `DOCKER_COMPOSE_CONFIG=PASS`
+- `CANDIDATE_READBACK=PASS`
+- `ROLLBACK_READBACK=PASS`
+- `ROLLBACK_USER_PARITY=PASS`
+- `ROLLBACK_READONLY_PARITY=PASS`
+- `ROLLBACK_NO_NEW_PRIVILEGES_PARITY=PASS`
+- `ROLLBACK_CAP_DROP_ALL_PARITY=PASS`
+- `ROLLBACK_NO_TMPFS_PARITY=PASS`
+- `ROLLBACK_NETWORK_PARITY=PASS`
+- `ROLLBACK_PROCESS_PARITY=PASS`
+- `ROLLBACK_PORT_PARITY=PASS`
+- `CANDIDATE_SAFETY_CONTRACT=PASS`
+- `HARDCODED_BINGX_CREDENTIALS=NO`
+- `FOCUSED_TESTS=19 passed`
+- `FULL_REGRESSION=1122 passed`
+- `PHASE12_OBSERVER_DEPLOY_ROLLBACK_MANIFEST_LOCAL_VERIFY=PASS`
+- `ROLLBACK_BASELINE_PARITY=PASS`
+- `PRODUCTION_CHANGED=NO`
+- `PRODUCTION_DB_CHANGED=NO`
+- `RUNNING_CONTAINER_CHANGED=NO`
+- `SERVER_BUILD=NO`
+- `PRODUCTION_AUTHORITY_CHANGED=NO`
+
+Evidence tag:
+
+`NEXUS_V2_PHASE12_OBSERVER_DEPLOY_ROLLBACK_MANIFEST_LOCAL_VERIFIED`
+
+### STATUS
+
+`DONE / TEST VERIFIED — LOCAL DEPLOY / ROLLBACK MANIFEST ONLY`
+
+This evidence does not authorize:
+
+- production V2 database migration;
+- production container replacement;
+- production network mutation;
+- Restricted Live;
+- Full Live.
+
+`NEXUS_V2_RELEASE_PIPELINE_OK` remains OPEN.
+
+`NEXUS_V2_CONTROL_PLANE_OK` remains OPEN.
+
+### PRODUCTION SAFETY
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- no-build-on-production invariant preserved.
+
+### NEXT STEP
+
+Verify the committed manifests through private GitHub/CI and immutable artifact identity before any separately authorized production deployment operation.

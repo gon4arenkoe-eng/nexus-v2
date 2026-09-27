@@ -1,0 +1,71 @@
+name: nexus-v2-phase11-observer-candidate
+
+services:
+  nexus-core:
+    container_name: nexus-v2-core
+    image: "ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:5e23e1c051feee70497a5a692ae329a376e80a750eda667ab59b62410a53009f"
+    pull_policy: never
+    restart: unless-stopped
+    read_only: true
+    user: "nexus:nexus"
+    entrypoint: []
+    command:
+      - python
+      - -m
+      - scripts.bingx_vst_observer_runtime
+
+    ports:
+      - "127.0.0.1:18081:8080"
+
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - ALL
+
+    environment:
+      BINGX_VST_API_KEY: "${BINGX_VST_API_KEY:?BINGX_VST_API_KEY is required}"
+      BINGX_VST_SECRET_KEY: "${BINGX_VST_SECRET_KEY:?BINGX_VST_SECRET_KEY is required}"
+
+      NEXUS_RUNTIME_MODE: "${NEXUS_RUNTIME_MODE:?NEXUS_RUNTIME_MODE is required}"
+      NEXUS_RUNTIME_HOST: "0.0.0.0"
+      NEXUS_RUNTIME_PORT: "8080"
+
+      NEXUS_V2_DATABASE_URL: "${NEXUS_V2_DATABASE_URL:?NEXUS_V2_DATABASE_URL is required}"
+      NEXUS_CONTROL_PLANE_USER_ID: "${NEXUS_CONTROL_PLANE_USER_ID:?NEXUS_CONTROL_PLANE_USER_ID is required}"
+
+      NEXUS_VST_PORTFOLIO_RISK_RECORDING: "ENABLED"
+      NEXUS_PORTFOLIO_RISK_LIMITS_JSON: "${NEXUS_PORTFOLIO_RISK_LIMITS_JSON:?NEXUS_PORTFOLIO_RISK_LIMITS_JSON is required}"
+      NEXUS_PORTFOLIO_RISK_STALE_SECONDS: "${NEXUS_PORTFOLIO_RISK_STALE_SECONDS:?NEXUS_PORTFOLIO_RISK_STALE_SECONDS is required}"
+      NEXUS_VST_EQUITY_ASSET: "${NEXUS_VST_EQUITY_ASSET:?NEXUS_VST_EQUITY_ASSET is required}"
+      NEXUS_OBSERVER_INTERVAL_SECONDS: "${NEXUS_OBSERVER_INTERVAL_SECONDS:?NEXUS_OBSERVER_INTERVAL_SECONDS is required}"
+
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - >-
+          import socket;
+          s=socket.create_connection(("127.0.0.1",8080),2);
+          s.close()
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+    networks:
+      - nexus-v2-foundation
+      - nexus-engine-default
+
+networks:
+  nexus-v2-foundation:
+    external: true
+    name: nexus-v2-foundation
+
+  nexus-engine-default:
+    external: true
+    name: nexus-engine_default
