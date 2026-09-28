@@ -23,11 +23,16 @@ from urllib.parse import urlsplit
 from infra.persistence.application.control_plane_workspace import (
     WorkspaceCreateConflict,
     WorkspaceCreateInvalid,
+    WorkspaceRestoreConflict,
+    WorkspaceRestoreInvalid,
+    WorkspaceRestoreNotFound,
+    WorkspaceRestoreStateError,
     WorkspaceSaveConflict,
     WorkspaceSaveInvalid,
     WorkspaceSaveNotFound,
     WorkspaceSaveStateError,
     create_blank_workspace,
+    restore_workspace_layout,
     save_existing_workspace,
 )
 from infra.persistence.repositories.control_plane import ControlPlaneRepository
@@ -200,6 +205,60 @@ async def _create_blank_workspace_payload(
         await engine.dispose()
 
 
+
+async def _restore_workspace_payload(
+    payload: object,
+) -> dict[str, Any]:
+    database_url = _required_env(
+        "NEXUS_V2_DATABASE_URL"
+    )
+
+    tenant_workspace_id = _required_env(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID"
+    )
+
+    user_id = int(
+        _required_env(
+            "NEXUS_CONTROL_PLANE_USER_ID"
+        )
+    )
+
+    if user_id <= 0:
+        raise RuntimeError(
+            "NEXUS_CONTROL_PLANE_USER_ID "
+            "must be positive"
+        )
+
+    engine = create_persistence_engine(
+        database_url
+    )
+
+    factory = create_session_factory(
+        engine
+    )
+
+    try:
+        workspace, layout = (
+            await restore_workspace_layout(
+                session_factory=factory,
+                tenant_workspace_id=(
+                    tenant_workspace_id
+                ),
+                user_id=user_id,
+                payload=payload,
+                created_at=datetime.now(UTC),
+            )
+        )
+
+        return _workspace_projection(
+            workspace,
+            layout,
+        )
+
+    finally:
+        await engine.dispose()
+
+
 async def _save_workspace_payload(
     payload: object,
 ) -> dict[str, Any]:
@@ -254,6 +313,11 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
 
         if path == "/api/v2/control-plane/workspaces":
             self._create_workspace()
+            return
+
+
+        if path == "/api/v2/control-plane/workspaces/restore":
+            self._restore_workspace()
             return
 
 
@@ -403,6 +467,113 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
 
         self._json(
             HTTPStatus.CREATED,
+            payload,
+        )
+
+
+
+    def _restore_workspace(self) -> None:
+        try:
+            request = self._read_json_body()
+
+        except (
+            UnicodeDecodeError,
+            ValueError,
+            json.JSONDecodeError,
+        ):
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": "INVALID_REQUEST",
+                    "message": (
+                        "invalid workspace "
+                        "restore request"
+                    ),
+                },
+            )
+            return
+
+        try:
+            payload = asyncio.run(
+                _restore_workspace_payload(
+                    request
+                )
+            )
+
+        except WorkspaceRestoreInvalid:
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": (
+                        "INVALID_WORKSPACE_RESTORE"
+                    ),
+                    "message": (
+                        "workspace restore "
+                        "request is invalid"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceRestoreNotFound:
+            self._json(
+                HTTPStatus.NOT_FOUND,
+                {
+                    "code": (
+                        "WORKSPACE_RESTORE_NOT_FOUND"
+                    ),
+                    "message": (
+                        "workspace or restore "
+                        "target unavailable"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceRestoreConflict:
+            self._json(
+                HTTPStatus.CONFLICT,
+                {
+                    "code": (
+                        "WORKSPACE_VERSION_CONFLICT"
+                    ),
+                    "message": (
+                        "workspace version changed"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceRestoreStateError:
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "WORKSPACE_STATE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "workspace state unavailable"
+                    ),
+                },
+            )
+            return
+
+        except (RuntimeError, ValueError):
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "CONTROL_PLANE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "workspace restore unavailable"
+                    ),
+                },
+            )
+            return
+
+        self._json(
+            HTTPStatus.OK,
             payload,
         )
 

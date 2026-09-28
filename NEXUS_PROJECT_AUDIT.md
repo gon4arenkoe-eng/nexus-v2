@@ -35561,3 +35561,80 @@ PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
 AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
 RESTRICTED_LIVE=DISABLED
 FULL_LIVE=DISABLED
+
+## 2026-09-28 – Phase 11 Restore Prior Layout Version v1
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_RESTORE_PRIOR_LAYOUT_VERSION_V1_VERIFIED
+
+### FACT
+
+The Control Plane now supports canonical restore of an older user-owned workspace layout by creating a new immutable layout version rather than rewriting layout history.
+
+### VERIFIED
+
+- Browser exposes canonical workspace restore when active layout version is greater than 1.
+- Browser submits workspaceId, baseVersion and targetVersion only; tenant/user ownership remains server-side.
+- POST /api/v2/control-plane/workspaces/restore returns HTTP 200 on valid restore.
+- Restore target must be older than the active base version.
+- WorkspaceComposer.restore is the canonical restore semantic owner.
+- Restoring layout v1 while current layout is v2 creates immutable v3.
+- Restored v3 records source_version=1.
+- Original v1 remains unchanged.
+- Intermediate v2 remains unchanged.
+- active_layout_version advances atomically from 2 to 3.
+- Active-version compare-and-swap protects concurrent restore/save changes.
+- Stale restore using baseVersion 2 after v3 exists returns HTTP 409.
+- Stale restore creates no layout v4.
+- Canonical GET reload returns restored v3.
+- Cross-user/cross-tenant restore fails closed.
+- Browser reloads canonical state after a 409 conflict.
+- No direct browser database access was introduced.
+- No trading write authority was introduced.
+- No exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Restore service focused: 4 passed in 1.21s.
+- Real HTTP/DB workspace E2E: 3 passed in 4.38s.
+- Control Plane focused: 56 passed in 9.31s.
+- Adjacent: 76 passed, 1076 deselected in 9.91s.
+- Full regression: 1152 passed in 15.84s.
+- Python compile: PASS.
+- JavaScript syntax: PASS.
+- git diff --check: PASS.
+- Restore endpoint: HTTP 200.
+- Restore v1 from v2 creates v3: PASS.
+- Restored source_version: 1.
+- Immutable v1 preserved: PASS.
+- Immutable v2 preserved: PASS.
+- Stale restore: HTTP 409.
+- Stale restore created v4: NO.
+- Restore CAS: ENABLED.
+- Tenant/user scope: FAIL CLOSED.
+- GET reload restored layout: PASS.
+
+### SCOPE
+
+This closes canonical prior-layout recovery for user-owned workspaces.
+Curated-template workspace creation remains a separate Phase 11 capability and is not claimed by this evidence.
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED

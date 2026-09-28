@@ -468,3 +468,76 @@ def test_blank_workspace_create_uses_canonical_presentation_boundary() -> None:
         "ExecutionCoordinator",
     ):
         assert forbidden not in create_source
+def test_canonical_workspace_restore_creates_new_version() -> None:
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    start = source.index(
+        "async function "
+        "restoreCanonicalWorkspaceVersion()"
+    )
+
+    end = source.index(
+        "async function saveCurrentWorkspace()",
+        start,
+    )
+
+    restore_source = source[start:end]
+
+    assert (
+        "'/api/v2/control-plane/workspaces/restore'"
+        in restore_source
+    )
+
+    assert "method:'POST'" in restore_source
+
+    assert (
+        "workspaceId:activeServerWorkspaceId"
+        in restore_source
+    )
+
+    assert (
+        "baseVersion,"
+        in restore_source
+    )
+
+    assert (
+        "targetVersion"
+        in restore_source
+    )
+
+    assert (
+        "response.status===409"
+        in restore_source
+    )
+
+    assert (
+        "await loadWorkspaceState();"
+        in restore_source
+    )
+
+    assert (
+        "applyServerWorkspace(workspace)"
+        in restore_source
+    )
+
+    assert (
+        "data-restore-canonical-workspace"
+        in source
+    )
+
+    for forbidden in (
+        "tenant_workspace_id",
+        "user_id",
+        "submit_order(",
+        "cancel_order(",
+        "VenueAdapter",
+        "ExecutionCoordinator",
+    ):
+        assert forbidden not in restore_source

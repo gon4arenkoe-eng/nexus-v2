@@ -451,3 +451,193 @@ async def create_blank_workspace(
             raise
 
     return workspace, layout
+
+class WorkspaceRestoreError(RuntimeError):
+    """Base workspace layout restore failure."""
+
+
+class WorkspaceRestoreInvalid(WorkspaceRestoreError):
+    """Malformed restore request."""
+
+
+class WorkspaceRestoreNotFound(WorkspaceRestoreError):
+    """Workspace or target layout unavailable in scope."""
+
+
+class WorkspaceRestoreConflict(WorkspaceRestoreError):
+    """Current base layout changed concurrently."""
+
+
+class WorkspaceRestoreStateError(WorkspaceRestoreError):
+    """Canonical current layout is unavailable."""
+
+
+async def restore_workspace_layout(
+    *,
+    session_factory: Any,
+    tenant_workspace_id: str,
+    user_id: int,
+    payload: object,
+    created_at: datetime,
+) -> tuple[
+    UserWorkspace,
+    WorkspaceLayoutVersion,
+]:
+    if not isinstance(payload, dict):
+        raise WorkspaceRestoreInvalid(
+            "payload must be an object"
+        )
+
+    workspace_id = _required_text(
+        payload.get("workspaceId"),
+        name="workspaceId",
+    )
+
+    base_version = _positive_int(
+        payload.get("baseVersion"),
+        name="baseVersion",
+    )
+
+    target_version = _positive_int(
+        payload.get("targetVersion"),
+        name="targetVersion",
+    )
+
+    if target_version >= base_version:
+        raise WorkspaceRestoreInvalid(
+            "targetVersion must be older "
+            "than baseVersion"
+        )
+
+    async with session_factory() as session:
+        repository = ControlPlaneRepository(
+            session
+        )
+
+        workspace = (
+            await repository.get_user_workspace(
+                tenant_workspace_id=(
+                    tenant_workspace_id
+                ),
+                user_id=user_id,
+                user_workspace_id=(
+                    workspace_id
+                ),
+            )
+        )
+
+        if workspace is None:
+            raise WorkspaceRestoreNotFound(
+                "workspace unavailable"
+            )
+
+        if (
+            workspace.active_layout_version
+            != base_version
+        ):
+            raise WorkspaceRestoreConflict(
+                "workspace base version is stale"
+            )
+
+        current = await repository.get_layout(
+            tenant_workspace_id=(
+                tenant_workspace_id
+            ),
+            user_id=user_id,
+            user_workspace_id=workspace_id,
+            version=base_version,
+        )
+
+        if current is None:
+            raise WorkspaceRestoreStateError(
+                "current layout unavailable"
+            )
+
+        target = await repository.get_layout(
+            tenant_workspace_id=(
+                tenant_workspace_id
+            ),
+            user_id=user_id,
+            user_workspace_id=workspace_id,
+            version=target_version,
+        )
+
+        if target is None:
+            raise WorkspaceRestoreNotFound(
+                "target layout unavailable"
+            )
+
+        try:
+            restored = _COMPOSER.restore(
+                current=current,
+                target=target,
+                created_at=created_at,
+            )
+
+        except (
+            ControlPlaneError,
+            ValueError,
+        ) as exc:
+            raise WorkspaceRestoreInvalid(
+                str(exc)
+            ) from exc
+
+        updated_workspace = replace(
+            workspace,
+            active_layout_version=(
+                restored.version
+            ),
+            updated_at=created_at,
+        )
+
+        try:
+            advanced = (
+                await repository
+                .compare_and_swap_active_layout_version(
+                    tenant_workspace_id=(
+                        tenant_workspace_id
+                    ),
+                    user_id=user_id,
+                    user_workspace_id=(
+                        workspace_id
+                    ),
+                    expected_version=(
+                        base_version
+                    ),
+                    new_version=(
+                        restored.version
+                    ),
+                    updated_at=created_at,
+                )
+            )
+
+            if not advanced:
+                raise WorkspaceRestoreConflict(
+                    "workspace base version is stale"
+                )
+
+            await repository.append_layout(
+                restored
+            )
+
+            await session.commit()
+
+        except WorkspaceRestoreConflict:
+            await session.rollback()
+            raise
+
+        except ValueError as exc:
+            await session.rollback()
+
+            raise WorkspaceRestoreConflict(
+                "workspace restore version conflict"
+            ) from exc
+
+        except Exception:
+            await session.rollback()
+            raise
+
+        return (
+            updated_workspace,
+            restored,
+        )

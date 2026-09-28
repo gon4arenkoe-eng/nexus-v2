@@ -500,7 +500,15 @@ function canonicalWorkspaceSelectorMarkup(){
     ?`<div class="context-field canonical-workspace-field"><label>${t('label.workspace')}</label><select data-canonical-workspace>${placeholder}${options}</select></div>`
     :`<div class="context-field canonical-workspace-field"><label>${t('label.workspace')}</label><span>?</span></div>`;
 
-  return `<div class="canonical-workspace-controls" style="display:flex;gap:8px;align-items:flex-end">${selector}<button class="btn secondary" type="button" data-create-blank-workspace>${t('workspace.new')}</button></div>`;
+  const canRestore=
+    Number.isInteger(activeServerWorkspaceBaseVersion) &&
+    activeServerWorkspaceBaseVersion>1;
+
+  const restoreButton=canRestore
+    ?`<button class="btn secondary" type="button" data-restore-canonical-workspace>? ${t('action.restore')}</button>`
+    :'';
+
+  return `<div class="canonical-workspace-controls" style="display:flex;gap:8px;align-items:flex-end">${selector}<button class="btn secondary" type="button" data-create-blank-workspace>${t('workspace.new')}</button>${restoreButton}</div>`;
 }
 
 function applyServerWorkspace(workspace){
@@ -1016,6 +1024,118 @@ async function saveCanonicalWorkspace(){
 
   return true;
 }
+
+async function restoreCanonicalWorkspaceVersion(){
+  if(
+    !activeServerWorkspaceId ||
+    !Number.isInteger(
+      activeServerWorkspaceBaseVersion
+    ) ||
+    activeServerWorkspaceBaseVersion<=1
+  ){
+    return false;
+  }
+
+  const baseVersion=
+    activeServerWorkspaceBaseVersion;
+
+  const proposed=window.prompt(
+    'Restore layout version',
+    String(baseVersion-1)
+  );
+
+  if(proposed===null)return false;
+
+  const targetVersion=Number(proposed);
+
+  if(
+    !Number.isInteger(targetVersion) ||
+    targetVersion<1 ||
+    targetVersion>=baseVersion
+  ){
+    return false;
+  }
+
+  const response=await fetch(
+    '/api/v2/control-plane/workspaces/restore',
+    {
+      method:'POST',
+      credentials:'same-origin',
+      cache:'no-store',
+      headers:{
+        'content-type':'application/json'
+      },
+      body:JSON.stringify({
+        workspaceId:activeServerWorkspaceId,
+        baseVersion,
+        targetVersion
+      })
+    }
+  );
+
+  if(response.status===409){
+    await loadWorkspaceState();
+    return false;
+  }
+
+  if(!response.ok){
+    throw new Error(
+      `HTTP ${response.status}`
+    );
+  }
+
+  const workspace=await response.json();
+
+  const existingIndex=
+    serverWorkspaces.findIndex(
+      item=>
+        String(item?.id||'')===
+        String(workspace?.id||'')
+    );
+
+  if(existingIndex<0){
+    throw new Error(
+      'restored canonical workspace missing'
+    );
+  }
+
+  serverWorkspaces[existingIndex]=workspace;
+
+  if(!applyServerWorkspace(workspace)){
+    throw new Error(
+      'canonical restore response invalid'
+    );
+  }
+
+  safeSet(
+    'nexus:v7:workspace',
+    JSON.stringify(state.workspace)
+  );
+
+  return true;
+}
+
+const bindBeforeCanonicalWorkspaceRestore=bindEvents;
+
+bindEvents=function(){
+  bindBeforeCanonicalWorkspaceRestore();
+
+  document.querySelector(
+    '[data-restore-canonical-workspace]'
+  )?.addEventListener('click',async()=>{
+    try{
+      const restored=
+        await restoreCanonicalWorkspaceVersion();
+
+      if(restored){
+        render();
+        toastText(ct('restoreDone'));
+      }
+    }catch(error){
+      render();
+    }
+  });
+};
 
 async function saveCurrentWorkspace(){
   if(!activeServerWorkspaceId){

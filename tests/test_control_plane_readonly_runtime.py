@@ -542,3 +542,154 @@ def test_control_plane_runtime_serves_blank_workspace_create(
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+def test_control_plane_runtime_serves_workspace_restore(
+    monkeypatch,
+) -> None:
+    async def fake_restore(payload):
+        assert payload == {
+            "workspaceId": "desk",
+            "baseVersion": 2,
+            "targetVersion": 1,
+        }
+
+        return {
+            "id": "desk",
+            "name": "Desk",
+            "locale": "ru",
+            "theme": "dark",
+            "activeLayoutVersion": 3,
+            "widgets": [],
+        }
+
+    monkeypatch.setattr(
+        runtime,
+        "_restore_workspace_payload",
+        fake_restore,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "POST",
+            "/api/v2/control-plane/workspaces/restore",
+            body=json.dumps(
+                {
+                    "workspaceId": "desk",
+                    "baseVersion": 2,
+                    "targetVersion": 1,
+                }
+            ),
+            headers={
+                "content-type": "application/json"
+            },
+        )
+
+        response = connection.getresponse()
+
+        payload = json.loads(
+            response.read()
+        )
+
+        assert response.status == 200
+
+        assert (
+            payload["activeLayoutVersion"]
+            == 3
+        )
+
+        connection.close()
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+
+def test_control_plane_runtime_maps_stale_workspace_restore_to_409(
+    monkeypatch,
+) -> None:
+    async def fake_restore(payload):
+        raise runtime.WorkspaceRestoreConflict(
+            "stale"
+        )
+
+    monkeypatch.setattr(
+        runtime,
+        "_restore_workspace_payload",
+        fake_restore,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "POST",
+            "/api/v2/control-plane/workspaces/restore",
+            body=json.dumps(
+                {
+                    "workspaceId": "desk",
+                    "baseVersion": 2,
+                    "targetVersion": 1,
+                }
+            ),
+            headers={
+                "content-type": "application/json"
+            },
+        )
+
+        response = connection.getresponse()
+
+        payload = json.loads(
+            response.read()
+        )
+
+        assert response.status == 409
+
+        assert (
+            payload["code"]
+            == "WORKSPACE_VERSION_CONFLICT"
+        )
+
+        connection.close()
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
