@@ -35713,3 +35713,80 @@ PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
 AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
 RESTRICTED_LIVE=DISABLED
 FULL_LIVE=DISABLED
+
+## 2026-09-28 – Phase 11 Per-Widget Canonical Settings v1
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_PER_WIDGET_CANONICAL_SETTINGS_V1_VERIFIED
+
+### FACT
+
+The Control Plane now exposes the complete required v1 per-widget presentation preference set through the existing canonical settingsJson persistence path.
+
+### VERIFIED
+
+- Existing canonical settingsJson remains the persistence source of truth for widget presentation preferences.
+- No new backend settings schema or database columns were introduced.
+- Existing widget settings scope and timeframe remain preserved.
+- Existing refresh and compact presentation preferences remain preserved.
+- Per-widget metrics preference is now editable.
+- Per-widget columns preference is now editable.
+- Per-widget sort preference is now editable.
+- Per-widget filter preference is now editable.
+- normalizeCfg applies stable defaults and normalizes non-string presentation preference values.
+- canonicalWorkspaceSavePayload serializes the full widget cfg through settingsJson.
+- Canonical server workspace projection reloads settingsJson back into browser widget cfg.
+- Real HTTP save persists the complete preference set into canonical layout versioning.
+- Canonical GET reload preserves metrics, columns, sort, filter, timeframe and scope.
+- A later settings change creates the next immutable layout version.
+- Canonical restore creates another immutable layout version and restores the prior complete settings set.
+- Per-widget settings remain presentation-only and do not create execution, venue or database authority in the browser.
+- Existing workspace create/save/reload/restore behavior remains preserved.
+- No trading write authority was introduced.
+- No exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Web settings contract: 17 passed in 0.18s.
+- Real HTTP/DB save-reload-restore: 5 passed in 6.47s.
+- Control Plane focused: 65 passed in 12.26s.
+- Adjacent: 85 passed, 1076 deselected in 12.81s.
+- Full regression: 1161 passed in 18.58s.
+- Python compile: PASS.
+- JavaScript syntax: PASS.
+- git diff --check: PASS.
+- Metrics setting: PRESENT.
+- Columns setting: PRESENT.
+- Sort setting: PRESENT.
+- Filter setting: PRESENT.
+- Timeframe setting: PRESERVED.
+- Scope setting: PRESERVED.
+- Save to DB: PASS.
+- GET reload settings: PASS.
+- Restore settings: PASS.
+- Backend schema changed: NO.
+
+### SCOPE
+
+This closes the Phase 11 per-widget metrics/columns/sort/filter/timeframe/data-scope presentation preference requirement using the existing canonical settingsJson layout-versioning path.
+The preference values remain presentation configuration and are not trading instructions or execution authority.
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED

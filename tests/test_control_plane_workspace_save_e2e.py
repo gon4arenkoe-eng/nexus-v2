@@ -1212,3 +1212,266 @@ def test_curated_template_workspace_create_roundtrip_through_real_http_runtime_a
     assert len(layout.widgets) > 0
 
     assert wrong_user is None
+def test_per_widget_settings_save_reload_and_restore_roundtrip(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    db_path = (
+        tmp_path
+        / "control-plane-widget-settings-e2e.sqlite3"
+    )
+
+    database_url = (
+        "sqlite+aiosqlite:///"
+        + db_path.as_posix()
+    )
+
+    asyncio.run(
+        _prepare_database(
+            database_url
+        )
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_V2_DATABASE_URL",
+        database_url,
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID",
+        "tenant-a",
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_USER_ID",
+        "7",
+    )
+
+    rich_settings = (
+        '{"metrics":"pnl,exposure",'
+        '"columns":"symbol,side,quantity,pnl",'
+        '"sort":"pnl:desc",'
+        '"filter":"side=long",'
+        '"timeframe":"4H",'
+        '"scope":"BTC-USDT",'
+        '"refresh":"5s",'
+        '"compact":true}'
+    )
+
+    changed_settings = (
+        '{"metrics":"exposure",'
+        '"columns":"symbol,side",'
+        '"sort":"symbol:asc",'
+        '"filter":"",'
+        '"timeframe":"1H",'
+        '"scope":"linked",'
+        '"refresh":"realtime",'
+        '"compact":false}'
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        save_v2_status, save_v2 = _http_json(
+            host=host,
+            port=port,
+            method="POST",
+            path=(
+                "/api/v2/control-plane/"
+                "workspaces/save"
+            ),
+            payload={
+                "workspaceId": "desk",
+                "baseVersion": 1,
+                "widgets": [
+                    {
+                        "id": "positions-1",
+                        "key": (
+                            "portfolio.positions"
+                        ),
+                        "widgetVersion": 1,
+                        "column": 0,
+                        "row": 0,
+                        "width": 4,
+                        "height": 3,
+                        "contextGroup": "market",
+                        "settingsJson": rich_settings,
+                    }
+                ],
+            },
+        )
+
+        assert save_v2_status == 200
+
+        assert (
+            save_v2["activeLayoutVersion"]
+            == 2
+        )
+
+        assert (
+            save_v2["widgets"][0][
+                "settingsJson"
+            ]
+            == rich_settings
+        )
+
+        reload_v2_status, reload_v2 = (
+            _http_json(
+                host=host,
+                port=port,
+                method="GET",
+                path=(
+                    "/api/v2/control-plane/"
+                    "workspaces"
+                ),
+            )
+        )
+
+        assert reload_v2_status == 200
+
+        reload_v2_by_id = {
+            item["id"]: item
+            for item in reload_v2
+        }
+
+        assert (
+            reload_v2_by_id["desk"][
+                "activeLayoutVersion"
+            ]
+            == 2
+        )
+
+        assert (
+            reload_v2_by_id["desk"][
+                "widgets"
+            ][0]["settingsJson"]
+            == rich_settings
+        )
+
+        save_v3_status, save_v3 = _http_json(
+            host=host,
+            port=port,
+            method="POST",
+            path=(
+                "/api/v2/control-plane/"
+                "workspaces/save"
+            ),
+            payload={
+                "workspaceId": "desk",
+                "baseVersion": 2,
+                "widgets": [
+                    {
+                        "id": "positions-1",
+                        "key": (
+                            "portfolio.positions"
+                        ),
+                        "widgetVersion": 1,
+                        "column": 0,
+                        "row": 0,
+                        "width": 4,
+                        "height": 3,
+                        "contextGroup": "market",
+                        "settingsJson": (
+                            changed_settings
+                        ),
+                    }
+                ],
+            },
+        )
+
+        assert save_v3_status == 200
+
+        assert (
+            save_v3["activeLayoutVersion"]
+            == 3
+        )
+
+        assert (
+            save_v3["widgets"][0][
+                "settingsJson"
+            ]
+            == changed_settings
+        )
+
+        restore_status, restored = (
+            _http_json(
+                host=host,
+                port=port,
+                method="POST",
+                path=(
+                    "/api/v2/control-plane/"
+                    "workspaces/restore"
+                ),
+                payload={
+                    "workspaceId": "desk",
+                    "baseVersion": 3,
+                    "targetVersion": 2,
+                },
+            )
+        )
+
+        assert restore_status == 200
+
+        assert (
+            restored[
+                "activeLayoutVersion"
+            ]
+            == 4
+        )
+
+        assert (
+            restored["widgets"][0][
+                "settingsJson"
+            ]
+            == rich_settings
+        )
+
+        final_status, final_reload = (
+            _http_json(
+                host=host,
+                port=port,
+                method="GET",
+                path=(
+                    "/api/v2/control-plane/"
+                    "workspaces"
+                ),
+            )
+        )
+
+        assert final_status == 200
+
+        final_by_id = {
+            item["id"]: item
+            for item in final_reload
+        }
+
+        assert (
+            final_by_id["desk"][
+                "activeLayoutVersion"
+            ]
+            == 4
+        )
+
+        assert (
+            final_by_id["desk"][
+                "widgets"
+            ][0]["settingsJson"]
+            == rich_settings
+        )
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)

@@ -620,3 +620,117 @@ def test_curated_template_workspace_creation_uses_canonical_boundary() -> None:
         "ExecutionCoordinator",
     ):
         assert forbidden not in create_source
+def test_per_widget_canonical_settings_are_editable_and_serialized() -> None:
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    for field in (
+        "metrics",
+        "columns",
+        "sort",
+        "filter",
+        "timeframe",
+        "scope",
+    ):
+        assert (
+            f'data-widget-config="{field}"'
+            in source
+        )
+
+    assert (
+        "metrics:'default'"
+        in source
+    )
+
+    assert (
+        "columns:'auto'"
+        in source
+    )
+
+    assert (
+        "sort:'default'"
+        in source
+    )
+
+    assert (
+        "filter:''"
+        in source
+    )
+
+    assert (
+        "function normalizeCfg(w)"
+        in source
+    )
+
+    assert (
+        "'metrics'"
+        in source
+    )
+
+    assert (
+        "'columns'"
+        in source
+    )
+
+    assert (
+        "'sort'"
+        in source
+    )
+
+    assert (
+        "'filter'"
+        in source
+    )
+
+    serializer_start = source.index(
+        "function canonicalWorkspaceSavePayload"
+    )
+
+    serializer_end = source.index(
+        "async function ",
+        serializer_start,
+    )
+
+    serializer = source[
+        serializer_start:serializer_end
+    ]
+
+    assert (
+        "settingsJson=JSON.stringify(cfg);"
+        in serializer
+    )
+
+    projection_start = source.index(
+        "function workspaceProjectionToLayout"
+    )
+
+    projection_end = source.index(
+        "async function ",
+        projection_start,
+    )
+
+    projection = source[
+        projection_start:projection_end
+    ]
+
+    assert (
+        "JSON.parse(item.settingsJson||'{}')"
+        in projection
+    )
+
+    # Settings remain presentation-only.
+    for forbidden in (
+        "submit_order(",
+        "cancel_order(",
+        "VenueAdapter",
+        "ExecutionCoordinator",
+        "tenant_workspace_id",
+        "user_id",
+    ):
+        assert forbidden not in serializer
