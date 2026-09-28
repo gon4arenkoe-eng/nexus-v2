@@ -35191,3 +35191,60 @@ PRODUCTION_DB_CHANGED=NO
 RUNNING_CONTAINER_CHANGED=NO
 SERVER_BUILD=NO
 PRODUCTION_AUTHORITY_CHANGED=NO
+
+## 2026-09-28 – Phase 11 canonical workspace base-version browser retention
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_WORKSPACE_BASE_VERSION_BROWSER_RETENTION_VERIFIED
+
+### VERIFIED
+
+- The selected canonical UserWorkspace activeLayoutVersion is retained in browser state as activeServerWorkspaceBaseVersion.
+- The retained base version must be an integer >= 1; missing, malformed or non-positive values fail closed.
+- A fresh canonical workspace response invalidates stale prior base-version state before workspace reapplication.
+- Canonical workspace read failure clears both workspace identity and base-version state.
+- Canonical workspace switching obtains the base version from the selected server workspace.
+- No POST/PUT/DELETE workspace capability was introduced.
+- No database mutation was introduced.
+- No trading or exchange write authority was introduced.
+- The six pre-existing untracked development artifacts were preserved.
+
+### TEST EVIDENCE
+
+Functional verification:
+- Focused: 17 passed in 2.32s
+- Adjacent: 53 passed, 1076 deselected in 3.02s
+- Full regression: 1129 passed in 8.12s
+- Python compile: PASS
+- JavaScript syntax: PASS
+
+Post-EOF hygiene verification:
+- git diff --check: PASS
+- Python compile: PASS
+- Focused: 17 passed in 2.16s
+- Adjacent: 53 passed, 1076 deselected in 2.86s
+
+Workspace HTTP mutation: ABSENT
+Database mutation: ABSENT
+Trading write authority: ABSENT
+Pre-existing untracked artifacts preserved: YES
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+This closes browser retention of the canonical active layout version only.
+The canonical workspace save/version persistence bridge remains open.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_AUTHORITY_CHANGED=NO

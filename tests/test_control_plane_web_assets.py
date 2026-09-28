@@ -232,3 +232,33 @@ def test_canonical_workspace_projection_preserves_context_group() -> None:
     # This prerequisite does not introduce workspace mutation authority.
     assert "method:'POST'" not in source
     assert 'method:"POST"' not in source
+
+def test_canonical_workspace_retains_active_layout_as_base_version() -> None:
+    from pathlib import Path
+
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(encoding="utf-8")
+
+    assert "let activeServerWorkspaceBaseVersion=null;" in source
+    assert "const baseVersion=workspace?.activeLayoutVersion;" in source
+    assert (
+        "if(!Number.isInteger(baseVersion) || baseVersion<1)return false;"
+        in source
+    )
+    assert "activeServerWorkspaceBaseVersion=baseVersion;" in source
+
+    # Fresh server reads and read failures must invalidate stale
+    # optimistic-concurrency state before any future save exists.
+    assert source.count("activeServerWorkspaceBaseVersion=null;") >= 3
+
+    # This slice is metadata retention only.
+    assert "method:'POST'" not in source
+    assert 'method:"POST"' not in source
+    assert "method:'PUT'" not in source
+    assert 'method:"PUT"' not in source
+    assert "method:'DELETE'" not in source
+    assert 'method:"DELETE"' not in source
