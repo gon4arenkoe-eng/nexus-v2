@@ -424,6 +424,83 @@ bind=function(){
 
 
 let serverWorkspaces=[];
+let activeServerWorkspaceId=null;
+
+function canonicalWorkspaceSelectorMarkup(){
+  if(serverWorkspaces.length<2)return '';
+
+  const options=serverWorkspaces.map(workspace=>{
+    const id=String(workspace?.id||'');
+    const name=String(workspace?.name||id);
+
+    return `<option value="${esc(id)}" ${activeServerWorkspaceId===id?'selected':''}>${esc(name)}</option>`;
+  }).join('');
+
+  const placeholder=activeServerWorkspaceId
+    ?''
+    :`<option value="" selected disabled>— ${t('label.workspace')} —</option>`;
+
+  return `<div class="context-field canonical-workspace-field"><label>${t('label.workspace')}</label><select data-canonical-workspace>${placeholder}${options}</select></div>`;
+}
+
+function applyServerWorkspace(workspace){
+  const projected=workspaceProjectionToLayout(workspace);
+
+  if(!projected || !projected.length)return false;
+
+  activeServerWorkspaceId=String(workspace.id);
+  state.workspace=projected;
+  state.selectedWidget=null;
+  state.layoutDirty=false;
+
+  return true;
+}
+
+function applyServerWorkspaceById(workspaceId){
+  const workspace=serverWorkspaces.find(
+    item=>String(item?.id||'')===workspaceId
+  );
+
+  if(!workspace)return false;
+
+  return applyServerWorkspace(workspace);
+}
+
+const renderContextBarBeforeCanonicalWorkspaces=renderContextBar;
+
+renderContextBar=function(){
+  const markup=renderContextBarBeforeCanonicalWorkspaces();
+  const selector=canonicalWorkspaceSelectorMarkup();
+
+  if(!selector)return markup;
+
+  const divider='<span class="context-divider"></span>';
+
+  if(!markup.includes(divider))return markup;
+
+  return markup.replace(
+    divider,
+    `${selector}${divider}`
+  );
+};
+
+const bindBeforeCanonicalWorkspaces=bind;
+
+bind=function(){
+  bindBeforeCanonicalWorkspaces();
+
+  document.querySelector(
+    '[data-canonical-workspace]'
+  )?.addEventListener('change',event=>{
+    const workspaceId=event.target.value;
+
+    if(!workspaceId)return;
+
+    if(applyServerWorkspaceById(workspaceId)){
+      render();
+    }
+  });
+};
 
 function workspaceProjectionToLayout(workspace){
   const raw=Array.isArray(workspace?.widgets)?workspace.widgets:[];
@@ -494,24 +571,28 @@ async function loadWorkspaceState(){
 
     serverWorkspaces=Array.isArray(payload)?payload:[];
 
+    if(serverWorkspaces.length===0){
+      activeServerWorkspaceId=null;
+      return;
+    }
+
+    if(serverWorkspaces.length===1){
+      applyServerWorkspace(serverWorkspaces[0]);
+      return;
+    }
+
     /*
-     * The current preview UI does not yet have a canonical
-     * active-workspace selector.
-     *
-     * Therefore never choose arbitrarily between several
-     * server workspaces. Apply server layout only when its
-     * identity is unambiguous.
+     * Multiple canonical workspaces require explicit user
+     * selection. Never choose the first server identity
+     * arbitrarily. A previously selected identity may only
+     * be reapplied when it is still present in this scoped
+     * canonical response.
      */
-    if(serverWorkspaces.length!==1)return;
-
-    const projected=
-      workspaceProjectionToLayout(serverWorkspaces[0]);
-
-    if(!projected || !projected.length)return;
-
-    state.workspace=projected;
-    state.selectedWidget=null;
-    state.layoutDirty=false;
+    if(activeServerWorkspaceId){
+      if(!applyServerWorkspaceById(activeServerWorkspaceId)){
+        activeServerWorkspaceId=null;
+      }
+    }
   }catch(error){
     /*
      * Read-only server projection is optional in this preview
@@ -519,6 +600,7 @@ async function loadWorkspaceState(){
      * the fallback. No server mutation is attempted.
      */
     serverWorkspaces=[];
+    activeServerWorkspaceId=null;
   }
 }
 

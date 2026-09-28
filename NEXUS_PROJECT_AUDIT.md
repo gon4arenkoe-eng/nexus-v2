@@ -35014,3 +35014,62 @@ This slice does NOT verify:
 
 Verify the exact remote CI result for the committed Workspace canonical read
 bridge before selecting the next Phase 11 recovery gap.
+
+## 2026-09-28 – Phase 11 canonical multi-workspace read selection
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_CANONICAL_MULTI_WORKSPACE_READ_SELECTION_VERIFIED
+
+### VERIFIED
+
+- Active Control Plane browser reads the canonical user/tenant-scoped workspace list through the existing GET-only /api/v2/control-plane/workspaces boundary.
+- A single canonical workspace remains an unambiguous automatic read projection.
+- When two or more canonical workspaces are returned, the browser does not arbitrarily select the first identity.
+- The Context Bar exposes an explicit read-only canonical workspace selector.
+- Explicit workspace selection resolves only against the already loaded canonical scoped response and applies that workspace's active canonical layout.
+- Canonical widget geometry and presentation settings continue through workspaceProjectionToLayout.
+- Missing, empty, invalid or stale selected workspace identity fails closed without introducing backend mutation.
+- Existing local preview persistence remains local-only.
+- No POST, PUT or DELETE Control Plane workspace endpoint was added.
+- No ExecutionCoordinator, VenueAdapter or trading write authority was added.
+- Pre-existing untracked development artifacts were preserved exactly.
+
+### TEST / CHECK EVIDENCE
+
+Focused:
+14 passed in 2.19s
+
+Adjacent:
+50 passed, 1076 deselected in 2.98s
+
+Full regression:
+1126 passed in 8.18s
+
+Python compile: PASS
+JavaScript syntax: PASS
+git diff --check: PASS
+HTTP mutation API: ABSENT
+Trading write authority: ABSENT
+Arbitrary multi-workspace auto-selection: ABSENT
+Pre-existing untracked artifacts preserved: YES
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+This evidence closes only the canonical multi-workspace read-selection recovery slice.
+It does not independently re-close the overall Phase 11 gate.
+A final Phase 11 gate-gap check remains required before returning to the unfinished Phase 14 shadow-parity work.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_AUTHORITY_CHANGED=NO

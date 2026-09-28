@@ -97,10 +97,23 @@ def test_active_control_plane_reads_workspace_projection() -> None:
     assert "item.width" in source
     assert "item.height" in source
 
-    assert (
-        "serverWorkspaces.length!==1"
-        in source
-    )
+    assert "let activeServerWorkspaceId=null;" in source
+    assert "canonicalWorkspaceSelectorMarkup" in source
+    assert "data-canonical-workspace" in source
+    assert "applyServerWorkspace(" in source
+    assert "applyServerWorkspaceById" in source
+
+    # A single canonical workspace remains unambiguous.
+    assert "serverWorkspaces.length===1" in source
+
+    # Multiple workspaces must never fall back to the old
+    # arbitrary/non-selectable single-workspace guard.
+    assert "serverWorkspaces.length!==1" not in source
+
+    # Multi-workspace switching resolves an explicit canonical id
+    # from the already tenant/user-scoped read response.
+    assert "serverWorkspaces.find(" in source
+    assert "activeServerWorkspaceId===id" in source
 
     assert (
         "Promise.allSettled(["
