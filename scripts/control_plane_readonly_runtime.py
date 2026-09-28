@@ -41,6 +41,12 @@ from infra.persistence.application.control_plane_workspace import (
     create_workspace_from_curated_template,
     list_curated_workspace_templates,
 )
+from infra.persistence.application.control_plane_workspace import (
+    WorkspaceContextInvalid,
+    WorkspaceContextNotFound,
+    WorkspaceContextStateError,
+    publish_workspace_context,
+)
 from infra.persistence.repositories.control_plane import ControlPlaneRepository
 from infra.persistence.repositories.control_plane_read import ControlPlaneReadRepository
 from infra.persistence.session import create_persistence_engine, create_session_factory
@@ -392,12 +398,59 @@ async def _save_workspace_payload(
         await engine.dispose()
 
 
+async def _publish_context_payload(
+    payload: object,
+) -> tuple[dict[str, object], ...]:
+    database_url = _required_env(
+        "NEXUS_V2_DATABASE_URL"
+    )
+
+    tenant_workspace_id = _required_env(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID"
+    )
+
+    user_id = int(
+        _required_env(
+            "NEXUS_CONTROL_PLANE_USER_ID"
+        )
+    )
+
+    if user_id <= 0:
+        raise RuntimeError(
+            "NEXUS_CONTROL_PLANE_USER_ID "
+            "must be positive"
+        )
+
+    engine = create_persistence_engine(
+        database_url
+    )
+
+    factory = create_session_factory(
+        engine
+    )
+
+    try:
+        return await publish_workspace_context(
+            session_factory=factory,
+            tenant_workspace_id=tenant_workspace_id,
+            user_id=user_id,
+            payload=payload,
+        )
+    finally:
+        await engine.dispose()
+
+
 class ControlPlaneHandler(BaseHTTPRequestHandler):
     server_version = "NEXUS-V2-Control-Plane"
 
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
+
+        if path == "/api/v2/control-plane/context":
+            self._publish_context()
+            return
+
 
         if path == "/api/v2/control-plane/workspaces/from-template":
             self._create_workspace_from_template()
@@ -428,6 +481,93 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
                 "message": "endpoint not found",
             },
         )
+
+    def _publish_context(self) -> None:
+        try:
+            request = self._read_json_body()
+
+        except (
+            UnicodeDecodeError,
+            ValueError,
+            json.JSONDecodeError,
+        ):
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": "INVALID_REQUEST",
+                    "message": (
+                        "invalid context request"
+                    ),
+                },
+            )
+            return
+
+        try:
+            deliveries = asyncio.run(
+                _publish_context_payload(
+                    request
+                )
+            )
+
+        except WorkspaceContextInvalid:
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": "INVALID_CONTEXT_UPDATE",
+                    "message": (
+                        "context update is invalid"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceContextNotFound:
+            self._json(
+                HTTPStatus.NOT_FOUND,
+                {
+                    "code": "WORKSPACE_NOT_FOUND",
+                    "message": "workspace unavailable",
+                },
+            )
+            return
+
+        except WorkspaceContextStateError:
+            self._json(
+                HTTPStatus.CONFLICT,
+                {
+                    "code": "WORKSPACE_STATE_CONFLICT",
+                    "message": (
+                        "active workspace layout "
+                        "is unavailable"
+                    ),
+                },
+            )
+            return
+
+        except (
+            RuntimeError,
+            ValueError,
+        ):
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": "CONTROL_PLANE_UNAVAILABLE",
+                    "message": (
+                        "context service unavailable"
+                    ),
+                },
+            )
+            return
+
+        self._json(
+            HTTPStatus.OK,
+            {
+                "deliveries": list(
+                    deliveries
+                )
+            },
+        )
+
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path

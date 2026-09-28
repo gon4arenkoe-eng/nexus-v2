@@ -35790,3 +35790,69 @@ PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
 AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
 RESTRICTED_LIVE=DISABLED
 FULL_LIVE=DISABLED
+
+## 2026-09-28 – Phase 11 Typed Context Bus HTTP/Browser Bridge v1
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_TYPED_CONTEXT_BUS_HTTP_BROWSER_BRIDGE_V1_VERIFIED
+
+### FACT
+
+The existing typed Context Bus application capability is now connected to the canonical Control Plane HTTP/browser path.
+
+### VERIFIED
+
+- Existing ContextKey, ContextBusUpdate, ContextDelivery and WorkspaceComposer.propagate_context contracts are reused rather than duplicated.
+- Browser account changes publish exchange_account_id typed context.
+- Browser symbol changes publish instrument_id typed context.
+- Browser strategy changes publish strategy_id typed context.
+- POST /api/v2/control-plane/context is the canonical browser-to-application bridge.
+- Tenant workspace identity is derived server-side.
+- User identity is derived server-side.
+- Browser-supplied tenantWorkspaceId/userId fields do not become trusted ownership identity.
+- Canonical active workspace layout is loaded server-side.
+- Context delivery remains restricted to the same context_group.
+- Delivery remains restricted to widget definitions supporting the requested ContextKey.
+- Invalid ContextKey fails closed with HTTP 400.
+- Missing canonical workspace fails closed with HTTP 404.
+- Context delivery is transient and does not create a parallel workspace persistence schema.
+- No database schema change was introduced.
+- No trading write authority was introduced.
+- No exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Existing Context Bus unit tests: 9 passed in 0.08s.
+- Browser contract tests: 18 passed in 0.18s.
+- Real HTTP/DB Context Bus E2E: 6 passed in 7.56s.
+- Context adjacent tests: 47 passed in 12.61s.
+- Control Plane focused: 87 passed, 1076 deselected in 13.97s.
+- Full regression: 1163 passed in 19.92s.
+- Python compile: PASS.
+- JavaScript syntax: PASS.
+- git diff --check: PASS.
+
+### CONTEXT FLOW
+
+Browser context selection -> POST /api/v2/control-plane/context -> server-derived tenant/user identity -> canonical active layout -> ContextBusUpdate -> WorkspaceComposer.propagate_context -> ContextDelivery[] -> browser linked-widget context.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+TRADING_WRITE_AUTHORITY=ABSENT
+EXCHANGE_WRITE_AUTHORITY=ABSENT
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN

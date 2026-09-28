@@ -734,3 +734,46 @@ def test_per_widget_canonical_settings_are_editable_and_serialized() -> None:
         "user_id",
     ):
         assert forbidden not in serializer
+def test_browser_context_controls_publish_typed_context() -> None:
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    for marker in (
+        "async function publishCanonicalContext(",
+        "'/api/v2/control-plane/context'",
+        "activeLinkedContextGroups()",
+        "applyContextDeliveries(",
+        "contextDeliveriesByWidget",
+        "'exchange_account_id'",
+        "'instrument_id'",
+        "'strategy_id'",
+    ):
+        assert marker in source
+
+    publish_start = source.index(
+        "async function publishCanonicalContext("
+    )
+
+    publish_end = source.index(
+        "document.querySelector("
+        "'[data-context-account]'",
+        publish_start,
+    )
+
+    publish_source = source[
+        publish_start:publish_end
+    ]
+
+    for forbidden in (
+        "tenant_workspace_id",
+        "tenantWorkspaceId",
+        "user_id",
+        "userId",
+    ):
+        assert forbidden not in publish_source

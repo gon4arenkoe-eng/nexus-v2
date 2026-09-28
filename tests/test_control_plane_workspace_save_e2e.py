@@ -1475,3 +1475,189 @@ def test_per_widget_settings_save_reload_and_restore_roundtrip(
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
+def test_typed_context_bus_http_browser_bridge(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    db_path = (
+        tmp_path
+        / "control-plane-context-bus.sqlite3"
+    )
+
+    database_url = (
+        "sqlite+aiosqlite:///"
+        + db_path.as_posix()
+    )
+
+    asyncio.run(
+        _prepare_database(
+            database_url
+        )
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_V2_DATABASE_URL",
+        database_url,
+    )
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID",
+        "tenant-a",
+    )
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_USER_ID",
+        "7",
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        save_status, saved = _http_json(
+            host=host,
+            port=port,
+            method="POST",
+            path=(
+                "/api/v2/control-plane/"
+                "workspaces/save"
+            ),
+            payload={
+                "workspaceId": "desk",
+                "baseVersion": 1,
+                "widgets": [
+                    {
+                        "id": "positions-market",
+                        "key": "portfolio.positions",
+                        "widgetVersion": 1,
+                        "column": 0,
+                        "row": 0,
+                        "width": 4,
+                        "height": 3,
+                        "contextGroup": "market",
+                        "settingsJson": "{}",
+                    },
+                    {
+                        "id": "positions-other",
+                        "key": "portfolio.positions",
+                        "widgetVersion": 1,
+                        "column": 4,
+                        "row": 0,
+                        "width": 4,
+                        "height": 3,
+                        "contextGroup": "other",
+                        "settingsJson": "{}",
+                    },
+                    {
+                        "id": "audit-market",
+                        "key": "audit.events",
+                        "widgetVersion": 1,
+                        "column": 8,
+                        "row": 0,
+                        "width": 4,
+                        "height": 3,
+                        "contextGroup": "market",
+                        "settingsJson": "{}",
+                    },
+                ],
+            },
+        )
+
+        assert save_status == 200
+        assert saved["activeLayoutVersion"] == 2
+
+        context_status, result = _http_json(
+            host=host,
+            port=port,
+            method="POST",
+            path=(
+                "/api/v2/control-plane/"
+                "context"
+            ),
+            payload={
+                "workspaceId": "desk",
+                "contextGroup": "market",
+                "key": "instrument_id",
+                "value": "BTC-PERP",
+                "sequence": 9,
+
+                # Browser-supplied identity must be ignored.
+                "tenantWorkspaceId": "tenant-b",
+                "userId": 999,
+            },
+        )
+
+        assert context_status == 200
+
+        assert result == {
+            "deliveries": [
+                {
+                    "widgetInstanceId": (
+                        "positions-market"
+                    ),
+                    "key": "instrument_id",
+                    "value": "BTC-PERP",
+                    "sequence": 9,
+                    "contextGroup": "market",
+                }
+            ]
+        }
+
+        invalid_status, invalid = _http_json(
+            host=host,
+            port=port,
+            method="POST",
+            path=(
+                "/api/v2/control-plane/"
+                "context"
+            ),
+            payload={
+                "workspaceId": "desk",
+                "contextGroup": "market",
+                "key": "not_a_context_key",
+                "value": "BTC-PERP",
+                "sequence": 10,
+            },
+        )
+
+        assert invalid_status == 400
+        assert (
+            invalid["code"]
+            == "INVALID_CONTEXT_UPDATE"
+        )
+
+        missing_status, missing = _http_json(
+            host=host,
+            port=port,
+            method="POST",
+            path=(
+                "/api/v2/control-plane/"
+                "context"
+            ),
+            payload={
+                "workspaceId": "missing",
+                "contextGroup": "market",
+                "key": "instrument_id",
+                "value": "BTC-PERP",
+                "sequence": 11,
+            },
+        )
+
+        assert missing_status == 404
+        assert (
+            missing["code"]
+            == "WORKSPACE_NOT_FOUND"
+        )
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)

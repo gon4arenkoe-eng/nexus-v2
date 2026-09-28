@@ -367,9 +367,116 @@ function bind(){
  document.querySelectorAll('[data-order-filter]').forEach(el=>el.onclick=()=>{state.orderFilter=el.dataset.orderFilter;render();toast('toast.filtered')});
  document.querySelector('[data-action="mark-read"]')?.addEventListener('click',()=>{state.noticesRead=true;render();toast('toast.read')});
  document.querySelector('[data-action="save-settings"]')?.addEventListener('click',()=>toast('toast.saved'));
- document.querySelector('[data-context-account]')?.addEventListener('change',e=>{state.contextAccount=e.target.value;safeSet('nexus:v7:account',state.contextAccount);toast('toast.context')});
- document.querySelector('[data-context-symbol]')?.addEventListener('change',e=>{state.contextSymbol=e.target.value;safeSet('nexus:v7:symbol',state.contextSymbol);toast('toast.context')});
- document.querySelector('[data-context-strategy]')?.addEventListener('change',e=>{state.contextStrategy=e.target.value;safeSet('nexus:v7:strategy',state.contextStrategy);toast('toast.context')});
+ let canonicalContextSequence=0;
+const contextDeliveriesByWidget={};
+
+function activeLinkedContextGroups(){
+  const groups=[
+    ...new Set(
+      (state.workspace?.layout||[])
+        .map(
+          item=>
+            String(
+              item?.contextGroup||''
+            ).trim()
+        )
+        .filter(Boolean)
+    )
+  ];
+
+  return groups.length
+    ?groups
+    :['market'];
+}
+
+function applyContextDeliveries(deliveries){
+  for(const delivery of deliveries||[]){
+    const widgetId=
+      String(
+        delivery?.widgetInstanceId||''
+      );
+
+    if(!widgetId){
+      continue;
+    }
+
+    contextDeliveriesByWidget[
+      widgetId
+    ]={
+      key:String(delivery?.key||''),
+      value:String(delivery?.value||''),
+      sequence:Number(
+        delivery?.sequence||0
+      ),
+      contextGroup:String(
+        delivery?.contextGroup||''
+      )
+    };
+  }
+}
+
+async function publishCanonicalContext(
+  key,
+  value
+){
+  if(!activeServerWorkspaceId){
+    return [];
+  }
+
+  const groups=
+    activeLinkedContextGroups();
+
+  const deliveries=[];
+
+  for(const contextGroup of groups){
+    canonicalContextSequence+=1;
+
+    const response=await fetch(
+      '/api/v2/control-plane/context',
+      {
+        method:'POST',
+        credentials:'same-origin',
+        cache:'no-store',
+        headers:{
+          'content-type':
+            'application/json'
+        },
+        body:JSON.stringify({
+          workspaceId:
+            activeServerWorkspaceId,
+          contextGroup,
+          key,
+          value:String(value),
+          sequence:
+            canonicalContextSequence
+        })
+      }
+    );
+
+    if(!response.ok){
+      throw new Error(
+        `HTTP ${response.status}`
+      );
+    }
+
+    const payload=
+      await response.json();
+
+    deliveries.push(
+      ...(payload?.deliveries||[])
+    );
+  }
+
+  applyContextDeliveries(
+    deliveries
+  );
+
+  return deliveries;
+}
+
+document.querySelector('[data-context-account]')?.addEventListener('change',async e=>{state.contextAccount=e.target.value;safeSet('nexus:v7:account',state.contextAccount);try{await publishCanonicalContext('exchange_account_id',state.contextAccount)}catch(error){}toast('toast.context')});
+ document.querySelector('[data-context-symbol]')?.addEventListener('change',async e=>{state.contextSymbol=e.target.value;safeSet('nexus:v7:symbol',state.contextSymbol);try{await publishCanonicalContext('instrument_id',state.contextSymbol)}catch(error){}toast('toast.context')});
+ document.querySelector('[data-context-strategy]')?.addEventListener('change',async e=>{state.contextStrategy=e.target.value;safeSet('nexus:v7:strategy',state.contextStrategy);try{await publishCanonicalContext('strategy_id',state.contextStrategy)}catch(error){}toast('toast.context')});
  document.querySelector('[data-action="add-widget"]')?.addEventListener('click',()=>{state.modal='widgets';state.catalogSearch='';render()});
  document.querySelectorAll('[data-add-widget]').forEach(el=>el.onclick=()=>addCatalogWidget(el.dataset.addWidget));
  document.querySelector('[data-action="save-layout"]')?.addEventListener('click',async()=>{try{const saved=await saveCurrentWorkspace();render();if(saved)toastText(ct('savedNow'));}catch(error){render()}});

@@ -872,3 +872,132 @@ async def create_workspace_from_curated_template(
         layout,
         template,
     )
+class WorkspaceContextError(RuntimeError):
+    """Base canonical workspace context publication failure."""
+
+
+class WorkspaceContextInvalid(WorkspaceContextError):
+    """Malformed or unsupported context publication."""
+
+
+class WorkspaceContextNotFound(WorkspaceContextError):
+    """Canonical workspace unavailable in server identity scope."""
+
+
+class WorkspaceContextStateError(WorkspaceContextError):
+    """Canonical active workspace layout unavailable."""
+
+
+async def publish_workspace_context(
+    *,
+    session_factory: Any,
+    tenant_workspace_id: str,
+    user_id: int,
+    payload: object,
+) -> tuple[dict[str, object], ...]:
+    from apps.core.application.control_plane import (
+        ControlPlaneError,
+    )
+    from packages.contracts.control_plane import (
+        ContextBusUpdate,
+    )
+    from packages.contracts.workspace import ContextKey
+
+    if not isinstance(payload, dict):
+        raise WorkspaceContextInvalid(
+            "payload must be an object"
+        )
+
+    workspace_id = _required_text(
+        payload.get("workspaceId"),
+        name="workspaceId",
+    )
+
+    context_group = _required_text(
+        payload.get("contextGroup"),
+        name="contextGroup",
+    )
+
+    key_text = _required_text(
+        payload.get("key"),
+        name="key",
+    )
+
+    value = _required_text(
+        payload.get("value"),
+        name="value",
+    )
+
+    sequence = _positive_int(
+        payload.get("sequence"),
+        name="sequence",
+    )
+
+    try:
+        key = ContextKey(key_text)
+    except ValueError as exc:
+        raise WorkspaceContextInvalid(
+            "unsupported context key"
+        ) from exc
+
+    async with session_factory() as session:
+        repository = ControlPlaneRepository(
+            session
+        )
+
+        workspace = await repository.get_user_workspace(
+            tenant_workspace_id=tenant_workspace_id,
+            user_id=user_id,
+            user_workspace_id=workspace_id,
+        )
+
+        if workspace is None:
+            raise WorkspaceContextNotFound(
+                "workspace unavailable"
+            )
+
+        layout = await repository.get_layout(
+            tenant_workspace_id=tenant_workspace_id,
+            user_id=user_id,
+            user_workspace_id=workspace_id,
+            version=workspace.active_layout_version,
+        )
+
+        if layout is None:
+            raise WorkspaceContextStateError(
+                "active layout unavailable"
+            )
+
+        update = ContextBusUpdate(
+            tenant_workspace_id=tenant_workspace_id,
+            user_workspace_id=workspace_id,
+            user_id=user_id,
+            context_group=context_group,
+            key=key,
+            value=value,
+            sequence=sequence,
+        )
+
+        try:
+            deliveries = _COMPOSER.propagate_context(
+                layout=layout,
+                update=update,
+            )
+        except (
+            ControlPlaneError,
+            ValueError,
+        ) as exc:
+            raise WorkspaceContextInvalid(
+                str(exc)
+            ) from exc
+
+    return tuple(
+        {
+            "widgetInstanceId": item.widget_instance_id,
+            "key": item.key.value,
+            "value": item.value,
+            "sequence": item.sequence,
+            "contextGroup": context_group,
+        }
+        for item in deliveries
+    )
