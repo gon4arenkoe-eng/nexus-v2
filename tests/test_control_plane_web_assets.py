@@ -807,3 +807,94 @@ def test_browser_widget_catalog_is_backend_availability_aware(
         in source
     )
     assert "return [];" in source
+def test_active_inline_mandatory_safety_surface_is_backend_driven_and_non_hideable(
+) -> None:
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    for marker in (
+        "function mandatorySafetyItems()",
+        "function renderMandatorySafety()",
+        'data-mandatory-safety="true"',
+        "DATA_UNAVAILABLE",
+        "RECONCILIATION",
+        "DATA_FRESHNESS",
+        "KILL_SWITCH",
+        "TRADING_DISABLED",
+        "RISK_LIMIT_BREACH",
+        "UNKNOWN_EXECUTION_OUTCOME",
+        "PROTECTION_FAILURE",
+        "VENUE_CONNECTIVITY",
+        "operational?.reconciliation_state",
+        "operational?.risk?.trading_state",
+        "operational?.risk?.kill_switch_active",
+        "risk.headline_utilization",
+        "risk.daily_drawdown_utilization",
+        "risk.rolling_drawdown_utilization",
+    ):
+        assert marker in source
+
+    assert (
+        source.count(
+            "${renderMandatorySafety()}"
+        )
+        == 1
+    )
+
+    render_start = source.index(
+        "function render(){"
+    )
+
+    safety_call = source.index(
+        "${renderMandatorySafety()}",
+        render_start,
+    )
+
+    context_call = source.index(
+        "${renderContextBar()}",
+        render_start,
+    )
+
+    # Global safety is rendered before all workspace /
+    # context-driven presentation.
+    assert safety_call < context_call
+
+    aggregate_start = source.index(
+        "function mandatorySafetyItems()"
+    )
+
+    aggregate_end = source.index(
+        "function renderMandatorySafety()",
+        aggregate_start,
+    )
+
+    aggregate = source[
+        aggregate_start:aggregate_end
+    ]
+
+    # Workspace composition is not an input into safety.
+    assert "state.workspace" not in aggregate
+    assert "activeServerWorkspaceId" not in aggregate
+    assert "safeGet(" not in aggregate
+    assert "localStorage" not in aggregate
+
+    presentation_start = aggregate_end
+
+    presentation_end = source.index(
+        "function render(){",
+        presentation_start,
+    )
+
+    presentation = source[
+        presentation_start:presentation_end
+    ]
+
+    # No hide/dismiss control exists for mandatory state.
+    assert "dismiss-safety" not in presentation
+    assert "hide-safety" not in presentation

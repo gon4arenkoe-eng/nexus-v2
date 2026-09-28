@@ -35918,3 +35918,86 @@ FULL_LIVE=DISABLED
 ### GATE STATUS
 
 NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+---
+
+## NEXUS V2 - Phase 11 Mandatory Safety Presentation V1
+
+**Status:** TEST VERIFIED / AUDIT VERIFIED
+
+**Evidence tag:** NEXUS_V2_PHASE11_MANDATORY_SAFETY_PRESENTATION_V1_OK
+
+### Scope
+
+Phase 11 Control Plane mandatory safety presentation is implemented on the existing global non-hideable safety surface.
+
+Canonical overview data is reused. No backend schema change was introduced.
+
+Covered safety presentation:
+
+- reconciliation STALE / DEGRADED / UNKNOWN;
+- market/account data stale or unavailable;
+- trading disabled;
+- global kill switch active;
+- risk-limit breach;
+- unknown execution/order outcome;
+- protection failure when the canonical field is present;
+- venue/account connectivity failure when the canonical field is present.
+
+Workspace/layout customization cannot suppress the global safety surface.
+
+No dismiss control exists for active mandatory safety state.
+
+PROTECTION_SAFETY and CONNECTIVITY_SAFETY are canonical-field-aware presentation wiring. This evidence does not independently claim creation or end-to-end availability of canonical backend fields where those fields are not already present.
+
+### Evidence
+
+BASELINE_HEAD=74a3d806bc636bd676828ad2e5b0ad1ef741881a
+
+TRACKED_IMPLEMENTATION_FILE=apps/web/index.html
+TRACKED_IMPLEMENTATION_FILE=tests/test_control_plane_web_assets.py
+
+MANDATORY_SAFETY_AGGREGATOR=ADDED
+GLOBAL_NON_HIDEABLE_SURFACE=REUSED
+CANONICAL_OVERVIEW_SOURCE=REUSED
+
+RECONCILIATION_SAFETY=WIRED
+DATA_FRESHNESS_SAFETY=WIRED
+TRADING_DISABLED_SAFETY=WIRED
+KILL_SWITCH_SAFETY=WIRED
+RISK_LIMIT_SAFETY=WIRED
+UNKNOWN_EXECUTION_SAFETY=WIRED
+PROTECTION_SAFETY=WIRED_WHEN_CANONICAL_FIELD_PRESENT
+CONNECTIVITY_SAFETY=WIRED_WHEN_CANONICAL_FIELD_PRESENT
+
+JAVASCRIPT_SYNTAX=PASS
+DIFF_CHECK=PASS
+SAFETY_WEB_CONTRACT=20_PASSED
+RUNTIME_WEB_ADJACENT=35_PASSED
+CONTROL_PLANE_FOCUSED=90_PASSED_1076_DESELECTED
+FULL_REGRESSION=1166_PASSED
+
+GLOBAL_SAFETY_BEFORE_WORKSPACE=PASS
+WORKSPACE_CANNOT_HIDE_SAFETY=PASS
+NO_DISMISS_CONTROL=PASS
+
+TRADING_WRITE_AUTHORITY=ABSENT
+EXCHANGE_WRITE_AUTHORITY=ABSENT
+BACKEND_SCHEMA_CHANGED=NO
+PRODUCTION_CHANGED=NO
+
+AI_PROMOTION=SHADOW_ONLY
+ADVISORY=OBSERVE_ONLY
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+
+NEXUS_V2_CONTROL_PLANE_OK=OPEN
+
+### Gate impact
+
+MANDATORY_SAFETY_PRESENTATION_V1 is closed as a verified Phase 11 slice.
+
+This evidence does not close the complete Phase 11 gate. Remaining Control Plane requirements continue independently according to Master Plan, Functional Inventory and existing Audit evidence.
+
+---

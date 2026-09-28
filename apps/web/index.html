@@ -270,7 +270,497 @@ function renderInspector(){const w=state.workspace.find(x=>x.id===state.selected
 function renderResizeHandles(id){return ['n','ne','e','se','s','sw','w','nw'].map(d=>`<span class="resize-handle rh-${d}" data-resize-handle="${id}" data-resize-dir="${d}" aria-hidden="true"></span>`).join('')}
 function renderComposer(){const status=state.layoutDirty?`<span class="layout-status dirty">${ct('dirty')}</span>`:`<span class="layout-status">${ct('saved')}</span>`;return `${pageHead('dashboard',btn('action.done','', 'data-action="customize"'))}<div class="composer-bar"><span class="edit-mode-badge"><i></i>${ct('editMode')}</span><div class="composer-toolbar-group"><button class="btn secondary" data-action="add-widget">＋ ${ct('add')}</button><button class="btn" data-action="save-layout">${ct('saveOnly')}</button><button class="btn secondary" data-action="save-version">${ct('saveVersion')}</button></div><div class="composer-toolbar-group"><button class="btn secondary" data-action="undo-layout" ${state.undoStack.length?'':'disabled'}>↶ ${ct('undo')}</button><button class="btn secondary" data-action="redo-layout" ${state.redoStack.length?'':'disabled'}>↷ ${ct('redo')}</button><button class="btn secondary" data-action="compact-layout">⇈ ${ct('compactLayout')}</button></div><div class="composer-toolbar-group"><button class="btn secondary" data-action="toggle-guides">⌗ ${state.gridGuides?ct('guidesOn'):ct('guidesOff')}</button><button class="btn secondary" data-action="lock-layout">${state.layoutLocked?'🔒 '+ct('unlock'):'🔓 '+ct('lock')}</button><button class="btn secondary" data-action="reset-layout">${ct('reset')}</button></div><span class="spacer"></span><div class="workspace-save-state">${status}</div></div><div class="composer-shell"><section class="workspace-stage"><div class="workspace-ruler"><div class="workspace-ruler-left"><span>${ct('editor')}</span><span class="grid-chip">12 COL · 78 PX</span></div><div class="workspace-shortcuts"><span><i class="kbd">Del</i> ${ct('remove')}</span><span><i class="kbd">Ctrl Z</i> ${ct('undo')}</span><span><i class="kbd">Ctrl S</i> ${ct('saveOnly')}</span></div></div><div class="workspace-canvas ${state.layoutLocked?'locked':''} ${state.gridGuides?'':'no-guides'} ${state.workspace.length?'':'empty'}" style="grid-template-rows:repeat(${maxLayoutRow()},78px)">${state.workspace.map(w=>`<article class="widget ${state.selectedWidget===w.id?'selected':''} ${w.cfg?.compact?'widget-compact':''}" data-widget="${w.id}" tabindex="0" aria-label="${t(w.title)}" style="grid-column:${w.x+1}/span ${w.w};grid-row:${w.y+1}/span ${w.h}"><header class="widget-head" data-drag-handle="${w.id}"><span class="drag-grip" aria-hidden="true">${'<i></i>'.repeat(6)}</span><span class="widget-title">${t(w.title)}</span><span class="widget-data">${scopeLabel(w.cfg.scope)} · ${w.cfg.timeframe}</span><small>${w.w}×${w.h}</small><div class="widget-controls"><button title="${ct('duplicate')}" data-widget-command="duplicate" data-id="${w.id}">⧉</button><button title="${ct('remove')}" data-widget-command="remove" data-id="${w.id}">×</button></div></header><div class="widget-body">${widgetPreview(w)}</div><span class="widget-geometry">C${w.x+1} · R${w.y+1} · ${w.w}×${w.h}</span>${renderResizeHandles(w.id)}</article>`).join('')}</div></section>${renderInspector()}</div>`}
 function renderModal(){if(!state.modal)return'';let title='',body='';if(state.modal==='safety'){title=t('modal.safetyTitle');body=t('modal.safetyBody')}else if(state.modal==='demo'){title=t('modal.demoTitle');body=t('modal.demoBody')}else if(state.modal==='profile'){title=t('profile.title');body=`<div class="profile-grid"><div class="profile-card"><span class="avatar">AK</span><div class="profile-info"><strong>Alex K.</strong><small>${t('role.owner')} · ${t('profile.session')}</small></div></div><div><div class="profile-kv"><span>${t('profile.scope')}</span><strong>${t('role.owner')}</strong></div><div class="profile-kv"><span>${t('context.workspace')}</span><strong>${t('workspace.commandCenter')}</strong></div><div class="profile-kv"><span>${t('label.previewMode')}</span><strong>V2 / TEST</strong></div><div class="profile-kv"><span>${t('label.permission')}</span><strong>${t('app.noProduction')}</strong></div></div><small style="color:var(--muted)">${t('detail.keyboard')}</small></div>`}else if(state.modal==='widgets'){title=ct('catalog');const q=(state.catalogSearch||'').trim().toLocaleLowerCase(state.lang);const filtered=availableWidgetCatalog().filter(x=>t(x.title).toLocaleLowerCase(state.lang).includes(q));body=`<p style="color:var(--muted);margin-top:0">${ct('catalogHint')}</p><div class="widget-catalog-toolbar"><input data-widget-search autofocus placeholder="${ct('catalogSearch')}" value="${esc(state.catalogSearch)}"></div><div class="widget-catalog">${filtered.length?filtered.map(x=>`<button class="widget-choice" data-add-widget="${x.key}"><strong>${t(x.title)}</strong><div class="catalog-meta"><span class="catalog-tag">${x.w} × ${x.h}</span><span class="catalog-tag">12 COL</span></div></button>`).join(''):`<div class="catalog-empty">${ct('noWidgets')}</div>`}</div>`}else if(state.modal==='commands'){title=t('panel.commandPalette');const q=(state.commandSearch||'').trim().toLocaleLowerCase(state.lang);const groups=navGroups.map(([g,items])=>[g,items.filter(([, ,key])=>t(key).toLocaleLowerCase(state.lang).includes(q))]).filter(([,items])=>items.length);body=`<input class="command-search" data-command-search autofocus placeholder="${t('action.commandSearch')}" value="${esc(state.commandSearch)}">${groups.length?groups.map(([g,items])=>`<div class="command-group">${t(g)}</div>${items.map(([id,,key])=>`<button class="command-item" data-nav="${id}"><span>${t('command.goTo')}</span><strong>${t(key)}</strong><small>↵</small></button>`).join('')}`).join(''):`<div class="command-empty">${t('command.noResults')}</div>`}<div class="command-group">${t('group.system')}</div><button class="command-item" data-action="theme"><span>${t('command.switchTheme')}</span><strong>${themeLabel()}</strong><small>T</small></button><button class="command-item" data-action="customize"><span>${t('command.customize')}</span><strong>${t('nav.dashboard')}</strong><small>C</small></button>`}return `<div class="overlay"><div class="modal" role="dialog" aria-modal="true"><header class="modal-head"><span>${title}</span><button data-action="modal-close" aria-label="${t('action.close')}">×</button></header><div class="modal-body">${body}</div></div></div>`}
-function render(){document.documentElement.dataset.theme=state.theme;document.documentElement.dataset.density=state.density;document.documentElement.lang=state.lang;document.title=`NEXUS V2 · ${t('page.'+state.page+'.title')||t('app.controlPlane')}`;document.querySelector('#app').innerHTML=`<div class="app ${state.sidebarCollapsed?'sidebar-collapsed':''}">${renderSidebar()}${state.sidebar?'<div class="scrim show" data-action="close-sidebar"></div>':''}<main class="main">${renderTopbar()}${renderSafety()}<div class="demo-strip"><b>${t('app.designPreview')}</b><span>${t('app.demoData')} · ${t('detail.demoContext')}</span><button class="btn secondary" data-modal="demo">${t('action.details')}</button></div>${renderContextBar()}${state.editing&&state.page==='dashboard'?renderComposer():(renderers[state.page]||dashboard)()}<footer class="footer"><span>${t('app.testEnvironment')}</span><span>${t('app.readOnly')}</span><span>${t('app.noProduction')}</span><span class="spacer"></span><span>${t('app.build')}</span><span>${t('app.allNominal')}</span></footer></main>${renderModal()}</div>`;bind();if(state.modal==='commands'){requestAnimationFrame(()=>{const el=document.querySelector('[data-command-search]');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}})}if(state.modal==='widgets'){requestAnimationFrame(()=>{const el=document.querySelector('[data-widget-search]');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}})}}
+function canonicalSafetyState(
+  value,
+  fallback='UNKNOWN'
+){
+  const normalized=String(
+    value??''
+  ).trim().toUpperCase();
+
+  return normalized||fallback;
+}
+
+function canonicalSafetyRatio(
+  value
+){
+  const parsed=Number(value);
+
+  return Number.isFinite(parsed)
+    ?parsed
+    :null;
+}
+
+function mandatorySafetyItems(){
+  const items=[];
+
+  const add=(
+    kind,
+    severity,
+    label,
+    value
+  )=>{
+    items.push({
+      kind,
+      severity,
+      label,
+      value:String(value)
+    });
+  };
+
+  /*
+   * The global safety surface fails closed when the
+   * canonical operational projection is unavailable.
+   * Workspace/layout personalization never controls
+   * this state.
+   */
+  if(!operational){
+    add(
+      'DATA_UNAVAILABLE',
+      'danger',
+      'Operational state',
+      operationalError||'UNKNOWN'
+    );
+
+    return items;
+  }
+
+  /*
+   * Reconciliation health is already a canonical
+   * backend projection.
+   */
+  const reconciliationState=
+    canonicalSafetyState(
+      operational?.reconciliation_state
+    );
+
+  if(
+    [
+      'STALE',
+      'DEGRADED',
+      'UNKNOWN',
+      'UNAVAILABLE'
+    ].includes(reconciliationState)
+  ){
+    add(
+      'RECONCILIATION',
+      reconciliationState==='STALE'
+        ||reconciliationState==='DEGRADED'
+        ?'warn'
+        :'danger',
+      'Reconciliation',
+      reconciliationState
+    );
+  }
+
+  /*
+   * Canonical portfolio / account-data freshness.
+   */
+  const freshnessCandidates=[
+    [
+      'Portfolio data',
+      operational?.portfolio
+        ?.observation_state
+        ??operational?.portfolio_state
+    ],
+    [
+      'Risk data',
+      operational?.risk
+        ?.observation_state
+        ??operational?.risk_state
+    ],
+    [
+      'Market data',
+      operational?.market_data_state
+        ??operational?.market_state
+    ],
+    [
+      'Account data',
+      operational?.account_data_state
+    ]
+  ];
+
+  for(
+    const [
+      label,
+      rawState
+    ]
+    of freshnessCandidates
+  ){
+    if(
+      rawState===null
+      ||rawState===undefined
+      ||String(rawState).trim()===''
+    ){
+      continue;
+    }
+
+    const stateValue=
+      canonicalSafetyState(rawState);
+
+    if(
+      [
+        'STALE',
+        'DEGRADED',
+        'UNKNOWN',
+        'UNAVAILABLE'
+      ].includes(stateValue)
+    ){
+      add(
+        'DATA_FRESHNESS',
+        stateValue==='STALE'
+          ||stateValue==='DEGRADED'
+          ?'warn'
+          :'danger',
+        label,
+        stateValue
+      );
+    }
+  }
+
+  /*
+   * Explicit kill-switch state has priority.
+   */
+  const killSwitchActive=
+    operational?.kill_switch_active
+    ??operational?.risk?.kill_switch_active;
+
+  if(killSwitchActive===true){
+    add(
+      'KILL_SWITCH',
+      'danger',
+      'Kill switch',
+      'ACTIVE'
+    );
+  }
+
+  /*
+   * Trading state is presentation of canonical risk
+   * state only. It never changes authority.
+   */
+  const rawTradingState=
+    operational?.risk?.trading_state
+    ??operational?.trading_state;
+
+  if(
+    rawTradingState!==null
+    &&rawTradingState!==undefined
+    &&String(rawTradingState).trim()!==''
+  ){
+    const tradingState=
+      canonicalSafetyState(
+        rawTradingState
+      );
+
+    if(
+      ![
+        'ACTIVE',
+        'ENABLED'
+      ].includes(tradingState)
+    ){
+      add(
+        'TRADING_DISABLED',
+        'danger',
+        'Trading',
+        tradingState
+      );
+    }
+  }
+
+  /*
+   * >= 1 means the canonical risk projection reports
+   * a limit fully consumed or exceeded.
+   */
+  const risk=operational?.risk||{};
+
+  const utilizationFields=[
+    [
+      'Portfolio risk',
+      risk.headline_utilization
+    ],
+    [
+      'Gross exposure',
+      risk.gross_exposure_utilization
+    ],
+    [
+      'Net exposure',
+      risk.net_exposure_utilization
+    ],
+    [
+      'Leverage',
+      risk.leverage_utilization
+    ],
+    [
+      'Margin',
+      risk.margin_limit_utilization
+    ],
+    [
+      'Daily drawdown',
+      risk.daily_drawdown_utilization
+    ],
+    [
+      'Rolling drawdown',
+      risk.rolling_drawdown_utilization
+    ]
+  ];
+
+  const breached=
+    utilizationFields
+      .map(
+        ([label,value])=>[
+          label,
+          canonicalSafetyRatio(value)
+        ]
+      )
+      .filter(
+        ([,value])=>
+          value!==null
+          &&value>=1
+      );
+
+  if(breached.length){
+    add(
+      'RISK_LIMIT_BREACH',
+      'danger',
+      'Risk limit',
+      breached
+        .map(
+          ([label,value])=>
+            `${label} ${value.toFixed(3)}`
+        )
+        .join(', ')
+    );
+  }
+
+  /*
+   * Unknown order / venue outcomes may never disappear
+   * inside an ordinary orders widget.
+   */
+  const unknownOrders=
+    (operational?.orders||[])
+      .filter(order=>{
+        const status=
+          canonicalSafetyState(
+            order?.status,
+            ''
+          );
+
+        const venueState=
+          canonicalSafetyState(
+            order?.venue_state,
+            ''
+          );
+
+        return (
+          status.includes('UNKNOWN')
+          ||venueState.includes('UNKNOWN')
+        );
+      });
+
+  if(unknownOrders.length){
+    add(
+      'UNKNOWN_EXECUTION_OUTCOME',
+      'danger',
+      'Execution outcome',
+      `${unknownOrders.length} UNKNOWN`
+    );
+  }
+
+  /*
+   * Protection state is consumed only when a canonical
+   * position projection provides it. No value is invented.
+   */
+  const protectionFailures=
+    (operational?.positions||[])
+      .filter(position=>{
+        const raw=
+          position?.protection_state
+          ??position?.protection_status;
+
+        if(
+          raw===null
+          ||raw===undefined
+          ||String(raw).trim()===''
+        ){
+          return false;
+        }
+
+        const protectionState=
+          canonicalSafetyState(
+            raw,
+            ''
+          );
+
+        return [
+          'FAILED',
+          'FAILURE',
+          'MISSING',
+          'DEGRADED',
+          'UNKNOWN',
+          'UNPROTECTED'
+        ].includes(protectionState);
+      });
+
+  if(protectionFailures.length){
+    add(
+      'PROTECTION_FAILURE',
+      'danger',
+      'Protection',
+      `${protectionFailures.length} affected`
+    );
+  }
+
+  /*
+   * Venue/account connectivity is consumed when the
+   * canonical overview exposes it. Browser-local demo
+   * exchange accounts never become safety truth.
+   */
+  const connectivityStates=[];
+
+  for(const [label,value] of [
+    [
+      'Venue connectivity',
+      operational?.venue_state
+        ??operational?.venue_connectivity_state
+    ],
+    [
+      'Account connectivity',
+      operational?.account_state
+        ??operational?.account_connectivity_state
+    ],
+    [
+      'Connectivity',
+      operational?.connectivity_state
+    ]
+  ]){
+    if(
+      value!==null
+      &&value!==undefined
+      &&String(value).trim()!==''
+    ){
+      connectivityStates.push([
+        label,
+        value
+      ]);
+    }
+  }
+
+  for(
+    const venue
+    of operational?.venues||[]
+  ){
+    const value=
+      venue?.connectivity_state
+      ??venue?.state;
+
+    if(
+      value!==null
+      &&value!==undefined
+      &&String(value).trim()!==''
+    ){
+      connectivityStates.push([
+        String(
+          venue?.venue_id
+          ??venue?.name
+          ??'Venue'
+        ),
+        value
+      ]);
+    }
+  }
+
+  for(
+    const account
+    of operational?.accounts||[]
+  ){
+    const value=
+      account?.connectivity_state
+      ??account?.state;
+
+    if(
+      value!==null
+      &&value!==undefined
+      &&String(value).trim()!==''
+    ){
+      connectivityStates.push([
+        String(
+          account?.account_id
+          ??account?.name
+          ??'Account'
+        ),
+        value
+      ]);
+    }
+  }
+
+  const badConnectivity=
+    connectivityStates.filter(
+      ([,raw])=>{
+        const value=
+          canonicalSafetyState(
+            raw,
+            ''
+          );
+
+        return ![
+          'CURRENT',
+          'CONNECTED',
+          'HEALTHY',
+          'ACTIVE',
+          'AVAILABLE'
+        ].includes(value);
+      }
+    );
+
+  if(badConnectivity.length){
+    add(
+      'VENUE_CONNECTIVITY',
+      'danger',
+      'Connectivity',
+      badConnectivity
+        .map(
+          ([label,value])=>
+            `${label} ${canonicalSafetyState(value)}`
+        )
+        .join(', ')
+    );
+  }
+
+  return items;
+}
+
+function renderMandatorySafety(){
+  const items=
+    mandatorySafetyItems();
+
+  /*
+   * Existing non-production/static safety banner stays.
+   * Dynamic canonical events are additive and cannot
+   * be removed by workspace customization.
+   */
+  const base=renderSafety();
+
+  if(!items.length){
+    return `<div class="mandatory-safety-shell" data-mandatory-safety="true" data-safety-count="0">${base}</div>`;
+  }
+
+  const eventMarkup=
+    items
+      .map(item=>{
+        const tone=
+          item.severity==='danger'
+            ?'danger'
+            :item.severity==='warn'
+              ?'warn'
+              :'neutral';
+
+        return `<span class="pill ${tone}" data-safety-kind="${esc(item.kind)}"><i class="dot"></i>${esc(item.label)}: ${esc(item.value)}</span>`;
+      })
+      .join('');
+
+  return `<div class="mandatory-safety-shell" data-mandatory-safety="true" data-safety-count="${items.length}" aria-live="assertive">${base}<div class="safety mandatory-safety-events"><strong>MANDATORY SAFETY</strong><span>${eventMarkup}</span></div></div>`;
+}
+function render(){document.documentElement.dataset.theme=state.theme;document.documentElement.dataset.density=state.density;document.documentElement.lang=state.lang;document.title=`NEXUS V2 · ${t('page.'+state.page+'.title')||t('app.controlPlane')}`;document.querySelector('#app').innerHTML=`<div class="app ${state.sidebarCollapsed?'sidebar-collapsed':''}">${renderSidebar()}${state.sidebar?'<div class="scrim show" data-action="close-sidebar"></div>':''}<main class="main">${renderTopbar()}${renderMandatorySafety()}<div class="demo-strip"><b>${t('app.designPreview')}</b><span>${t('app.demoData')} · ${t('detail.demoContext')}</span><button class="btn secondary" data-modal="demo">${t('action.details')}</button></div>${renderContextBar()}${state.editing&&state.page==='dashboard'?renderComposer():(renderers[state.page]||dashboard)()}<footer class="footer"><span>${t('app.testEnvironment')}</span><span>${t('app.readOnly')}</span><span>${t('app.noProduction')}</span><span class="spacer"></span><span>${t('app.build')}</span><span>${t('app.allNominal')}</span></footer></main>${renderModal()}</div>`;bind();if(state.modal==='commands'){requestAnimationFrame(()=>{const el=document.querySelector('[data-command-search]');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}})}if(state.modal==='widgets'){requestAnimationFrame(()=>{const el=document.querySelector('[data-widget-search]');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length)}})}}
 let toastTimer;function toast(key){document.querySelector('.toast')?.remove();const el=document.createElement('div');el.className='toast';el.textContent=t(key);document.body.appendChild(el);clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),1800)}
 function setTheme(v){state.theme=v;safeSet('nexus:v7:theme',v);render();toast('toast.theme')}
 function setLang(v){state.lang=v;safeSet('nexus:v7:lang',v);render();toast('toast.language')}
