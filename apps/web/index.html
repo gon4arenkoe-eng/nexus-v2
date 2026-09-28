@@ -653,11 +653,19 @@ function workspaceProjectionToLayout(workspace){
      * Preserve source-of-truth identity for later canonical
      * persistence. Never reconstruct it from presentation.key.
      */
+    /*
+     * Canonical versions are persistence identity.
+     * Never invent version 1 for malformed server data.
+     */
+    if(
+      !Number.isInteger(item.widgetVersion) ||
+      item.widgetVersion<1
+    ){
+      return null;
+    }
+
     projectedItem.canonicalKey=item.key;
-    projectedItem.canonicalVersion=
-      Number.isInteger(item.widgetVersion)
-        ?item.widgetVersion
-        :1;
+    projectedItem.canonicalVersion=item.widgetVersion;
 
     projected.push(projectedItem);
   }
@@ -665,6 +673,111 @@ function workspaceProjectionToLayout(workspace){
   return projected;
 }
 
+
+
+function canonicalWorkspaceSavePayload(){
+  /*
+   * This function builds canonical presentation persistence only.
+   * It does not perform HTTP or database mutation.
+   */
+  if(
+    typeof activeServerWorkspaceId!=='string' ||
+    !activeServerWorkspaceId
+  ){
+    return null;
+  }
+
+  if(
+    !Number.isInteger(activeServerWorkspaceBaseVersion) ||
+    activeServerWorkspaceBaseVersion<1
+  ){
+    return null;
+  }
+
+  const widgets=[];
+
+  for(const item of state.workspace){
+    if(
+      !item ||
+      typeof item.id!=='string' ||
+      !item.id
+    ){
+      return null;
+    }
+
+    /*
+     * Never reverse-infer canonical identity from browser key.
+     * Local catalog widgets without canonical identity remain
+     * intentionally unsaveable until registry-backed add wiring exists.
+     */
+    if(
+      typeof item.canonicalKey!=='string' ||
+      !item.canonicalKey ||
+      !Number.isInteger(item.canonicalVersion) ||
+      item.canonicalVersion<1
+    ){
+      return null;
+    }
+
+    if(
+      item.contextGroup!==null &&
+      item.contextGroup!==undefined &&
+      typeof item.contextGroup!=='string'
+    ){
+      return null;
+    }
+
+    if(
+      !Number.isInteger(item.x) ||
+      !Number.isInteger(item.y) ||
+      !Number.isInteger(item.w) ||
+      !Number.isInteger(item.h) ||
+      item.x<0 ||
+      item.y<0 ||
+      item.w<1 ||
+      item.h<1 ||
+      item.x+item.w>12
+    ){
+      return null;
+    }
+
+    const cfg=item.cfg??{};
+
+    if(
+      !cfg ||
+      typeof cfg!=='object' ||
+      Array.isArray(cfg)
+    ){
+      return null;
+    }
+
+    let settingsJson;
+
+    try{
+      settingsJson=JSON.stringify(cfg);
+    }catch(error){
+      return null;
+    }
+
+    widgets.push({
+      id:item.id,
+      key:item.canonicalKey,
+      widgetVersion:item.canonicalVersion,
+      column:item.x,
+      row:item.y,
+      width:item.w,
+      height:item.h,
+      contextGroup:item.contextGroup??null,
+      settingsJson
+    });
+  }
+
+  return {
+    workspaceId:activeServerWorkspaceId,
+    baseVersion:activeServerWorkspaceBaseVersion,
+    widgets
+  };
+}
 
 async function loadWorkspaceState(){
   try{

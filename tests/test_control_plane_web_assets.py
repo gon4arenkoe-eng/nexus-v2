@@ -262,3 +262,47 @@ def test_canonical_workspace_retains_active_layout_as_base_version() -> None:
     assert 'method:"PUT"' not in source
     assert "method:'DELETE'" not in source
     assert 'method:"DELETE"' not in source
+
+def test_canonical_workspace_save_payload_is_lossless_and_fail_closed() -> None:
+    from pathlib import Path
+
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(encoding="utf-8")
+
+    assert "function canonicalWorkspaceSavePayload()" in source
+
+    assert "workspaceId:activeServerWorkspaceId" in source
+    assert "baseVersion:activeServerWorkspaceBaseVersion" in source
+
+    assert "key:item.canonicalKey" in source
+    assert "widgetVersion:item.canonicalVersion" in source
+    assert "column:item.x" in source
+    assert "row:item.y" in source
+    assert "width:item.w" in source
+    assert "height:item.h" in source
+    assert "contextGroup:item.contextGroup??null" in source
+    assert "settingsJson=JSON.stringify(cfg);" in source
+
+    # Canonical identity may never be reconstructed from presentation key.
+    assert "typeof item.canonicalKey!=='string'" in source
+    assert "!Number.isInteger(item.canonicalVersion)" in source
+
+    # Server widget version may no longer silently fall back to 1.
+    assert "projectedItem.canonicalVersion=item.widgetVersion;" in source
+    assert (
+        "Number.isInteger(item.widgetVersion)\n"
+        "        ?item.widgetVersion\n"
+        "        :1;"
+    ) not in source
+
+    # Serializer foundation only: no server mutation in this slice.
+    assert "method:'POST'" not in source
+    assert 'method:"POST"' not in source
+    assert "method:'PUT'" not in source
+    assert 'method:"PUT"' not in source
+    assert "method:'DELETE'" not in source
+    assert 'method:"DELETE"' not in source

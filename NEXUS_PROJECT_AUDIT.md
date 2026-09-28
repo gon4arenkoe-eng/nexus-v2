@@ -35248,3 +35248,52 @@ PRODUCTION_DB_CHANGED=NO
 RUNNING_CONTAINER_CHANGED=NO
 SERVER_BUILD=NO
 PRODUCTION_AUTHORITY_CHANGED=NO
+
+## 2026-09-28 – Phase 11 canonical workspace save payload serializer
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_CANONICAL_SAVE_PAYLOAD_SERIALIZER_VERIFIED
+
+### VERIFIED
+
+- Browser canonical workspace state can be serialized into an explicit save payload.
+- Payload retains workspaceId and canonical baseVersion.
+- Widget canonicalKey and canonicalVersion are used directly; browser presentation key is not reverse-inferred.
+- Widget geometry, contextGroup and settingsJson are preserved.
+- Missing canonical widget identity fails closed.
+- Malformed canonical widget version fails closed.
+- Canonical widget version no longer silently falls back to version 1.
+- No workspace POST/PUT/DELETE capability was introduced.
+- No database mutation was introduced.
+- No trading/exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Focused: 18 passed in 2.41s
+- Adjacent: 54 passed, 1076 deselected in 3.00s
+- Full regression: 1130 passed in 8.45s
+- Python compile: PASS
+- git diff --check: PASS
+- HTTP workspace mutation: ABSENT
+- Database mutation: ABSENT
+- Trading write authority: ABSENT
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+This closes canonical browser save-payload serialization only.
+Registry-backed canonical identity for newly added catalog widgets remains required before canonical server save.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_AUTHORITY_CHANGED=NO
