@@ -117,15 +117,28 @@ const COMPOSER_EXTRA={
 };
 function ct(k){return (COMPOSER_EXTRA[state.lang]||COMPOSER_EXTRA.en)[k]||(COMPOSER_I18N[state.lang]||COMPOSER_I18N.en)[k]||COMPOSER_EXTRA.en[k]||COMPOSER_I18N.en[k]||k}
 const widgetCatalog=[
- {key:'nav',title:'widget.nav',w:4,h:2},{key:'pnl',title:'widget.pnl',w:4,h:2},{key:'risk',title:'widget.risk',w:4,h:2},
- {key:'positions',title:'widget.positions',w:6,h:3},{key:'strategies',title:'widget.strategies',w:6,h:3},{key:'intelligence',title:'widget.intelligence',w:4,h:3},
- {key:'grid',title:'widget.grid',w:4,h:3},{key:'aiea',title:'widget.aiea',w:4,h:3},{key:'reconciliation',title:'nav.reconciliation',w:4,h:3},
- {key:'orders',title:'nav.orders',w:6,h:3},{key:'exchanges',title:'nav.exchanges',w:4,h:3},{key:'alerts',title:'nav.notifications',w:4,h:3}
+ {key:'nav',title:'widget.nav',w:4,h:2,canonicalKey:'portfolio.nav',canonicalVersion:1},
+ {key:'pnl',title:'widget.pnl',w:4,h:2,canonicalKey:'portfolio.pnl',canonicalVersion:1},
+ {key:'risk',title:'widget.risk',w:4,h:2,canonicalKey:'risk.portfolio',canonicalVersion:1},
+ {key:'positions',title:'widget.positions',w:6,h:3,canonicalKey:'portfolio.positions',canonicalVersion:1},
+ {key:'strategies',title:'widget.strategies',w:6,h:3,canonicalKey:'strategy.status',canonicalVersion:1},
+ {key:'intelligence',title:'widget.intelligence',w:4,h:3,canonicalKey:'intelligence.market_context',canonicalVersion:1},
+ {key:'grid',title:'widget.grid',w:4,h:3,canonicalKey:'grid.desk',canonicalVersion:1},
+ {key:'aiea',title:'widget.aiea',w:4,h:3,canonicalKey:'aiea.research',canonicalVersion:1},
+ {key:'reconciliation',title:'nav.reconciliation',w:4,h:3,canonicalKey:'reconciliation.health',canonicalVersion:1},
+ {key:'orders',title:'nav.orders',w:6,h:3,canonicalKey:'execution.orders_fills',canonicalVersion:1},
+ {key:'exchanges',title:'nav.exchanges',w:4,h:3,canonicalKey:'venue.account_health',canonicalVersion:1},
+ {key:'alerts',title:'nav.notifications',w:4,h:3,canonicalKey:'intelligence.news_events',canonicalVersion:1}
 ];
 const defaultWidgets=[
- {id:'w1',key:'nav',title:'widget.nav',x:0,y:0,w:4,h:2},{id:'w2',key:'pnl',title:'widget.pnl',x:4,y:0,w:4,h:2},{id:'w3',key:'risk',title:'widget.risk',x:8,y:0,w:4,h:2},
- {id:'w4',key:'positions',title:'widget.positions',x:0,y:2,w:6,h:3},{id:'w5',key:'strategies',title:'widget.strategies',x:6,y:2,w:6,h:3},
- {id:'w6',key:'intelligence',title:'widget.intelligence',x:0,y:5,w:4,h:3},{id:'w7',key:'grid',title:'widget.grid',x:4,y:5,w:4,h:3},{id:'w8',key:'aiea',title:'widget.aiea',x:8,y:5,w:4,h:3}
+ {id:'w1',key:'nav',title:'widget.nav',x:0,y:0,w:4,h:2,canonicalKey:'portfolio.nav',canonicalVersion:1,contextGroup:null},
+ {id:'w2',key:'pnl',title:'widget.pnl',x:4,y:0,w:4,h:2,canonicalKey:'portfolio.pnl',canonicalVersion:1,contextGroup:null},
+ {id:'w3',key:'risk',title:'widget.risk',x:8,y:0,w:4,h:2,canonicalKey:'risk.portfolio',canonicalVersion:1,contextGroup:null},
+ {id:'w4',key:'positions',title:'widget.positions',x:0,y:2,w:6,h:3,canonicalKey:'portfolio.positions',canonicalVersion:1,contextGroup:null},
+ {id:'w5',key:'strategies',title:'widget.strategies',x:6,y:2,w:6,h:3,canonicalKey:'strategy.status',canonicalVersion:1,contextGroup:null},
+ {id:'w6',key:'intelligence',title:'widget.intelligence',x:0,y:5,w:4,h:3,canonicalKey:'intelligence.market_context',canonicalVersion:1,contextGroup:null},
+ {id:'w7',key:'grid',title:'widget.grid',x:4,y:5,w:4,h:3,canonicalKey:'grid.desk',canonicalVersion:1,contextGroup:null},
+ {id:'w8',key:'aiea',title:'widget.aiea',x:8,y:5,w:4,h:3,canonicalKey:'aiea.research',canonicalVersion:1,contextGroup:null}
 ];
 function defaultWidgetCfg(){return {scope:'linked',timeframe:'1H',refresh:'realtime',compact:false}}
 function normalizeCfg(w){w.cfg={...defaultWidgetCfg(),...(w.cfg||{})};return w}
@@ -243,7 +256,51 @@ function toggleWidgetConfig(field){const w=state.workspace.find(x=>x.id===state.
 function duplicateWidget(id){const src=state.workspace.find(x=>x.id===id);if(!src)return;pushUndo();const w={...src,cfg:{...src.cfg},id:'w'+Date.now(),x:Math.min(12-src.w,src.x+1),y:src.y+1};state.workspace.push(w);reflowLayout(state.workspace,w.id);state.selectedWidget=w.id;markDirty();render();toastText(ct('duplicateDone'))}
 function removeWidget(id){if(!id)return;pushUndo();state.workspace=state.workspace.filter(x=>x.id!==id);compactLayout(state.workspace);state.selectedWidget=null;markDirty();render();toastText(ct('removed'))}
 function toastText(msg){document.querySelector('.toast')?.remove();const el=document.createElement('div');el.className='toast';el.textContent=msg;document.body.appendChild(el);clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),1800)}
-function addCatalogWidget(key){const c=widgetCatalog.find(x=>x.key===key);if(!c)return;pushUndo();const y=Math.max(0,...state.workspace.map(w=>w.y+w.h));const w=normalizeCfg({id:'w'+Date.now(),key:c.key,title:c.title,x:0,y,w:c.w,h:c.h});state.workspace.push(w);compactLayout(state.workspace);state.selectedWidget=w.id;state.modal=null;markDirty();render()}
+function addCatalogWidget(key){
+  const c=widgetCatalog.find(x=>x.key===key);
+
+  if(!c)return;
+
+  /*
+   * Browser catalog entries are only saveable when their
+   * identity comes directly from the canonical Widget Registry.
+   */
+  if(
+    typeof c.canonicalKey!=='string' ||
+    !c.canonicalKey ||
+    !Number.isInteger(c.canonicalVersion) ||
+    c.canonicalVersion<1
+  ){
+    return;
+  }
+
+  pushUndo();
+
+  const y=Math.max(
+    0,
+    ...state.workspace.map(w=>w.y+w.h)
+  );
+
+  const w=normalizeCfg({
+    id:'w'+Date.now(),
+    key:c.key,
+    title:c.title,
+    x:0,
+    y,
+    w:c.w,
+    h:c.h,
+    canonicalKey:c.canonicalKey,
+    canonicalVersion:c.canonicalVersion,
+    contextGroup:null
+  });
+
+  state.workspace.push(w);
+  compactLayout(state.workspace);
+  state.selectedWidget=w.id;
+  state.modal=null;
+  markDirty();
+  render();
+}
 function startPointerInteraction(e,id,type,dir='se'){if(state.layoutLocked||e.button!==0)return;const w=state.workspace.find(x=>x.id===id);const canvas=document.querySelector('.workspace-canvas');const el=document.querySelector(`[data-widget="${id}"]`);if(!w||!canvas||!el)return;e.preventDefault();e.stopPropagation();pushUndo();state.selectedWidget=id;const cr=canvas.getBoundingClientRect();const cs=getComputedStyle(canvas);const gap=parseFloat(cs.columnGap)||8;const cellW=(cr.width-gap*11)/12;const rowH=78+gap;interaction={id,type,dir,startX:e.clientX,startY:e.clientY,orig:{...w},cellW,rowH,el};el.classList.add(type==='drag'?'dragging':'resizing');window.addEventListener('pointermove',onPointerMove);window.addEventListener('pointerup',endPointerInteraction,{once:true})}
 function applyResize(w,orig,dx,dy,dir){let x=orig.x,y=orig.y,ww=orig.w,hh=orig.h;if(dir.includes('e'))ww=orig.w+dx;if(dir.includes('s'))hh=orig.h+dy;if(dir.includes('w')){x=orig.x+dx;ww=orig.w-dx}if(dir.includes('n')){y=orig.y+dy;hh=orig.h-dy}if(ww<2){if(dir.includes('w'))x=orig.x+orig.w-2;ww=2}if(hh<2){if(dir.includes('n'))y=orig.y+orig.h-2;hh=2}if(x<0){if(dir.includes('w'))ww+=x;x=0}if(y<0){if(dir.includes('n'))hh+=y;y=0}if(x+ww>12){if(dir.includes('e'))ww=12-x;else x=12-ww}w.x=x;w.y=y;w.w=ww;w.h=hh;normalizeItem(w)}
 function updateInteractionBadge(w){const b=interaction?.el?.querySelector('.widget-geometry');if(b)b.textContent=`C${w.x+1} · R${w.y+1} · ${w.w}×${w.h}`;const sm=interaction?.el?.querySelector('.widget-head small');if(sm)sm.textContent=`${w.w}×${w.h}`}

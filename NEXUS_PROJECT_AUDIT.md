@@ -35297,3 +35297,53 @@ PRODUCTION_DB_CHANGED=NO
 RUNNING_CONTAINER_CHANGED=NO
 SERVER_BUILD=NO
 PRODUCTION_AUTHORITY_CHANGED=NO
+
+## 2026-09-28 – Phase 11 browser-created widget canonical identity
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_BROWSER_CREATED_WIDGET_CANONICAL_IDENTITY_VERIFIED
+
+### VERIFIED
+
+- Browser Widget Catalog entries are bound explicitly to canonical Widget Registry identity.
+- Canonical versions are taken from the real INITIAL_WIDGET_DEFINITIONS registry.
+- Browser-created widgets retain canonicalKey and canonicalVersion.
+- Default/reset workspace widgets retain canonical persistence identity.
+- Missing or malformed catalog canonical identity fails closed.
+- Duplicate widgets preserve canonical identity through existing object-spread behavior.
+- No browser HTTP workspace mutation was introduced.
+- No database mutation was introduced.
+- No trading/exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Registry identities verified: 12
+- Python compile: PASS
+- JavaScript syntax: PASS
+- git diff --check: PASS
+- Focused: 22 passed in 2.22s
+- Adjacent: 55 passed, 1076 deselected in 2.92s
+- Full regression: 1131 passed in 7.99s
+- HTTP workspace mutation: ABSENT
+- Database mutation: ABSENT
+- Trading write authority: ABSENT
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+This closes the known browser-side canonical identity prerequisite for Save Existing Workspace v1.
+Canonical workspace server-write persistence remains open.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_AUTHORITY_CHANGED=NO

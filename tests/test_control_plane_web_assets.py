@@ -306,3 +306,67 @@ def test_canonical_workspace_save_payload_is_lossless_and_fail_closed() -> None:
     assert 'method:"PUT"' not in source
     assert "method:'DELETE'" not in source
     assert 'method:"DELETE"' not in source
+
+def test_browser_created_widgets_use_canonical_registry_identity() -> None:
+    from apps.core.application.control_plane_catalog import (
+        INITIAL_WIDGET_DEFINITIONS,
+    )
+
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(encoding="utf-8")
+
+    registry_versions = {
+        definition.manifest.widget_key: definition.manifest.version
+        for definition in INITIAL_WIDGET_DEFINITIONS
+    }
+
+    expected = {
+        "nav": "portfolio.nav",
+        "pnl": "portfolio.pnl",
+        "risk": "risk.portfolio",
+        "positions": "portfolio.positions",
+        "strategies": "strategy.status",
+        "intelligence": "intelligence.market_context",
+        "grid": "grid.desk",
+        "aiea": "aiea.research",
+        "reconciliation": "reconciliation.health",
+        "orders": "execution.orders_fills",
+        "exchanges": "venue.account_health",
+        "alerts": "intelligence.news_events",
+    }
+
+    for browser_key, canonical_key in expected.items():
+        assert canonical_key in registry_versions
+        version = registry_versions[canonical_key]
+
+        marker = (
+            f"key:'{browser_key}'"
+            if browser_key != "positions"
+            else "key:'positions'"
+        )
+
+        assert marker in source
+        assert f"canonicalKey:'{canonical_key}'" in source
+        assert f"canonicalVersion:{version}" in source
+
+    assert "canonicalKey:c.canonicalKey" in source
+    assert "canonicalVersion:c.canonicalVersion" in source
+    assert "contextGroup:null" in source
+
+    assert "typeof c.canonicalKey!=='string'" in source
+    assert "!Number.isInteger(c.canonicalVersion)" in source
+
+    # Duplicate keeps the canonical identity by object spread.
+    assert "const w={...src,cfg:{...src.cfg}" in source
+
+    # This step still introduces no server-side workspace write.
+    assert "method:'POST'" not in source
+    assert 'method:"POST"' not in source
+    assert "method:'PUT'" not in source
+    assert 'method:"PUT"' not in source
+    assert "method:'DELETE'" not in source
+    assert 'method:"DELETE"' not in source
