@@ -34803,3 +34803,103 @@ Phase 12 gate remains OPEN pending full evidence reconciliation against all cano
 ### NEXT STEP
 
 Perform a full Phase 12 Audit evidence reconciliation against immutable images, GHCR publishing, SBOM, attestations, deploy manifests, backup/rollback runbooks and no-build-on-production enforcement.
+
+## Phase 12 — Release Pipeline gate status consolidation — 2026-09-27
+
+### FACT
+
+A full Audit reconciliation identified a current-state contradiction.
+
+Historical Phase 12 final verification already established:
+
+- `IMMUTABLE_IMAGES=VERIFIED`;
+- `GHCR_PUBLISHING=VERIFIED`;
+- `SBOM=VERIFIED`;
+- `ATTESTATIONS=VERIFIED`;
+- `DEPLOY_MANIFEST=VERIFIED`;
+- `BACKUP_RUNBOOK=VERIFIED`;
+- `ROLLBACK_RUNBOOK=VERIFIED`;
+- `NO_BUILD_ON_PRODUCTION=VERIFIED`;
+- `Final Gate Review: PASS`;
+- `GAP_COUNT=0`;
+- status `DONE / TEST VERIFIED`;
+- gate `NEXUS_V2_RELEASE_PIPELINE_OK`;
+- evidence tag `NEXUS_V2_RELEASE_PIPELINE_FINAL_VERIFICATION_OK`.
+
+Later Phase 11 recovery work added new Phase 12-related evidence but incorrectly stated that
+`NEXUS_V2_RELEASE_PIPELINE_OK` remained OPEN.
+
+The Master Plan Phase 12 requirements were not changed and the historical final gate was not revoked.
+
+### RECOVERY DELTA
+
+Additional verified evidence after the historical Phase 12 final gate:
+
+- `NEXUS_V2_PHASE12_V2_POSTGRES_MIGRATION_REHEARSAL_VERIFIED`;
+- `NEXUS_V2_PHASE12_OBSERVER_DEPLOY_ROLLBACK_MANIFEST_LOCAL_VERIFIED`;
+- `NEXUS_V2_PHASE12_REMOTE_CI_EXACT_COMMIT_VERIFIED`.
+
+These recovery slices strengthen the existing release-pipeline evidence and do not create a new Phase 12 gate requirement.
+
+### CONTRADICTION RESOLUTION
+
+Historical entries that state:
+
+`NEXUS_V2_RELEASE_PIPELINE_OK remains OPEN`
+
+after the previously completed Phase 12 final verification are retained as historical records but are superseded for current-state interpretation by this consolidation entry.
+
+No Master Plan roadmap change is made.
+
+### STATUS
+
+`NEXUS_V2_RELEASE_PIPELINE_OK = DONE / TEST VERIFIED`
+
+Evidence:
+
+- historical `NEXUS_V2_RELEASE_PIPELINE_FINAL_VERIFICATION_OK`;
+- immutable GHCR image evidence;
+- SBOM/provenance evidence;
+- digest deploy/rollback evidence;
+- no-build-on-production evidence;
+- V2 PostgreSQL migration rehearsal;
+- Phase 11 observer candidate/rollback manifest verification;
+- exact-commit remote CI verification.
+
+Evidence tag:
+
+`NEXUS_V2_PHASE12_GATE_STATUS_CONSOLIDATED`
+
+### SCOPE BOUNDARY
+
+This Phase 12 status does NOT close Phase 11.
+
+Current Control Plane status remains:
+
+`NEXUS_V2_CONTROL_PLANE_OK = OPEN`
+
+This Phase 12 consolidation also does not authorize:
+
+- production V2 database migration;
+- production container replacement;
+- production cutover;
+- Restricted Live;
+- Full Live;
+- AI direct exchange execution.
+
+### PRODUCTION SAFETY
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- production source build = FORBIDDEN;
+- production DB migration = NOT EXECUTED;
+- production container replacement = NOT EXECUTED.
+
+### NEXT STEP
+
+Return to the earliest open prerequisite in the canonical phase sequence:
+
+`Phase 11 — NEXUS_V2_CONTROL_PLANE_OK`.
