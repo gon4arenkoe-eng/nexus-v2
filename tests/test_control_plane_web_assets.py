@@ -195,3 +195,40 @@ def test_canonical_widget_namespace_adapter_preserves_identity() -> None:
     assert "method:'POST'" not in source
     assert "method:'PUT'" not in source
     assert "method:'DELETE'" not in source
+
+def test_canonical_workspace_projection_preserves_context_group() -> None:
+    from pathlib import Path
+
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(encoding="utf-8")
+
+    assert "item.contextGroup!==null" in source
+    assert "item.contextGroup!==undefined" in source
+    assert "typeof item.contextGroup!=='string'" in source
+    assert (
+        "projectedItem.contextGroup=item.contextGroup??null;"
+        in source
+    )
+
+    # Existing editor state transformations preserve arbitrary
+    # canonical metadata once it is projected into each widget.
+    assert (
+        "function cloneLayout(v){return JSON.parse(JSON.stringify(v))}"
+        in source
+    )
+    assert (
+        "const w={...src,cfg:{...src.cfg}"
+        in source
+    )
+
+    # Canonical widget identity remains independent from presentation.
+    assert "projectedItem.canonicalKey=item.key;" in source
+    assert "projectedItem.canonicalVersion=" in source
+
+    # This prerequisite does not introduce workspace mutation authority.
+    assert "method:'POST'" not in source
+    assert 'method:"POST"' not in source

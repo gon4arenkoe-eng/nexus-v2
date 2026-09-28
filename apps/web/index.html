@@ -626,6 +626,20 @@ function workspaceProjectionToLayout(workspace){
     });
 
     /*
+     * Context Bus membership is canonical presentation state too.
+     * Preserve it exactly; malformed non-string values fail closed.
+     */
+    if(
+      item.contextGroup!==null &&
+      item.contextGroup!==undefined &&
+      typeof item.contextGroup!=='string'
+    ){
+      return null;
+    }
+
+    projectedItem.contextGroup=item.contextGroup??null;
+
+    /*
      * Preserve source-of-truth identity for later canonical
      * persistence. Never reconstruct it from presentation.key.
      */

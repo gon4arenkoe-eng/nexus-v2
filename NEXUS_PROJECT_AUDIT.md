@@ -35131,3 +35131,63 @@ PRODUCTION_DB_CHANGED=NO
 RUNNING_CONTAINER_CHANGED=NO
 SERVER_BUILD=NO
 PRODUCTION_AUTHORITY_CHANGED=NO
+
+## 2026-09-28 – Phase 11 canonical Context Bus browser round-trip
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_CONTEXT_GROUP_BROWSER_ROUNDTRIP_VERIFIED
+
+### VERIFIED
+
+- Canonical contextGroup is preserved from the server workspace projection into browser widget state.
+- Null context-group membership remains null.
+- Malformed non-string contextGroup values fail closed.
+- Existing clone/undo/redo snapshot semantics preserve projected contextGroup.
+- Existing widget duplication preserves contextGroup through object spread.
+- canonicalKey and canonicalVersion preservation remains unchanged.
+- No workspace POST/PUT/DELETE capability was introduced.
+- No trading or exchange write authority was introduced.
+- The six pre-existing untracked development artifacts were preserved.
+
+### TEST EVIDENCE
+
+Functional verification:
+- Focused: 16 passed in 2.25s
+- Adjacent: 52 passed, 1076 deselected in 2.96s
+- Full regression: 1128 passed in 7.85s
+- Python compile: PASS
+- JavaScript syntax: PASS
+
+Post-EOF hygiene verification:
+- git diff --check: PASS
+- Python compile: PASS
+- Focused: 16 passed in 2.10s
+- Adjacent: 52 passed, 1076 deselected in 2.76s
+
+Remote baseline verification:
+- GitHub API main: a523d941fd077535aa3c043d0a52d532a966716a
+- HTTPS git ls-remote main: a523d941fd077535aa3c043d0a52d532a966716a
+
+Workspace HTTP mutation: ABSENT
+Trading write authority: ABSENT
+Pre-existing untracked artifacts preserved: YES
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+This closes only the canonical Context Bus browser round-trip prerequisite.
+The next proven Phase 11 persistence prerequisite is browser retention of canonical activeLayoutVersion as baseVersion for fail-closed workspace saves.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_AUTHORITY_CHANGED=NO
