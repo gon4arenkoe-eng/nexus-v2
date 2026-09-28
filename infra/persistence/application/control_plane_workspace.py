@@ -6,6 +6,19 @@ venue, risk or execution authority.
 
 from __future__ import annotations
 
+from apps.core.application.control_plane import WidgetRegistry
+from apps.core.application.control_plane_catalog import (
+    INITIAL_WIDGET_DEFINITIONS,
+)
+from apps.core.application.platform_security import (
+    AccessControlError,
+    ProductAccessService,
+)
+from infra.persistence.repositories.platform_security import (
+    PlatformSecurityRepository,
+)
+from packages.contracts.security import permissions_for_role
+
 from dataclasses import replace
 from datetime import datetime
 import json
@@ -1001,3 +1014,159 @@ async def publish_workspace_context(
         }
         for item in deliveries
     )
+async def load_widget_availability(
+    *,
+    session_factory: Any,
+    tenant_workspace_id: str,
+    user_id: int,
+    now: datetime,
+) -> dict[str, object]:
+    registry = WidgetRegistry(
+        INITIAL_WIDGET_DEFINITIONS
+    )
+
+    async with session_factory() as session:
+        security_repository = (
+            PlatformSecurityRepository(
+                session
+            )
+        )
+
+        membership = (
+            await security_repository
+            .get_membership(
+                workspace_id=(
+                    tenant_workspace_id
+                ),
+                user_id=user_id,
+            )
+        )
+
+        if (
+            membership is None
+            or not membership.active
+        ):
+            return {
+                "role": None,
+                "widgets": [
+                    {
+                        "key": (
+                            definition
+                            .manifest
+                            .widget_key
+                        ),
+                        "widgetVersion": (
+                            definition
+                            .manifest
+                            .version
+                        ),
+                        "available": False,
+                        "reason": (
+                            "no active membership"
+                        ),
+                    }
+                    for definition
+                    in INITIAL_WIDGET_DEFINITIONS
+                ],
+            }
+
+        permissions = frozenset(
+            str(item)
+            for item in permissions_for_role(
+                membership.role
+            )
+        )
+
+        subscription = (
+            await security_repository
+            .get_subscription(
+                workspace_id=(
+                    tenant_workspace_id
+                )
+            )
+        )
+
+        features: set[object] = set()
+
+        required_features = frozenset(
+            definition.manifest.required_feature
+            for definition
+            in INITIAL_WIDGET_DEFINITIONS
+            if (
+                definition
+                .manifest
+                .required_feature
+                is not None
+            )
+        )
+
+        if subscription is not None:
+            plan_version = (
+                await security_repository
+                .get_plan_version(
+                    plan_id=subscription.plan_id,
+                    version=(
+                        subscription.plan_version
+                    ),
+                )
+            )
+
+            if plan_version is not None:
+                overrides = (
+                    await security_repository
+                    .list_entitlement_overrides(
+                        workspace_id=(
+                            tenant_workspace_id
+                        )
+                    )
+                )
+
+                access = ProductAccessService()
+
+                for feature in required_features:
+                    try:
+                        if access.entitlement_granted(
+                            subscription=subscription,
+                            plan_version=plan_version,
+                            feature_key=feature,
+                            overrides=overrides,
+                            now=now,
+                        ):
+                            features.add(feature)
+
+                    except AccessControlError:
+                        # Fail closed on inconsistent
+                        # subscription/plan state.
+                        continue
+
+        projected: list[dict[str, object]] = []
+
+        for definition in INITIAL_WIDGET_DEFINITIONS:
+            manifest = definition.manifest
+
+            availability = registry.availability(
+                widget_key=manifest.widget_key,
+                widget_version=manifest.version,
+                features=frozenset(features),
+                permissions=permissions,
+            )
+
+            projected.append(
+                {
+                    "key": manifest.widget_key,
+                    "widgetVersion": (
+                        manifest.version
+                    ),
+                    "available": (
+                        availability.available
+                    ),
+                    "reason": (
+                        availability.reason
+                    ),
+                }
+            )
+
+        return {
+            "role": membership.role.value,
+            "widgets": projected,
+        }

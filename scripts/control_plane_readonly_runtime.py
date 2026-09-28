@@ -7,6 +7,12 @@ boundary is not yet integrated. Only GET endpoints are exposed here.
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
+from infra.persistence.application.control_plane_workspace import (
+    load_widget_availability,
+)
+
 import asyncio
 from dataclasses import asdict
 from datetime import UTC, datetime
@@ -440,6 +446,49 @@ async def _publish_context_payload(
         await engine.dispose()
 
 
+async def _load_widget_availability_payload(
+) -> dict[str, object]:
+    database_url = _required_env(
+        "NEXUS_V2_DATABASE_URL"
+    )
+
+    tenant_workspace_id = _required_env(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID"
+    )
+
+    user_id = int(
+        _required_env(
+            "NEXUS_CONTROL_PLANE_USER_ID"
+        )
+    )
+
+    if user_id <= 0:
+        raise RuntimeError(
+            "NEXUS_CONTROL_PLANE_USER_ID "
+            "must be positive"
+        )
+
+    engine = create_persistence_engine(
+        database_url
+    )
+
+    factory = create_session_factory(
+        engine
+    )
+
+    try:
+        return await load_widget_availability(
+            session_factory=factory,
+            tenant_workspace_id=(
+                tenant_workspace_id
+            ),
+            user_id=user_id,
+            now=datetime.now(UTC),
+        )
+    finally:
+        await engine.dispose()
+
+
 class ControlPlaneHandler(BaseHTTPRequestHandler):
     server_version = "NEXUS-V2-Control-Plane"
 
@@ -569,12 +618,46 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
         )
 
 
+    def _widget_availability(self) -> None:
+        try:
+            payload = asyncio.run(
+                _load_widget_availability_payload()
+            )
+
+        except (
+            RuntimeError,
+            ValueError,
+        ):
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "CONTROL_PLANE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "widget availability "
+                        "service unavailable"
+                    ),
+                },
+            )
+            return
+
+        self._json(
+            HTTPStatus.OK,
+            payload,
+        )
+
+
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
 
         if path == "/api/v2/control-plane/workspace-templates":
             self._workspace_templates()
             return
+        if path == "/api/v2/control-plane/widget-availability":
+            self._widget_availability()
+            return
+
         if path == "/api/v2/control-plane/overview":
             self._overview()
             return

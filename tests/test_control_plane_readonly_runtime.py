@@ -860,3 +860,88 @@ def test_control_plane_runtime_creates_workspace_from_curated_template(
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+def test_control_plane_runtime_serves_widget_availability(
+    monkeypatch,
+) -> None:
+    import json as _json
+    from http.client import (
+        HTTPConnection as _HTTPConnection,
+    )
+
+    async def fake_loader():
+        return {
+            "role": "VIEWER",
+            "widgets": [
+                {
+                    "key": "portfolio.positions",
+                    "widgetVersion": 1,
+                    "available": True,
+                    "reason": "available",
+                },
+                {
+                    "key": "grid.desk",
+                    "widgetVersion": 1,
+                    "available": False,
+                    "reason": (
+                        "feature entitlement required"
+                    ),
+                },
+            ],
+        }
+
+    monkeypatch.setattr(
+        runtime,
+        "_load_widget_availability_payload",
+        fake_loader,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = _HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "GET",
+            (
+                "/api/v2/control-plane/"
+                "widget-availability"
+            ),
+        )
+
+        response = connection.getresponse()
+
+        payload = _json.loads(
+            response.read().decode("utf-8")
+        )
+
+        assert response.status == 200
+        assert payload["role"] == "VIEWER"
+
+        assert payload["widgets"][0][
+            "available"
+        ] is True
+
+        assert payload["widgets"][1][
+            "available"
+        ] is False
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)

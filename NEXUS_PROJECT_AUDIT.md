@@ -35856,3 +35856,65 @@ FULL_LIVE=DISABLED
 ### GATE STATUS
 
 NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+## 2026-09-28 – Phase 11 Entitlement / Role-aware Widget Availability Bridge v1
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_ENTITLEMENT_ROLE_WIDGET_AVAILABILITY_BRIDGE_V1_VERIFIED
+
+### FACT
+
+Canonical Phase 10 workspace membership, role permissions and product entitlements are now connected to Phase 11 WidgetRegistry availability and the active Control Plane browser widget catalog.
+
+### VERIFIED
+
+- Workspace membership is loaded from PlatformSecurityRepository using server-side workspace/user identity.
+- Role permissions are derived from the canonical permissions_for_role matrix.
+- Product feature access reuses ProductAccessService entitlement rules.
+- Subscription, immutable plan version and tenant-scoped entitlement overrides are reused.
+- Existing WidgetRegistry.availability is the canonical widget availability decision.
+- The HTTP widget availability endpoint projects backend-authoritative availability to the browser.
+- Browser widget catalog uses backend availability rather than client-side role assumptions.
+- Missing membership fails closed.
+- Missing/unloaded browser availability fails closed to an empty add-widget catalog.
+- No new RBAC system was introduced.
+- No new entitlement engine was introduced.
+- No database schema change was introduced.
+- No trading write authority was introduced.
+- No exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Python compile: PASS.
+- JavaScript syntax: PASS.
+- git diff --check: PASS.
+- Phase 10 security regression: 41 passed in 0.99s.
+- Widget Registry regression: 12 passed in 0.10s.
+- Runtime + browser: 34 passed in 6.31s.
+- Control Plane focused: 129 passed, 1036 deselected in 14.63s.
+- Full regression: 1165 passed in 20.12s.
+
+### AUTHORITY FLOW
+
+Server workspace/user identity -> WorkspaceMembership -> permissions_for_role -> Subscription/PlanVersion/EntitlementOverride -> ProductAccessService -> WidgetRegistry.availability -> /api/v2/control-plane/widget-availability -> browser availableWidgetCatalog.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+TRADING_WRITE_AUTHORITY=ABSENT
+EXCHANGE_WRITE_AUTHORITY=ABSENT
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN

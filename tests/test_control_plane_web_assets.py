@@ -777,3 +777,33 @@ def test_browser_context_controls_publish_typed_context() -> None:
         "userId",
     ):
         assert forbidden not in publish_source
+def test_browser_widget_catalog_is_backend_availability_aware(
+) -> None:
+    source = Path(
+        "apps/web/index.html"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    for marker in (
+        "/api/v2/control-plane/widget-availability",
+        "loadWidgetAvailability()",
+        "availableWidgetCatalog()",
+        "serverWidgetAvailability",
+        "widgetAvailabilityLoaded",
+    ):
+        assert marker in source
+
+    # Active modal/catalog filtering must use the
+    # backend-authoritative availability projection.
+    assert (
+        "availableWidgetCatalog().filter("
+        in source
+    )
+
+    # Absence/failure of availability data is fail-closed.
+    assert (
+        "if(!widgetAvailabilityLoaded)"
+        in source
+    )
+    assert "return [];" in source

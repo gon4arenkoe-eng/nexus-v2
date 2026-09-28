@@ -1,6 +1,20 @@
 """Tenant-scoped persistence repositories for Phase 10."""
 from __future__ import annotations
 
+from infra.persistence.models.platform_security import (
+    SubscriptionModel,
+    ProductPlanVersionModel,
+    EntitlementOverrideModel,
+)
+from packages.contracts.product_access import (
+    EntitlementOverride,
+    FeatureKey,
+    PlanVersion,
+    QuotaDefinition,
+    Subscription,
+    SubscriptionState,
+)
+
 from datetime import UTC, datetime
 import json
 
@@ -44,6 +58,18 @@ def _restore_utc(value: datetime) -> datetime:
     return value
 
 
+def _first_model_attr(
+    value: object,
+    *names: str,
+) -> object:
+    for name in names:
+        if hasattr(value, name):
+            return getattr(value, name)
+
+    raise AttributeError(
+        "missing model attribute: "
+        + ", ".join(names)
+    )
 class PlatformSecurityRepository:
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
@@ -198,6 +224,162 @@ class PlatformSecurityRepository:
                 content_hash=content_hash,
                 created_at=value.created_at,
             )
+        )
+
+    async def get_subscription(
+        self,
+        *,
+        workspace_id: str,
+    ) -> Subscription | None:
+        ordering = _first_model_attr(
+            SubscriptionModel,
+            "updated_at",
+            "started_at",
+            "created_at",
+        )
+
+        result = await self._session.execute(
+            select(SubscriptionModel)
+            .where(
+                SubscriptionModel.workspace_id
+                == workspace_id
+            )
+            .order_by(ordering.desc())
+        )
+
+        model = result.scalars().first()
+
+        if model is None:
+            return None
+
+        timestamp = _restore_utc(
+            _first_model_attr(
+                model,
+                "updated_at",
+                "started_at",
+                "created_at",
+            )
+        )
+
+        return Subscription(
+            str(
+                _first_model_attr(
+                    model,
+                    "subscription_id",
+                    "id",
+                )
+            ),
+            str(model.workspace_id),
+            str(model.plan_id),
+            int(model.plan_version),
+            SubscriptionState(
+                str(model.state)
+            ),
+            timestamp,
+        )
+
+    async def get_plan_version(
+        self,
+        *,
+        plan_id: str,
+        version: int,
+    ) -> PlanVersion | None:
+        model = await self._session.get(
+            ProductPlanVersionModel,
+            (plan_id, version),
+        )
+
+        if model is None:
+            return None
+
+        entitlement_values = json.loads(
+            str(model.entitlements_json)
+        )
+
+        quota_values = json.loads(
+            str(model.quotas_json)
+        )
+
+        return PlanVersion(
+            str(model.plan_id),
+            int(model.version),
+            frozenset(
+                FeatureKey(str(item))
+                for item in entitlement_values
+            ),
+            tuple(
+                QuotaDefinition(
+                    FeatureKey(str(item[0])),
+                    (
+                        None
+                        if item[1] is None
+                        else int(item[1])
+                    ),
+                )
+                for item in quota_values
+            ),
+            _restore_utc(model.created_at),
+        )
+
+    async def list_entitlement_overrides(
+        self,
+        *,
+        workspace_id: str,
+    ) -> tuple[EntitlementOverride, ...]:
+        result = await self._session.execute(
+            select(EntitlementOverrideModel)
+            .where(
+                EntitlementOverrideModel.workspace_id
+                == workspace_id
+            )
+            .order_by(
+                EntitlementOverrideModel.created_at
+            )
+        )
+
+        models = result.scalars().all()
+
+        return tuple(
+            EntitlementOverride(
+                str(
+                    _first_model_attr(
+                        model,
+                        "override_id",
+                        "id",
+                    )
+                ),
+                str(model.workspace_id),
+                FeatureKey(
+                    str(model.feature_key)
+                ),
+                bool(model.granted),
+                int(
+                    _first_model_attr(
+                        model,
+                        "actor_user_id",
+                        "created_by_user_id",
+                        "user_id",
+                    )
+                ),
+                str(
+                    _first_model_attr(
+                        model,
+                        "reason",
+                        "note",
+                    )
+                ),
+                _restore_utc(
+                    model.created_at
+                ),
+                (
+                    None
+                    if model.expires_at is None
+                    else _restore_utc(
+                        model.expires_at
+                    )
+                ),
+            )
+            for model in models
         )
 
     async def seed_quota_usage(
