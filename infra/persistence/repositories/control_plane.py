@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 import json
 
-from sqlalchemy import or_, select
+from sqlalchemy import or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from infra.persistence.models.control_plane import (
@@ -170,6 +170,36 @@ class ControlPlaneRepository:
             )
             for model in result.scalars().all()
         )
+
+
+    async def compare_and_swap_active_layout_version(
+        self,
+        *,
+        tenant_workspace_id: str,
+        user_id: int,
+        user_workspace_id: str,
+        expected_version: int,
+        new_version: int,
+        updated_at: datetime,
+    ) -> bool:
+        result = await self._session.execute(
+            update(UserWorkspaceModel)
+            .where(
+                UserWorkspaceModel.tenant_workspace_id
+                == tenant_workspace_id,
+                UserWorkspaceModel.user_workspace_id
+                == user_workspace_id,
+                UserWorkspaceModel.user_id == user_id,
+                UserWorkspaceModel.active_layout_version
+                == expected_version,
+            )
+            .values(
+                active_layout_version=new_version,
+                updated_at=updated_at,
+            )
+        )
+        return result.rowcount == 1
+
 
     async def append_layout(self, value: WorkspaceLayoutVersion) -> None:
         key = (

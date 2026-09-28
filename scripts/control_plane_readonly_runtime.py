@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import asdict
-from datetime import datetime
+from datetime import UTC, datetime
 from decimal import Decimal
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -20,6 +20,13 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
 
+from infra.persistence.application.control_plane_workspace import (
+    WorkspaceSaveConflict,
+    WorkspaceSaveInvalid,
+    WorkspaceSaveNotFound,
+    WorkspaceSaveStateError,
+    save_existing_workspace,
+)
 from infra.persistence.repositories.control_plane import ControlPlaneRepository
 from infra.persistence.repositories.control_plane_read import ControlPlaneReadRepository
 from infra.persistence.session import create_persistence_engine, create_session_factory
@@ -135,8 +142,72 @@ async def _load_workspaces() -> list[dict[str, Any]]:
         await engine.dispose()
 
 
+
+async def _save_workspace_payload(
+    payload: object,
+) -> dict[str, Any]:
+    database_url = _required_env(
+        "NEXUS_V2_DATABASE_URL"
+    )
+    tenant_workspace_id = _required_env(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID"
+    )
+    user_id = int(
+        _required_env(
+            "NEXUS_CONTROL_PLANE_USER_ID"
+        )
+    )
+
+    if user_id <= 0:
+        raise RuntimeError(
+            "NEXUS_CONTROL_PLANE_USER_ID must be positive"
+        )
+
+    engine = create_persistence_engine(
+        database_url
+    )
+    factory = create_session_factory(engine)
+
+    try:
+        workspace, layout = (
+            await save_existing_workspace(
+                session_factory=factory,
+                tenant_workspace_id=tenant_workspace_id,
+                user_id=user_id,
+                payload=payload,
+                created_at=datetime.now(UTC),
+            )
+        )
+
+        return _workspace_projection(
+            workspace,
+            layout,
+        )
+    finally:
+        await engine.dispose()
+
+
 class ControlPlaneHandler(BaseHTTPRequestHandler):
     server_version = "NEXUS-V2-Control-Plane"
+
+
+    def do_POST(self) -> None:
+        path = urlsplit(self.path).path
+
+        if (
+            path
+            == "/api/v2/control-plane/workspaces/save"
+        ):
+            self._save_workspace()
+            return
+
+        self._json(
+            HTTPStatus.NOT_FOUND,
+            {
+                "code": "NOT_FOUND",
+                "message": "endpoint not found",
+            },
+        )
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
@@ -152,12 +223,144 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
                 {
                     "service": "nexus-v2-control-plane",
                     "status": "healthy",
-                    "authority": "READ_ONLY",
+                    "authority": "PRESENTATION_WRITE_ONLY",
                     "production_authority": False,
                 },
             )
             return
         self._static(path)
+
+
+
+    def _read_json_body(
+        self,
+    ) -> dict[str, Any]:
+        raw_length = self.headers.get(
+            "content-length",
+            "",
+        ).strip()
+
+        if not raw_length:
+            raise ValueError(
+                "content-length is required"
+            )
+
+        length = int(raw_length)
+
+        if length < 1 or length > 1_000_000:
+            raise ValueError(
+                "invalid request size"
+            )
+
+        raw = self.rfile.read(length)
+
+        value = json.loads(
+            raw.decode("utf-8")
+        )
+
+        if not isinstance(value, dict):
+            raise ValueError(
+                "JSON body must be an object"
+            )
+
+        return value
+
+    def _save_workspace(self) -> None:
+        try:
+            request = self._read_json_body()
+        except (
+            UnicodeDecodeError,
+            ValueError,
+            json.JSONDecodeError,
+        ):
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": "INVALID_REQUEST",
+                    "message": (
+                        "invalid workspace save request"
+                    ),
+                },
+            )
+            return
+
+        try:
+            payload = asyncio.run(
+                _save_workspace_payload(request)
+            )
+
+        except WorkspaceSaveInvalid:
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": (
+                        "INVALID_WORKSPACE_LAYOUT"
+                    ),
+                    "message": (
+                        "workspace layout is invalid"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceSaveNotFound:
+            self._json(
+                HTTPStatus.NOT_FOUND,
+                {
+                    "code": "WORKSPACE_NOT_FOUND",
+                    "message": (
+                        "workspace unavailable"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceSaveConflict:
+            self._json(
+                HTTPStatus.CONFLICT,
+                {
+                    "code": (
+                        "WORKSPACE_VERSION_CONFLICT"
+                    ),
+                    "message": (
+                        "workspace version changed"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceSaveStateError:
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "WORKSPACE_STATE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "workspace state unavailable"
+                    ),
+                },
+            )
+            return
+
+        except (RuntimeError, ValueError):
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "CONTROL_PLANE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "workspace persistence unavailable"
+                    ),
+                },
+            )
+            return
+
+        self._json(
+            HTTPStatus.OK,
+            payload,
+        )
 
 
     def _workspaces(self) -> None:

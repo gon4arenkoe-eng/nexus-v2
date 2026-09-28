@@ -35347,3 +35347,72 @@ PRODUCTION_DB_CHANGED=NO
 RUNNING_CONTAINER_CHANGED=NO
 SERVER_BUILD=NO
 PRODUCTION_AUTHORITY_CHANGED=NO
+
+## 2026-09-28 – Phase 11 Save Existing Workspace v1
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_SAVE_EXISTING_WORKSPACE_V1_VERIFIED
+
+### FACT
+
+The browser Workspace Composer now has a canonical existing-workspace persistence path instead of localStorage-only save behavior.
+
+### VERIFIED
+
+- Browser Save serializes canonical workspaceId, baseVersion and canonical widget state.
+- POST /api/v2/control-plane/workspaces/save is a presentation-only mutation boundary.
+- Tenant/workspace/user identity is taken from the trusted runtime scope rather than browser-supplied tenant/user identity.
+- Existing workspace ownership is tenant/user scoped and fails closed.
+- WorkspaceComposer.next_version creates immutable N+1 layout lineage.
+- WorkspaceLayoutVersion N remains immutable.
+- UserWorkspace.active_layout_version is advanced through an atomic compare-and-swap predicate.
+- Stale baseVersion returns HTTP 409 WORKSPACE_VERSION_CONFLICT.
+- Layout append and active-version advancement commit in one database transaction.
+- Transaction failures roll back.
+- Browser accepts the canonical response and adopts the new activeLayoutVersion/baseVersion.
+- Blank canonical workspaces remain valid and saveable.
+- Presentation database write is enabled.
+- Trading write authority remains absent.
+- Exchange write authority remains absent.
+
+### TEST EVIDENCE
+
+- Save service focused: 3 passed in 1.27s.
+- Control Plane focused: 38 passed in 3.51s.
+- Adjacent: 61 passed, 1076 deselected in 4.40s.
+- Full regression: 1137 passed in 9.83s.
+- Python compile: PASS.
+- JavaScript syntax: PASS.
+- git diff --check: PASS.
+- Base-version conflict: HTTP 409.
+- Immutable layout version: N -> N+1.
+- Active-version compare-and-swap: ENABLED.
+- Tenant/user scope: FAIL CLOSED.
+
+### SCOPE LIMITATION
+
+This evidence verifies Save Existing Workspace v1 through browser/API contract tests, HTTP handler tests and real persistence integration tests.
+A single browser -> real HTTP runtime -> real database end-to-end acceptance test remains separate gate evidence for the complete Workspace Composer user-owned layout E2E requirement.
+
+The runtime file is still named scripts/control_plane_readonly_runtime.py even though its authority is now PRESENTATION_WRITE_ONLY.
+This naming inconsistency is recorded and is not silently changed in this slice.
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED

@@ -10,7 +10,7 @@ from http.server import ThreadingHTTPServer
 import scripts.control_plane_readonly_runtime as runtime
 
 
-def test_control_plane_runtime_is_loopback_read_only() -> None:
+def test_control_plane_runtime_is_loopback_without_trading_authority() -> None:
     assert runtime.DEFAULT_HOST == "127.0.0.1"
     source = inspect.getsource(runtime).lower()
     for forbidden in (
@@ -24,15 +24,28 @@ def test_control_plane_runtime_is_loopback_read_only() -> None:
         assert forbidden not in source
 
 
-def test_control_plane_runtime_exposes_only_get_http_boundary() -> None:
-    source = inspect.getsource(runtime.ControlPlaneHandler)
+def test_control_plane_runtime_exposes_presentation_write_only_boundary() -> None:
+    source = inspect.getsource(
+        runtime.ControlPlaneHandler
+    )
+
     assert "def do_GET" in source
-    assert "def do_POST" not in source
+    assert "def do_POST" in source
     assert "def do_PUT" not in source
     assert "def do_DELETE" not in source
-    assert "/api/v2/control-plane/overview" in source
-    assert "/api/v2/control-plane/workspaces" in source
 
+    assert (
+        "/api/v2/control-plane/overview"
+        in source
+    )
+    assert (
+        "/api/v2/control-plane/workspaces"
+        in source
+    )
+    assert (
+        "/api/v2/control-plane/workspaces/save"
+        in source
+    )
 
 
 def test_workspace_projection_preserves_canonical_layout_fields() -> None:
@@ -295,6 +308,152 @@ def test_control_plane_runtime_serializes_portfolio_and_risk_projection(monkeypa
         assert payload["risk"]["trading_state"] == "ACTIVE"
         assert [item["equity"] for item in payload["portfolio_history"]] == ["9000", "9500"]
         connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+def test_control_plane_runtime_serves_workspace_save(
+    monkeypatch,
+) -> None:
+    async def fake_save(payload):
+        assert payload["workspaceId"] == "desk"
+        assert payload["baseVersion"] == 1
+
+        return {
+            "id": "desk",
+            "name": "Desk",
+            "locale": "ru",
+            "theme": "dark",
+            "activeLayoutVersion": 2,
+            "widgets": [],
+        }
+
+    monkeypatch.setattr(
+        runtime,
+        "_save_workspace_payload",
+        fake_save,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        body = json.dumps(
+            {
+                "workspaceId": "desk",
+                "baseVersion": 1,
+                "widgets": [],
+            }
+        )
+
+        connection.request(
+            "POST",
+            "/api/v2/control-plane/workspaces/save",
+            body=body,
+            headers={
+                "content-type": "application/json"
+            },
+        )
+
+        response = connection.getresponse()
+        payload = json.loads(
+            response.read()
+        )
+
+        assert response.status == 200
+        assert payload["id"] == "desk"
+        assert (
+            payload["activeLayoutVersion"]
+            == 2
+        )
+
+        connection.close()
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+
+def test_control_plane_runtime_maps_stale_workspace_save_to_409(
+    monkeypatch,
+) -> None:
+    async def fake_save(payload):
+        raise runtime.WorkspaceSaveConflict(
+            "stale"
+        )
+
+    monkeypatch.setattr(
+        runtime,
+        "_save_workspace_payload",
+        fake_save,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "POST",
+            "/api/v2/control-plane/workspaces/save",
+            body=json.dumps(
+                {
+                    "workspaceId": "desk",
+                    "baseVersion": 1,
+                    "widgets": [],
+                }
+            ),
+            headers={
+                "content-type": "application/json"
+            },
+        )
+
+        response = connection.getresponse()
+        payload = json.loads(
+            response.read()
+        )
+
+        assert response.status == 409
+        assert (
+            payload["code"]
+            == "WORKSPACE_VERSION_CONFLICT"
+        )
+
+        connection.close()
+
     finally:
         server.shutdown()
         server.server_close()

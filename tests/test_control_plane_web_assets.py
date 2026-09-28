@@ -126,8 +126,6 @@ def test_active_control_plane_reads_workspace_projection() -> None:
     # This active browser path must not gain HTTP mutation.
     assert "method:'PUT'" not in source
     assert 'method:"PUT"' not in source
-    assert "method:'POST'" not in source
-    assert 'method:"POST"' not in source
 
 
 def test_control_plane_frontend_targets_versioned_api_boundary() -> None:
@@ -192,7 +190,6 @@ def test_canonical_widget_namespace_adapter_preserves_identity() -> None:
     assert "entry=>entry.key===item.key" not in source
 
     # This compatibility slice is still workspace-read-only.
-    assert "method:'POST'" not in source
     assert "method:'PUT'" not in source
     assert "method:'DELETE'" not in source
 
@@ -230,8 +227,6 @@ def test_canonical_workspace_projection_preserves_context_group() -> None:
     assert "projectedItem.canonicalVersion=" in source
 
     # This prerequisite does not introduce workspace mutation authority.
-    assert "method:'POST'" not in source
-    assert 'method:"POST"' not in source
 
 def test_canonical_workspace_retains_active_layout_as_base_version() -> None:
     from pathlib import Path
@@ -256,8 +251,6 @@ def test_canonical_workspace_retains_active_layout_as_base_version() -> None:
     assert source.count("activeServerWorkspaceBaseVersion=null;") >= 3
 
     # This slice is metadata retention only.
-    assert "method:'POST'" not in source
-    assert 'method:"POST"' not in source
     assert "method:'PUT'" not in source
     assert 'method:"PUT"' not in source
     assert "method:'DELETE'" not in source
@@ -300,8 +293,6 @@ def test_canonical_workspace_save_payload_is_lossless_and_fail_closed() -> None:
     ) not in source
 
     # Serializer foundation only: no server mutation in this slice.
-    assert "method:'POST'" not in source
-    assert 'method:"POST"' not in source
     assert "method:'PUT'" not in source
     assert 'method:"PUT"' not in source
     assert "method:'DELETE'" not in source
@@ -364,9 +355,59 @@ def test_browser_created_widgets_use_canonical_registry_identity() -> None:
     assert "const w={...src,cfg:{...src.cfg}" in source
 
     # This step still introduces no server-side workspace write.
-    assert "method:'POST'" not in source
-    assert 'method:"POST"' not in source
     assert "method:'PUT'" not in source
     assert 'method:"PUT"' not in source
     assert "method:'DELETE'" not in source
     assert 'method:"DELETE"' not in source
+
+def test_canonical_workspace_save_uses_versioned_presentation_write_boundary() -> None:
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(encoding="utf-8")
+
+    assert (
+        "async function saveCanonicalWorkspace()"
+        in source
+    )
+
+    assert (
+        "async function saveCurrentWorkspace()"
+        in source
+    )
+
+    assert (
+        "'/api/v2/control-plane/workspaces/save'"
+        in source
+    )
+
+    assert "method:'POST'" in source
+    assert "body:JSON.stringify(payload)" in source
+
+    assert "response.status===409" in source
+    assert "await loadWorkspaceState();" in source
+
+    assert (
+        "applyServerWorkspace(workspace)"
+        in source
+    )
+
+    assert (
+        "if(!projected)return false;"
+        in source
+    )
+
+    assert (
+        "return saveCanonicalWorkspace();"
+        in source
+    )
+
+    for forbidden in (
+        "submit_order(",
+        "cancel_order(",
+        "VenueAdapter",
+        "ExecutionCoordinator",
+    ):
+        assert forbidden not in source
