@@ -502,17 +502,95 @@ bind=function(){
   });
 };
 
+const CANONICAL_WIDGET_PRESENTATION=Object.freeze({
+  'portfolio.nav':Object.freeze({
+    key:'nav',
+    title:'widget.nav'
+  }),
+  'portfolio.pnl':Object.freeze({
+    key:'pnl',
+    title:'widget.pnl'
+  }),
+  'portfolio.positions':Object.freeze({
+    key:'positions',
+    title:'widget.positions'
+  }),
+  'execution.orders_fills':Object.freeze({
+    key:'orders',
+    title:'nav.orders'
+  }),
+  'strategy.status':Object.freeze({
+    key:'strategies',
+    title:'widget.strategies'
+  }),
+  'grid.desk':Object.freeze({
+    key:'grid',
+    title:'widget.grid'
+  }),
+  'risk.portfolio':Object.freeze({
+    key:'risk',
+    title:'widget.risk'
+  }),
+  'reconciliation.health':Object.freeze({
+    key:'reconciliation',
+    title:'panel.reconciliation'
+  }),
+  'venue.account_health':Object.freeze({
+    key:'exchanges',
+    title:'panel.exchanges'
+  }),
+  'intelligence.market_context':Object.freeze({
+    key:'intelligence',
+    title:'widget.market'
+  }),
+  'intelligence.news_events':Object.freeze({
+    key:'alerts',
+    title:'nav.news'
+  }),
+  'aiea.research':Object.freeze({
+    key:'aiea',
+    title:'widget.aiea'
+  }),
+  'aiea.backtest_oos_wf':Object.freeze({
+    key:'aiea',
+    title:'page.backtests.title'
+  }),
+  'audit.events':Object.freeze({
+    key:'alerts',
+    title:'panel.auditStream'
+  }),
+  'system.health':Object.freeze({
+    key:'alerts',
+    title:'widget.system'
+  })
+});
+
 function workspaceProjectionToLayout(workspace){
   const raw=Array.isArray(workspace?.widgets)?workspace.widgets:[];
   const projected=[];
 
   for(let index=0;index<raw.length;index++){
     const item=raw[index];
-    const catalog=widgetCatalog.find(entry=>entry.key===item.key);
 
     /*
-     * Do not silently reinterpret an unknown canonical widget key.
-     * The local preview layout remains active instead.
+     * Canonical identity and browser presentation identity are
+     * deliberately separate.
+     */
+    const presentation=
+      CANONICAL_WIDGET_PRESENTATION[item.key];
+
+    /*
+     * Never guess how to render an unknown future canonical
+     * widget.
+     */
+    if(!presentation)return null;
+
+    const catalog=widgetCatalog.find(
+      entry=>entry.key===presentation.key
+    );
+
+    /*
+     * Registry/browser presentation drift is fail-closed too.
      */
     if(!catalog)return null;
 
@@ -531,27 +609,38 @@ function workspaceProjectionToLayout(workspace){
     }catch(error){
       /*
        * Invalid presentation settings must not destroy canonical
-       * layout geometry. Use safe presentation defaults.
+       * layout geometry.
        */
       cfg={};
     }
 
-    projected.push(
-      normalizeCfg({
-        id:item.id||`api-widget-${index+1}`,
-        key:item.key,
-        title:catalog.title,
-        x:Number.isInteger(item.column)?item.column:0,
-        y:Number.isInteger(item.row)?item.row:0,
-        w:Number.isInteger(item.width)?item.width:4,
-        h:Number.isInteger(item.height)?item.height:3,
-        cfg
-      })
-    );
+    const projectedItem=normalizeCfg({
+      id:item.id||`api-widget-${index+1}`,
+      key:presentation.key,
+      title:presentation.title||catalog.title,
+      x:Number.isInteger(item.column)?item.column:0,
+      y:Number.isInteger(item.row)?item.row:0,
+      w:Number.isInteger(item.width)?item.width:4,
+      h:Number.isInteger(item.height)?item.height:3,
+      cfg
+    });
+
+    /*
+     * Preserve source-of-truth identity for later canonical
+     * persistence. Never reconstruct it from presentation.key.
+     */
+    projectedItem.canonicalKey=item.key;
+    projectedItem.canonicalVersion=
+      Number.isInteger(item.widgetVersion)
+        ?item.widgetVersion
+        :1;
+
+    projected.push(projectedItem);
   }
 
   return projected;
 }
+
 
 async function loadWorkspaceState(){
   try{

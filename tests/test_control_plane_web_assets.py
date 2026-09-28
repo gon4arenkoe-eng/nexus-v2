@@ -136,3 +136,62 @@ def test_control_plane_frontend_targets_versioned_api_boundary() -> None:
     assert "ApiErrorEnvelope" in api
     assert "RealtimeEnvelope" in api
     assert "sqlalchemy" not in api.lower()
+
+def test_canonical_widget_namespace_adapter_preserves_identity() -> None:
+    import re
+    from pathlib import Path
+
+    from apps.core.application.control_plane_catalog import (
+        INITIAL_WIDGET_DEFINITIONS,
+    )
+
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(encoding="utf-8")
+
+    start = source.index(
+        "const CANONICAL_WIDGET_PRESENTATION=Object.freeze({"
+    )
+    end = source.index(
+        "\n});\n\nfunction workspaceProjectionToLayout",
+        start,
+    )
+    mapping_source = source[start:end]
+
+    mapped_keys = set(
+        re.findall(
+            r"^\s*'([^']+)':Object\.freeze\(\{",
+            mapping_source,
+            re.MULTILINE,
+        )
+    )
+    registry_keys = {
+        item.manifest.widget_key
+        for item in INITIAL_WIDGET_DEFINITIONS
+    }
+
+    # The browser adapter must cover the current canonical Registry
+    # exactly. New registry values therefore fail this test until an
+    # explicit presentation decision is made.
+    assert mapped_keys == registry_keys
+
+    assert "CANONICAL_WIDGET_PRESENTATION[item.key]" in source
+    assert "if(!presentation)return null;" in source
+    assert "entry=>entry.key===presentation.key" in source
+
+    # Presentation identity must never replace canonical identity.
+    assert "key:presentation.key" in source
+    assert "projectedItem.canonicalKey=item.key;" in source
+    assert "projectedItem.canonicalVersion=" in source
+    assert "item.widgetVersion" in source
+
+    # The old incompatible canonical==presentation assumption is gone.
+    assert "entry=>entry.key===item.key" not in source
+
+    # This compatibility slice is still workspace-read-only.
+    assert "method:'POST'" not in source
+    assert "method:'PUT'" not in source
+    assert "method:'DELETE'" not in source

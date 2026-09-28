@@ -35073,3 +35073,61 @@ PRODUCTION_DB_CHANGED=NO
 RUNNING_CONTAINER_CHANGED=NO
 SERVER_BUILD=NO
 PRODUCTION_AUTHORITY_CHANGED=NO
+
+## 2026-09-28 – Phase 11 canonical widget namespace adapter
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_CANONICAL_WIDGET_NAMESPACE_ADAPTER_VERIFIED
+
+### VERIFIED
+
+- All 15 current canonical Widget Registry keys have explicit browser presentation mappings.
+- Canonical widget identity is separated from browser presentation identity.
+- Projected widgets preserve canonicalKey and canonicalVersion.
+- Canonical workspace projection no longer assumes canonical key equals browser renderer key.
+- Unknown future canonical widget keys fail closed.
+- Missing configured browser renderers fail closed.
+- No workspace POST/PUT/DELETE capability was introduced.
+- No trading or exchange write authority was introduced.
+- Existing six untracked development artifacts were preserved.
+
+### TEST EVIDENCE
+
+Focused:
+15 passed in 2.19s
+
+Adjacent:
+51 passed, 1076 deselected in 3.00s
+
+Full regression:
+1127 passed in 7.89s
+
+Python compile: PASS
+JavaScript syntax: PASS
+git diff --check: PASS
+Canonical mapping count: 15
+Canonical identity preserved: YES
+Unknown canonical widget: FAIL_CLOSED
+Workspace HTTP mutation: ABSENT
+Trading write authority: ABSENT
+Pre-existing untracked artifacts preserved: YES
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+This closes the canonical widget namespace prerequisite only.
+The canonical Workspace Composer create/save/version/restore persistence bridge remains the next proven Phase 11 gap.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_AUTHORITY_CHANGED=NO
