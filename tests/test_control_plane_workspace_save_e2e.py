@@ -476,3 +476,221 @@ def test_workspace_save_roundtrip_through_real_http_runtime_and_database(
     )
 
     assert version_three is None
+def test_blank_workspace_create_roundtrip_through_real_http_runtime_and_database(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    db_path = (
+        tmp_path
+        / "control-plane-create-e2e.sqlite3"
+    )
+
+    database_url = (
+        "sqlite+aiosqlite:///"
+        + db_path.as_posix()
+    )
+
+    asyncio.run(
+        _prepare_database(
+            database_url
+        )
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_V2_DATABASE_URL",
+        database_url,
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID",
+        "tenant-a",
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_USER_ID",
+        "7",
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        create_status, created = _http_json(
+            host=host,
+            port=port,
+            method="POST",
+            path=(
+                "/api/v2/control-plane/"
+                "workspaces"
+            ),
+            payload={
+                "name": "Research",
+                "locale": "ru",
+                "theme": "dark",
+            },
+        )
+
+        assert create_status == 201
+        assert isinstance(created, dict)
+
+        created_id = created["id"]
+
+        assert isinstance(created_id, str)
+
+        assert created_id.startswith(
+            "ws-"
+        )
+
+        assert created["name"] == "Research"
+
+        assert (
+            created["activeLayoutVersion"]
+            == 1
+        )
+
+        assert created["widgets"] == []
+
+        reload_status, reloaded = _http_json(
+            host=host,
+            port=port,
+            method="GET",
+            path=(
+                "/api/v2/control-plane/"
+                "workspaces"
+            ),
+        )
+
+        assert reload_status == 200
+        assert isinstance(reloaded, list)
+
+        by_id = {
+            item["id"]: item
+            for item in reloaded
+        }
+
+        assert "desk" in by_id
+        assert created_id in by_id
+
+        assert (
+            by_id[created_id]["name"]
+            == "Research"
+        )
+
+        assert (
+            by_id[created_id][
+                "activeLayoutVersion"
+            ]
+            == 1
+        )
+
+        assert (
+            by_id[created_id]["widgets"]
+            == []
+        )
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
+
+    async def read_created():
+        engine = create_async_engine(
+            database_url
+        )
+
+        try:
+            factory = async_sessionmaker(
+                engine,
+                class_=AsyncSession,
+                expire_on_commit=False,
+            )
+
+            async with factory() as session:
+                repository = (
+                    ControlPlaneRepository(
+                        session
+                    )
+                )
+
+                workspace = (
+                    await repository
+                    .get_user_workspace(
+                        tenant_workspace_id=(
+                            "tenant-a"
+                        ),
+                        user_id=7,
+                        user_workspace_id=(
+                            created_id
+                        ),
+                    )
+                )
+
+                layout = (
+                    await repository.get_layout(
+                        tenant_workspace_id=(
+                            "tenant-a"
+                        ),
+                        user_id=7,
+                        user_workspace_id=(
+                            created_id
+                        ),
+                        version=1,
+                    )
+                )
+
+                wrong_user = (
+                    await repository
+                    .get_user_workspace(
+                        tenant_workspace_id=(
+                            "tenant-a"
+                        ),
+                        user_id=8,
+                        user_workspace_id=(
+                            created_id
+                        ),
+                    )
+                )
+
+                return (
+                    workspace,
+                    layout,
+                    wrong_user,
+                )
+
+        finally:
+            await engine.dispose()
+
+    (
+        workspace,
+        layout,
+        wrong_user,
+    ) = asyncio.run(
+        read_created()
+    )
+
+    assert workspace is not None
+    assert workspace.name == "Research"
+    assert workspace.user_id == 7
+
+    assert (
+        workspace.active_layout_version
+        == 1
+    )
+
+    assert layout is not None
+    assert layout.version == 1
+    assert layout.source_version is None
+    assert layout.widgets == ()
+
+    assert wrong_user is None

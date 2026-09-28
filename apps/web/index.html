@@ -485,8 +485,6 @@ let activeServerWorkspaceId=null;
 let activeServerWorkspaceBaseVersion=null;
 
 function canonicalWorkspaceSelectorMarkup(){
-  if(serverWorkspaces.length<2)return '';
-
   const options=serverWorkspaces.map(workspace=>{
     const id=String(workspace?.id||'');
     const name=String(workspace?.name||id);
@@ -496,9 +494,13 @@ function canonicalWorkspaceSelectorMarkup(){
 
   const placeholder=activeServerWorkspaceId
     ?''
-    :`<option value="" selected disabled>— ${t('label.workspace')} —</option>`;
+    :`<option value="" selected disabled>? ${t('label.workspace')} ?</option>`;
 
-  return `<div class="context-field canonical-workspace-field"><label>${t('label.workspace')}</label><select data-canonical-workspace>${placeholder}${options}</select></div>`;
+  const selector=serverWorkspaces.length
+    ?`<div class="context-field canonical-workspace-field"><label>${t('label.workspace')}</label><select data-canonical-workspace>${placeholder}${options}</select></div>`
+    :`<div class="context-field canonical-workspace-field"><label>${t('label.workspace')}</label><span>?</span></div>`;
+
+  return `<div class="canonical-workspace-controls" style="display:flex;gap:8px;align-items:flex-end">${selector}<button class="btn secondary" type="button" data-create-blank-workspace>${t('workspace.new')}</button></div>`;
 }
 
 function applyServerWorkspace(workspace){
@@ -836,6 +838,117 @@ function canonicalWorkspaceSavePayload(){
   };
 }
 
+
+async function createBlankWorkspace(){
+  const proposed=window.prompt(
+    t('workspace.new'),
+    t('workspace.new')
+  );
+
+  if(proposed===null)return false;
+
+  const name=proposed.trim();
+
+  if(!name)return false;
+
+  const current=serverWorkspaces.find(
+    item=>
+      String(item?.id||'')===
+      String(activeServerWorkspaceId||'')
+  );
+
+  /*
+   * Workspace ownership identity never comes from
+   * the browser. Locale/theme are presentation only.
+   */
+  const locale=String(
+    current?.locale ||
+    (state.lang==='ru'?'ru':'en')
+  );
+
+  const theme=String(
+    current?.theme ||
+    (state.theme==='light'?'light':'dark')
+  );
+
+  const response=await fetch(
+    '/api/v2/control-plane/workspaces',
+    {
+      method:'POST',
+      credentials:'same-origin',
+      cache:'no-store',
+      headers:{
+        'content-type':'application/json'
+      },
+      body:JSON.stringify({
+        name,
+        locale,
+        theme
+      })
+    }
+  );
+
+  if(!response.ok){
+    throw new Error(
+      `HTTP ${response.status}`
+    );
+  }
+
+  const workspace=await response.json();
+
+  if(
+    !workspace ||
+    typeof workspace!=='object' ||
+    typeof workspace.id!=='string' ||
+    !workspace.id ||
+    !Number.isInteger(
+      workspace.activeLayoutVersion
+    ) ||
+    workspace.activeLayoutVersion!==1 ||
+    !Array.isArray(workspace.widgets)
+  ){
+    throw new Error(
+      'canonical workspace create response invalid'
+    );
+  }
+
+  serverWorkspaces.push(workspace);
+
+  if(!applyServerWorkspace(workspace)){
+    throw new Error(
+      'canonical blank workspace invalid'
+    );
+  }
+
+  safeSet(
+    'nexus:v7:workspace',
+    JSON.stringify(state.workspace)
+  );
+
+  return true;
+}
+
+const bindBeforeBlankWorkspaceCreate=bindEvents;
+
+bindEvents=function(){
+  bindBeforeBlankWorkspaceCreate();
+
+  document.querySelector(
+    '[data-create-blank-workspace]'
+  )?.addEventListener('click',async()=>{
+    try{
+      const created=
+        await createBlankWorkspace();
+
+      if(created){
+        render();
+        toastText(t('composer.created'));
+      }
+    }catch(error){
+      render();
+    }
+  });
+};
 
 async function saveCanonicalWorkspace(){
   const payload=canonicalWorkspaceSavePayload();

@@ -10,6 +10,9 @@ from dataclasses import replace
 from datetime import datetime
 import json
 from typing import Any
+from uuid import uuid4
+
+from sqlalchemy.exc import IntegrityError
 
 from apps.core.application.control_plane import (
     ControlPlaneError,
@@ -23,6 +26,8 @@ from infra.persistence.repositories.control_plane import (
     ControlPlaneRepository,
 )
 from packages.contracts.control_plane import (
+    SupportedLocale,
+    ThemePreference,
     UserWorkspace,
     WidgetInstance,
     WorkspaceLayoutVersion,
@@ -303,3 +308,146 @@ async def save_existing_workspace(
             raise
 
         return updated_workspace, next_layout
+
+
+class WorkspaceCreateError(RuntimeError):
+    """Base blank-workspace creation failure."""
+
+
+class WorkspaceCreateInvalid(WorkspaceCreateError):
+    """Malformed workspace create request."""
+
+
+class WorkspaceCreateConflict(WorkspaceCreateError):
+    """Generated workspace identity already exists."""
+
+
+def _create_text(
+    value: object,
+    *,
+    name: str,
+) -> str:
+    if not isinstance(value, str):
+        raise WorkspaceCreateInvalid(
+            f"{name} must be text"
+        )
+
+    normalized = value.strip()
+
+    if not normalized:
+        raise WorkspaceCreateInvalid(
+            f"{name} must be non-empty text"
+        )
+
+    return normalized
+
+
+def _new_workspace_id() -> str:
+    return f"ws-{uuid4().hex}"
+
+
+async def create_blank_workspace(
+    *,
+    session_factory: Any,
+    tenant_workspace_id: str,
+    user_id: int,
+    payload: object,
+    created_at: datetime,
+) -> tuple[
+    UserWorkspace,
+    WorkspaceLayoutVersion,
+]:
+    if not isinstance(payload, dict):
+        raise WorkspaceCreateInvalid(
+            "payload must be an object"
+        )
+
+    name = _create_text(
+        payload.get("name"),
+        name="name",
+    )
+
+    locale_value = _create_text(
+        payload.get("locale"),
+        name="locale",
+    )
+
+    theme_value = _create_text(
+        payload.get("theme"),
+        name="theme",
+    )
+
+    try:
+        locale = SupportedLocale(
+            locale_value
+        )
+    except ValueError as exc:
+        raise WorkspaceCreateInvalid(
+            "unsupported locale"
+        ) from exc
+
+    try:
+        theme = ThemePreference(
+            theme_value
+        )
+    except ValueError as exc:
+        raise WorkspaceCreateInvalid(
+            "unsupported theme"
+        ) from exc
+
+    workspace_id = _new_workspace_id()
+
+    workspace = UserWorkspace(
+        tenant_workspace_id=tenant_workspace_id,
+        user_workspace_id=workspace_id,
+        user_id=user_id,
+        name=name,
+        locale=locale,
+        theme=theme,
+        active_layout_version=1,
+        created_at=created_at,
+        updated_at=created_at,
+    )
+
+    layout = WorkspaceLayoutVersion(
+        tenant_workspace_id=tenant_workspace_id,
+        user_workspace_id=workspace_id,
+        user_id=user_id,
+        version=1,
+        widgets=(),
+        created_at=created_at,
+    )
+
+    _COMPOSER.validate_layout(layout)
+
+    async with session_factory() as session:
+        repository = ControlPlaneRepository(
+            session
+        )
+
+        try:
+            await repository.add_user_workspace(
+                workspace
+            )
+
+            await repository.append_layout(
+                layout
+            )
+
+            await session.commit()
+
+        except (
+            ValueError,
+            IntegrityError,
+        ) as exc:
+            await session.rollback()
+
+            raise WorkspaceCreateConflict(
+                "workspace identity conflict"
+            ) from exc
+
+        except Exception:
+            await session.rollback()
+            raise
+
+    return workspace, layout

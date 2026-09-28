@@ -89,6 +89,51 @@ class ControlPlaneRepository:
             raise ValueError("session must be AsyncSession")
         self._session = session
 
+
+    async def add_user_workspace(
+        self,
+        value: UserWorkspace,
+    ) -> None:
+        key = (
+            value.tenant_workspace_id,
+            value.user_workspace_id,
+        )
+
+        existing = await self._session.get(
+            UserWorkspaceModel,
+            key,
+        )
+
+        if existing is not None:
+            raise ValueError(
+                "user workspace id conflict"
+            )
+
+        self._session.add(
+            UserWorkspaceModel(
+                tenant_workspace_id=(
+                    value.tenant_workspace_id
+                ),
+                user_workspace_id=(
+                    value.user_workspace_id
+                ),
+                user_id=value.user_id,
+                name=value.name,
+                locale=value.locale.value,
+                theme=value.theme.value,
+                active_layout_version=(
+                    value.active_layout_version
+                ),
+                created_at=value.created_at,
+                updated_at=value.updated_at,
+            )
+        )
+
+        # Surface identity/uniqueness failure while the
+        # application service still owns the transaction.
+        await self._session.flush()
+
+
     async def put_user_workspace(self, value: UserWorkspace) -> None:
         model = await self._session.get(
             UserWorkspaceModel,

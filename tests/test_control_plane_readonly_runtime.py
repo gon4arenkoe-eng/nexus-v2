@@ -458,3 +458,87 @@ def test_control_plane_runtime_maps_stale_workspace_save_to_409(
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+def test_control_plane_runtime_serves_blank_workspace_create(
+    monkeypatch,
+) -> None:
+    async def fake_create(payload):
+        assert payload == {
+            "name": "Research",
+            "locale": "ru",
+            "theme": "dark",
+        }
+
+        return {
+            "id": "ws-created",
+            "name": "Research",
+            "locale": "ru",
+            "theme": "dark",
+            "activeLayoutVersion": 1,
+            "widgets": [],
+        }
+
+    monkeypatch.setattr(
+        runtime,
+        "_create_blank_workspace_payload",
+        fake_create,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "POST",
+            "/api/v2/control-plane/workspaces",
+            body=json.dumps(
+                {
+                    "name": "Research",
+                    "locale": "ru",
+                    "theme": "dark",
+                }
+            ),
+            headers={
+                "content-type": "application/json"
+            },
+        )
+
+        response = connection.getresponse()
+
+        payload = json.loads(
+            response.read()
+        )
+
+        assert response.status == 201
+        assert payload["id"] == "ws-created"
+        assert payload["name"] == "Research"
+
+        assert (
+            payload["activeLayoutVersion"]
+            == 1
+        )
+
+        assert payload["widgets"] == []
+
+        connection.close()
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)

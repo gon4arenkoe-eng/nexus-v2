@@ -35486,3 +35486,78 @@ PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
 AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
 RESTRICTED_LIVE=DISABLED
 FULL_LIVE=DISABLED
+
+## 2026-09-28 – Phase 11 Create Blank Workspace v1
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_CREATE_BLANK_WORKSPACE_V1_VERIFIED
+
+### FACT
+
+The Control Plane now supports canonical creation of a new user-owned blank workspace through the presentation API and persistence boundary.
+
+### VERIFIED
+
+- Browser exposes a New Workspace action.
+- Browser submits presentation-only name/locale/theme and does not supply tenant/user ownership identity.
+- POST /api/v2/control-plane/workspaces returns HTTP 201.
+- Workspace identity is generated server-side.
+- Create uses an insert-only repository path rather than the existing update/upsert path.
+- Identity collision fails closed and cannot overwrite a workspace owned by another user.
+- Tenant/user ownership is derived from trusted runtime scope.
+- New UserWorkspace starts at active layout version 1.
+- New WorkspaceLayoutVersion 1 is canonical and contains an empty widget set.
+- UserWorkspace and initial layout persist in one application-owned transaction.
+- Failure rolls back the transaction.
+- Canonical GET reload returns the newly created workspace.
+- Wrong-user readback fails closed.
+- Browser adopts and activates the canonical response.
+- Existing canonical workspace switching remains preserved.
+- No direct browser database access was introduced.
+- No trading write authority was introduced.
+- No exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Create service focused: 3 passed in 1.01s.
+- Create/save HTTP DB E2E: 2 passed in 2.83s.
+- Control Plane focused: 48 passed in 6.67s.
+- Adjacent: 68 passed, 1076 deselected in 7.62s.
+- Full regression: 1144 passed in 14.03s.
+- Python compile: PASS.
+- JavaScript syntax: PASS.
+- git diff --check: PASS.
+- POST workspaces: HTTP 201.
+- Server-generated workspace identity: PASS.
+- Blank layout version: 1.
+- Blank layout widgets: EMPTY.
+- Create transaction: ATOMIC.
+- GET reload created workspace: PASS.
+- Cross-user read: FAIL CLOSED.
+- Cross-user identity collision: FAIL CLOSED.
+- Existing workspace switch: PRESERVED.
+
+### SCOPE
+
+This closes the canonical blank-workspace creation slice.
+Curated-template creation and prior-layout restore remain separate Phase 11 capabilities and are not claimed by this evidence.
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED

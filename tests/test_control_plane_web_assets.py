@@ -411,3 +411,60 @@ def test_canonical_workspace_save_uses_versioned_presentation_write_boundary() -
         "ExecutionCoordinator",
     ):
         assert forbidden not in source
+def test_blank_workspace_create_uses_canonical_presentation_boundary() -> None:
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    start = source.index(
+        "async function createBlankWorkspace()"
+    )
+
+    end = source.index(
+        "async function saveCanonicalWorkspace()"
+    )
+
+    create_source = source[start:end]
+
+    assert (
+        "'/api/v2/control-plane/workspaces'"
+        in create_source
+    )
+
+    assert "method:'POST'" in create_source
+
+    assert (
+        "data-create-blank-workspace"
+        in source
+    )
+
+    assert (
+        "bindBeforeBlankWorkspaceCreate"
+        in source
+    )
+
+    assert (
+        "serverWorkspaces.push(workspace)"
+        in create_source
+    )
+
+    assert (
+        "applyServerWorkspace(workspace)"
+        in create_source
+    )
+
+    for forbidden in (
+        "workspaceId",
+        "tenant_workspace_id",
+        "user_id",
+        "submit_order(",
+        "cancel_order(",
+        "VenueAdapter",
+        "ExecutionCoordinator",
+    ):
+        assert forbidden not in create_source
