@@ -35416,3 +35416,73 @@ PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
 AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
 RESTRICTED_LIVE=DISABLED
 FULL_LIVE=DISABLED
+
+## 2026-09-28 – Phase 11 workspace save HTTP/DB/reload acceptance
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_WORKSPACE_SAVE_HTTP_DB_RELOAD_E2E_VERIFIED
+
+### FACT
+
+Save Existing Workspace v1 is verified through the real Control Plane HTTP handler and a real temporary persistence database, followed by canonical GET reload/readback.
+
+### VERIFIED
+
+- Browser asset contains the canonical workspace save endpoint and POST save path.
+- Initial canonical GET returns active layout version 1 from the real persistence database.
+- POST save using the browser canonical payload shape succeeds through the real HTTP runtime.
+- Save creates immutable layout version 2 with source_version 1.
+- UserWorkspace.active_layout_version advances to 2.
+- Subsequent canonical GET reload returns layout version 2 and the saved geometry/settings.
+- Original layout version 1 remains unchanged.
+- Repeating the stale baseVersion 1 POST returns HTTP 409 WORKSPACE_VERSION_CONFLICT.
+- Stale retry creates no version 3.
+- Canonical state remains at active version 2 after stale retry.
+- Tenant/user identity remains server-side runtime scope.
+- Trading write authority remains absent.
+- Exchange write authority remains absent.
+
+### TEST EVIDENCE
+
+Focused acceptance:
+1 passed in 2.00s
+
+Adjacent:
+62 passed, 1076 deselected in 5.31s
+
+Full regression:
+1138 passed in 10.89s
+
+Python compile: PASS
+HTTP -> DB -> GET reload: PASS
+Immutable v1 preservation: PASS
+Persisted v2 readback: PASS
+Stale retry HTTP 409: PASS
+No v3 after stale retry: PASS
+
+### SCOPE NOTE
+
+This is an HTTP runtime plus persistence acceptance test using the exact browser save payload contract.
+It does not claim full real-browser DOM automation.
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+The next step is a full Phase 11 gate audit against Master Plan, Audit and Functional Inventory to identify the first remaining real gap, if any.
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED
