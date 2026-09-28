@@ -81,6 +81,42 @@ def test_control_plane_css_has_responsive_breakpoints_and_themes() -> None:
     assert ".safety-strip" in css
 
 
+
+def test_active_control_plane_reads_workspace_projection() -> None:
+    source = Path("apps/web/index.html").read_text(
+        encoding="utf-8"
+    )
+
+    assert "/api/v2/control-plane/workspaces" in source
+    assert "workspaceProjectionToLayout" in source
+    assert "loadWorkspaceState" in source
+    assert "settingsJson" in source
+
+    assert "item.column" in source
+    assert "item.row" in source
+    assert "item.width" in source
+    assert "item.height" in source
+
+    assert (
+        "serverWorkspaces.length!==1"
+        in source
+    )
+
+    assert (
+        "Promise.allSettled(["
+        in source
+    )
+
+    # Existing local preview save remains local-only.
+    assert "nexus:v7:workspace" in source
+
+    # This active browser path must not gain HTTP mutation.
+    assert "method:'PUT'" not in source
+    assert 'method:"PUT"' not in source
+    assert "method:'POST'" not in source
+    assert 'method:"POST"' not in source
+
+
 def test_control_plane_frontend_targets_versioned_api_boundary() -> None:
     api = (WEB / "src" / "api.ts").read_text(encoding="utf-8")
     assert 'API_BASE = "/api/v2"' in api

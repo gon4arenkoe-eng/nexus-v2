@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
 
+from infra.persistence.repositories.control_plane import ControlPlaneRepository
 from infra.persistence.repositories.control_plane_read import ControlPlaneReadRepository
 from infra.persistence.session import create_persistence_engine, create_session_factory
 
@@ -63,6 +64,77 @@ async def _load_overview() -> dict[str, Any]:
         await engine.dispose()
 
 
+def _workspace_projection(workspace: Any, layout: Any) -> dict[str, Any]:
+    widgets: list[dict[str, Any]] = []
+
+    for item in layout.widgets:
+        placement = item.placement
+        widgets.append(
+            {
+                "id": placement.instance_id,
+                "key": placement.widget_key,
+                "widgetVersion": placement.widget_version,
+                "column": placement.column,
+                "row": placement.row,
+                "width": placement.size.columns,
+                "height": placement.size.rows,
+                "contextGroup": placement.context_group,
+                "settingsJson": item.settings_json,
+            }
+        )
+
+    return {
+        "id": workspace.user_workspace_id,
+        "name": workspace.name,
+        "locale": workspace.locale.value,
+        "theme": workspace.theme.value,
+        "activeLayoutVersion": workspace.active_layout_version,
+        "widgets": widgets,
+    }
+
+
+async def _load_workspaces() -> list[dict[str, Any]]:
+    database_url = _required_env("NEXUS_V2_DATABASE_URL")
+    tenant_workspace_id = _required_env("NEXUS_CONTROL_PLANE_WORKSPACE_ID")
+    user_id = int(_required_env("NEXUS_CONTROL_PLANE_USER_ID"))
+
+    if user_id <= 0:
+        raise RuntimeError("NEXUS_CONTROL_PLANE_USER_ID must be positive")
+
+    engine = create_persistence_engine(database_url)
+    factory = create_session_factory(engine)
+
+    try:
+        async with factory() as session:
+            repository = ControlPlaneRepository(session)
+
+            workspaces = await repository.list_user_workspaces(
+                tenant_workspace_id=tenant_workspace_id,
+                user_id=user_id,
+            )
+
+            result: list[dict[str, Any]] = []
+
+            for workspace in workspaces:
+                layout = await repository.get_layout(
+                    tenant_workspace_id=tenant_workspace_id,
+                    user_id=user_id,
+                    user_workspace_id=workspace.user_workspace_id,
+                    version=workspace.active_layout_version,
+                )
+
+                if layout is None:
+                    raise RuntimeError(
+                        "active workspace layout unavailable"
+                    )
+
+                result.append(_workspace_projection(workspace, layout))
+
+            return result
+    finally:
+        await engine.dispose()
+
+
 class ControlPlaneHandler(BaseHTTPRequestHandler):
     server_version = "NEXUS-V2-Control-Plane"
 
@@ -70,6 +142,9 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
         path = urlsplit(self.path).path
         if path == "/api/v2/control-plane/overview":
             self._overview()
+            return
+        if path == "/api/v2/control-plane/workspaces":
+            self._workspaces()
             return
         if path == "/health":
             self._json(
@@ -83,6 +158,28 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
             )
             return
         self._static(path)
+
+
+    def _workspaces(self) -> None:
+        try:
+            payload = asyncio.run(_load_workspaces())
+        except PermissionError:
+            self._json(
+                HTTPStatus.FORBIDDEN,
+                {"code": "FORBIDDEN", "message": "workspace access denied"},
+            )
+            return
+        except (RuntimeError, ValueError):
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": "CONTROL_PLANE_UNAVAILABLE",
+                    "message": "workspace read model unavailable",
+                },
+            )
+            return
+
+        self._json(HTTPStatus.OK, payload)
 
     def _overview(self) -> None:
         try:

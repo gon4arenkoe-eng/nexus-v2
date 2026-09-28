@@ -30,6 +30,27 @@ export interface UserWorkspace {
   widgets: WidgetInstance[];
 }
 
+export interface WorkspaceReadWidget {
+  id: string;
+  key: string;
+  widgetVersion: number;
+  column: number;
+  row: number;
+  width: number;
+  height: number;
+  contextGroup: string | null;
+  settingsJson: string;
+}
+
+export interface WorkspaceReadProjection {
+  id: string;
+  name: string;
+  locale: Locale;
+  theme: Theme;
+  activeLayoutVersion: number;
+  widgets: WorkspaceReadWidget[];
+}
+
 export interface DashboardState {
   locale: Locale;
   theme: Theme;

@@ -422,6 +422,106 @@ bind=function(){
  document.querySelectorAll('main button').forEach(el=>{if(!el.disabled&&Object.keys(el.dataset).length===0&&!el.closest('form'))el.addEventListener('click',()=>toastText(t('app.backendDeferred')))});
 };
 
+
+let serverWorkspaces=[];
+
+function workspaceProjectionToLayout(workspace){
+  const raw=Array.isArray(workspace?.widgets)?workspace.widgets:[];
+  const projected=[];
+
+  for(let index=0;index<raw.length;index++){
+    const item=raw[index];
+    const catalog=widgetCatalog.find(entry=>entry.key===item.key);
+
+    /*
+     * Do not silently reinterpret an unknown canonical widget key.
+     * The local preview layout remains active instead.
+     */
+    if(!catalog)return null;
+
+    let cfg={};
+
+    try{
+      const parsed=JSON.parse(item.settingsJson||'{}');
+
+      if(
+        parsed &&
+        typeof parsed==='object' &&
+        !Array.isArray(parsed)
+      ){
+        cfg=parsed;
+      }
+    }catch(error){
+      /*
+       * Invalid presentation settings must not destroy canonical
+       * layout geometry. Use safe presentation defaults.
+       */
+      cfg={};
+    }
+
+    projected.push(
+      normalizeCfg({
+        id:item.id||`api-widget-${index+1}`,
+        key:item.key,
+        title:catalog.title,
+        x:Number.isInteger(item.column)?item.column:0,
+        y:Number.isInteger(item.row)?item.row:0,
+        w:Number.isInteger(item.width)?item.width:4,
+        h:Number.isInteger(item.height)?item.height:3,
+        cfg
+      })
+    );
+  }
+
+  return projected;
+}
+
+async function loadWorkspaceState(){
+  try{
+    const response=await fetch(
+      '/api/v2/control-plane/workspaces',
+      {
+        credentials:'same-origin',
+        cache:'no-store'
+      }
+    );
+
+    if(!response.ok){
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const payload=await response.json();
+
+    serverWorkspaces=Array.isArray(payload)?payload:[];
+
+    /*
+     * The current preview UI does not yet have a canonical
+     * active-workspace selector.
+     *
+     * Therefore never choose arbitrarily between several
+     * server workspaces. Apply server layout only when its
+     * identity is unambiguous.
+     */
+    if(serverWorkspaces.length!==1)return;
+
+    const projected=
+      workspaceProjectionToLayout(serverWorkspaces[0]);
+
+    if(!projected || !projected.length)return;
+
+    state.workspace=projected;
+    state.selectedWidget=null;
+    state.layoutDirty=false;
+  }catch(error){
+    /*
+     * Read-only server projection is optional in this preview
+     * composition root. Existing browser-local layout remains
+     * the fallback. No server mutation is attempted.
+     */
+    serverWorkspaces=[];
+  }
+}
+
 async function loadOperationalState(){try{const response=await fetch('/api/v2/control-plane/overview',{credentials:'same-origin',cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);operational=await response.json();operationalError=null}catch(error){operational=null;operationalError=error instanceof Error?error.message:rt('readError')}refreshOperationalRows();}
-loadOperationalState().finally(()=>render());
+Promise.allSettled([loadWorkspaceState(),loadOperationalState()]).finally(()=>render());
 </script></body></html>

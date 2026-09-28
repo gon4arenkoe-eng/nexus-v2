@@ -1,4 +1,4 @@
-import type { ControlPlaneOverview, Locale, Theme, UserWorkspace } from "./contracts.js";
+import type { ControlPlaneOverview, Locale, Theme, WorkspaceReadProjection } from "./contracts.js";
 
 export const API_BASE = "/api/v2" as const;
 
@@ -40,8 +40,8 @@ export class ControlPlaneApi {
     );
   }
 
-  async listWorkspaces(): Promise<UserWorkspace[]> {
-    return parseJson<UserWorkspace[]>(
+  async listWorkspaces(): Promise<WorkspaceReadProjection[]> {
+    return parseJson<WorkspaceReadProjection[]>(
       await fetch(`${API_BASE}/control-plane/workspaces`, {
         credentials: "same-origin",
       }),

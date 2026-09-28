@@ -3,6 +3,7 @@ from __future__ import annotations
 import inspect
 import json
 import threading
+from types import SimpleNamespace
 from http.client import HTTPConnection
 from http.server import ThreadingHTTPServer
 
@@ -30,6 +31,156 @@ def test_control_plane_runtime_exposes_only_get_http_boundary() -> None:
     assert "def do_PUT" not in source
     assert "def do_DELETE" not in source
     assert "/api/v2/control-plane/overview" in source
+    assert "/api/v2/control-plane/workspaces" in source
+
+
+
+def test_workspace_projection_preserves_canonical_layout_fields() -> None:
+    workspace = SimpleNamespace(
+        user_workspace_id="desk",
+        name="Desk",
+        locale=SimpleNamespace(value="ru"),
+        theme=SimpleNamespace(value="dark"),
+        active_layout_version=3,
+    )
+
+    layout = SimpleNamespace(
+        widgets=(
+            SimpleNamespace(
+                placement=SimpleNamespace(
+                    instance_id="positions-1",
+                    widget_key="portfolio.positions",
+                    widget_version=2,
+                    column=3,
+                    row=5,
+                    size=SimpleNamespace(
+                        columns=6,
+                        rows=4,
+                    ),
+                    context_group="btc",
+                ),
+                settings_json='{"timeframe":"1h"}',
+            ),
+        ),
+    )
+
+    payload = runtime._workspace_projection(
+        workspace,
+        layout,
+    )
+
+    assert payload["id"] == "desk"
+    assert payload["name"] == "Desk"
+    assert payload["locale"] == "ru"
+    assert payload["theme"] == "dark"
+    assert payload["activeLayoutVersion"] == 3
+
+    assert payload["widgets"][0] == {
+        "id": "positions-1",
+        "key": "portfolio.positions",
+        "widgetVersion": 2,
+        "column": 3,
+        "row": 5,
+        "width": 6,
+        "height": 4,
+        "contextGroup": "btc",
+        "settingsJson": '{"timeframe":"1h"}',
+    }
+
+
+def test_workspace_loader_keeps_server_identity_scoped() -> None:
+    source = inspect.getsource(runtime._load_workspaces)
+
+    assert (
+        "tenant_workspace_id=tenant_workspace_id"
+        in source
+    )
+
+    assert source.count("user_id=user_id") >= 2
+
+    assert (
+        "workspace.active_layout_version"
+        in source
+    )
+
+
+def test_control_plane_runtime_serves_workspace_projection(
+    monkeypatch,
+) -> None:
+    async def fake_workspaces():
+        return [
+            {
+                "id": "desk",
+                "name": "Desk",
+                "locale": "ru",
+                "theme": "dark",
+                "activeLayoutVersion": 1,
+                "widgets": [
+                    {
+                        "id": "positions-1",
+                        "key": "portfolio.positions",
+                        "widgetVersion": 1,
+                        "column": 0,
+                        "row": 0,
+                        "width": 4,
+                        "height": 3,
+                        "contextGroup": None,
+                        "settingsJson": "{}",
+                    }
+                ],
+            }
+        ]
+
+    monkeypatch.setattr(
+        runtime,
+        "_load_workspaces",
+        fake_workspaces,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "GET",
+            "/api/v2/control-plane/workspaces",
+        )
+
+        response = connection.getresponse()
+        payload = json.loads(response.read())
+
+        assert response.status == 200
+        assert payload[0]["id"] == "desk"
+        assert payload[0]["activeLayoutVersion"] == 1
+        assert payload[0]["widgets"][0]["column"] == 0
+        assert payload[0]["widgets"][0]["row"] == 0
+        assert (
+            payload[0]["widgets"][0]["settingsJson"]
+            == "{}"
+        )
+
+        connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
 
 
 def test_control_plane_runtime_serves_overview_and_v83_site(monkeypatch) -> None:

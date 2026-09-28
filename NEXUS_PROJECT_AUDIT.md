@@ -34903,3 +34903,114 @@ This Phase 12 consolidation also does not authorize:
 Return to the earliest open prerequisite in the canonical phase sequence:
 
 `Phase 11 — NEXUS_V2_CONTROL_PLANE_OK`.
+
+## Phase 11 — Workspace canonical read bridge — 2026-09-28
+
+### FACT
+
+Phase 11 Control Plane recovery identified that the active browser-facing
+Workspace Composer was still initialized from browser-local layout state while
+canonical V2 workspace and immutable layout persistence already existed.
+
+The production HTTP authentication/JWT boundary is not yet proven for the
+off-production review runtime, so this slice deliberately remains GET-only.
+
+### IMPLEMENTATION
+
+Implemented canonical read projection:
+
+active index.html
+  -> GET /api/v2/control-plane/workspaces
+  -> server-configured tenant/user identity
+  -> ControlPlaneRepository.list_user_workspaces()
+  -> workspace.active_layout_version
+  -> ControlPlaneRepository.get_layout()
+  -> lossless browser read projection
+
+The read projection preserves:
+
+- workspace id/name;
+- locale/theme;
+- active layout version;
+- widget instance id;
+- widget key/version;
+- canonical column/row;
+- width/height;
+- context group;
+- settings JSON.
+
+The active inline Control Plane now loads canonical Workspace layout state when
+the server identity resolves to exactly one workspace.
+
+When multiple workspaces are returned, the browser does not arbitrarily select
+one because canonical active-workspace selection is not yet implemented.
+
+Browser-local Workspace persistence remains a preview fallback only.
+
+### SECURITY / AUTHORITY
+
+No mutation HTTP boundary was added.
+
+Verified:
+
+- `HTTP_METHODS=GET_ONLY`;
+- `WORKSPACE_MUTATION_API=ABSENT`;
+- `TRADING_WRITE_AUTHORITY=ABSENT`;
+- no `POST`;
+- no `PUT`;
+- no `DELETE`;
+- no `ExecutionCoordinator` access;
+- no `VenueAdapter` access;
+- no order submit/cancel capability.
+
+Tenant/user scoping continues through the existing repository boundary.
+
+### TEST EVIDENCE
+
+- repository identity class corrected to `ControlPlaneRepository`;
+- Python compile = PASS;
+- focused mypy = PASS;
+- focused tests = `14 passed`;
+- adjacent multi-user/persistence tests = `34 passed`;
+- full regression = `1126 passed`;
+- diff check = PASS;
+- exact changed-file set = PASS;
+- pre-existing untracked artifacts preserved.
+
+### STATUS
+
+`DONE / TEST VERIFIED — WORKSPACE CANONICAL READ BRIDGE ONLY`
+
+Evidence tag:
+
+`NEXUS_V2_PHASE11_WORKSPACE_CANONICAL_READ_BRIDGE_VERIFIED`
+
+The overall Phase 11 gate remains:
+
+`NEXUS_V2_CONTROL_PLANE_OK = OPEN`
+
+This slice does NOT verify:
+
+- HTTP request identity / JWT integration;
+- Workspace mutation persistence from the browser;
+- canonical active-workspace selection when several workspaces exist;
+- remaining hardcoded/demo operational surfaces such as Strategy, Grid,
+  Intelligence, AIEA, Admin and Settings.
+
+### PRODUCTION SAFETY
+
+- AI promotion = SHADOW-ONLY;
+- Advisory = OBSERVE_ONLY;
+- Restricted Live = DISABLED;
+- Full Live = DISABLED;
+- AI direct exchange access = BLOCKED;
+- production deployment = NOT EXECUTED;
+- production DB change = NO;
+- running container change = NO;
+- server build = NO;
+- production authority changed = NO.
+
+### NEXT STEP
+
+Verify the exact remote CI result for the committed Workspace canonical read
+bridge before selecting the next Phase 11 recovery gap.
