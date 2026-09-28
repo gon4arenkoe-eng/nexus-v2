@@ -484,6 +484,8 @@ let serverWorkspaces=[];
 let activeServerWorkspaceId=null;
 let activeServerWorkspaceBaseVersion=null;
 
+let serverWorkspaceTemplates=[];
+
 function canonicalWorkspaceSelectorMarkup(){
   const options=serverWorkspaces.map(workspace=>{
     const id=String(workspace?.id||'');
@@ -508,7 +510,18 @@ function canonicalWorkspaceSelectorMarkup(){
     ?`<button class="btn secondary" type="button" data-restore-canonical-workspace>? ${t('action.restore')}</button>`
     :'';
 
-  return `<div class="canonical-workspace-controls" style="display:flex;gap:8px;align-items:flex-end">${selector}<button class="btn secondary" type="button" data-create-blank-workspace>${t('workspace.new')}</button>${restoreButton}</div>`;
+  const templateOptions=
+    serverWorkspaceTemplates.map(
+      (template,index)=>
+        `<option value="${index}">${esc(t(template.titleKey)||template.key)} ? v${template.version}</option>`
+    ).join('');
+
+  const templateControls=
+    serverWorkspaceTemplates.length
+      ?`<div class="context-field"><label>${t('workspace.new')}</label><select data-workspace-template>${templateOptions}</select></div><button class="btn secondary" type="button" data-create-template-workspace>${t('workspace.new')}</button>`
+      :'';
+
+  return `<div class="canonical-workspace-controls" style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">${selector}<button class="btn secondary" type="button" data-create-blank-workspace>${t('workspace.new')}</button>${templateControls}${restoreButton}</div>`;
 }
 
 function applyServerWorkspace(workspace){
@@ -847,6 +860,148 @@ function canonicalWorkspaceSavePayload(){
 }
 
 
+async function createWorkspaceFromTemplate(){
+  const select=document.querySelector(
+    '[data-workspace-template]'
+  );
+
+  if(!select)return false;
+
+  const index=Number(select.value);
+
+  if(
+    !Number.isInteger(index) ||
+    index<0 ||
+    index>=serverWorkspaceTemplates.length
+  ){
+    return false;
+  }
+
+  const template=
+    serverWorkspaceTemplates[index];
+
+  const translatedName=
+    t(template.titleKey);
+
+  const defaultName=
+    translatedName ||
+    template.key;
+
+  const proposed=window.prompt(
+    t('workspace.new'),
+    defaultName
+  );
+
+  if(proposed===null)return false;
+
+  const name=proposed.trim();
+
+  if(!name)return false;
+
+  const current=serverWorkspaces.find(
+    item=>
+      String(item?.id||'')===
+      String(activeServerWorkspaceId||'')
+  );
+
+  const locale=String(
+    current?.locale ||
+    (state.lang==='ru'?'ru':'en')
+  );
+
+  const theme=String(
+    current?.theme ||
+    (state.theme==='light'?'light':'dark')
+  );
+
+  const response=await fetch(
+    '/api/v2/control-plane/workspaces/from-template',
+    {
+      method:'POST',
+      credentials:'same-origin',
+      cache:'no-store',
+      headers:{
+        'content-type':'application/json'
+      },
+      body:JSON.stringify({
+        name,
+        locale,
+        theme,
+        templateKey:template.key,
+        templateVersion:template.version
+      })
+    }
+  );
+
+  if(!response.ok){
+    throw new Error(
+      `HTTP ${response.status}`
+    );
+  }
+
+  const workspace=
+    await response.json();
+
+  if(
+    !workspace ||
+    typeof workspace!=='object' ||
+    typeof workspace.id!=='string' ||
+    !workspace.id ||
+    !Number.isInteger(
+      workspace.activeLayoutVersion
+    ) ||
+    workspace.activeLayoutVersion!==1 ||
+    !Array.isArray(workspace.widgets)
+  ){
+    throw new Error(
+      'canonical template workspace response invalid'
+    );
+  }
+
+  serverWorkspaces.push(workspace);
+
+  if(!applyServerWorkspace(workspace)){
+    throw new Error(
+      'canonical template workspace invalid'
+    );
+  }
+
+  safeSet(
+    'nexus:v7:workspace',
+    JSON.stringify(state.workspace)
+  );
+
+  return true;
+}
+
+const bindBeforeTemplateWorkspaceCreate=
+  bindEvents;
+
+bindEvents=function(){
+  bindBeforeTemplateWorkspaceCreate();
+
+  document.querySelector(
+    '[data-create-template-workspace]'
+  )?.addEventListener(
+    'click',
+    async()=>{
+      try{
+        const created=
+          await createWorkspaceFromTemplate();
+
+        if(created){
+          render();
+          toastText(
+            t('composer.created')
+          );
+        }
+      }catch(error){
+        render();
+      }
+    }
+  );
+};
+
 async function createBlankWorkspace(){
   const proposed=window.prompt(
     t('workspace.new'),
@@ -1146,6 +1301,55 @@ async function saveCurrentWorkspace(){
   return saveCanonicalWorkspace();
 }
 
+async function loadWorkspaceTemplates(){
+  try{
+    const response=await fetch(
+      '/api/v2/control-plane/workspace-templates',
+      {
+        credentials:'same-origin',
+        cache:'no-store'
+      }
+    );
+
+    if(!response.ok){
+      throw new Error(
+        `HTTP ${response.status}`
+      );
+    }
+
+    const payload=
+      await response.json();
+
+    if(!Array.isArray(payload)){
+      throw new Error(
+        'workspace template catalog invalid'
+      );
+    }
+
+    serverWorkspaceTemplates=
+      payload.filter(
+        template=>
+          template &&
+          typeof template==='object' &&
+          typeof template.key==='string' &&
+          template.key &&
+          Number.isInteger(
+            template.version
+          ) &&
+          template.version>0 &&
+          typeof template.titleKey==='string' &&
+          template.titleKey &&
+          Number.isInteger(
+            template.widgetCount
+          ) &&
+          template.widgetCount>0
+      );
+
+  }catch(error){
+    serverWorkspaceTemplates=[];
+  }
+}
+
 async function loadWorkspaceState(){
   try{
     const response=await fetch(
@@ -1202,5 +1406,5 @@ async function loadWorkspaceState(){
 }
 
 async function loadOperationalState(){try{const response=await fetch('/api/v2/control-plane/overview',{credentials:'same-origin',cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);operational=await response.json();operationalError=null}catch(error){operational=null;operationalError=error instanceof Error?error.message:rt('readError')}refreshOperationalRows();}
-Promise.allSettled([loadWorkspaceState(),loadOperationalState()]).finally(()=>render());
+Promise.allSettled([loadWorkspaceTemplates(),loadWorkspaceState(),loadOperationalState()]).finally(()=>render());
 </script></body></html>

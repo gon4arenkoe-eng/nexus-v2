@@ -35638,3 +35638,78 @@ PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
 AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
 RESTRICTED_LIVE=DISABLED
 FULL_LIVE=DISABLED
+
+## 2026-09-28 – Phase 11 Curated Template Workspace Creation v1
+
+### STATUS
+
+DONE / TEST VERIFIED
+
+### EVIDENCE TAG
+
+NEXUS_V2_PHASE11_CURATED_TEMPLATE_WORKSPACE_V1_VERIFIED
+
+### FACT
+
+The Control Plane now exposes the existing canonical curated workspace-template catalog and can create a new user-owned canonical workspace from an approved curated template.
+
+### VERIFIED
+
+- Existing apps/core/application/control_plane_catalog.py curated_workspace_templates(created_at) remains the canonical template source.
+- No duplicate template catalog or new template schema was introduced.
+- Curated discovery excludes blank-workspace because blank creation already has a separate canonical verified path.
+- Curated catalog includes command-center, active-trader, grid-desk, aiea-researcher, risk-operations and multi-account-desk.
+- GET /api/v2/control-plane/workspace-templates returns the curated presentation catalog.
+- POST /api/v2/control-plane/workspaces/from-template creates a new user-owned canonical workspace.
+- Browser supplies presentation/template selection only; tenant/user ownership identity remains server-side.
+- Workspace identity is generated server-side.
+- WorkspaceComposer.from_template remains the canonical layout-construction owner.
+- Created workspace starts at layout version 1.
+- Template widgets persist into canonical WorkspaceLayoutVersion v1.
+- Workspace and layout are persisted through the canonical presentation persistence boundary.
+- Canonical GET reload returns the newly created workspace and its template-derived layout.
+- Wrong-user readback fails closed.
+- Browser automatically activates the canonical workspace returned by the server.
+- Existing blank-create, workspace-switch, save and restore paths remain preserved.
+- No direct browser database access was introduced.
+- No trading write authority was introduced.
+- No exchange write authority was introduced.
+
+### TEST EVIDENCE
+
+- Template service focused: 3 passed in 0.88s.
+- Real HTTP/DB E2E: 4 passed in 5.07s.
+- Runtime + browser contract: 30 passed in 5.74s.
+- Control Plane focused: 63 passed in 11.09s.
+- Adjacent: 83 passed, 1076 deselected in 11.59s.
+- Full regression: 1159 passed in 17.92s.
+- Python compile: PASS.
+- JavaScript syntax: PASS.
+- git diff --check: PASS.
+- Curated template discovery: HTTP 200.
+- Create from template: HTTP 201.
+- Template layout version: 1.
+- Template widgets persisted: PASS.
+- GET reload created workspace: PASS.
+- Wrong-user read: FAIL CLOSED.
+- Browser auto-activation: PASS.
+
+### SCOPE
+
+This closes canonical curated-template workspace creation using the existing approved template factory.
+Private/shared user-authored template management is not claimed by this slice; existing persistence visibility semantics remain separately verified.
+
+### GATE STATUS
+
+NEXUS_V2_CONTROL_PLANE_OK = OPEN
+
+### PRODUCTION SAFETY
+
+PRODUCTION_CHANGED=NO
+PRODUCTION_DB_CHANGED=NO
+RUNNING_CONTAINER_CHANGED=NO
+SERVER_BUILD=NO
+PRODUCTION_TRADING_AUTHORITY_CHANGED=NO
+AI_DIRECT_EXCHANGE_ACCESS=BLOCKED
+RESTRICTED_LIVE=DISABLED
+FULL_LIVE=DISABLED

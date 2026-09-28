@@ -541,3 +541,82 @@ def test_canonical_workspace_restore_creates_new_version() -> None:
         "ExecutionCoordinator",
     ):
         assert forbidden not in restore_source
+def test_curated_template_workspace_creation_uses_canonical_boundary() -> None:
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "apps"
+        / "web"
+        / "index.html"
+    ).read_text(
+        encoding="utf-8"
+    )
+
+    assert (
+        "async function loadWorkspaceTemplates()"
+        in source
+    )
+
+    assert (
+        "'/api/v2/control-plane/workspace-templates'"
+        in source
+    )
+
+    start = source.index(
+        "async function "
+        "createWorkspaceFromTemplate()"
+    )
+
+    end = source.index(
+        "async function createBlankWorkspace()",
+        start,
+    )
+
+    create_source = source[start:end]
+
+    assert (
+        "'/api/v2/control-plane/"
+        "workspaces/from-template'"
+        in create_source
+    )
+
+    assert "method:'POST'" in create_source
+
+    assert (
+        "templateKey:template.key"
+        in create_source
+    )
+
+    assert (
+        "templateVersion:template.version"
+        in create_source
+    )
+
+    assert (
+        "serverWorkspaces.push(workspace)"
+        in create_source
+    )
+
+    assert (
+        "applyServerWorkspace(workspace)"
+        in create_source
+    )
+
+    assert (
+        "data-workspace-template"
+        in source
+    )
+
+    assert (
+        "data-create-template-workspace"
+        in source
+    )
+
+    for forbidden in (
+        "tenant_workspace_id",
+        "user_id",
+        "submit_order(",
+        "cancel_order(",
+        "VenueAdapter",
+        "ExecutionCoordinator",
+    ):
+        assert forbidden not in create_source

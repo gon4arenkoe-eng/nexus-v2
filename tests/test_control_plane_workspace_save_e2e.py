@@ -967,3 +967,248 @@ def test_workspace_restore_roundtrip_through_real_http_runtime_and_database(
     )
 
     assert v3.source_version == 1
+def test_curated_template_workspace_create_roundtrip_through_real_http_runtime_and_database(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    db_path = (
+        tmp_path
+        / "control-plane-template-create-e2e.sqlite3"
+    )
+
+    database_url = (
+        "sqlite+aiosqlite:///"
+        + db_path.as_posix()
+    )
+
+    asyncio.run(
+        _prepare_database(
+            database_url
+        )
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_V2_DATABASE_URL",
+        database_url,
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID",
+        "tenant-a",
+    )
+
+    monkeypatch.setenv(
+        "NEXUS_CONTROL_PLANE_USER_ID",
+        "7",
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        template_status, templates = (
+            _http_json(
+                host=host,
+                port=port,
+                method="GET",
+                path=(
+                    "/api/v2/control-plane/"
+                    "workspace-templates"
+                ),
+            )
+        )
+
+        assert template_status == 200
+        assert isinstance(templates, list)
+
+        command = next(
+            item
+            for item in templates
+            if item["key"]
+            == "command-center"
+        )
+
+        assert command["version"] == 1
+        assert command["widgetCount"] > 0
+
+        create_status, created = (
+            _http_json(
+                host=host,
+                port=port,
+                method="POST",
+                path=(
+                    "/api/v2/control-plane/"
+                    "workspaces/from-template"
+                ),
+                payload={
+                    "name": "Command Desk",
+                    "locale": "ru",
+                    "theme": "dark",
+                    "templateKey": (
+                        command["key"]
+                    ),
+                    "templateVersion": (
+                        command["version"]
+                    ),
+                },
+            )
+        )
+
+        assert create_status == 201
+
+        created_id = created["id"]
+
+        assert created_id.startswith(
+            "ws-"
+        )
+
+        assert (
+            created["activeLayoutVersion"]
+            == 1
+        )
+
+        assert len(created["widgets"]) > 0
+
+        reload_status, reloaded = (
+            _http_json(
+                host=host,
+                port=port,
+                method="GET",
+                path=(
+                    "/api/v2/control-plane/"
+                    "workspaces"
+                ),
+            )
+        )
+
+        assert reload_status == 200
+
+        by_id = {
+            item["id"]: item
+            for item in reloaded
+        }
+
+        assert created_id in by_id
+
+        assert (
+            by_id[created_id]["name"]
+            == "Command Desk"
+        )
+
+        assert (
+            by_id[created_id][
+                "activeLayoutVersion"
+            ]
+            == 1
+        )
+
+        assert (
+            by_id[created_id]["widgets"]
+            == created["widgets"]
+        )
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
+
+    async def read_created():
+        engine = create_async_engine(
+            database_url
+        )
+
+        try:
+            factory = async_sessionmaker(
+                engine,
+                class_=AsyncSession,
+                expire_on_commit=False,
+            )
+
+            async with factory() as session:
+                repository = (
+                    ControlPlaneRepository(
+                        session
+                    )
+                )
+
+                workspace = (
+                    await repository
+                    .get_user_workspace(
+                        tenant_workspace_id=(
+                            "tenant-a"
+                        ),
+                        user_id=7,
+                        user_workspace_id=(
+                            created_id
+                        ),
+                    )
+                )
+
+                layout = (
+                    await repository
+                    .get_layout(
+                        tenant_workspace_id=(
+                            "tenant-a"
+                        ),
+                        user_id=7,
+                        user_workspace_id=(
+                            created_id
+                        ),
+                        version=1,
+                    )
+                )
+
+                wrong_user = (
+                    await repository
+                    .get_user_workspace(
+                        tenant_workspace_id=(
+                            "tenant-a"
+                        ),
+                        user_id=8,
+                        user_workspace_id=(
+                            created_id
+                        ),
+                    )
+                )
+
+                return (
+                    workspace,
+                    layout,
+                    wrong_user,
+                )
+
+        finally:
+            await engine.dispose()
+
+    (
+        workspace,
+        layout,
+        wrong_user,
+    ) = asyncio.run(
+        read_created()
+    )
+
+    assert workspace is not None
+
+    assert (
+        workspace.active_layout_version
+        == 1
+    )
+
+    assert layout is not None
+    assert layout.version == 1
+    assert layout.source_version is None
+    assert len(layout.widgets) > 0
+
+    assert wrong_user is None

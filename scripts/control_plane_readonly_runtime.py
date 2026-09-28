@@ -34,6 +34,12 @@ from infra.persistence.application.control_plane_workspace import (
     create_blank_workspace,
     restore_workspace_layout,
     save_existing_workspace,
+    WorkspaceTemplateCreateConflict,
+    WorkspaceTemplateCreateInvalid,
+    WorkspaceTemplateCreateNotFound,
+    WorkspaceTemplateCreateStateError,
+    create_workspace_from_curated_template,
+    list_curated_workspace_templates,
 )
 from infra.persistence.repositories.control_plane import ControlPlaneRepository
 from infra.persistence.repositories.control_plane_read import ControlPlaneReadRepository
@@ -259,6 +265,89 @@ async def _restore_workspace_payload(
         await engine.dispose()
 
 
+
+def _workspace_template_projection(
+    template: Any,
+) -> dict[str, Any]:
+    return {
+        "key": template.template_key,
+        "version": template.version,
+        "titleKey": template.title_key,
+        "widgetCount": len(
+            template.widgets
+        ),
+    }
+
+
+async def _workspace_templates_payload(
+) -> list[dict[str, Any]]:
+    now = datetime.now(UTC)
+
+    return [
+        _workspace_template_projection(
+            template
+        )
+        for template in (
+            list_curated_workspace_templates(
+                created_at=now
+            )
+        )
+    ]
+
+
+async def _create_workspace_from_template_payload(
+    payload: object,
+) -> dict[str, Any]:
+    database_url = _required_env(
+        "NEXUS_V2_DATABASE_URL"
+    )
+
+    tenant_workspace_id = _required_env(
+        "NEXUS_CONTROL_PLANE_WORKSPACE_ID"
+    )
+
+    user_id = int(
+        _required_env(
+            "NEXUS_CONTROL_PLANE_USER_ID"
+        )
+    )
+
+    if user_id <= 0:
+        raise RuntimeError(
+            "NEXUS_CONTROL_PLANE_USER_ID "
+            "must be positive"
+        )
+
+    engine = create_persistence_engine(
+        database_url
+    )
+
+    factory = create_session_factory(
+        engine
+    )
+
+    try:
+        workspace, layout, _template = (
+            await create_workspace_from_curated_template(
+                session_factory=factory,
+                tenant_workspace_id=(
+                    tenant_workspace_id
+                ),
+                user_id=user_id,
+                payload=payload,
+                created_at=datetime.now(UTC),
+            )
+        )
+
+        return _workspace_projection(
+            workspace,
+            layout,
+        )
+
+    finally:
+        await engine.dispose()
+
+
 async def _save_workspace_payload(
     payload: object,
 ) -> dict[str, Any]:
@@ -310,6 +399,10 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
 
+        if path == "/api/v2/control-plane/workspaces/from-template":
+            self._create_workspace_from_template()
+            return
+
 
         if path == "/api/v2/control-plane/workspaces":
             self._create_workspace()
@@ -338,6 +431,10 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+
+        if path == "/api/v2/control-plane/workspace-templates":
+            self._workspace_templates()
+            return
         if path == "/api/v2/control-plane/overview":
             self._overview()
             return
@@ -391,6 +488,151 @@ class ControlPlaneHandler(BaseHTTPRequestHandler):
             )
 
         return value
+
+
+
+    def _workspace_templates(self) -> None:
+        try:
+            payload = asyncio.run(
+                _workspace_templates_payload()
+            )
+
+        except (
+            WorkspaceTemplateCreateStateError,
+            RuntimeError,
+            ValueError,
+        ):
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "WORKSPACE_TEMPLATE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "workspace template catalog "
+                        "unavailable"
+                    ),
+                },
+            )
+            return
+
+        self._json(
+            HTTPStatus.OK,
+            payload,
+        )
+
+
+    def _create_workspace_from_template(
+        self,
+    ) -> None:
+        try:
+            request = self._read_json_body()
+
+        except (
+            UnicodeDecodeError,
+            ValueError,
+            json.JSONDecodeError,
+        ):
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": "INVALID_REQUEST",
+                    "message": (
+                        "invalid template workspace "
+                        "create request"
+                    ),
+                },
+            )
+            return
+
+        try:
+            payload = asyncio.run(
+                _create_workspace_from_template_payload(
+                    request
+                )
+            )
+
+        except WorkspaceTemplateCreateInvalid:
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {
+                    "code": (
+                        "INVALID_WORKSPACE_TEMPLATE_CREATE"
+                    ),
+                    "message": (
+                        "template workspace create "
+                        "request is invalid"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceTemplateCreateNotFound:
+            self._json(
+                HTTPStatus.NOT_FOUND,
+                {
+                    "code": (
+                        "WORKSPACE_TEMPLATE_NOT_FOUND"
+                    ),
+                    "message": (
+                        "curated workspace template "
+                        "unavailable"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceTemplateCreateConflict:
+            self._json(
+                HTTPStatus.CONFLICT,
+                {
+                    "code": (
+                        "WORKSPACE_CREATE_CONFLICT"
+                    ),
+                    "message": (
+                        "workspace identity conflict"
+                    ),
+                },
+            )
+            return
+
+        except WorkspaceTemplateCreateStateError:
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "WORKSPACE_TEMPLATE_STATE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "workspace template state "
+                        "unavailable"
+                    ),
+                },
+            )
+            return
+
+        except (
+            RuntimeError,
+            ValueError,
+        ):
+            self._json(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                {
+                    "code": (
+                        "CONTROL_PLANE_UNAVAILABLE"
+                    ),
+                    "message": (
+                        "template workspace creation "
+                        "unavailable"
+                    ),
+                },
+            )
+            return
+
+        self._json(
+            HTTPStatus.CREATED,
+            payload,
+        )
 
 
     def _create_workspace(self) -> None:

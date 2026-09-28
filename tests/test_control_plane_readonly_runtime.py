@@ -693,3 +693,170 @@ def test_control_plane_runtime_maps_stale_workspace_restore_to_409(
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+def test_control_plane_runtime_serves_curated_workspace_templates(
+    monkeypatch,
+) -> None:
+    async def fake_templates():
+        return [
+            {
+                "key": "command-center",
+                "version": 1,
+                "titleKey": (
+                    "template.command_center"
+                ),
+                "widgetCount": 9,
+            }
+        ]
+
+    monkeypatch.setattr(
+        runtime,
+        "_workspace_templates_payload",
+        fake_templates,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "GET",
+            "/api/v2/control-plane/workspace-templates",
+        )
+
+        response = connection.getresponse()
+
+        payload = json.loads(
+            response.read()
+        )
+
+        assert response.status == 200
+
+        assert payload[0]["key"] == (
+            "command-center"
+        )
+
+        assert (
+            payload[0]["widgetCount"]
+            == 9
+        )
+
+        connection.close()
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+
+def test_control_plane_runtime_creates_workspace_from_curated_template(
+    monkeypatch,
+) -> None:
+    async def fake_create(payload):
+        assert payload == {
+            "name": "Command Desk",
+            "locale": "ru",
+            "theme": "dark",
+            "templateKey": "command-center",
+            "templateVersion": 1,
+        }
+
+        return {
+            "id": "ws-template",
+            "name": "Command Desk",
+            "locale": "ru",
+            "theme": "dark",
+            "activeLayoutVersion": 1,
+            "widgets": [
+                {
+                    "id": "positions-1",
+                    "key": (
+                        "portfolio.positions"
+                    ),
+                }
+            ],
+        }
+
+    monkeypatch.setattr(
+        runtime,
+        "_create_workspace_from_template_payload",
+        fake_create,
+    )
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        runtime.ControlPlaneHandler,
+    )
+
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+
+    thread.start()
+
+    try:
+        host, port = server.server_address
+
+        connection = HTTPConnection(
+            host,
+            port,
+            timeout=2,
+        )
+
+        connection.request(
+            "POST",
+            "/api/v2/control-plane/workspaces/from-template",
+            body=json.dumps(
+                {
+                    "name": "Command Desk",
+                    "locale": "ru",
+                    "theme": "dark",
+                    "templateKey": (
+                        "command-center"
+                    ),
+                    "templateVersion": 1,
+                }
+            ),
+            headers={
+                "content-type":
+                "application/json"
+            },
+        )
+
+        response = connection.getresponse()
+
+        payload = json.loads(
+            response.read()
+        )
+
+        assert response.status == 201
+        assert payload["id"] == "ws-template"
+
+        assert (
+            payload["activeLayoutVersion"]
+            == 1
+        )
+
+        connection.close()
+
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)

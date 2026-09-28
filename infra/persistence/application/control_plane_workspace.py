@@ -21,6 +21,7 @@ from apps.core.application.control_plane import (
 )
 from apps.core.application.control_plane_catalog import (
     INITIAL_WIDGET_DEFINITIONS,
+    curated_workspace_templates,
 )
 from infra.persistence.repositories.control_plane import (
     ControlPlaneRepository,
@@ -641,3 +642,233 @@ async def restore_workspace_layout(
             updated_workspace,
             restored,
         )
+
+
+class WorkspaceTemplateCreateError(RuntimeError):
+    """Base curated-template creation failure."""
+
+
+class WorkspaceTemplateCreateInvalid(
+    WorkspaceTemplateCreateError
+):
+    """Malformed curated-template request."""
+
+
+class WorkspaceTemplateCreateNotFound(
+    WorkspaceTemplateCreateError
+):
+    """Requested curated template is unavailable."""
+
+
+class WorkspaceTemplateCreateConflict(
+    WorkspaceTemplateCreateError
+):
+    """Generated user-workspace identity conflicted."""
+
+
+class WorkspaceTemplateCreateStateError(
+    WorkspaceTemplateCreateError
+):
+    """Canonical curated-template state is invalid."""
+
+
+def list_curated_workspace_templates(
+    *,
+    created_at: datetime,
+):
+    templates = tuple(
+        template
+        for template in (
+            curated_workspace_templates(
+                created_at
+            )
+        )
+        if (
+            template.owner_workspace_id
+            is None
+            and template.template_key
+            != "blank-workspace"
+        )
+    )
+
+    if not templates:
+        raise WorkspaceTemplateCreateStateError(
+            "curated template catalog is empty"
+        )
+
+    return templates
+
+
+def _find_curated_workspace_template(
+    *,
+    template_key: str,
+    template_version: int,
+    created_at: datetime,
+):
+    key = template_key.strip().lower()
+
+    for template in (
+        list_curated_workspace_templates(
+            created_at=created_at
+        )
+    ):
+        if (
+            template.template_key == key
+            and template.version
+            == template_version
+        ):
+            return template
+
+    raise WorkspaceTemplateCreateNotFound(
+        "curated workspace template unavailable"
+    )
+
+
+async def create_workspace_from_curated_template(
+    *,
+    session_factory: Any,
+    tenant_workspace_id: str,
+    user_id: int,
+    payload: object,
+    created_at: datetime,
+):
+    if not isinstance(payload, dict):
+        raise WorkspaceTemplateCreateInvalid(
+            "payload must be an object"
+        )
+
+    try:
+        name = _create_text(
+            payload.get("name"),
+            name="name",
+        )
+
+        locale_value = _create_text(
+            payload.get("locale"),
+            name="locale",
+        )
+
+        theme_value = _create_text(
+            payload.get("theme"),
+            name="theme",
+        )
+
+        template_key = _create_text(
+            payload.get("templateKey"),
+            name="templateKey",
+        )
+
+        template_version = _positive_int(
+            payload.get("templateVersion"),
+            name="templateVersion",
+        )
+
+    except ValueError as exc:
+        raise WorkspaceTemplateCreateInvalid(
+            str(exc)
+        ) from exc
+
+    try:
+        locale = SupportedLocale(
+            locale_value
+        )
+
+    except ValueError as exc:
+        raise WorkspaceTemplateCreateInvalid(
+            "unsupported locale"
+        ) from exc
+
+    try:
+        theme = ThemePreference(
+            theme_value
+        )
+
+    except ValueError as exc:
+        raise WorkspaceTemplateCreateInvalid(
+            "unsupported theme"
+        ) from exc
+
+    template = (
+        _find_curated_workspace_template(
+            template_key=template_key,
+            template_version=(
+                template_version
+            ),
+            created_at=created_at,
+        )
+    )
+
+    workspace_id = _new_workspace_id()
+
+    workspace = UserWorkspace(
+        tenant_workspace_id=(
+            tenant_workspace_id
+        ),
+        user_workspace_id=workspace_id,
+        user_id=user_id,
+        name=name,
+        locale=locale,
+        theme=theme,
+        active_layout_version=1,
+        created_at=created_at,
+        updated_at=created_at,
+    )
+
+    try:
+        layout = _COMPOSER.from_template(
+            template=template,
+            tenant_workspace_id=(
+                tenant_workspace_id
+            ),
+            user_workspace_id=(
+                workspace_id
+            ),
+            user_id=user_id,
+            created_at=created_at,
+        )
+
+    except (
+        ControlPlaneError,
+        ValueError,
+    ) as exc:
+        raise WorkspaceTemplateCreateStateError(
+            str(exc)
+        ) from exc
+
+    async with session_factory() as session:
+        repository = (
+            ControlPlaneRepository(
+                session
+            )
+        )
+
+        try:
+            await repository.add_user_workspace(
+                workspace
+            )
+
+            await repository.append_layout(
+                layout
+            )
+
+            await session.commit()
+
+        except (
+            ValueError,
+            IntegrityError,
+        ) as exc:
+            await session.rollback()
+
+            raise WorkspaceTemplateCreateConflict(
+                "workspace identity conflict"
+            ) from exc
+
+        except Exception:
+            await session.rollback()
+            raise
+
+    return (
+        workspace,
+        layout,
+        template,
+    )
