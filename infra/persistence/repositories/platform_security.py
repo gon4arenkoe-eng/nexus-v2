@@ -80,6 +80,24 @@ class PlatformSecurityRepository:
             owner_user_id=value.owner_user_id, created_at=value.created_at,
         ))
 
+    async def get_workspace(
+        self,
+        *,
+        workspace_id: str,
+    ) -> Workspace | None:
+        model = await self._session.get(
+            WorkspaceModel,
+            workspace_id,
+        )
+        if model is None:
+            return None
+        return Workspace(
+            workspace_id=model.workspace_id,
+            name=model.name,
+            owner_user_id=model.owner_user_id,
+            created_at=_restore_utc(model.created_at),
+        )
+
     async def put_membership(self, value: WorkspaceMembership) -> None:
         model = await self._session.get(WorkspaceMembershipModel, (value.workspace_id, value.user_id))  # noqa: E501
         if model is None:
