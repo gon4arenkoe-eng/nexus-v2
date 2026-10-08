@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 import json
+from typing import cast
 
 from sqlalchemy import or_, select, update
+from sqlalchemy.engine import CursorResult
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from infra.persistence.models.control_plane import (
@@ -243,7 +245,7 @@ class ControlPlaneRepository:
                 updated_at=updated_at,
             )
         )
-        return result.rowcount == 1
+        return cast(CursorResult, result).rowcount == 1
 
 
     async def append_layout(self, value: WorkspaceLayoutVersion) -> None:
