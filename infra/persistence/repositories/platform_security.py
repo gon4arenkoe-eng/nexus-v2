@@ -16,6 +16,7 @@ from packages.contracts.product_access import (
 )
 
 from datetime import UTC, datetime
+from typing import Any, cast
 import json
 
 from sqlalchemy import select, update
@@ -249,11 +250,14 @@ class PlatformSecurityRepository:
         *,
         workspace_id: str,
     ) -> Subscription | None:
-        ordering = _first_model_attr(
-            SubscriptionModel,
-            "updated_at",
-            "started_at",
-            "created_at",
+        ordering = cast(
+            Any,
+            _first_model_attr(
+                SubscriptionModel,
+                "updated_at",
+                "started_at",
+                "created_at",
+            ),
         )
 
         result = await self._session.execute(
@@ -271,11 +275,14 @@ class PlatformSecurityRepository:
             return None
 
         timestamp = _restore_utc(
-            _first_model_attr(
-                model,
-                "updated_at",
-                "started_at",
-                "created_at",
+            cast(
+                datetime,
+                _first_model_attr(
+                    model,
+                    "updated_at",
+                    "started_at",
+                    "created_at",
+                ),
             )
         )
 
@@ -371,13 +378,14 @@ class PlatformSecurityRepository:
                     str(model.feature_key)
                 ),
                 bool(model.granted),
-                int(
+                cast(
+                    int,
                     _first_model_attr(
                         model,
                         "actor_user_id",
                         "created_by_user_id",
                         "user_id",
-                    )
+                    ),
                 ),
                 str(
                     _first_model_attr(

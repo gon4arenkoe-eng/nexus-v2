@@ -17,6 +17,7 @@ from apps.core.application.platform_security import (
 from infra.persistence.repositories.platform_security import (
     PlatformSecurityRepository,
 )
+from packages.contracts.product_access import FeatureKey
 from packages.contracts.security import permissions_for_role
 
 from dataclasses import replace
@@ -1086,7 +1087,7 @@ async def load_widget_availability(
             )
         )
 
-        features: set[object] = set()
+        features: set[FeatureKey] = set()
 
         required_features = frozenset(
             definition.manifest.required_feature
@@ -1139,17 +1140,27 @@ async def load_widget_availability(
                         # subscription/plan state.
                         continue
 
+        availability_by_widget = {
+            (
+                item.widget_key,
+                item.widget_version,
+            ): item
+            for item in registry.availability(
+                features=frozenset(features),
+                permissions=permissions,
+            )
+        }
+
         projected: list[dict[str, object]] = []
 
         for definition in INITIAL_WIDGET_DEFINITIONS:
             manifest = definition.manifest
-
-            availability = registry.availability(
-                widget_key=manifest.widget_key,
-                widget_version=manifest.version,
-                features=frozenset(features),
-                permissions=permissions,
-            )
+            availability = availability_by_widget[
+                (
+                    manifest.widget_key,
+                    manifest.version,
+                )
+            ]
 
             projected.append(
                 {
@@ -1158,7 +1169,7 @@ async def load_widget_availability(
                         manifest.version
                     ),
                     "available": (
-                        availability.available
+                        availability.usable
                     ),
                     "reason": (
                         availability.reason
