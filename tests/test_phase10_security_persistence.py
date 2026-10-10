@@ -201,3 +201,94 @@ def test_plan_version_is_immutable_and_quota_reservation_is_bounded() -> None:
         return first, second, denied
 
     assert asyncio.run(scenario()) == (True, True, False)
+
+def test_audit_event_is_idempotent_only_when_fully_identical() -> None:
+    from packages.contracts.security import AuditEvent
+
+    async def scenario() -> None:
+        engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+        async with engine.begin() as conn:
+            await conn.run_sync(PersistenceBase.metadata.create_all)
+
+        factory = async_sessionmaker(engine, expire_on_commit=False)
+
+        event = AuditEvent(
+            event_id="audit-immutable-1",
+            workspace_id="ws-a",
+            actor_user_id=7,
+            action="workspace.bootstrap",
+            resource_type="workspace",
+            resource_id="ws-a",
+            old_value_json=None,
+            new_value_json='{"active":true}',
+            reason="initial provisioning",
+            occurred_at=NOW,
+        )
+
+        try:
+            async with factory() as session:
+                repo = PlatformSecurityRepository(session)
+                await repo.append_audit(event)
+                await repo.append_audit(event)
+                await session.commit()
+        finally:
+            await engine.dispose()
+
+    asyncio.run(scenario())
+
+
+def test_audit_event_rejects_any_immutable_field_change() -> None:
+    from dataclasses import replace
+    from datetime import timedelta
+
+    from packages.contracts.security import AuditEvent
+
+    base = AuditEvent(
+        event_id="audit-immutable-1",
+        workspace_id="ws-a",
+        actor_user_id=7,
+        action="workspace.bootstrap",
+        resource_type="workspace",
+        resource_id="ws-a",
+        old_value_json=None,
+        new_value_json='{"active":true}',
+        reason="initial provisioning",
+        occurred_at=NOW,
+    )
+
+    mutations = (
+        replace(base, actor_user_id=8),
+        replace(base, action="workspace.bootstrap.changed"),
+        replace(base, resource_type="tenant"),
+        replace(base, resource_id="ws-b"),
+        replace(base, old_value_json='{"active":false}'),
+        replace(base, new_value_json='{"active":false}'),
+        replace(base, reason="different reason"),
+        replace(base, occurred_at=NOW + timedelta(seconds=1)),
+    )
+
+    async def rejects(mutated: AuditEvent) -> bool:
+        engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+        async with engine.begin() as conn:
+            await conn.run_sync(PersistenceBase.metadata.create_all)
+
+        factory = async_sessionmaker(engine, expire_on_commit=False)
+
+        try:
+            async with factory() as session:
+                repo = PlatformSecurityRepository(session)
+                await repo.append_audit(base)
+                await session.commit()
+
+            async with factory() as session:
+                repo = PlatformSecurityRepository(session)
+                try:
+                    await repo.append_audit(mutated)
+                except ValueError as exc:
+                    return str(exc) == "immutable audit event conflict"
+                return False
+        finally:
+            await engine.dispose()
+
+    for mutated in mutations:
+        assert asyncio.run(rejects(mutated))

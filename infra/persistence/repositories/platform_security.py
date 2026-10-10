@@ -184,18 +184,41 @@ class PlatformSecurityRepository:
         ) for m in result.scalars().all())
 
     async def append_audit(self, value: AuditEvent) -> None:
-        existing = await self._session.get(AuditEventModel, (value.workspace_id, value.event_id))  # noqa: E501
+        existing = await self._session.get(
+            AuditEventModel,
+            (value.workspace_id, value.event_id),
+        )
+
         if existing is not None:
-            if existing.action == value.action and existing.resource_id == value.resource_id:  # noqa: E501
+            if (
+                existing.actor_user_id == value.actor_user_id
+                and existing.action == value.action
+                and existing.resource_type == value.resource_type
+                and existing.resource_id == value.resource_id
+                and existing.old_value_json == value.old_value_json
+                and existing.new_value_json == value.new_value_json
+                and existing.reason == value.reason
+                and _restore_utc(existing.occurred_at)
+                == value.occurred_at
+            ):
                 return
+
             raise ValueError("immutable audit event conflict")
-        self._session.add(AuditEventModel(
-            workspace_id=value.workspace_id, event_id=value.event_id,
-            actor_user_id=value.actor_user_id, action=value.action,
-            resource_type=value.resource_type, resource_id=value.resource_id,
-            old_value_json=value.old_value_json, new_value_json=value.new_value_json,  # noqa: E501
-            reason=value.reason, occurred_at=value.occurred_at,
-        ))
+
+        self._session.add(
+            AuditEventModel(
+                workspace_id=value.workspace_id,
+                event_id=value.event_id,
+                actor_user_id=value.actor_user_id,
+                action=value.action,
+                resource_type=value.resource_type,
+                resource_id=value.resource_id,
+                old_value_json=value.old_value_json,
+                new_value_json=value.new_value_json,
+                reason=value.reason,
+                occurred_at=value.occurred_at,
+            )
+        )
 
     async def put_product_plan(self, value: ProductPlan) -> None:
         model = await self._session.get(ProductPlanModel, value.plan_id)
