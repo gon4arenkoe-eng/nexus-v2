@@ -36050,3 +36050,51 @@ Classification:
 
 Next gate:
 Runtime wiring of NEXUS_CONTROL_PLANE_WORKSPACE_ID=production using the verified release image, with no authority expansion. Production deploy/restart requires separate explicit approval.
+
+## [2026-10-10] PHASE14_FULL_ONE_SHOT_VERIFICATION=PASS
+
+Status: DONE
+
+Evidence:
+- canonical production database: nexus_v2
+- workspace_id: production
+- user_id: 2
+- existing Portfolio Risk snapshot:
+  - snapshot_id: 67bbe3a107a8e9941e364664b0080fdf9346848b9f22f97cf9dabb2f09e1c3ae
+  - source: BINGX_VST_OBSERVER_REAL
+  - observation_state: DEGRADED
+  - trading_state: HALTED
+  - equity: 119268.602800000000000000
+  - observed_at: 2026-10-07T19:34:18.103012+00:00
+- Control Plane readback:
+  - verification: EXISTING_SNAPSHOT_CONTROL_PLANE_READBACK
+  - status: PASS
+  - workspace_id: production
+  - user_id: 2
+  - portfolio_state: DEGRADED
+  - risk_state: DEGRADED
+  - trading_state: HALTED
+  - equity: 119268.602800000000000000
+  - portfolio_observed_at: 2026-10-07T19:34:18.103012+00:00
+  - risk_observed_at: 2026-10-07T19:34:18.103012+00:00
+  - gross_exposure: 0
+  - net_exposure: 0
+  - margin_used: 0
+  - production_authority: false
+  - strategy_execution_allowed: false
+  - new_snapshot_write: false
+
+Verification method:
+- existing real Portfolio Risk snapshot was reused
+- no second snapshot was written
+- canonical Control Plane workspace-scoped read path was exercised from the verified release image
+- snapshot observed_at and equity matched Control Plane readback exactly
+
+Classification:
+- PRODUCTION_WORKSPACE_BOOTSTRAP = DONE
+- CONTROL_PLANE_WORKSPACE_READ = PASS
+- PORTFOLIO_RISK_REAL_SNAPSHOT_WRITE = DONE
+- FULL_ONE_SHOT_VERIFICATION = DONE
+- PRODUCTION_DEPLOY = NOT DONE
+- LIVE_AUTHORITY_EXPANSION = NONE
+- PRODUCTION_SAFETY = PASS
