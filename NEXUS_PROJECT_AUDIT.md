@@ -36001,3 +36001,52 @@ MANDATORY_SAFETY_PRESENTATION_V1 is closed as a verified Phase 11 slice.
 This evidence does not close the complete Phase 11 gate. Remaining Control Plane requirements continue independently according to Master Plan, Functional Inventory and existing Audit evidence.
 
 ---
+
+## [2026-10-10T18:21:47+03:00] PHASE14_PRODUCTION_CANONICAL_WORKSPACE_BOOTSTRAP=PASS
+
+Status: DONE
+
+Evidence:
+- verified release image:
+  ghcr.io/gon4arenkoe-eng/nexus-v2@sha256:d6dbedf8fbf12adf614ceba7dc89f22d7f21d3d76695c4511d535453a0f0f4e2
+- canonical production database: nexus_v2
+- canonical Alembic head: f2c4e6a8b013
+- workspace_id: production
+- workspace_name: Production Workspace
+- owner_user_id: 2
+- workspace membership: OWNER, active=true
+- immutable audit event:
+  - event_id: workspace-bootstrap:production
+  - action: workspace.bootstrap
+  - actor_user_id: 2
+  - resource_type: workspace
+  - resource_id: production
+  - reason: Phase 14 canonical production workspace bootstrap
+- bootstrap result: BOOTSTRAP_CALL=PASS
+- bootstrap exit code: 0
+
+Post-write production safety:
+- reconciliation ready=true
+- observer ready=true
+- production_authority=false
+- strategy_execution_allowed=false
+- writes_attempted=false
+- portfolio_risk_recording=DISABLED
+- legacy nexus_db unchanged
+- production runtime deploy NOT performed
+- runtime restart NOT performed
+- live authority NOT expanded
+
+Classification:
+- VERIFIED_RELEASE_IMAGE = DONE
+- CANONICAL_V2_DB = DONE
+- PRODUCTION_WORKSPACE_BOOTSTRAP = DONE
+- OWNER_MEMBERSHIP = DONE
+- IMMUTABLE_AUDIT_EVIDENCE = DONE
+- PRODUCTION_SAFETY = PASS
+- RUNTIME_WORKSPACE_WIRING = NOT DONE
+- PRODUCTION_DEPLOY = NOT DONE
+- FULL_ONE_SHOT_VERIFICATION = NOT DONE
+
+Next gate:
+Runtime wiring of NEXUS_CONTROL_PLANE_WORKSPACE_ID=production using the verified release image, with no authority expansion. Production deploy/restart requires separate explicit approval.
